@@ -1,0 +1,47 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <style>
+        .home-container {
+            display: grid;
+            grid-template-rows: 1fr 3fr;
+        }
+    </style>
+
+    <div>
+
+        <div>
+            askldjf
+            <hr>
+                <div>
+                    <a href="{% url 'home' %}">All</a>
+                </div>
+            {% for tag in tags %}
+                <div>
+                    <a href="{% url 'home' %}?q={{ tag.name }}">{{tag.name}}</a>
+                </div>
+            {% endfor %}
+            <hr>
+        </div>
+
+        <div>
+            <a href="{% url 'create-discussion' %}">Create discussion</a>
+        <div>
+            {% for discussion in discussions %}
+                <div>
+                    <a href="{% url 'update-discussion' discussion.id %}">Edit</a>
+                    <a href="{% url 'delete-discussion' discussion.id %}">Delete</a>
+                    <span>@{{ discussion.host.username }}</span>
+                    <h5>{{ discussion.id }} -- <a href="/discussion/{{ discussion.id }}">{{ discussion.title }}</a></h5>
+                    {% for tag in discussion.tags.all %}
+                        <small>{{ tag.name }}</small>
+                    {% endfor %}
+                    <hr>
+                </div>
+            {% endfor %}
+        </div>
+        </div>
+
+
+    </div>
+{% endblock %}
