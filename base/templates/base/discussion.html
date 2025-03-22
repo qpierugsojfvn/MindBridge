@@ -1,0 +1,79 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <style>
+        .discussion-container {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+        }
+
+        {#.reply-form {#}
+        {#    margin-left: 20px; /* Indent reply forms for better hierarchy */#}
+        {# }#}
+
+        .reply {
+            margin-left: 20px; /* Indent replies for better hierarchy */
+        }
+    </style>
+    <div class="discussion-container">
+
+        <div>
+            <small><a href="{% url 'user-profile' discussion.host.id %}">@{{ discussion.host }}</a> {{ discussion.created_at|timesince }} ago</small>
+            <br>
+            title: <b>{{ discussion.title }}</b> <br>
+            content: {{ discussion.content }} <br>
+            tags:
+            {% for tag in tags %}
+                {{ tag }} |
+            {% endfor %}
+            <div class="comment-wrapper">
+                <h3>Conversation</h3>
+                {#                <hr>#}
+                {% for answer in top_level_answers %}
+                    <div>
+                        {% if request.user == answer.user %}
+                            <a href="{% url 'delete-answer' answer.id %}">Delete</a>
+                        {% endif %}
+                        <small><a href="{% url 'user-profile' answer.user.id %}">@{{ answer.user }}</a> {{ answer.created_at|timesince }} ago</small>
+                        {#                        <hr>#}
+                        <p>{{ answer.content }}</p>
+{#                        {% if request.user.is_authenticated %}#}
+{#                            <div class="reply-form">#}
+{#                                <form method="POST" action="">#}
+{#                                    {% csrf_token %}#}
+{#                                    <input type="text" name="body" placeholder="Reply to this answer..."/>#}
+{#                                    <input type="hidden" name="parent_id" value="{{ answer.id }}">#}
+{#                                    <button type="submit">Reply</button>#}
+{#                                </form>#}
+{#                            </div>#}
+{#                        {% endif %}#}
+                    <hr>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if request.user.is_authenticated %}
+                <div class="comment-form">
+                    <form method="POST" action="">
+                        {% csrf_token %}
+                        <input type="text" name="body" placeholder="Leave your answer here..."/>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+        <div>
+            <h3>Popular now</h3>
+            <hr>
+            {% for tag in popular_tags %}
+                {{ tag.tag__name }} |
+            {% endfor %}
+            <hr>
+            <h3>Recently viewed discussions</h3>
+            <div>
+                {% for discussion in recently_viewed_discussions %}
+                    <li><a href="{% url 'discussion' discussion.id %}">{{ discussion.title }}</a></li>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
