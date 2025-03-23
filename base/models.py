@@ -7,11 +7,9 @@ from .utils import *
 
 
 class CustomTag(TagBase):
-    # Override the slug field to use custom slugify
     slug = models.SlugField(unique=True, max_length=100, allow_unicode=True)
 
     def save(self, *args, **kwargs):
-        # Use the custom slugify function
         self.slug = custom_slugify_(self.name)
         super().save(*args, **kwargs)
 

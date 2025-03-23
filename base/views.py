@@ -105,7 +105,6 @@ def discussion(request, pk):
     recently_viewed_ids = request.session['recently_viewed']
     recently_viewed_discussions = Discussion.objects.filter(id__in=recently_viewed_ids)
 
-
     if request.method == 'POST':
         answer = Answer.objects.create(
             user=request.user,
@@ -139,14 +138,16 @@ def user_profile(request, pk):
 @login_required(login_url='login')
 def create_discussion(request):
     form = DiscussionForm()
-
+    tags = Discussion.tags
     if request.method == 'POST':
-        form = DiscussionForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-
-    context = {'form': form}
+        Discussion.objects.create(
+            host=request.user,
+            tags=request.POST.getlist('tags'),
+            title=request.POST.get('title'),
+            content=request.POST.get('content'),
+        )
+        return redirect('home')
+    context = {'form': form, 'tags': tags}
     return render(request, 'base/discussion_form.html', context)
 
 

@@ -4,40 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8ba59ec-23b4-48da-8619-0758660b203d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/MindBridge.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MindBridge/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MindBridge/asgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MindBridge/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MindBridge/wsgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/apps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/forms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/migrations/0001_initial.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/migrations/0002_discussion_tags_answer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/migrations/0003_discussion_host.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/migrations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/templates/base/delete.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/templates/base/discussion.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/templates/base/discussion_form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/templates/base/home.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/tests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/main.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/navbar.html" afterDir="false" />
+    <list default="true" id="d8ba59ec-23b4-48da-8619-0758660b203d" name="Changes" comment="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,38 +52,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Django Server.MindBridge.executor": "Run",
-    "Notification.DisplayName-DoNotAsk-Database detector": "Database detector",
-    "Notification.DoNotAsk-Database detector": "true",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
-    "django.template.preview.state": "SHOW_EDITOR_AND_PREVIEW",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/nural/PycharmProjects/Lessons",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "terminal",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Django Server.MindBridge.executor&quot;: &quot;Run&quot;,
+    &quot;Notification.DisplayName-DoNotAsk-Database detector&quot;: &quot;Database detector&quot;,
+    &quot;Notification.DoNotAsk-Database detector&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
+    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR_AND_PREVIEW&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/nural/PycharmProjects/Lessons&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "ChangesTree.GroupingKeys": [
-      "directory"
+  &quot;keyToStringList&quot;: {
+    &quot;ChangesTree.GroupingKeys&quot;: [
+      &quot;directory&quot;
     ],
-    "DatabaseDriversLRU": [
-      "postgresql"
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base" />
@@ -198,8 +169,27 @@
       <workItem from="1742372323103" duration="1156000" />
       <workItem from="1742373496246" duration="26000" />
       <workItem from="1742545933406" duration="330000" />
-      <workItem from="1742623978314" duration="1937000" />
+      <workItem from="1742623978314" duration="2930000" />
+      <workItem from="1742708939212" duration="439000" />
+      <workItem from="1742709947317" duration="5895000" />
     </task>
+    <task id="LOCAL-00001" summary="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality">
+      <option name="closed" value="true" />
+      <created>1742625973940</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1742625973940</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality">
+      <option name="closed" value="true" />
+      <created>1742626039946</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1742626039946</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -215,5 +205,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality" />
   </component>
 </project>

@@ -5,3 +5,4 @@ class DiscussionForm(ModelForm):
     class Meta:
         model = Discussion
         fields = '__all__'
+        exclude = ['host', 'participants']
