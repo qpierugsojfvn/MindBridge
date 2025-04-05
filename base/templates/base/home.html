@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends 'main.html' %}
 
 {% block content %}
@@ -44,4 +45,60 @@
 
 
     </div>
+=======
+{% extends 'main.html' %}
+
+{% block content %}
+    <style>
+        .home-container {
+            display: grid;
+            grid-template-rows: 0.5fr 3fr;
+        }
+    </style>
+
+    <div class="home-container">
+
+        <div>
+            <a href="{% url 'home' %}">All</a> |
+            {% for tag in tags %}
+                <a href="{% url 'home' %}?q={{ tag.slug }}">{{ tag.name }}</a> |
+            {% endfor %}
+            <hr>
+            Filter
+        </div>
+
+        <div>
+            <h5>{{ discussion_count }} discussions available</h5>
+            <a href="{% url 'create-discussion' %}">Create discussion</a>
+            <div>
+                {% for discussion in discussions %}
+                    <div>
+                        <hr>
+                        <h5>{{ discussion.id }} -- <a href="/discussion/{{ discussion.id }}">{{ discussion.title }}</a></h5>
+
+                        {{ discussion.content|truncatewords:15 }}
+                        <br>
+                        {% if request.user == discussion.host %}
+                            <a href="{% url 'update-discussion' discussion.id %}">Edit</a>
+                            <a href="{% url 'delete-discussion' discussion.id %}">Delete</a>
+                        {% endif %}
+                        <br>
+                        <small><a
+                                href="{% url 'user-profile' discussion.host.id %}">@{{ discussion.host }}</a> {{ discussion.created_at|timesince }}
+                            ago</small><br>
+                        tags:
+                        {% for tag in discussion.tags.all %}
+                            <small>{{ tag.slug }}</small> |
+                        {% endfor %}
+                        <br>
+                        answer qty: {{ discussion.answers_count }}
+
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+    </div>
+>>>>>>> master
 {% endblock %}
