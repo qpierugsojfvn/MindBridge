@@ -16,7 +16,6 @@ import psycopg2
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -28,8 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
+SITE_ID = 1
 
 INSTALLED_APPS = [
     'django.contrib.auth',
@@ -40,6 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'base.apps.BaseConfig',
     'taggit',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+]
+
+AUTHENTICATION_BACKENDS = [
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'MindBridge.urls'
@@ -73,7 +82,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MindBridge.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -81,13 +89,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'mindbridgeDB',
-        'USER':'postgres',
-        'PASSWORD':'12345678',
-        'HOST':'localhost',
-        'PORT':'5432',
+        'USER': 'postgres',
+        'PASSWORD': '12345678',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -107,7 +114,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -118,7 +124,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -131,3 +136,39 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 TAGGIT_CASE_INSENSITIVE = True
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = '210103259@stu.sdu.edu.kz'
+EMAIL_HOST_PASSWORD = 'rrtu acwm zaiz vyjw'
+DEFAULT_FROM_EMAIL = '210103259@stu.sdu.edu.kz'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '831514105810-rptt4l1k7cc5jcbc4e4k9sov2pd702s6.apps.googleusercontent.com',
+            'client_secret': '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',
+            'key': '',
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'METHOD': 'oauth2',
+        'VERIFIED_EMAIL': True,
+        'OAUTH_PKCE_ENABLED': True,
+    }
+}
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+LOGIN_URL='login'
+LOGOUT_URL='logout'
+LOGIN_REDIRECT_URL='success'
+ACCOUNT_LOGOUT_REDIRECT_URL='login'

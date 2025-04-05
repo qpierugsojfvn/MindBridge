@@ -1,18 +1,25 @@
 from datetime import datetime, timedelta
 from django.contrib import messages
-from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth import authenticate, logout, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.fields import GenericRelation
+from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Count
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.translation.trans_null import activate
 from taggit.managers import TaggableManager
 from taggit.models import Tag, TaggedItem
+from django.core.mail import EmailMessage
 
 from .models import Discussion, Answer
-from .forms import DiscussionForm
-
+from .forms import DiscussionForm, UserRegistrationForm
+from .decorators import user_not_authenticated
+from .tokens import account_activation_token
 
 def login_page(request):
     page = 'login'
@@ -43,21 +50,64 @@ def logout_page(request):
     return redirect('home')
 
 
+def success(request):
+    return redirect('home')
+
+
+def activate(request, uidb64, token):
+    User = get_user_model()
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except:
+        user = None
+
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+
+        messages.success(request, "Thank you for your email confirmation. Now you can login your account.")
+        return redirect('login')
+    else:
+        messages.error(request, "Activation link is invalid!")
+
+    return redirect('homepage')
+
+def activateEmail(request, user, to_email):
+    mail_subject = "Activate your user account."
+    message = render_to_string("base/template_activate_account.html", {
+        'user': user.username,
+        'domain': get_current_site(request).domain,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': account_activation_token.make_token(user),
+        "protocol": 'https' if request.is_secure() else 'http'
+    })
+    email = EmailMessage(mail_subject, message, to=[to_email])
+    if email.send():
+        messages.success(request, f'Dear <b>{user}</b>, please go to you email <b>{to_email}</b> inbox and click on \
+                    received activation link to confirm and complete the registration. <b>Note:</b> Check your spam folder.')
+    else:
+        messages.error(request, f'Problem sending email to {to_email}, check if you typed it correctly.')
+
+
+@user_not_authenticated
 def signup_page(request):
     page = 'signup'
-    form = UserCreationForm()
+    form = UserRegistrationForm(request.POST or None)
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        # form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
+            user.is_active = False
             user.save()
-            login(request, user)
+
+            activateEmail(request, user, form.cleaned_data.get('email'))
+
             return redirect('home')
         else:
             messages.error(request, 'An unexpected error occurred.')
-    # if request.user.is_authenticated:
-    #     return redirect('home')
+
     context = {'page': page, 'form': form}
     return render(request, 'base/login_signup.html', context)
 
@@ -117,7 +167,7 @@ def discussion(request, pk):
 
         return redirect('discussion', pk=discussion.id)
 
-    top_level_answers = discussion.answers.filter().order_by('-created_at')
+    top_level_answers = discussion.answers.filter().order_by('created_at')
 
     context = {'discussion': discussion,
                'answers': answers,
@@ -131,24 +181,34 @@ def discussion(request, pk):
 
 def user_profile(request, pk):
     user = User.objects.get(id=pk)
+    print(user, pk)
     context = {'user': user}
     return render(request, 'base/profile.html', context)
 
 
 @login_required(login_url='login')
 def create_discussion(request):
-    form = DiscussionForm()
-    tags = Discussion.tags
     if request.method == 'POST':
-        Discussion.objects.create(
-            host=request.user,
-            tags=request.POST.getlist('tags'),
-            title=request.POST.get('title'),
-            content=request.POST.get('content'),
-        )
-        return redirect('home')
-    context = {'form': form, 'tags': tags}
-    return render(request, 'base/discussion_form.html', context)
+        form = DiscussionForm(request.POST)
+        if form.is_valid():
+            form.instance.user = request.user
+            form.save()
+            return redirect('home')
+    else:
+        form = DiscussionForm()
+
+    return render(request, 'base/discussion_form.html', {'form': form})
+    # form = DiscussionForm()
+    # if request.method == 'POST':
+    #     Discussion.objects.create(
+    #         host=request.user,
+    #         tags=request.POST.getlist('tags'),
+    #         title=request.POST.get('title'),
+    #         content=request.POST.get('content'),
+    #     )
+    #     return redirect('home')
+    # context = {'form': form}
+    # return render(request, 'base/discussion_form.html', context)
 
 
 @login_required(login_url='login')
@@ -193,23 +253,12 @@ def delete_discussion(request, pk):
 def delete_answer(request, pk):
     answer = Answer.objects.get(id=pk)
 
-    # print(request.user, answer.replies.first().user)
-    print(request.user, answer.user)
-
-    try:
-        answer_ch = answer.replies.first().user
-    except AttributeError:
-        messages.error(request, 'Error occured.')
-        return redirect('home')
-
-    if request.user != answer_ch:
-        # or not request.user.is_staff:
+    if request.user != answer.user:
         messages.error(request, 'You don\'t have permission to delete this answer.')
         return redirect('home')
-
     if request.method == 'POST':
         answer.delete()
-        return redirect('discussion', pk=answer.discussion.id)
+        return redirect('home')
 
     return render(request, 'base/delete.html', {'obj': answer})
 

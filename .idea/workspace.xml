@@ -4,10 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8ba59ec-23b4-48da-8619-0758660b203d" name="Changes" comment="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality.">
+    <list default="true" id="d8ba59ec-23b4-48da-8619-0758660b203d" name="Changes" comment="Updates:&#10;Added create discussion functionality (needs fixes).">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MindBridge/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/base/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/discussion.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/discussion.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/login_signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/login_signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -171,7 +176,14 @@
       <workItem from="1742545933406" duration="330000" />
       <workItem from="1742623978314" duration="2930000" />
       <workItem from="1742708939212" duration="439000" />
-      <workItem from="1742709947317" duration="5895000" />
+      <workItem from="1742709947317" duration="8148000" />
+      <workItem from="1742812646668" duration="3730000" />
+      <workItem from="1742831653498" duration="2718000" />
+      <workItem from="1742884467143" duration="554000" />
+      <workItem from="1743098162649" duration="3404000" />
+      <workItem from="1743276273049" duration="5336000" />
+      <workItem from="1743319192217" duration="5616000" />
+      <workItem from="1743843354091" duration="1209000" />
     </task>
     <task id="LOCAL-00001" summary="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality">
       <option name="closed" value="true" />
@@ -189,7 +201,31 @@
       <option name="project" value="LOCAL" />
       <updated>1742626039946</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality.">
+      <option name="closed" value="true" />
+      <created>1742718334265</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1742718334265</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Updates:&#10;Added create discussion functionality (needs fixes).">
+      <option name="closed" value="true" />
+      <created>1742718399551</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1742718399551</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Updates:&#10;Added create discussion functionality (needs fixes).">
+      <option name="closed" value="true" />
+      <created>1743845570274</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1743845570274</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -208,6 +244,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality" />
+    <MESSAGE value="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality." />
+    <MESSAGE value="Updates:&#10;Added create discussion functionality (needs fixes)." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updates:&#10;Added create discussion functionality (needs fixes)." />
   </component>
 </project>
