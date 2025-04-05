@@ -1,0 +1,12 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    title:
+    <h1>{{ discussion.title }}</h1>
+    content:
+    <h2>{{ discussion.content }}</h2>
+    tags:
+    {% for tag in discussion.tags.all %}
+        {{ tag.name }}
+    {% endfor %}
+{% endblock %}
