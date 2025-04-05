@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8ba59ec-23b4-48da-8619-0758660b203d" name="Changes" comment="Updates:&#10;Added create discussion functionality (needs fixes).">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MindBridge/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/discussion.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/discussion.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/login_signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/login_signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
-    </list>
+    <list default="true" id="d8ba59ec-23b4-48da-8619-0758660b203d" name="Changes" comment="Updates:&#10;Added create discussion functionality (needs fixes)." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -183,7 +173,7 @@
       <workItem from="1743098162649" duration="3404000" />
       <workItem from="1743276273049" duration="5336000" />
       <workItem from="1743319192217" duration="5616000" />
-      <workItem from="1743843354091" duration="1209000" />
+      <workItem from="1743843354091" duration="1573000" />
     </task>
     <task id="LOCAL-00001" summary="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality">
       <option name="closed" value="true" />
@@ -225,7 +215,23 @@
       <option name="project" value="LOCAL" />
       <updated>1743845570274</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Updates:&#10;Added create discussion functionality (needs fixes).">
+      <option name="closed" value="true" />
+      <created>1743845639052</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1743845639052</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Updates:&#10;Added create discussion functionality (needs fixes).">
+      <option name="closed" value="true" />
+      <created>1743845662590</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1743845662590</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
