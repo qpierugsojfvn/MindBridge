@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, logout, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.sites.shortcuts import get_current_site
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Count
 from django.contrib.auth.models import User
@@ -12,6 +13,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.translation.trans_null import activate
+from django.views import View
 from taggit.managers import TaggableManager
 from taggit.models import Tag, TaggedItem
 from django.core.mail import EmailMessage
@@ -20,6 +22,8 @@ from .models import Discussion, Answer
 from .forms import DiscussionForm, UserRegistrationForm
 from .decorators import user_not_authenticated
 from .tokens import account_activation_token
+from .utils import custom_slugify_
+
 
 def login_page(request):
     page = 'login'
@@ -73,6 +77,7 @@ def activate(request, uidb64, token):
 
     return redirect('homepage')
 
+
 def activateEmail(request, user, to_email):
     mail_subject = "Activate your user account."
     message = render_to_string("base/template_activate_account.html", {
@@ -118,13 +123,13 @@ def home(request):
         discussions = Discussion.objects.filter(
             Q(tags__name__icontains=q) |
             Q(tags__slug__icontains=q) |
-            Q(title__icontains=q) |
-            Q(content__icontains=q)
+            Q(title__icontains=' ' + q + ' ') |
+            Q(content__icontains=' ' + q + ' ')
         ).distinct()
     else:
         discussions = Discussion.objects.all()
 
-    discussions = discussions.annotate(answers_count=Count('answers')).order_by('-updated_at').order_by()
+    discussions = discussions.annotate(answers_count=Count('answers')).order_by('-updated_at')
 
     tags = Tag.objects.all()
     discussion_count = discussions.count()
@@ -191,24 +196,24 @@ def create_discussion(request):
     if request.method == 'POST':
         form = DiscussionForm(request.POST)
         if form.is_valid():
-            form.instance.user = request.user
-            form.save()
+            discussion = form.save(commit=False)
+            discussion.host = request.user
+            discussion.save()
+
+            tags_list = form.cleaned_data.get('tags_input', '')
+
+            for tag_name in tags_list:
+                tag, created = Tag.objects.get_or_create(
+                    name=tag_name,
+                    defaults={'slug': custom_slugify_(tag_name)},
+                )
+                discussion.tags.add(*tags_list)
+
             return redirect('home')
     else:
         form = DiscussionForm()
 
     return render(request, 'base/discussion_form.html', {'form': form})
-    # form = DiscussionForm()
-    # if request.method == 'POST':
-    #     Discussion.objects.create(
-    #         host=request.user,
-    #         tags=request.POST.getlist('tags'),
-    #         title=request.POST.get('title'),
-    #         content=request.POST.get('content'),
-    #     )
-    #     return redirect('home')
-    # context = {'form': form}
-    # return render(request, 'base/discussion_form.html', context)
 
 
 @login_required(login_url='login')
@@ -263,15 +268,48 @@ def delete_answer(request, pk):
     return render(request, 'base/delete.html', {'obj': answer})
 
 
-def get_popular_tags():
-    time_threshold = datetime.now() - timedelta(days=30)
+# def get_popular_tags():
+# time_threshold = datetime.now() - timedelta(days=30)
+# popular_tags = (
+#     # TaggedItem.objects.filter(discussion__created_at__gte=time_threshold)
+#     TaggedItem.objects.filter(
+#         content_type__model='discussion',  # Filter by the Discussion model
+#         object_id__in=Discussion.objects.filter(created_at__gte=time_threshold).values('id')
+#     )
+#     .values('tag__name', 'tag__slug').annotate(tag_count=Count('tag')).order_by('tag_count')
+# )
+# popular_tags = popular_tags[:2]
+# return popular_tags
+
+
+def get_popular_tags(days=50, limit=3):
+    """
+    Get most popular tags used in Discussions within the specified time range
+    Args:
+        days: Number of days to look back (default: 50)
+        limit: Maximum number of tags to return (default: 5)
+    Returns:
+        QuerySet of popular tags with counts
+    """
+    time_threshold = datetime.now() - timedelta(days=days)
+
     popular_tags = (
-        # TaggedItem.objects.filter(discussion__created_at__gte=time_threshold)
         TaggedItem.objects.filter(
-            content_type__model='discussion',  # Filter by the Discussion model
-            object_id__in=Discussion.objects.filter(created_at__gte=time_threshold).values('id')
+            content_type__model='discussion',
+            object_id__in=Discussion.objects.filter(
+                created_at__gte=time_threshold
+            ).values('id')
         )
-        .values('tag__name', 'tag__slug').annotate(tag_count=Count('tag')).order_by('tag_count')
+        .values('tag__name', 'tag__slug')
+        .annotate(tag_count=Count('tag'))
+        .order_by('-tag_count')  # Descending order
     )
-    popular_tags = popular_tags[:3]
-    return popular_tags
+
+    return popular_tags[:limit]
+
+
+class TagAutocompleteView(View):
+    def get(self, request):
+        query = request.GET.get('q', '')
+        tags = Tag.objects.filter(name__icontains=query).values_list('name', flat=True)
+        return JsonResponse(list(tags), safe=False)

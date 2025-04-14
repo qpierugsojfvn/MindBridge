@@ -13,6 +13,7 @@ class CustomTag(TagBase):
         self.slug = custom_slugify_(self.name)
         super().save(*args, **kwargs)
 
+
 class TaggedItem(GenericTaggedItemBase):
     tag = models.ForeignKey(
         CustomTag,
@@ -20,11 +21,12 @@ class TaggedItem(GenericTaggedItemBase):
         on_delete=models.CASCADE,
     )
 
+
 class Discussion(models.Model):
     host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=200)
     content = models.TextField()
-    participants=models.ManyToManyField(User, related_name='participants', blank=True)
+    participants = models.ManyToManyField(User, related_name='participants', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -34,7 +36,6 @@ class Discussion(models.Model):
 
     class Meta:
         ordering = ['-updated_at', '-created_at']
-
 
     def __str__(self):
         return self.title
@@ -49,3 +50,32 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.content[0:50]
+
+
+class Country(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class City(models.Model):
+    name = models.CharField(max_length=100)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.name}, {self.country.name}"
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    city = models.CharField(max_length=100)
+    about = models.TextField(max_length=50, blank=True)
+    description = models.TextField(max_length=500, blank=True)
+    city = models.ForeignKey(City, null=True, blank=True, on_delete=models.SET_NULL)
+    country = models.ForeignKey(Country, null=True, blank=True, on_delete=models.SET_NULL)
+    portfolio_url = models.URLField(max_length=500, blank=True, null=True,
+                                    verbose_name="Portfolio (Behance, Dribbble, etc.)")
+
+    def __str__(self):
+        return self.user.username

@@ -3,4 +3,5 @@
 #     return value.replace(' ', '-')
 
 def custom_slugify_(value):
+    value = value.lower()
     return value.replace('+', '%2B')

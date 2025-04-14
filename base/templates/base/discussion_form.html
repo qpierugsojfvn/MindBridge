@@ -1,10 +1,69 @@
 {% extends 'main.html' %}
 {% block content %}
     <div>
-    <form method="POST" action="">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit">
-    </form>
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit">
+        </form>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tagsInput = document.querySelector('.tags-input');
+            const dropdown = document.createElement('div');
+            dropdown.className = 'tags-dropdown';
+            dropdown.style.display = 'none';
+            tagsInput.parentNode.appendChild(dropdown);
+
+            tagsInput.addEventListener('focus', function () {
+                fetch(tagsInput.dataset.url)
+                    .then(response => response.json())
+                    .then(tags => {
+                        dropdown.innerHTML = '';
+                        tags.forEach(tag => {
+                            const option = document.createElement('div');
+                            option.textContent = tag;
+                            option.addEventListener('click', function () {
+                                addTag(tag);
+                            });
+                            dropdown.appendChild(option);
+                        });
+                        dropdown.style.display = 'block';
+                    });
+            });
+
+            tagsInput.addEventListener('blur', function () {
+                setTimeout(() => {
+                    dropdown.style.display = 'none';
+                }, 200);
+            });
+
+            function addTag(tag) {
+                const currentValue = tagsInput.value.trim();
+                if (currentValue === '') {
+                    tagsInput.value = tag;
+                } else {
+                    tagsInput.value = currentValue + ', ' + tag;
+                }
+                dropdown.style.display = 'none';
+            }
+        });</script>
+    <style>.tags-dropdown {
+        position: absolute;
+        background: white;
+        border: 1px solid #ddd;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 1000;
+        width: 100%;
+    }
+
+    .tags-dropdown div {
+        padding: 8px;
+        cursor: pointer;
+    }
+
+    .tags-dropdown div:hover {
+        background-color: #f5f5f5;
+    }</style>
 {% endblock %}

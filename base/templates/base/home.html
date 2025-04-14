@@ -31,13 +31,13 @@
 
                         {{ discussion.content|truncatewords:15 }}
                         <br>
-                        {% if request.user == discussion.host %}
+                        {% if request.user == discussion.host or request.user.is_staff %}
                             <a href="{% url 'update-discussion' discussion.id %}">Edit</a>
                             <a href="{% url 'delete-discussion' discussion.id %}">Delete</a>
                         {% endif %}
                         <br>
                         <small>
-{#                            <a href="{% url 'user-profile' discussion.host.id %}">@{{ discussion.host }}</a>#}
+                            <a href="{% url 'user-profile' discussion.host.id %}">@{{ discussion.host }}</a>
                             {{ discussion.created_at|timesince }}
                             ago</small><br>
                         tags:
