@@ -29,7 +29,9 @@ SECRET_KEY = 'django-insecure-d+cx*@o%kl@9t5s^c)237-j(y723#o(cgitb3ynx9)^d*i%m4p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'mindbridge-production-c67d.up.railway.app'
+]
 
 # Application definition
 SITE_ID = 1
