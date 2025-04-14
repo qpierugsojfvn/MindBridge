@@ -30,7 +30,8 @@ SECRET_KEY = 'django-insecure-d+cx*@o%kl@9t5s^c)237-j(y723#o(cgitb3ynx9)^d*i%m4p
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'mindbridge-production-c67d.up.railway.app'
+    'mindbridge-production-c67d.up.railway.app',
+    '127.0.0.1'
 ]
 
 # Application definition
@@ -59,6 +60,7 @@ AUTHENTICATION_BACKENDS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
