@@ -15,17 +15,27 @@
 <body>
     <header>
         <nav class="navbar">
-            <div class="logo">Mind<span>Bridge</span></div>
+            <div class="logo"><a href="{% url 'home' %}"><img alt="logo" src={% static 'img/logo letter word blue pink.png' %}></a></div>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/">Discussions</a></li>
                 <li><a href="#">Library</a></li>
                 <li><a href="#">Career</a></li>
             </ul>
-            <input type="text" class="search-bar" placeholder="Search for...">
+{#            <input type="text" class="search-bar" placeholder="Search for...">#}
+            <form method="GET" action="{% url 'home' %}">
+                <input type="text" name="q" class="search-bar" placeholder="Search discussions...">
+            </form>
             <div class="icons">
                 <i class="bi bi-bell"></i>
                 <i class="bi bi-chat"></i>
+                {% if request.user.is_authenticated %}
+                    {# profile photo #}
+{#                    <i class="bi bi-person"><a  href={% url 'user-profile' pk=user.id %}></a></i>#}
+                    <a  href={% url 'user-profile' pk=user.id %}><i class="bi bi-person"></i></a>
+                {% else %}
+                    <i class="bi bi-person" href={% url 'login' %}></i>
+                {% endif %}
             </div>
         </nav>
     </header>
