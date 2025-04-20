@@ -4,8 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8ba59ec-23b4-48da-8619-0758660b203d" name="Changes" comment="Added edit profile">
+    <list default="true" id="d8ba59ec-23b4-48da-8619-0758660b203d" name="Changes" comment="Edited navbar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MindBridge/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MindBridge/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/wsgi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/migrations/0002_discussion_tags_answer.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/migrations/0002_discussion_tags_answer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/migrations/0003_discussion_host.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/migrations/0003_discussion_host.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/delete.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/delete.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/discussion.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/discussion.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/main.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/navbar.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -210,7 +224,8 @@
       <workItem from="1745047079061" duration="7257000" />
       <workItem from="1745061129980" duration="5278000" />
       <workItem from="1745080720418" duration="1484000" />
-      <workItem from="1745140710733" duration="2866000" />
+      <workItem from="1745140710733" duration="4861000" />
+      <workItem from="1745161356965" duration="1971000" />
     </task>
     <task id="LOCAL-00001" summary="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality">
       <option name="closed" value="true" />
@@ -340,7 +355,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745141419409</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Edited navbar">
+      <option name="closed" value="true" />
+      <created>1745144054867</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1745144054867</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -368,6 +391,7 @@
     <MESSAGE value="manage fix" />
     <MESSAGE value="site id 3" />
     <MESSAGE value="Added edit profile" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added edit profile" />
+    <MESSAGE value="Edited navbar" />
+    <option name="LAST_COMMIT_MESSAGE" value="Edited navbar" />
   </component>
 </project>

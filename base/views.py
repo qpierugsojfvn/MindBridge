@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from imaplib import Flags
+# from imaplib import Flags
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, logout, login
@@ -75,6 +75,12 @@ def activate(request, uidb64, token):
 
 
 def activateEmail(request, user, to_email):
+    User = get_user_model()
+
+    # Check if email is already used by another user
+    if User.objects.filter(email=to_email).exclude(pk=user.pk).exists():
+        messages.error(request, f'Email {to_email} is already in use by another account.')
+        return False
     mail_subject = "Activate your user account."
     message = render_to_string("base/template_activate_account.html", {
         'user': user.username,
@@ -322,14 +328,6 @@ def delete_answer(request, pk):
 
 
 def get_popular_tags(days=50, limit=3):
-    """
-    Get most popular tags used in Discussions within the specified time range
-    Args:
-        days: Number of days to look back (default: 50)
-        limit: Maximum number of tags to return (default: 5)
-    Returns:
-        QuerySet of popular tags with counts
-    """
     time_threshold = datetime.now() - timedelta(days=days)
 
     popular_tags = (
