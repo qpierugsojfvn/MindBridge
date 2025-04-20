@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 import psycopg2
+import dj_database_url
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,10 +29,13 @@ SECRET_KEY = 'django-insecure-d+cx*@o%kl@9t5s^c)237-j(y723#o(cgitb3ynx9)^d*i%m4p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'mindbridge-production-c67d.up.railway.app',
+    '127.0.0.1'
+]
 
 # Application definition
-SITE_ID = 1
+SITE_ID = 3
 
 INSTALLED_APPS = [
     'django.contrib.auth',
@@ -53,6 +60,7 @@ AUTHENTICATION_BACKENDS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -84,16 +92,17 @@ WSGI_APPLICATION = 'MindBridge.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
+CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app']
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mindbridgeDB',
-        'USER': 'postgres',
-        'PASSWORD': '12345678',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(default="postgresql://postgres:NNqWGWeBVOrhuRDjBZZkrQYHihwYHCMP@hopper.proxy.rlwy.net:35896/railway")
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'mindbridge',
+    #     'USER': 'mindbridge_',
+    #     'PASSWORD': 'lB7£f^g4Ki`2',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
+    # }
 }
 
 # Password validation

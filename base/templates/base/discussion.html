@@ -1,181 +1,180 @@
 {% extends 'main.html' %}
-{% load static %}
+{#{% load static %}#}
 
 {% include 'navbar.html' %}
 
 {% block content %}
-    <style>
-        .discussion-container {
-            display: grid;
-            grid-template-columns: 3fr 1fr;
-        }
-
-        .right-shift {
-            margin-left: 20px; /* Indent replies for better hierarchy */
-        }
-    </style>
-
-{#    <div id="posts-container"></div>#}
-{##}
-{#    <script>#}
-{#        let posts = [#}
-{#            {#}
-{#                id: discussion.id,#}
-{#                user: {'username': discussion.user.username},#}
-{#                avatar: "/library/ava.png",#}
-{#                image: [""],#}
-{#                text: "Title PWA application",#}
-{#                hashtags: ["design", "ais","ais_krasivaya"],#}
-{#                likes: 0,#}
-{#                dislikes: 0,#}
-{#                comments: ["Wow, amazing!", "Айс ты молодецц"]#}
-{#            },#}
-{#        ];#}
-{#    //полностью пост#}
-{#        function renderPosts(filterTag = null) {#}
-{#            $("#posts-container").empty();#}
-{#            posts.forEach(post => {#}
-{#                if (filterTag && !post.hashtags.includes(filterTag)) return;#}
-{##}
-{#                let hashtagsHtml = post.hashtags.map(tag => `<span class="tags" data-tag="${tag}">#${tag}</span>`).join(" ");#}
-{#                let commentsHtml = post.comments.map(comment => `<p class="small">${comment}</p>`).join("");#}
-{##}
-{#                let postHtml = `#}
-{#                    <div class="card">#}
-{#                        <div class="card-header d-flex align-items-center">#}
-{#                            <img src="${post.avatar}" class="rounded-circle me-2" width="40">#}
-{#                            <strong>${post.user}</strong>#}
-{#                        </div>#}
-{#                        <img src="${post.image}" class="card-img-top">#}
-{#                        <div class="card-body">#}
-{#                            <p>${post.text}</p>#}
-{#                            <div>${hashtagsHtml}</div>#}
-{#                            <div class="post-actions mt-2">#}
-{#                                <span class="like-btn" data-id="${post.id}">❤️ ${post.likes}</span>#}
-{#                                <span class="dislike-btn" data-id="${post.id}">👎 ${post.dislikes}</span>#}
-{#                                <span class="comment-toggle" data-id="${post.id}">💬 Comments</span>#}
-{#                            </div>#}
-{#                            <div class="comments mt-2" id="comments-${post.id}">#}
-{#                                ${commentsHtml}#}
-{#                                <input type="text" class="form-control comment-input" data-id="${post.id}" placeholder="Add a comment...">#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                `;#}
-{#                $("#posts-container").append(postHtml);#}
-{#            });#}
+{#    <style>#}
+{#        .discussion-container {#}
+{#            display: grid;#}
+{#            grid-template-columns: 3fr 1fr;#}
 {#        }#}
 {##}
-{#        $(document).ready(function() {#}
-{#            renderPosts();#}
-{##}
-{#      //лайк дизлайк анау мынау#}
-{#            $(document).on("click", ".like-btn", function() {#}
-{#                let postId = $(this).data("id");#}
-{#                posts = posts.map(post => post.id === postId ? { ...post, likes: post.likes + 1 } : post);#}
-{#                renderPosts();#}
-{#            });#}
-{##}
-{#            $(document).on("click", ".dislike-btn", function() {#}
-{#                let postId = $(this).data("id");#}
-{#                posts = posts.map(post => post.id === postId ? { ...post, dislikes: post.dislikes + 1 } : post);#}
-{#                renderPosts();#}
-{#            });#}
-{##}
-{##}
-{#            $(document).on("click", ".comment-toggle", function() {#}
-{#            let postId = $(this).data("id");#}
-{#            $(`#comments-${postId}`).toggle();#}
-{#        });#}
-{#//комменты#}
-{#        $(document).on("keypress", ".comment-input", function(event) {#}
-{#            if (event.which === 13) {#}
-{#                let postId = $(this).data("id");#}
-{#                let commentText = $(this).val().trim();#}
-{#                if (commentText) {#}
-{#                    posts = posts.map(post => post.id === postId ? { ...post, comments: [...post.comments, commentText] } : post);#}
-{#                    renderPosts();#}
-{#                }#}
-{#            }#}
-{#        });#}
-{##}
-{##}
-{# //фильтр хэштегпен#}
-{#            $(document).on("click", ".tags", function() {#}
-{#                let tag = $(this).data("tag");#}
-{#                $("#filter-tag").text(`#${tag}`);#}
-{#                $("#clear-filter").removeClass("d-none");#}
-{#                renderPosts(tag);#}
-{#            });#}
-{##}
-{#            $("#clear-filter").click(function() {#}
-{#                $("#filter-tag").text("");#}
-{#                $(this).addClass("d-none");#}
-{#                renderPosts();#}
-{#            });#}
-{##}
-{#        });#}
-{#    </script>#}
+{#        .right-shift {#}
+{#            margin-left: 20px; /* Indent replies for better hierarchy */#}
+{#        }#}
+{#    </style>#}
 
-{#    {% include 'navbar.html' %}#}
+    <div id="posts-container"></div>
 
-    <div class="discussion-container">
+    <script>
+        let posts = [
+            {
+                id: discussion.id,
+                user: {'username': discussion.user.username},
+                avatar: "/library/ava.png",
+                image: [""],
+                text: "Title PWA application",
+                hashtags: ["design", "ais","ais_krasivaya"],
+                likes: 0,
+                dislikes: 0,
+                comments: ["Wow, amazing!", "Айс ты молодецц"]
+            },
+        ];
+    //полностью пост
+        function renderPosts(filterTag = null) {
+            $("#posts-container").empty();
+            posts.forEach(post => {
+                if (filterTag && !post.hashtags.includes(filterTag)) return;
 
-        <div>
-            <small><a
-                    href="{% url 'user-profile' discussion.host.id %}">@{{ discussion.host }}</a> {{ discussion.created_at|timesince }}
-                ago</small>
-            <br>
-            title: <b>{{ discussion.title }}</b> <br>
-            content: {{ discussion.content }} <br>
-            tags:
-            {% for tag in tags %}
-                {{ tag }} |
-            {% endfor %}
-            <div class="comment-wrapper right-shift">
-                <h3>Conversation</h3>
-                                <hr>
-                {% for answer in top_level_answers %}
-                    <div>
-                        {% if request.user == answer.user or request.user.is_staff %}
-                            <a href="{% url 'delete-answer' answer.id %}">Delete</a>
-                        {% endif %}
-                        <small><a
-                                href="{% url 'user-profile' answer.user.id %}">@{{ answer.user }}</a> {{ answer.created_at|timesince }}
-                            ago</small>
-                                                <hr>
-                        <p>{{ answer.content }}</p>
-                        <hr>
+                let hashtagsHtml = post.hashtags.map(tag => `<span class="tags" data-tag="${tag}">#${tag}</span>`).join(" ");
+                let commentsHtml = post.comments.map(comment => `<p class="small">${comment}</p>`).join("");
+
+                let postHtml = `
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center">
+                            <img src="${post.avatar}" class="rounded-circle me-2" width="40">
+                            <strong>${post.user}</strong>
+                        </div>
+                        <img src="${post.image}" class="card-img-top">
+                        <div class="card-body">
+                            <p>${post.text}</p>
+                            <div>${hashtagsHtml}</div>
+                            <div class="post-actions mt-2">
+                                <span class="like-btn" data-id="${post.id}">❤️ ${post.likes}</span>
+                                <span class="dislike-btn" data-id="${post.id}">👎 ${post.dislikes}</span>
+                                <span class="comment-toggle" data-id="${post.id}">💬 Comments</span>
+                            </div>
+                            <div class="comments mt-2" id="comments-${post.id}">
+                                ${commentsHtml}
+                                <input type="text" class="form-control comment-input" data-id="${post.id}" placeholder="Add a comment...">
+                            </div>
+                        </div>
                     </div>
-                {% endfor %}
+                `;
+                $("#posts-container").append(postHtml);
+            });
+        }
 
-                {% if request.user.is_authenticated %}
-                    <div class="comment-form">
-                        <form method="POST" action="">
-                            {% csrf_token %}
-                            <label>
-                                <input type="text" name="body" placeholder="Leave your answer here..."/>
-                            </label>
-                        </form>
-                    </div>
-                {% endif %}
-            </div>
+        $(document).ready(function() {
+            renderPosts();
+
+      //лайк дизлайк анау мынау
+            $(document).on("click", ".like-btn", function() {
+                let postId = $(this).data("id");
+                posts = posts.map(post => post.id === postId ? { ...post, likes: post.likes + 1 } : post);
+                renderPosts();
+            });
+
+            $(document).on("click", ".dislike-btn", function() {
+                let postId = $(this).data("id");
+                posts = posts.map(post => post.id === postId ? { ...post, dislikes: post.dislikes + 1 } : post);
+                renderPosts();
+            });
 
 
-        </div>
-        <div>
-            <h3>Popular now</h3>
-            <hr>
-            {% for tag in popular_tags %}
-                {{ tag.tag__name }} |
-            {% endfor %}
-            <hr>
-            <h3>Recently viewed discussions</h3>
-            <div>
-                {% for discussion in recently_viewed_discussions %}
-                    <li><a href="{% url 'discussion' discussion.id %}">{{ discussion.title }}</a></li>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
+            $(document).on("click", ".comment-toggle", function() {
+            let postId = $(this).data("id");
+            $(`#comments-${postId}`).toggle();
+        });
+//комменты
+        $(document).on("keypress", ".comment-input", function(event) {
+            if (event.which === 13) {
+                let postId = $(this).data("id");
+                let commentText = $(this).val().trim();
+                if (commentText) {
+                    posts = posts.map(post => post.id === postId ? { ...post, comments: [...post.comments, commentText] } : post);
+                    renderPosts();
+                }
+            }
+        });
+
+
+ //фильтр хэштегпен
+            $(document).on("click", ".tags", function() {
+                let tag = $(this).data("tag");
+                $("#filter-tag").text(`#${tag}`);
+                $("#clear-filter").removeClass("d-none");
+                renderPosts(tag);
+            });
+
+            $("#clear-filter").click(function() {
+                $("#filter-tag").text("");
+                $(this).addClass("d-none");
+                renderPosts();
+            });
+
+        });
+    </script>
+
+
+{#    <div class="discussion-container">#}
+{##}
+{#        <div>#}
+{#            <small><a#}
+{#                    href="{% url 'user-profile' discussion.host.id %}">@{{ discussion.host }}</a> {{ discussion.created_at|timesince }}#}
+{#                ago</small>#}
+{#            <br>#}
+{#            title: <b>{{ discussion.title }}</b> <br>#}
+{#            content: {{ discussion.content }} <br>#}
+{#            tags:#}
+{#            {% for tag in tags %}#}
+{#                {{ tag }} |#}
+{#            {% endfor %}#}
+{#            <div class="comment-wrapper right-shift">#}
+{#                <h3>Conversation</h3>#}
+{#                                <hr>#}
+{#                {% for answer in top_level_answers %}#}
+{#                    <div>#}
+{#                        {% if request.user == answer.user or request.user.is_staff %}#}
+{#                            <a href="{% url 'delete-answer' answer.id %}">Delete</a>#}
+{#                        {% endif %}#}
+{#                        <small><a#}
+{#                                href="{% url 'user-profile' answer.user.id %}">@{{ answer.user }}</a> {{ answer.created_at|timesince }}#}
+{#                            ago</small>#}
+{#                                                <hr>#}
+{#                        <p>{{ answer.content }}</p>#}
+{#                        <hr>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{##}
+{#                {% if request.user.is_authenticated %}#}
+{#                    <div class="comment-form">#}
+{#                        <form method="POST" action="">#}
+{#                            {% csrf_token %}#}
+{#                            <label>#}
+{#                                <input type="text" name="body" placeholder="Leave your answer here..."/>#}
+{#                            </label>#}
+{#                        </form>#}
+{#                    </div>#}
+{#                {% endif %}#}
+{#            </div>#}
+{##}
+{##}
+{#        </div>#}
+{#        <div>#}
+{#            <h3>Popular now</h3>#}
+{#            <hr>#}
+{#            {% for tag in popular_tags %}#}
+{#                {{ tag.tag__name }} |#}
+{#            {% endfor %}#}
+{#            <hr>#}
+{#            <h3>Recently viewed discussions</h3>#}
+{#            <div>#}
+{#                {% for discussion in recently_viewed_discussions %}#}
+{#                    <li><a href="{% url 'discussion' discussion.id %}">{{ discussion.title }}</a></li>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 {% endblock %}

@@ -1,25 +1,21 @@
 from datetime import datetime, timedelta
+from imaplib import Flags
+
 from django.contrib import messages
-from django.contrib.auth import authenticate, logout, login, get_user_model
+from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Count
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.translation.trans_null import activate
 from django.views import View
-from taggit.managers import TaggableManager
-from taggit.models import Tag, TaggedItem
+from taggit.models import Tag
 from django.core.mail import EmailMessage
 
-from .models import Discussion, Answer
-from .forms import DiscussionForm, UserRegistrationForm
+from .forms import *
 from .decorators import user_not_authenticated
 from .tokens import account_activation_token
 from .utils import custom_slugify_
@@ -75,7 +71,7 @@ def activate(request, uidb64, token):
     else:
         messages.error(request, "Activation link is invalid!")
 
-    return redirect('homepage')
+    return redirect('home')
 
 
 def activateEmail(request, user, to_email):
@@ -131,7 +127,7 @@ def home(request):
 
     discussions = discussions.annotate(answers_count=Count('answers')).order_by('-updated_at')
 
-    tags = Tag.objects.all()
+    tags = Tag.objects.all()[:6]
     discussion_count = discussions.count()
 
     context = {'discussions': discussions, 'tags': tags, 'discussion_count': discussion_count}
@@ -189,6 +185,49 @@ def user_profile(request, pk):
     print(user, pk)
     context = {'user': user}
     return render(request, 'base/profile.html', context)
+
+
+def edit_profile(request, pk):
+    user = get_object_or_404(User, pk=pk)
+
+    if request.user != user and not request.user.is_superuser:
+        messages.error(request, "You don't have permission to edit this profile.")
+        return redirect('user-profile', pk=user.pk)
+
+    profile = user.profile
+
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.profile)
+
+        form_changed=False
+
+        if u_form.has_changed() or p_form.has_changed():
+            form_changed = True
+
+        if u_form.is_valid() and p_form.is_valid():
+            if form_changed:
+                u_form.save()
+                p_form.save()
+                messages.success(request, 'Profile has been updated!')
+                return redirect('user-profile', pk=user.pk)
+            else:
+                messages.warning(request, 'No changes were made to your profile.')
+        else:
+            pass
+
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+
+    return render(request, 'base/edit_profile.html', context)
 
 
 @login_required(login_url='login')

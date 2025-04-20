@@ -4,22 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8ba59ec-23b4-48da-8619-0758660b203d" name="Changes" comment="Updates:&#10;Added create discussion functionality (needs fixes).">
-      <change beforePath="$PROJECT_DIR$/.idea/MindBridge.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MindBridge.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+    <list default="true" id="d8ba59ec-23b4-48da-8619-0758660b203d" name="Changes" comment="Added edit profile">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/discussion.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/discussion.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/discussion_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/discussion_form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/main.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/navbar.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,8 +19,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="CSS File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -86,7 +72,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -104,11 +90,11 @@
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\templates\staticfiles" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\static\img" />
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\diploma\staticfiles" />
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\static\css" />
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\static" />
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\templates" />
-      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\diploma\MindBridge\templates" />
     </key>
   </component>
   <component name="RunManager">
@@ -218,6 +204,13 @@
       <workItem from="1744614975033" duration="249000" />
       <workItem from="1744629597903" duration="680000" />
       <workItem from="1744641692986" duration="656000" />
+      <workItem from="1744644239521" duration="11861000" />
+      <workItem from="1744699347228" duration="704000" />
+      <workItem from="1744700069994" duration="407000" />
+      <workItem from="1745047079061" duration="7257000" />
+      <workItem from="1745061129980" duration="5278000" />
+      <workItem from="1745080720418" duration="1484000" />
+      <workItem from="1745140710733" duration="2866000" />
     </task>
     <task id="LOCAL-00001" summary="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality">
       <option name="closed" value="true" />
@@ -283,7 +276,71 @@
       <option name="project" value="LOCAL" />
       <updated>1743845950678</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="requirements.txt">
+      <option name="closed" value="true" />
+      <created>1744645825411</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1744645825411</updated>
+    </task>
+    <task id="LOCAL-00010" summary="deployment setting requirements.txt">
+      <option name="closed" value="true" />
+      <created>1744651119027</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1744651119027</updated>
+    </task>
+    <task id="LOCAL-00011" summary="allowedhost">
+      <option name="closed" value="true" />
+      <created>1744651727202</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1744651727202</updated>
+    </task>
+    <task id="LOCAL-00012" summary="white noise to static filess">
+      <option name="closed" value="true" />
+      <created>1744653581361</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1744653581361</updated>
+    </task>
+    <task id="LOCAL-00013" summary="manage fix">
+      <option name="closed" value="true" />
+      <created>1744654466999</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1744654466999</updated>
+    </task>
+    <task id="LOCAL-00014" summary="site id 3">
+      <option name="closed" value="true" />
+      <created>1744656012846</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1744656012846</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Added edit profile">
+      <option name="closed" value="true" />
+      <created>1745068132220</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1745068132222</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Added edit profile">
+      <option name="closed" value="true" />
+      <created>1745141419409</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1745141419409</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -304,6 +361,13 @@
     <MESSAGE value="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality" />
     <MESSAGE value="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality." />
     <MESSAGE value="Updates:&#10;Added create discussion functionality (needs fixes)." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updates:&#10;Added create discussion functionality (needs fixes)." />
+    <MESSAGE value="requirements.txt" />
+    <MESSAGE value="deployment setting requirements.txt" />
+    <MESSAGE value="allowedhost" />
+    <MESSAGE value="white noise to static filess" />
+    <MESSAGE value="manage fix" />
+    <MESSAGE value="site id 3" />
+    <MESSAGE value="Added edit profile" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added edit profile" />
   </component>
 </project>

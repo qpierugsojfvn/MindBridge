@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from taggit.forms import TagField
 
@@ -71,3 +72,26 @@ class UserRegistrationForm(UserCreationForm):
             user.save()
 
         return user
+
+
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name']
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        # fields = ['bio', 'profile_pic']
+        fields = ['about', 'description', 'portfolio_url']
+
+    def clean_profile_pic(self):
+        picture = self.cleaned_data.get('profile_pic')
+        if picture:
+            if picture.size > 2 * 1024 * 1024:  # 2MB limit
+                raise ValidationError("Image file too large ( > 2MB )")
+            return picture
+        return None
