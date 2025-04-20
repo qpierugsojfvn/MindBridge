@@ -71,7 +71,7 @@ def activate(request, uidb64, token):
     else:
         messages.error(request, "Activation link is invalid!")
 
-    return redirect('homepage')
+    return redirect('home')
 
 
 def activateEmail(request, user, to_email):
