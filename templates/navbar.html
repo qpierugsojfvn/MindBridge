@@ -33,6 +33,7 @@
                     {# profile photo #}
 {#                    <i class="bi bi-person"><a  href={% url 'user-profile' pk=user.id %}></a></i>#}
                     <a  href={% url 'user-profile' pk=user.id %}><i class="bi bi-person"></i></a>
+                    Hello, {{ request.user.username }}!
                 {% else %}
                     <i class="bi bi-person" href={% url 'login' %}></i>
                 {% endif %}

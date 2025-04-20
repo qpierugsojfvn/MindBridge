@@ -2,25 +2,19 @@ from datetime import datetime, timedelta
 from imaplib import Flags
 
 from django.contrib import messages
-from django.contrib.auth import authenticate, logout, login, get_user_model
+from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q, Count
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.translation.trans_null import activate
 from django.views import View
-from taggit.managers import TaggableManager
-from taggit.models import Tag, TaggedItem
+from taggit.models import Tag
 from django.core.mail import EmailMessage
 
-from .models import Discussion, Answer
 from .forms import *
 from .decorators import user_not_authenticated
 from .tokens import account_activation_token
