@@ -107,12 +107,10 @@ def signup_page(request):
         if form.is_valid():
             email = form.cleaned_data.get('email')
 
-            # Check if email already exists
             if User.objects.filter(email=email).exists():
                 messages.error(request, 'This email is already registered. Please use a different email.')
                 return render(request, 'base/login_signup.html', {'page': page, 'form': form})
 
-            # Only proceed if email is unique
             user = form.save(commit=False)
             user.username = user.username.lower()
             user.is_active = False
@@ -120,11 +118,9 @@ def signup_page(request):
 
             activateEmail(request, user, email)
 
-            # Show success message but stay on page to display email instructions
             return render(request, 'base/login_signup.html', {'page': page})
 
         else:
-            # Form is invalid - show validation errors
             messages.error(request, 'Please correct the errors below.')
 
     context = {'page': page, 'form': form}
