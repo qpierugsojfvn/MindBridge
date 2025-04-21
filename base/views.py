@@ -81,42 +81,72 @@ def activateEmail(request, user, to_email):
     if User.objects.filter(email=to_email).exclude(pk=user.pk).exists():
         messages.error(request, f'Email {to_email} is already in use by another account.')
         return False
-    mail_subject = "Activate your user account."
-    message = render_to_string("base/template_activate_account.html", {
-        'user': user.username,
-        'domain': get_current_site(request).domain,
-        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-        'token': account_activation_token.make_token(user),
-        "protocol": 'https' if request.is_secure() else 'http'
-    })
-    email = EmailMessage(mail_subject, message, to=[to_email])
-    if email.send():
-        messages.success(request, f'Dear <b>{user}</b>, please go to you email <b>{to_email}</b> inbox and click on \
-                    received activation link to confirm and complete the registration. <b>Note:</b> Check your spam folder.')
     else:
-        messages.error(request, f'Problem sending email to {to_email}, check if you typed it correctly.')
+        mail_subject = "Activate your user account."
+        message = render_to_string("base/template_activate_account.html", {
+            'user': user.username,
+            'domain': get_current_site(request).domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user),
+            "protocol": 'https' if request.is_secure() else 'http'
+        })
+        email = EmailMessage(mail_subject, message, to=[to_email])
+        if email.send():
+            messages.success(request, f'Dear <b>{user}</b>, please go to you email <b>{to_email}</b> inbox and click on \
+                        received activation link to confirm and complete the registration. <b>Note:</b> Check your spam folder.')
+        else:
+            messages.error(request, f'Problem sending email to {to_email}, check if you typed it correctly.')
 
 
 @user_not_authenticated
 def signup_page(request):
     page = 'signup'
     form = UserRegistrationForm(request.POST or None)
+
     if request.method == 'POST':
-        # form = UserCreationForm(request.POST)
         if form.is_valid():
+            email = form.cleaned_data.get('email')
+
+            # Check if email already exists
+            if User.objects.filter(email=email).exists():
+                messages.error(request, 'This email is already registered. Please use a different email.')
+                return render(request, 'base/login_signup.html', {'page': page, 'form': form})
+
+            # Only proceed if email is unique
             user = form.save(commit=False)
             user.username = user.username.lower()
             user.is_active = False
             user.save()
 
-            activateEmail(request, user, form.cleaned_data.get('email'))
+            activateEmail(request, user, email)
 
-            return redirect('home')
+            # Show success message but stay on page to display email instructions
+            return render(request, 'base/login_signup.html', {'page': page})
+
         else:
-            messages.error(request, 'An unexpected error occurred.')
+            # Form is invalid - show validation errors
+            messages.error(request, 'Please correct the errors below.')
 
     context = {'page': page, 'form': form}
     return render(request, 'base/login_signup.html', context)
+    # page = 'signup'
+    # form = UserRegistrationForm(request.POST or None)
+    # if request.method == 'POST':
+    #     # form = UserCreationForm(request.POST)
+    #     if form.is_valid():
+    #         user = form.save(commit=False)
+    #         user.username = user.username.lower()
+    #         user.is_active = False
+    #         user.save()
+    #
+    #         activateEmail(request, user, form.cleaned_data.get('email'))
+    #
+    #         return render(request, 'base/login_signup.html', {'page': page})
+    #     else:
+    #         messages.error(request, 'An unexpected error occurred.')
+    #
+    # context = {'page': page, 'form': form}
+    # return render(request, 'base/login_signup.html', context)
 
 
 def home(request):
@@ -187,10 +217,18 @@ def discussion(request, pk):
 
 
 def user_profile(request, pk):
-    user = User.objects.get(id=pk)
-    print(user, pk)
-    context = {'user': user}
+    user = get_object_or_404(User, id=pk)
+    context = {
+        'user': user,
+        'profile': user.profile,
+        'recent_discussions': Discussion.objects.filter(host=user).order_by('-created_at')[:5],
+        'recent_answers': Answer.objects.filter(user=user).order_by('-created_at')[:5]
+    }
     return render(request, 'base/profile.html', context)
+    # user = User.objects.get(id=pk)
+    # print(user, pk)
+    # context = {'user': user}
+    # return render(request, 'base/profile.html', context)
 
 
 def edit_profile(request, pk):
@@ -200,40 +238,81 @@ def edit_profile(request, pk):
         messages.error(request, "You don't have permission to edit this profile.")
         return redirect('user-profile', pk=user.pk)
 
-    profile = user.profile
-
     if request.method == 'POST':
-        u_form = UserUpdateForm(request.POST, instance=request.user)
-        p_form = ProfileUpdateForm(request.POST,
-                                   request.FILES,
-                                   instance=request.user.profile)
-
-        form_changed=False
-
-        if u_form.has_changed() or p_form.has_changed():
-            form_changed = True
+        u_form = UserUpdateForm(request.POST, instance=user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=user.profile)
 
         if u_form.is_valid() and p_form.is_valid():
-            if form_changed:
-                u_form.save()
-                p_form.save()
-                messages.success(request, 'Profile has been updated!')
-                return redirect('user-profile', pk=user.pk)
-            else:
-                messages.warning(request, 'No changes were made to your profile.')
-        else:
-            pass
+            # Handle avatar upload
+            if 'avatar-clear' in request.POST:
+                # Handle avatar clear
+                if user.profile.avatar:
+                    user.profile.avatar.delete()
+            elif 'avatar' in request.FILES:
+                # Delete old avatar if exists
+                if user.profile.avatar:
+                    user.profile.avatar.delete()
 
+            u_form.save()
+            p_form.save()
+            messages.success(request, 'Your profile has been updated!')
+            return redirect('user-profile', pk=user.pk)
     else:
-        u_form = UserUpdateForm(instance=request.user)
-        p_form = ProfileUpdateForm(instance=request.user.profile)
+        u_form = UserUpdateForm(instance=user)
+        p_form = ProfileUpdateForm(instance=user.profile)
 
     context = {
         'u_form': u_form,
-        'p_form': p_form
+        'p_form': p_form,
+        'user': user
     }
-
     return render(request, 'base/edit_profile.html', context)
+    # user = get_object_or_404(User, pk=pk)
+    #
+    # if request.user != user and not request.user.is_superuser:
+    #     messages.error(request, "You don't have permission to edit this profile.")
+    #     return redirect('user-profile', pk=user.pk)
+    #
+    # profile = user.profile
+    #
+    # if request.method == 'POST':
+    #     u_form = UserUpdateForm(request.POST, instance=request.user)
+    #     p_form = ProfileUpdateForm(request.POST,
+    #                                request.FILES,
+    #                                instance=request.user.profile)
+    #
+    #     form_changed = False
+    #
+    #     if u_form.has_changed() or p_form.has_changed():
+    #         form_changed = True
+    #
+    #     if u_form.is_valid() and p_form.is_valid():
+    #         if form_changed:
+    #             u_form.save()
+    #             p_form.save()
+    #             messages.success(request, 'Profile has been updated!')
+    #             return redirect('user-profile', pk=user.pk)
+    #         else:
+    #             messages.warning(request, 'No changes were made to your profile.')
+    #     else:
+    #         pass
+    #
+    # else:
+    #     u_form = UserUpdateForm(instance=request.user)
+    #     p_form = ProfileUpdateForm(instance=request.user.profile)
+    #
+    # context = {
+    #     'u_form': u_form,
+    #     'p_form': p_form
+    # }
+    #
+    # return render(request, 'base/edit_profile.html', context)
+
+
+def load_cities(request):
+    country_id = request.GET.get('country')
+    cities = City.objects.filter(country_id=country_id).order_by('name')
+    return JsonResponse(list(cities.values('id', 'name')), safe=False)
 
 
 @login_required(login_url='login')

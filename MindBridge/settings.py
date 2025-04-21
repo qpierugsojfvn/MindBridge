@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'base.apps.BaseConfig',
+    'mindbridge_library.apps.MindbridgeLibraryConfig',
     'taggit',
     'django.contrib.sites',
     'allauth',
@@ -88,13 +89,17 @@ TEMPLATES = [
     },
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 WSGI_APPLICATION = 'MindBridge.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app']
 DATABASES = {
-    'default': dj_database_url.config(default="postgresql://postgres:NNqWGWeBVOrhuRDjBZZkrQYHihwYHCMP@hopper.proxy.rlwy.net:35896/railway")
+    'default': dj_database_url.config(
+        default="postgresql://postgres:NNqWGWeBVOrhuRDjBZZkrQYHihwYHCMP@hopper.proxy.rlwy.net:35896/railway")
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
     #     'NAME': 'mindbridge',
@@ -181,7 +186,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
-LOGIN_URL='login'
-LOGOUT_URL='logout'
-LOGIN_REDIRECT_URL='success'
-ACCOUNT_LOGOUT_REDIRECT_URL='login'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'success'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'login'

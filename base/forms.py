@@ -73,6 +73,12 @@ class UserRegistrationForm(UserCreationForm):
 
         return user
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email is already registered.")
+        return email
+
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
@@ -83,15 +89,56 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class ProfileUpdateForm(forms.ModelForm):
+    avatar = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={
+            'class': 'form-control-file',
+            'accept': 'image/*'
+        }),
+        help_text="Upload a profile picture (max 2MB)"
+    )
+
     class Meta:
         model = UserProfile
-        # fields = ['bio', 'profile_pic']
-        fields = ['about', 'description', 'portfolio_url']
+        fields = ['avatar', 'about', 'description', 'country', 'city', 'portfolio_url']
+        widgets = {
+            'about': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'country': forms.Select(attrs={'class': 'form-control'}),
+            'city': forms.Select(attrs={'class': 'form-control'}),
+            'portfolio_url': forms.URLInput(attrs={'class': 'form-control'}),
+        }
 
-    def clean_profile_pic(self):
-        picture = self.cleaned_data.get('profile_pic')
-        if picture:
-            if picture.size > 2 * 1024 * 1024:  # 2MB limit
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['city'].queryset = City.objects.none()
+
+        if 'country' in self.data:
+            try:
+                country_id = int(self.data.get('country'))
+                self.fields['city'].queryset = City.objects.filter(country_id=country_id).order_by('name')
+            except (ValueError, TypeError):
+                pass
+        elif self.instance.country:
+            self.fields['city'].queryset = self.instance.country.city_set.order_by('name')
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data.get('avatar')
+        if avatar:
+            if avatar.size > 2 * 1024 * 1024:  # 2MB limit
                 raise ValidationError("Image file too large ( > 2MB )")
-            return picture
+            return avatar
         return None
+
+    # class Meta:
+    #     model = UserProfile
+    #     # fields = ['bio', 'profile_pic']
+    #     fields = ['about', 'description', 'portfolio_url']
+    #
+    # def clean_profile_pic(self):
+    #     picture = self.cleaned_data.get('profile_pic')
+    #     if picture:
+    #         if picture.size > 2 * 1024 * 1024:  # 2MB limit
+    #             raise ValidationError("Image file too large ( > 2MB )")
+    #         return picture
+    #     return None

@@ -28,7 +28,7 @@
     <div class="info-wrapper">
         <div class="info-container">
             <div class="profile-info">
-                <img alt="Avatar" class="avatar" src={% static 'images/profile.png' %}>
+                <img alt="Avatar" class="avatar" src={% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}{% static 'images/profile.png' %}{% endif %}>
                 <div class="name-row">
                     <h2><strong>{{ user.username }}</strong></h2>
                     <span class="status">🐣 Newbie</span>
