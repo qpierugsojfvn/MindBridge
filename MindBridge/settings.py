@@ -31,6 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'mindbridge-production-c67d.up.railway.app',
+    'https://mindbridge-production-c67d.up.railway.app/'
     '127.0.0.1',
 ]
 
