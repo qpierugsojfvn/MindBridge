@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MindBridge Careers</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f9f9fb;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      background: white;
+      border-bottom: 1px solid #ddd;
+      padding: 20px 0;
+    }
+
+    .header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-weight: 600;
+      color: #af48f2;
+      font-size: 24px;
+    }
+
+    .nav a {
+      margin-right: 20px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .search-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .search-bar {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .profile-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #ccc;
+      display: inline-block;
+      margin-left: 10px;
+    }
+
+    .main-layout {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .filters {
+      width: 250px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+    }
+
+    .filters h4 {
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    .filters label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .jobs {
+      flex: 1;
+    }
+
+    .job-card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+    }
+
+    .job-card h3 {
+      margin-top: 0;
+    }
+
+    .salary {
+      font-weight: bold;
+      margin: 5px 0;
+    }
+
+    .tags {
+      color: #888;
+      font-size: 14px;
+    }
+
+    .company {
+      font-size: 14px;
+      color: #444;
+    }
+
+    .apply-btn {
+      background: #f052e3;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .pagination {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .page {
+      border: none;
+      background: #eee;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .page.active {
+      background: #f052e3;
+      color: white;
+    }
+
+    .footer {
+      background: #14213d;
+      color: white;
+      padding: 40px 0;
+      margin-top: 40px;
+    }
+
+    .footer-columns {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .footer-columns a {
+      display: block;
+      margin-bottom: 8px;
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .footer h4 {
+      margin-top: 0;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="logo">MindBridge</div>
+      <nav class="nav">
+        <a href="#">Home</a>
+        <a href="#">Discussions</a>
+        <a href="#">Library</a>
+        <a href="#">Career</a>
+      </nav>
+      <div class="search-profile">
+        <input type="text" placeholder="Search for..." class="search-bar"/>
+        <div class="profile-icon"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container main-layout">
+      <!-- Filters -->
+      <aside class="filters">
+        <h4>Employment type</h4>
+        <label><input type="checkbox" /> Full-time</label>
+        <label><input type="checkbox" /> Part-time</label>
+        <label><input type="checkbox" /> Project/Task</label>
+        <label><input type="checkbox" /> Internship</label>
+
+        <h4>Salary</h4>
+        <label><input type="checkbox" /> Doesn’t matter</label>
+        <label><input type="checkbox" /> Up to 100 000 ₸</label>
+        <label><input type="checkbox" /> Up to 150 000 ₸</label>
+        <label><input type="checkbox" /> Up to 300 000 ₸</label>
+
+        <h4>Work schedule</h4>
+        <label><input type="checkbox" /> Full day</label>
+        <label><input type="checkbox" /> Flexible schedule</label>
+        <label><input type="checkbox" /> Remote work</label>
+      </aside>
+
+      <!-- Job Cards -->
+      <section class="jobs">
+        <div class="job-card">
+          <h3>Intern Business Analyst Intern</h3>
+          <p class="salary">100 000 – 150 000 ₸ / month</p>
+          <p class="tags">No experience • Remote</p>
+          <p class="company">BI Group, Almaty</p>
+          <button class="apply-btn">Apply</button>
+        </div>
+
+        <div class="job-card">
+          <h3>Intern Business Analyst Intern</h3>
+          <p class="tags">No experience • Remote</p>
+          <p class="company">BI Group, Almaty</p>
+          <button class="apply-btn">Apply</button>
+        </div>
+
+        <div class="job-card">
+          <h3>Intern Business Analyst Intern</h3>
+          <p class="tags">Remote</p>
+          <p class="company">BI Group, Almaty</p>
+          <button class="apply-btn">Apply</button>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+          <button class="page active">1</button>
+          <button class="page">2</button>
+          <button class="page">3</button>
+          <span>...</span>
+          <button class="page">10</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-columns">
+        <div>
+          <h4>MindBridge</h4>
+          <p>2025 MindBridge</p>
+        </div>
+        <div>
+          <a href="#">Career</a>
+          <a href="#">Discussions</a>
+          <a href="#">Articles</a>
+          <a href="#">Videos</a>
+        </div>
+        <div>
+          <a href="#">About</a>
+          <a href="#">Help</a>
+          <a href="#">Books</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

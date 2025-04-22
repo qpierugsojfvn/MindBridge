@@ -1,0 +1,341 @@
+header {
+    background-color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    margin-left:5%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-right: auto;
+}
+
+.logo span {
+    color: #d39cff;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li {
+    display: inline;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #BFBFBF;
+    font-weight: 600;
+}
+
+.search-bar {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #768694;
+    margin-left: 5vw;
+    width: 30vw;
+}
+.icons {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Расстояние между иконками */
+    margin-left: 20px;
+}
+
+/* Иконки */
+.icons i {
+    font-size: 20px;
+    color: #BFBFBF;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.icons i:hover {
+    color: #d39cff;
+}
+.filters {
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+
+}
+.filters button {
+    background: #e0e3e7;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+.filter-btn {
+    background: #1c3f60;
+    color: white;
+}
+.new-discussion {
+    background: #ff66b2;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.discussion {
+    background: white;
+    padding: 15px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.tags span {
+    display: inline-block;
+    background: #e0e3e7;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-right: 5px;
+}
+.actions span {
+    margin-right: 15px;
+    font-size: 14px;
+}
+.card {
+     margin-bottom: 20px; 
+}
+.tags span {
+     cursor: pointer; color: blue; margin-right: 5px; 
+    }
+.post-actions span { 
+    cursor: pointer; margin-right: 10px; 
+}
+.post-actions .liked { 
+    color: red; 
+}
+.comments { 
+    display: none; 
+}
+.DAU{
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    border: 3px solid gray;
+    border-radius: 10px;
+    margin-left: 5%;
+}
+.suret{
+    width: 70%;
+}
+.p1{
+    font-size: 20px;
+    font-weight: bold;
+    color: #0B304A;
+    margin-left: 5%;
+}
+.text{
+    font-size: 150%;
+    font-weight: bold;
+    margin-left: 2%;
+}
+.suretter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.suretter img {
+    flex: 1 1 calc(33.333% - 10px); /* максимум 3 на строке */
+    max-width: calc(33.333% - 10px);
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.Litlle1{
+    width: 80%;
+    margin-left: 7%;
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin-top: 5%;
+
+}
+.hashtags{
+    border: none;
+    background-color: #EBECF2;
+    width: 15%;
+    height: 15%;
+    border-radius: 20%;
+    color: #768694;
+    display: flex;
+}
+
+
+  .profile-card {
+    background: white;
+    border: 2px solid #c86bf0;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;;
+  }
+
+  .profile-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 2%;
+    border: 2px solid black;
+    margin-left: 3%;
+  }
+
+  .profile-name {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 3%;
+    margin-left: 2%;
+  }
+
+  .profile-level {
+    color: #666;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .xp-bar {
+    width: 100%;
+    height: 6px;
+    background: #eee;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 5px 0;
+    position: relative;
+  }
+
+  .xp-fill {
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, #f052e3, #b388ff);
+  }
+
+  .xp-text {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 10px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin: 10px 0;
+  }
+
+  .tag {
+    background: #f0f2f5;
+    color: #555;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+  }
+
+  .activity-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 15px;
+    margin-bottom: 8px;
+  }
+
+  .weekdays {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 4px;
+  }
+
+  .activity-grid {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .activity-column {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    margin: 0 auto;
+  }
+
+  .dot.active {
+    background: #f052e3;
+  }
+
+  .dot.inactive {
+    background: #f0f0f0;
+  }
+
+  .dot.missed {
+    background: #ff8fa3;
+  }
+  .footer {
+    background: #14213d;
+    color: white;
+    padding: 40px 0;
+    margin-top: 40px;
+  }
+
+  .footer-columns {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .footer-columns a {
+    display: block;
+    margin-bottom: 8px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .footer h4 {
+    margin-top: 0;
+  }

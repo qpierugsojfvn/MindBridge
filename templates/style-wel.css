@@ -1,0 +1,272 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+header {
+    background-color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    margin-left:5%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-right: auto;
+}
+
+.logo span {
+    color: #d39cff;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li {
+    display: inline;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #BFBFBF;
+    font-weight: 600;
+}
+
+.search-bar {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #768694;
+    margin-left: 5vw;
+    width: 30vw;
+}
+
+.login-btn {
+    background-color: #0B304A;
+    color: white;
+    width: 10vw;
+    padding: 1vh 1vw;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 5vw;
+}
+.text{
+    padding: 50px 20px;
+    position: relative;
+}
+
+.hero {
+    display: flex;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #0B304A;
+    margin-left: 5vw;
+}
+
+.hero h1 span {
+    color: #0B304A;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-left: 5vw;
+}
+
+.subtitle span {
+    color: #d39cff;
+}
+
+.hero-buttons {
+    margin-top: 20px;
+}
+
+.cta-btn {
+    background-color: #0d1b2a;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 5vw;
+}
+
+.secondary-btn {
+    background: none;
+    border: none;
+    color: #0d1b2a;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-left: 15px;
+}
+.floating-icons {
+    display: flex;
+    align-items: center; /* Выравниваем по центру */
+    gap: 2vh;
+}
+
+.icon1{
+    width: 15vw;
+    height: auto;
+    margin-left: 5vw;
+}
+.icon2{
+    width: 10vw;
+    margin-top: 25vh;
+    transform: rotate(10deg);
+
+}
+.icon3{
+    width: 13vw;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .floating-icons {
+        top: 10vh;
+        right: 2vw;
+    }
+
+    .icon {
+        width: 8vw;
+    }
+}
+
+
+/* Анимация бегущей строки */
+.marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: white;
+    padding: 10px 0;
+    position: relative;
+    width: 100vw;
+}
+
+.marquee {
+    white-space: nowrap;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff00ff;
+    animation: marquee 20s linear infinite;
+}
+.star{
+    background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@keyframes marquee {
+    from { transform: translateX(0%); }
+    to { transform: translateX(-50%); }
+}
+
+/* Карточка обсуждения */
+.discussion {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+}
+
+.discussion-card {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+}
+
+.discussion-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.tags span {
+    background: #ddd;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.post-btn {
+    background-color: #0d1b2a;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Footer */
+footer {
+    background-color: #0d1b2a;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 0.9rem;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .marquee {
+        font-size: 1.2rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .login-btn {
+        padding: 8px 15px;
+    }
+}
