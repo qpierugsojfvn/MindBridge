@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library</title>
+    <style>
+        .lesson-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .lesson-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            transition: transform 0.2s;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .lesson-format {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+        }
+
+        .video-format {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+
+        .article-format {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .create-btn {
+            display: inline-block;
+            margin: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+{% include 'navbar.html' %}
+
+<h1>Welcome to the library, {{ user.username }}</h1>
+
+{% if user.is_authenticated %}
+    <a href="{% url 'create_lesson' %}" class="create-btn">Create New Lesson</a>
+{% endif %}
+<!-- After filter buttons, before lesson-grid -->
+{% if user.is_authenticated %}
+    <!-- Continue Watching/Reading Section -->
+    <div class="section-container">
+        <h2>Continue Learning</h2>
+        <div class="horizontal-scroll">
+            {% for lesson in continue_section %}
+                <div class="lesson-card compact">
+                    <div class="lesson-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">
+                        {{ lesson.get_format_display }}
+                    </div>
+                    <h3><a href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h3>
+                    <div class="progress-container">
+                        <small>progress goes here</small>
+{#                        {% with progress=lesson.user_progress_set.get(user=request.user) %}#}
+{#                            <div class="progress-bar" style="width: {{ progress.get_progress_percentage }}%"></div>#}
+{#                            <small>{{ progress.get_progress_percentage }}% complete</small>#}
+{#                        {% endwith %}#}
+                    </div>
+                </div>
+            {% empty %}
+                <p>No lessons in progress. Start learning!</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- For You Section -->
+    <div class="section-container">
+        <h2>Recommended For You</h2>
+        <div class="horizontal-scroll">
+            {% for lesson in for_you %}
+                <div class="lesson-card compact">
+                    <div class="lesson-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">
+                        {{ lesson.get_format_display }}
+                    </div>
+                    <h3><a href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h3>
+                    <p>{{ lesson.description|truncatechars:80 }}</p>
+                </div>
+            {% empty %}
+                <p>Complete some lessons to get recommendations</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+<div class="lesson-grid">
+    {% for lesson in lessons %}
+        <div class="lesson-card">
+            <div class="lesson-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">
+                {{ lesson.get_format_display }}
+            </div>
+            <h2><a href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h2>
+            <p>{{ lesson.description|truncatechars:100 }}</p>
+            <div class="lesson-meta">
+                <small>By {{ lesson.author.username }}</small>
+                <small> | {{ lesson.created_at|date:"M d, Y" }}</small>
+                {% if lesson.format == 'video' and lesson.duration %}
+                    <small> | {{ lesson.get_video_duration }}</small>
+                {% endif %}
+            </div>
+            {% if lesson.attachments.all %}
+                <div class="attachments">
+                    <small>📎 {{ lesson.attachments.count }} attachment(s)</small>
+                </div>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No lessons available yet.</p>
+    {% endfor %}
+</div>
+{% if page_obj.paginator.num_pages > 0 %}
+    <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+    </div>
+{% endif %}
+</body>
+</html>

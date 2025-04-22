@@ -1,0 +1,83 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <div class="lesson-container">
+        <h1>{{ lesson.title }}</h1>
+        <p class="meta">By {{ lesson.author }} | {{ lesson.created_at|date }}</p>
+
+        {% if lesson.format == 'video' %}
+            <div class="video-container">
+                <iframe width="100%" height="500" src="{{ lesson.video_url }}" frameborder="0" allowfullscreen></iframe>
+            </div>
+            {{ lesson.content|linebreaks }}
+
+            {% if user_progress and not user_progress.is_completed %}
+                <div class="progress-notice">
+                    <p>Continue watching ({{ user_progress.get_progress_percentage }}% completed)</p>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="article-content">
+                {{ lesson.content|linebreaks }}
+
+                {% if user_progress and not user_progress.is_completed %}
+                    <div class="progress-notice">
+                        <p>Continue reading ({{ user_progress.get_progress_percentage }}% completed)</p>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <div class="attachments">
+            <h3>Attachments</h3>
+            {% for attachment in attachments %}
+                <div class="attachment">
+                    <a href="{{ attachment.pdf_file.url }}"
+                       target="_blank">{{ attachment.title|default:attachment.pdf_file.name }}</a>
+                </div>
+            {% empty %}
+                <p>No attachments for this lesson.</p>
+            {% endfor %}
+
+            {% if lesson.author == request.user %}
+                <a href="{% url 'add_attachment' slug=lesson.slug %}">Add Attachment</a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if request.user.is_authenticated %}
+        <script>
+            // AJAX call to update progress
+            document.addEventListener('DOMContentLoaded', function () {
+                {% if lesson.format == 'video' %}
+                    // For video, you'd track time updates
+                    // This is a simplified version
+                    const video = document.querySelector('iframe');
+                    // You'd need to use the YouTube API or similar for actual video tracking
+                {% else %}
+                    // For articles, track scroll position
+                    window.addEventListener('scroll', function () {
+                        const article = document.querySelector('.article-content');
+                        const scrollPosition = window.scrollY;
+                        const articleHeight = article.offsetHeight;
+                        const windowHeight = window.innerHeight;
+
+                        const position = Math.min(scrollPosition / (articleHeight - windowHeight), 1);
+                        const charPosition = Math.floor(position * {{ lesson.content|length }});
+
+                        // Update progress
+                        fetch("{% url 'update_progress' slug=lesson.slug %}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                                'X-Requested-With': 'XMLHttpRequest',
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
+                            body: `position=${charPosition}&completed=${position >= 0.95}`
+                        });
+                    });
+                {% endif %}
+            });
+        </script>
+    {% endif %}
+{% endblock %}
