@@ -77,7 +77,6 @@ def activate(request, uidb64, token):
 def activateEmail(request, user, to_email):
     User = get_user_model()
 
-    # Check if email is already used by another user
     if User.objects.filter(email=to_email).exclude(pk=user.pk).exists():
         messages.error(request, f'Email {to_email} is already in use by another account.')
         return False
@@ -125,24 +124,6 @@ def signup_page(request):
 
     context = {'page': page, 'form': form}
     return render(request, 'base/login_signup.html', context)
-    # page = 'signup'
-    # form = UserRegistrationForm(request.POST or None)
-    # if request.method == 'POST':
-    #     # form = UserCreationForm(request.POST)
-    #     if form.is_valid():
-    #         user = form.save(commit=False)
-    #         user.username = user.username.lower()
-    #         user.is_active = False
-    #         user.save()
-    #
-    #         activateEmail(request, user, form.cleaned_data.get('email'))
-    #
-    #         return render(request, 'base/login_signup.html', {'page': page})
-    #     else:
-    #         messages.error(request, 'An unexpected error occurred.')
-    #
-    # context = {'page': page, 'form': form}
-    # return render(request, 'base/login_signup.html', context)
 
 
 def home(request):
@@ -194,8 +175,8 @@ def discussion(request, pk):
             discussion=discussion,
             content=request.POST.get('body'),
         )
-        if 'tags' in request.POST:  # Check if tags are being submitted
-            tag_names = request.POST.getlist('tags')  # Get a list of tag names from the form
+        if 'tags' in request.POST:
+            tag_names = request.POST.getlist('tags')
             discussion.tags.add(*tag_names)
 
         return redirect('discussion', pk=discussion.id)
@@ -221,10 +202,6 @@ def user_profile(request, pk):
         'recent_answers': Answer.objects.filter(user=user).order_by('-created_at')[:5]
     }
     return render(request, 'base/profile.html', context)
-    # user = User.objects.get(id=pk)
-    # print(user, pk)
-    # context = {'user': user}
-    # return render(request, 'base/profile.html', context)
 
 
 def edit_profile(request, pk):
@@ -239,13 +216,10 @@ def edit_profile(request, pk):
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=user.profile)
 
         if u_form.is_valid() and p_form.is_valid():
-            # Handle avatar upload
             if 'avatar-clear' in request.POST:
-                # Handle avatar clear
                 if user.profile.avatar:
                     user.profile.avatar.delete()
             elif 'avatar' in request.FILES:
-                # Delete old avatar if exists
                 if user.profile.avatar:
                     user.profile.avatar.delete()
 
@@ -263,46 +237,6 @@ def edit_profile(request, pk):
         'user': user
     }
     return render(request, 'base/edit_profile.html', context)
-    # user = get_object_or_404(User, pk=pk)
-    #
-    # if request.user != user and not request.user.is_superuser:
-    #     messages.error(request, "You don't have permission to edit this profile.")
-    #     return redirect('user-profile', pk=user.pk)
-    #
-    # profile = user.profile
-    #
-    # if request.method == 'POST':
-    #     u_form = UserUpdateForm(request.POST, instance=request.user)
-    #     p_form = ProfileUpdateForm(request.POST,
-    #                                request.FILES,
-    #                                instance=request.user.profile)
-    #
-    #     form_changed = False
-    #
-    #     if u_form.has_changed() or p_form.has_changed():
-    #         form_changed = True
-    #
-    #     if u_form.is_valid() and p_form.is_valid():
-    #         if form_changed:
-    #             u_form.save()
-    #             p_form.save()
-    #             messages.success(request, 'Profile has been updated!')
-    #             return redirect('user-profile', pk=user.pk)
-    #         else:
-    #             messages.warning(request, 'No changes were made to your profile.')
-    #     else:
-    #         pass
-    #
-    # else:
-    #     u_form = UserUpdateForm(instance=request.user)
-    #     p_form = ProfileUpdateForm(instance=request.user.profile)
-    #
-    # context = {
-    #     'u_form': u_form,
-    #     'p_form': p_form
-    # }
-    #
-    # return render(request, 'base/edit_profile.html', context)
 
 
 def load_cities(request):
@@ -339,24 +273,21 @@ def create_discussion(request):
 @login_required(login_url='login')
 def update_discussion(request, pk):
     discussion = Discussion.objects.get(id=pk)
-    form = DiscussionForm(instance=discussion)
 
     if request.user != discussion.host:
         messages.error(request, 'You don\'t have permission to edit this discussion.')
         return redirect('home')
 
     if request.method == 'POST':
-        form = DiscussionForm(request.POST, instance=discussion)
+        form = DiscussionForm(request.POST, instance=discussion, user=request.user)
         if form.is_valid():
             form.save()
             return redirect('home')
-
-        context = {'form': form}
-        return render(request, 'base/discussion_form.html', context)
     else:
-        form = DiscussionForm(instance=discussion)
-        context = {'form': form}
-        return render(request, 'base/discussion_form.html', context)
+        form = DiscussionForm(instance=discussion, user=request.user)
+
+    context = {'form': form}
+    return render(request, 'base/discussion_form.html', context)
 
 
 @login_required(login_url='login')
@@ -386,20 +317,6 @@ def delete_answer(request, pk):
         return redirect('home')
 
     return render(request, 'base/delete.html', {'obj': answer})
-
-
-# def get_popular_tags():
-# time_threshold = datetime.now() - timedelta(days=30)
-# popular_tags = (
-#     # TaggedItem.objects.filter(discussion__created_at__gte=time_threshold)
-#     TaggedItem.objects.filter(
-#         content_type__model='discussion',  # Filter by the Discussion model
-#         object_id__in=Discussion.objects.filter(created_at__gte=time_threshold).values('id')
-#     )
-#     .values('tag__name', 'tag__slug').annotate(tag_count=Count('tag')).order_by('tag_count')
-# )
-# popular_tags = popular_tags[:2]
-# return popular_tags
 
 
 def get_popular_tags(days=50, limit=3):

@@ -60,50 +60,108 @@
 {% if user.is_authenticated %}
     <a href="{% url 'create_lesson' %}" class="create-btn">Create New Lesson</a>
 {% endif %}
-<!-- After filter buttons, before lesson-grid -->
-{% if user.is_authenticated %}
-    <!-- Continue Watching/Reading Section -->
-    <div class="section-container">
-        <h2>Continue Learning</h2>
-        <div class="horizontal-scroll">
-            {% for lesson in continue_section %}
-                <div class="lesson-card compact">
-                    <div class="lesson-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">
-                        {{ lesson.get_format_display }}
-                    </div>
-                    <h3><a href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h3>
-                    <div class="progress-container">
-                        <small>progress goes here</small>
+{##}
+{#    <a href="{% url 'filter_articles' %}" class="create-btn">Articles</a>#}
+{#    <a href="{% url 'filter_videos' %}" class="create-btn">Videos</a>#}
+{##}
+{##}
+{#<!-- After filter buttons, before lesson-grid -->#}
+{#{% if user.is_authenticated %}#}
+{#    <!-- Continue Watching/Reading Section -->#}
+{#    <div class="section-container">#}
+{#        <h2>Continue {% if current_format == 'video' %}Watching{% elif current_format == 'article' %}Reading{% else %}Learning{% endif %}</h2>#}
+{#        <div class="horizontal-scroll">#}
+{#            {% for lesson in continue_section %}#}
+{#                <div class="lesson-card compact">#}
+{#                    <div class="lesson-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">#}
+{#                        {{ lesson.get_format_display }}#}
+{#                    </div>#}
+{#                    <h3><a href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h3>#}
+{#                    <div class="progress-container">#}
+{#                        <small>progress goes here</small>#}
 {#                        {% with progress=lesson.user_progress_set.get(user=request.user) %}#}
 {#                            <div class="progress-bar" style="width: {{ progress.get_progress_percentage }}%"></div>#}
 {#                            <small>{{ progress.get_progress_percentage }}% complete</small>#}
 {#                        {% endwith %}#}
-                    </div>
-                </div>
-            {% empty %}
-                <p>No lessons in progress. Start learning!</p>
-            {% endfor %}
-        </div>
-    </div>
+{#                    </div>#}
+{#                </div>#}
+{#            {% empty %}#}
+{#                <p>No lessons in progress. Start learning!</p>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <!-- Recommended for you section -->#}
+{#    <div class="section-container">#}
+{#        <h2>Recommended {% if current_format == 'videos' %}Videos{% elif current_format == 'articles' %}Articles{% else %}Content{% endif %}</h2>#}
+{#        <div class="horizontal-scroll">#}
+{#            {% for lesson in for_you %}#}
+{#                <div class="lesson-card compact">#}
+{#                    <div class="lesson-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">#}
+{#                        {{ lesson.get_format_display }}#}
+{#                    </div>#}
+{#                    <h3><a href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h3>#}
+{#                    <p>{{ lesson.description|truncatechars:80 }}</p>#}
+{#                </div>#}
+{#            {% empty %}#}
+{#                <p>Complete some lessons to get recommendations</p>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{#    </div>#}
+{#{% endif %}#}
 
-    <!-- For You Section -->
-    <div class="section-container">
-        <h2>Recommended For You</h2>
-        <div class="horizontal-scroll">
-            {% for lesson in for_you %}
-                <div class="lesson-card compact">
-                    <div class="lesson-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">
-                        {{ lesson.get_format_display }}
-                    </div>
-                    <h3><a href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h3>
-                    <p>{{ lesson.description|truncatechars:80 }}</p>
-                </div>
-            {% empty %}
-                <p>Complete some lessons to get recommendations</p>
-            {% endfor %}
-        </div>
-    </div>
-{% endif %}
+<!-- Change the filter buttons -->
+<a href="{% url 'filter_articles' %}" class="create-btn {% if current_filter == 'article' %}active{% endif %}">Articles</a>
+<a href="{% url 'filter_videos' %}" class="create-btn {% if current_filter == 'video' %}active{% endif %}">Videos</a>
+<a href="{% url 'library' %}" class="create-btn {% if not current_filter %}active{% endif %}">All Content</a>
+
+<!-- Update section headings -->
+<div class="section-container">
+    <h2>
+        {% if current_filter == 'video' %}
+            Continue Watching
+        {% elif current_filter == 'article' %}
+            Continue Reading
+        {% else %}
+            Continue Learning
+        {% endif %}
+    </h2>
+    <!-- ... rest of the section ... -->
+</div>
+
+<div class="section-container">
+    <h2>
+        {% if current_filter == 'video' %}
+            Recommended Videos
+        {% elif current_filter == 'article' %}
+            Recommended Articles
+        {% else %}
+            Recommended For You
+        {% endif %}
+    </h2>
+    <!-- ... rest of the section ... -->
+</div>
+
+<!-- Update pagination to maintain filter -->
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
 
 <div class="lesson-grid">
     {% for lesson in lessons %}

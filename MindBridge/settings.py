@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'base.apps.BaseConfig',
     'mindbridge_library.apps.MindbridgeLibraryConfig',
+    'mindbridge_career.apps.MindbridgeCareerConfig',
     'taggit',
+    'embed_video',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -146,7 +148,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'base/static',
 ]
-STATIC_ROOT = BASE_DIR / 'static'
+# STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

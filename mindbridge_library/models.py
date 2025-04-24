@@ -1,9 +1,12 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
+from embed_video.fields import EmbedVideoField
 
 User = get_user_model()
 
+class Videos(models.Model):
+    video = EmbedVideoField()
 
 class Lesson(models.Model):
     LESSON_FORMAT_CHOICES = [

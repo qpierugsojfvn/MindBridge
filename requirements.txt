@@ -31,3 +31,4 @@ urllib3==2.4.0
 uvicorn==0.34.1
 waitress==3.0.2
 whitenoise==6.9.0
+django-embed-video~=1.4.10

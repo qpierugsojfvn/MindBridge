@@ -1,4 +1,6 @@
 {% extends 'main.html' %}
+{% load static %}
+{% load embed_video_tags %}
 
 {% block content %}
     <div class="lesson-container">
@@ -7,7 +9,8 @@
 
         {% if lesson.format == 'video' %}
             <div class="video-container">
-                <iframe width="100%" height="500" src="{{ lesson.video_url }}" frameborder="0" allowfullscreen></iframe>
+{#                <iframe width="100%" height="500" src="{{ lesson.video_url }}" frameborder="0" allowfullscreen></iframe>#}
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/eaLPAkNgpJE?si=EdnIJXDy9VY5vldT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
             {{ lesson.content|linebreaks }}
 

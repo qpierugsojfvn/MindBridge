@@ -17,18 +17,19 @@
         <nav class="navbar">
             <div class="logo">
                 <a href="{% url 'home' %}">
-                    <img alt="logo" src={% static 'img/logo letter word blue pink.png' %}>
+                    <img alt="logo" src={% static 'admin/logo/Asset 7.svg' %}>
                 </a>
             </div>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/">Discussions</a></li>
-                <li><a href={% url 'index' %}>Library</a></li>
-                <li><a href="#">Career</a></li>
+                <li><a href={% url 'library' %}>Library</a></li>
+                <li><a href={% url 'career' %}>Career</a></li>
             </ul>
 {#            <input type="text" class="search-bar" placeholder="Search for...">#}
             <form method="GET" action="{% url 'home' %}">
-                <input type="text" name="q" class="search-bar" placeholder="Search discussions...">
+                <label for="search-bar"></label>
+                <input id="search-bar" type="text" name="q" class="search-bar" placeholder="{% if '/library/' in request.path %}Search lessons...{% elif '/career/' in request.path %}Search vacancies...{% else %} Search discussions...{% endif %}">
             </form>
             <div class="icons">
                 <i class="bi bi-bell"></i>

@@ -8,10 +8,149 @@ from .forms import LessonForm, AttachmentForm
 from django.db.models import Q, Count
 
 
-def index(request):
+# def index(request):
+#     lesson_list = Lesson.objects.filter(is_published=True).order_by('-created_at')
+#
+#     # Add search functionality
+#     search_query = request.GET.get('search', '')
+#     if search_query:
+#         lesson_list = lesson_list.filter(
+#             Q(title__icontains=search_query) |
+#             Q(description__icontains=search_query) |
+#             Q(content__icontains=search_query)
+#         )
+#
+#     # how many lessons per page
+#     paginator = Paginator(lesson_list, 9)
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
+#
+#     # Initialize personalized sections
+#     for_you = None
+#     continue_section = None
+#
+#     if request.user.is_authenticated:
+#         # "For You" recommendations
+#         completed_lesson_ids = UserLessonProgress.objects.filter(
+#             user=request.user,
+#             is_completed=True
+#         ).values_list('lesson__id', flat=True)
+#
+#         if completed_lesson_ids.exists():
+#             # Get lessons with same format as completed ones
+#             for_you = Lesson.objects.filter(
+#                 is_published=True,
+#                 format__in=Lesson.objects.filter(
+#                     id__in=completed_lesson_ids
+#                 ).values_list('format', flat=True).distinct()
+#             ).exclude(
+#                 id__in=completed_lesson_ids
+#             ).order_by('?')[:6]  # Random sample of 6
+#         else:
+#             # Fallback: most popular lessons
+#             for_you = Lesson.objects.filter(
+#                 is_published=True
+#             ).annotate(
+#                 popularity=Count('user_progress')
+#             ).order_by('-popularity')[:6]
+#
+#         # "Continue Watching/Reading" section
+#         continue_progress = UserLessonProgress.objects.filter(
+#             user=request.user,
+#             is_completed=False
+#         ).select_related('lesson').order_by('-updated_at')[:4]
+#
+#         continue_section = [progress.lesson for progress in continue_progress]
+#
+#     return render(request, 'library_main.html', {
+#         'page_obj': page_obj,
+#         'lessons': page_obj.object_list,
+#         'search_query': search_query,
+#         'for_you': for_you,
+#         'continue_section': continue_section,
+#         'current_filter': request.GET.get('filter_type')
+#     })
+# def index(request, filter_type=None):
+#     lesson_list = Lesson.objects.filter(is_published=True).order_by('-created_at')
+#
+#     if request.path.endswith('/articles/'):
+#         filter_type = 'articles'
+#     elif request.path.endswith('/videos/'):
+#         filter_type = 'videos'
+#
+#     if filter_type == 'articles':
+#         lesson_list = lesson_list.filter(format='article')
+#     elif filter_type == 'videos':
+#         lesson_list = lesson_list.filter(format='video')
+#
+#     search_query = request.GET.get('search', '')
+#     if search_query:
+#         lesson_list = lesson_list.filter(
+#             Q(title__icontains=search_query) |
+#             Q(description__icontains=search_query) |
+#             Q(content__icontains=search_query)
+#         )
+#
+#     paginator = Paginator(lesson_list, 9)
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
+#
+#     for_you = None
+#     continue_section = None
+#
+#     if request.user.is_authenticated:
+#         completed_lesson_ids = UserLessonProgress.objects.filter(
+#             user=request.user,
+#             is_completed=True
+#         ).values_list('lesson__id', flat=True)
+#
+#         if completed_lesson_ids.exists():
+#             for_you = Lesson.objects.filter(
+#                 is_published=True,
+#                 format__in=Lesson.objects.filter(
+#                     id__in=completed_lesson_ids
+#                 ).values_list('format', flat=True).distinct()
+#             ).exclude(
+#                 id__in=completed_lesson_ids
+#             ).order_by('?')[:6]
+#         else:
+#             for_you = Lesson.objects.filter(
+#                 is_published=True
+#             ).annotate(
+#                 popularity=Count('user_progress')
+#             ).order_by('-popularity')[:6]
+#
+#         continue_progress = UserLessonProgress.objects.filter(
+#             user=request.user,
+#             is_completed=False
+#         ).select_related('lesson').order_by('-updated_at')[:4]
+#
+#         continue_section = [progress.lesson for progress in continue_progress]
+#
+#     return render(request, 'library_main.html', {
+#         'page_obj': page_obj,
+#         'lessons': page_obj.object_list,
+#         'search_query': search_query,
+#         'for_you': for_you,
+#         'continue_section': continue_section,
+#         'current_filter': filter_type or request.GET.get('filter_type')
+#     })
+
+def index(request, filter_type=None):
+    # Determine filter type from URL path
+    if request.path.endswith('/articles/'):
+        filter_type = 'article'  # Note: using model value 'article' not 'articles'
+    elif request.path.endswith('/videos/'):
+        filter_type = 'video'  # Note: using model value 'video' not 'videos'
+
+    # Base queryset
     lesson_list = Lesson.objects.filter(is_published=True).order_by('-created_at')
 
-    # Add search functionality
+    # Apply format filter if specified
+    if filter_type in ['article', 'video']:
+        lesson_list = lesson_list.filter(format=filter_type)
+
+    # Search functionality
     search_query = request.GET.get('search', '')
     if search_query:
         lesson_list = lesson_list.filter(
@@ -20,47 +159,56 @@ def index(request):
             Q(content__icontains=search_query)
         )
 
-    # how many lessons per page
-    paginator = Paginator(lesson_list, 9)
+    # Pagination
+    paginator = Paginator(lesson_list, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # Initialize personalized sections
+    # Personalized sections
     for_you = None
     continue_section = None
 
     if request.user.is_authenticated:
-        # "For You" recommendations
+        # "Continue Learning" section with filter applied
+        continue_progress = UserLessonProgress.objects.filter(
+            user=request.user,
+            is_completed=False
+        ).select_related('lesson').order_by('-updated_at')
+
+        if filter_type in ['article', 'video']:
+            continue_progress = continue_progress.filter(lesson__format=filter_type)
+
+        continue_section = [progress.lesson for progress in continue_progress[:4]]
+
+        # "For You" recommendations with filter applied
         completed_lesson_ids = UserLessonProgress.objects.filter(
             user=request.user,
             is_completed=True
         ).values_list('lesson__id', flat=True)
 
         if completed_lesson_ids.exists():
-            # Get lessons with same format as completed ones
             for_you = Lesson.objects.filter(
                 is_published=True,
                 format__in=Lesson.objects.filter(
                     id__in=completed_lesson_ids
                 ).values_list('format', flat=True).distinct()
-            ).exclude(
-                id__in=completed_lesson_ids
-            ).order_by('?')[:6]  # Random sample of 6
+            ).exclude(id__in=completed_lesson_ids)
+
+            if filter_type in ['article', 'video']:
+                for_you = for_you.filter(format=filter_type)
+
+            for_you = for_you.order_by('?')[:6]
         else:
-            # Fallback: most popular lessons
             for_you = Lesson.objects.filter(
                 is_published=True
-            ).annotate(
+            )
+
+            if filter_type in ['article', 'video']:
+                for_you = for_you.filter(format=filter_type)
+
+            for_you = for_you.annotate(
                 popularity=Count('user_progress')
             ).order_by('-popularity')[:6]
-
-        # "Continue Watching/Reading" section
-        continue_progress = UserLessonProgress.objects.filter(
-            user=request.user,
-            is_completed=False
-        ).select_related('lesson').order_by('-updated_at')[:4]
-
-        continue_section = [progress.lesson for progress in continue_progress]
 
     return render(request, 'library_main.html', {
         'page_obj': page_obj,
@@ -68,9 +216,8 @@ def index(request):
         'search_query': search_query,
         'for_you': for_you,
         'continue_section': continue_section,
-        'current_filter': request.GET.get('filter')
+        'current_filter': filter_type  # Pass the actual filter type used in model
     })
-
 
 @login_required
 def create_lesson(request):
@@ -108,7 +255,6 @@ def lesson_detail(request, slug):
     lesson = get_object_or_404(Lesson, slug=slug)
     attachments = lesson.attachments.all()
 
-    # Get or create user progress
     user_progress = None
     if request.user.is_authenticated:
         user_progress, created = UserLessonProgress.objects.get_or_create(
