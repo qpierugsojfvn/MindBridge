@@ -127,24 +127,27 @@ def signup_page(request):
 
 
 def home(request):
-    q = request.GET.get('q', '')
-    if q:
-        discussions = Discussion.objects.filter(
-            Q(tags__name__icontains=q) |
-            Q(tags__slug__icontains=q) |
-            Q(title__icontains=' ' + q + ' ') |
-            Q(content__icontains=' ' + q + ' ')
-        ).distinct()
+    if not request.user.is_authenticated:
+        return render(request, 'base/welcome_page.html')
     else:
-        discussions = Discussion.objects.all()
+        q = request.GET.get('q', '')
+        if q:
+            discussions = Discussion.objects.filter(
+                Q(tags__name__icontains=q) |
+                Q(tags__slug__icontains=q) |
+                Q(title__icontains=' ' + q + ' ') |
+                Q(content__icontains=' ' + q + ' ')
+            ).distinct()
+        else:
+            discussions = Discussion.objects.all()
 
-    discussions = discussions.annotate(answers_count=Count('answers')).order_by('-updated_at')
+        discussions = discussions.annotate(answers_count=Count('answers')).order_by('-updated_at')
 
-    tags = Tag.objects.all()[:6]
-    discussion_count = discussions.count()
+        tags = Tag.objects.all()[:6]
+        discussion_count = discussions.count()
 
-    context = {'discussions': discussions, 'tags': tags, 'discussion_count': discussion_count}
-    return render(request, 'base/home.html', context)
+        context = {'discussions': discussions, 'tags': tags, 'discussion_count': discussion_count}
+        return render(request, 'base/home.html', context)
 
 
 def discussion(request, pk):

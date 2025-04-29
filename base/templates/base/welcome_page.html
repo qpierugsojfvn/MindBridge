@@ -1,26 +1,28 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MindBridge</title>
-    <link rel="stylesheet" href="../base/static/base/style-wel.css">
+    <meta charset="UTF-8">
+    <title>Welcome to MindBridge!</title>
+    <link rel="stylesheet" href="{% static "base/style-wel.css" %}">
 </head>
 <body>
-
-    <header>
-        <nav class="navbar">
-            <div class="logo">Mind<span>Bridge</span></div>
-            <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Discussions</a></li>
-                <li><a href="#">Library</a></li>
-                <li><a href="#">Career</a></li>
-            </ul>
-            <input type="text" class="search-bar" placeholder="Search for...">
-            <button class="login-btn">Log in</button>
-        </nav>
-    </header>
+    {% include 'navbar.html' %}
+{#    <header>#}
+{#        <nav class="navbar">#}
+{#            <div class="logo">Mind<span>Bridge</span></div>#}
+{#            <ul class="nav-links">#}
+{#                <li><a href="/">Home</a></li>#}
+{#                <li><a href="/">Discussions</a></li>#}
+{#                <li><a href="">Library</a></li>#}
+{#                <li><a href="#">Career</a></li>#}
+{#            </ul>#}
+{#            <input type="text" class="search-bar" placeholder="Search for...">#}
+{#            <button class="login-btn">Log in</button>#}
+{#        </nav>#}
+{#    </header>#}
 
     <main>
         <section class="hero">
@@ -46,12 +48,12 @@
                 TRY THINGS OUT <span class="star">✦</span> TRY THINGS OUT <span class="star">✦</span>
                 TRY THINGS OUT <span class="star">✦</span> TRY THINGS OUT <span class="star">✦</span>
             </div>
-            
+
         </div>
 
         <section class="discussion">
             <div class="discussion-card">
-                
+
             </div>
         </section>
     </main>

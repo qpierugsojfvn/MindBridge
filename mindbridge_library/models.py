@@ -5,7 +5,7 @@ from embed_video.fields import EmbedVideoField
 
 User = get_user_model()
 
-class Videos(models.Model):
+class Video(models.Model):
     video = EmbedVideoField()
 
 class Lesson(models.Model):

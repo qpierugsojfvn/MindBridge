@@ -1,11 +1,11 @@
 from django.contrib import admin
 from embed_video.admin import AdminVideoMixin
-from .models import Lesson, LessonAttachment, UserLessonProgress, Videos
+from .models import Lesson, LessonAttachment, UserLessonProgress, Video
 
 class LibraryAdmin(AdminVideoMixin, admin.ModelAdmin):
     pass
 
-admin.site.register(Videos, LibraryAdmin)
+admin.site.register(Video, LibraryAdmin)
 
 class LessonAttachmentInline(admin.TabularInline):
     model = LessonAttachment

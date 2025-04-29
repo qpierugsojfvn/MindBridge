@@ -1,0 +1,7 @@
+{% extends "main.html" %}
+{% block content %}
+<h1>Application Submitted</h1>
+<p>You have successfully applied to <strong>{{ job.title }}</strong> at <strong>{{ job.company.name }}</strong>.</p>
+<p>We will get back to you if your profile is shortlisted.</p>
+<a href="{% url 'careers:job_list' %}">← Return to job listings</a>
+{% endblock %}
