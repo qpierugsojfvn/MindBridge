@@ -5,12 +5,12 @@ from django.contrib.auth.decorators import login_required
 
 def job_list(request):
     jobs = Job.objects.select_related('company').order_by('-posted_at')
-    return render(request, 'careers/job_list.html', {'jobs': jobs})
+    return render(request, 'job_list.html', {'jobs': jobs})
 
 
 def job_detail(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
-    return render(request, 'careers/job_detail.html', {'job': job})
+    return render(request, 'job_detail.html', {'job': job})
 
 
 @login_required
@@ -23,7 +23,7 @@ def apply_to_job(request, job_id):
             application.job = job
             application.applicant = request.user
             application.save()
-            return render(request, 'careers/application_success.html', {'job': job})
+            return render(request, 'application_success.html', {'job': job})
     else:
         form = ApplicationForm()
-    return render(request, 'careers/apply.html', {'form': form, 'job': job})
+    return render(request, 'apply.html', {'form': form, 'job': job})
