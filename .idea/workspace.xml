@@ -5,8 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8ba59ec-23b4-48da-8619-0758660b203d" name="Changes" comment="Altered MindBridge career app">
+      <change beforePath="$PROJECT_DIR$/.idea/MindBridge.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MindBridge.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/forms.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/application_success.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/apply.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/job_detail.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/job_list.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/views.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/navbar.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -140,7 +155,7 @@
         <env name="DJANGO_SETTINGS_MODULE" value="MindBridge.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.12 (MindBridge)" />
+      <option name="SDK_NAME" value="Python 3.12 virtualenv at C:\Users\nural\Documents\University\diploma prep\MindBridge\venv" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -270,6 +285,8 @@
       <workItem from="1745574438662" duration="4279000" />
       <workItem from="1745845303954" duration="8778000" />
       <workItem from="1745935523279" duration="2031000" />
+      <workItem from="1745939994303" duration="3986000" />
+      <workItem from="1745991525308" duration="2004000" />
     </task>
     <task id="LOCAL-00001" summary="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality">
       <option name="closed" value="true" />
@@ -535,6 +552,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Altered MindBridge career app" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MindBridge$manage.coverage" NAME="manage Coverage Results" MODIFIED="1745338773237" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MindBridge$manage.coverage" NAME="manage Coverage Results" MODIFIED="1745940754889" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
