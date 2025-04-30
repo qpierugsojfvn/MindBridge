@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block careers_content %}
+<h2 class="mb-4">My Applications</h2>
+
+{% if applications %}
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Company</th>
+                <th>Status</th>
+                <th>Applied On</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for application in applications %}
+            <tr>
+                <td>
+                    <a href="{% url 'careers:vacancy_detail' application.vacancy.pk %}">
+                        {{ application.vacancy.title }}
+                    </a>
+                </td>
+                <td>{{ application.vacancy.company.name }}</td>
+                <td>
+                    <span class="badge 
+                        {% if application.status == 'submitted' %}bg-secondary
+                        {% elif application.status == 'reviewed' %}bg-info
+                        {% elif application.status == 'interview' %}bg-primary
+                        {% elif application.status == 'rejected' %}bg-danger
+                        {% elif application.status == 'hired' %}bg-success{% endif %}">
+                        {{ application.get_status_display }}
+                    </span>
+                </td>
+                <td>{{ application.applied_at|date:"M d, Y" }}</td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#applicationModal{{ application.id }}">
+                        <i class="fas fa-eye"></i> View
+                    </a>
+                </td>
+            </tr>
+            
+            <!-- Application Detail Modal -->
+            <div class="modal fade" id="applicationModal{{ application.id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Application Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h6>{{ application.vacancy.title }} at {{ application.vacancy.company.name }}</h6>
+                            <p class="text-muted">Applied on {{ application.applied_at|date:"F j, Y" }}</p>
+                            
+                            <div class="mb-4">
+                                <h6>Status</h6>
+                                <span class="badge 
+                                    {% if application.status == 'submitted' %}bg-secondary
+                                    {% elif application.status == 'reviewed' %}bg-info
+                                    {% elif application.status == 'interview' %}bg-primary
+                                    {% elif application.status == 'rejected' %}bg-danger
+                                    {% elif application.status == 'hired' %}bg-success{% endif %}">
+                                    {{ application.get_status_display }}
+                                </span>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h6>Cover Letter</h6>
+                                <div class="border p-3 bg-light rounded">
+                                    {{ application.cover_letter|linebreaks }}
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h6>Resume</h6>
+                                <a href="{{ application.resume.url }}" class="btn btn-outline-primary" target="_blank">
+                                    <i class="fas fa-download"></i> Download Resume
+                                </a>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info">
+    You haven't applied to any vacancies yet.
+</div>
+{% endif %}
+
+<a href="{% url 'careers:vacancy_list' %}" class="btn btn-primary">
+    <i class="fas fa-search"></i> Browse Vacancies
+</a>
+{% endblock %}
