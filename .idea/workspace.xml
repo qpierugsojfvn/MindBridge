@@ -8,21 +8,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/MindBridge.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MindBridge.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/forms.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/application_success.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/apply.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/job_detail.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/job_list.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/navbar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_library/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_library/migrations/0002_videos.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_library/migrations/0003_rename_videos_video.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +111,7 @@
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\static" />
     </key>
   </component>
-  <component name="RunManager" selected="Django Server.MindBridge">
+  <component name="RunManager" selected="Python.manage">
     <configuration name="manage" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="MindBridge" />
       <option name="ENV_FILES" value="" />
@@ -187,7 +177,6 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Django Server.MindBridge" />
       <item itemvalue="Python.manage" />
     </list>
     <recent_temporary>
@@ -199,8 +188,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.26053.29" />
-        <option value="bundled-python-sdk-b1dbf8ef85a6-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.26053.29" />
+        <option value="bundled-python-sdk-4f4e415b4190-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.26053.29" />
       </set>
     </attachedChunks>
   </component>

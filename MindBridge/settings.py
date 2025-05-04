@@ -101,7 +101,7 @@ WSGI_APPLICATION = 'MindBridge.wsgi.application'
 CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app']
 DATABASES = {
     'default': dj_database_url.config(
-        default="postgresql://postgres:NNqWGWeBVOrhuRDjBZZkrQYHihwYHCMP@hopper.proxy.rlwy.net:35896/railway")
+        default="postgresql://postgres:tCYumsnvAWhhrAHeyRZRKBPaVysgShzY@switchyard.proxy.rlwy.net:31340/railway")
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
     #     'NAME': 'mindbridge',
