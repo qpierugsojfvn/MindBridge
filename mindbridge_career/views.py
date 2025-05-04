@@ -19,12 +19,12 @@ def vacancy_list(request):
         vacancies = vacancies.filter(location_city__icontains=location)
 
     # Pagination
-    # paginator = Paginator(vacancies, 10)
-    # page_number = request.GET.get('page')
-    # page_obj = paginator.get_page(page_number)
+    paginator = Paginator(vacancies, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     context = {
-        # 'page_obj': page_obj,
+        'page_obj': page_obj,
         'employment_types': Vacancy.EMPLOYMENT_TYPES,
     }
     return render(request, 'vacancy_list.html', context)
