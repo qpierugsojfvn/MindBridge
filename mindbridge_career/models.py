@@ -69,6 +69,8 @@ class Application(models.Model):
     cover_letter = models.TextField()
     resume = models.FileField(upload_to='resumes/')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='submitted')
+    status_changed_at = models.DateTimeField(auto_now_add=True)
+    notes = models.TextField(blank=True)
     applied_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

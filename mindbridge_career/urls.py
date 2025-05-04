@@ -19,4 +19,6 @@ urlpatterns = [
     # Application flow
     path('vacancy/<int:pk>/apply/', views.apply_vacancy, name='apply_vacancy'),
     path('my-applications/', views.my_applications, name='my_applications'),
+    path('vacancy/<int:pk>/applications/', views.vacancy_applications, name='vacancy_applications'),
+    path('application/<int:pk>/update-status/', views.update_application_status, name='update_application_status'),
 ]

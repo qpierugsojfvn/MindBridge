@@ -112,15 +112,15 @@
             {% else %}
                 <div class="mt-4">
                     <p class="mb-2">Want to be notified when we have openings?</p>
-                    <form class="d-flex justify-content-center" method="post" action="{% url 'careers:subscribe' %}">
-                        {% csrf_token %}
-                        <div class="input-group" style="max-width: 400px;">
-                            <input type="email" name="email" class="form-control" placeholder="Your email address" required>
-                            <button class="btn btn-primary" type="submit">
-                                <i class="fas fa-bell"></i> Notify Me
-                            </button>
-                        </div>
-                    </form>
+{#                    <form class="d-flex justify-content-center" method="post" action="{% url 'careers:subscribe' %}">#}
+{#                        {% csrf_token %}#}
+{#                        <div class="input-group" style="max-width: 400px;">#}
+{#                            <input type="email" name="email" class="form-control" placeholder="Your email address" required>#}
+{#                            <button class="btn btn-primary" type="submit">#}
+{#                                <i class="fas fa-bell"></i> Notify Me#}
+{#                            </button>#}
+{#                        </div>#}
+{#                    </form>#}
                 </div>
             {% endif %}
         </div>

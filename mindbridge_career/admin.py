@@ -18,7 +18,9 @@ class VacancyAdmin(admin.ModelAdmin):
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ('vacancy', 'applicant', 'status', 'applied_at')
-    list_filter = ('status', 'vacancy__company')
-    search_fields = ('vacancy__title', 'applicant__username')
+    list_display = ('vacancy', 'applicant', 'status', 'applied_at', 'status_changed_at')
+    list_filter = ('status', 'vacancy__company', 'applied_at')
+    search_fields = ('vacancy__title', 'applicant__username', 'applicant__email')
     raw_id_fields = ('vacancy', 'applicant')
+    readonly_fields = ('applied_at', 'status_changed_at')
+    list_editable = ('status',)

@@ -1,7 +1,11 @@
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.utils import timezone
+
+from MindBridge import settings
 from .models import Vacancy, Company, Application
 from .forms import CompanyForm, VacancyForm, ApplicationForm
 
@@ -46,6 +50,64 @@ def vacancy_detail(request, pk):
     }
     return render(request, 'vacancy_detail.html', context)
 
+
+# careers/views.py
+@login_required
+def vacancy_applications(request, pk):
+    vacancy = get_object_or_404(Vacancy, pk=pk, created_by=request.user)
+    applications = vacancy.applications.all().order_by('-applied_at')
+
+    return render(request, 'vacancy_applications.html', {
+        'vacancy': vacancy,
+        'applications': applications,
+    })
+
+
+@login_required
+def update_application_status(request, pk):
+    application = get_object_or_404(Application, pk=pk)
+    vacancy = application.vacancy
+
+    # Check if current user owns the vacancy
+    if request.user != vacancy.created_by and not request.user.is_staff:
+        messages.error(request, "You don't have permission to update this application.")
+        return redirect('careers:vacancy_applications', pk=vacancy.pk)
+
+    if request.method == 'POST':
+        new_status = request.POST.get('status')
+        notes = request.POST.get('notes', '')
+
+        if new_status in dict(Application.STATUS_CHOICES).keys():
+            old_status = application.status
+            application.status = new_status
+            application.status_changed_at = timezone.now()
+            application.notes = notes
+            application.save()
+
+            # Send email notification if status changed
+            if old_status != new_status:
+                subject = f"Your application status has been updated"
+                message = f"""Hello {application.applicant.username},
+
+        Your application for {vacancy.title} at {vacancy.company.name} 
+        has been updated to: {application.get_status_display()}
+
+        Notes: {notes or 'No additional notes provided'}
+
+        Thank you,
+        {vacancy.company.name} Team"""
+
+                send_mail(
+                    subject,
+                    message,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [application.applicant.email],
+                    fail_silently=True,
+                )
+
+            messages.success(request, f"Application status updated to {application.get_status_display()}")
+
+    return redirect('careers:vacancy_applications', pk=vacancy.pk)
 
 @login_required
 def create_company(request):
