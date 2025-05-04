@@ -1,287 +1,287 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MindBridge - Log in</title>
-    <style>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>MindBridge - Log in</title>-->
+<!--    <style>-->
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+<!--        * {-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            box-sizing: border-box;-->
+<!--            font-family: Arial, sans-serif;-->
+<!--        }-->
 
-        body {
-            display: flex;
-            height: 100vh;
-            background-color: #f8f8f8;
-        }
+<!--        body {-->
+<!--            display: flex;-->
+<!--            height: 100vh;-->
+<!--            background-color: #f8f8f8;-->
+<!--        }-->
 
-        .container {
-            padding: 24px;
-            display: flex;
-            width: 100%;
-            height: 100%;
-            background-color: white;
-            overflow: hidden;
-        }
+<!--        .container {-->
+<!--            padding: 24px;-->
+<!--            display: flex;-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
+<!--            background-color: white;-->
+<!--            overflow: hidden;-->
+<!--        }-->
 
-        /* Левая панель (фон + изображение) */
-        .left-panel {
-            width: 50%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            text-align: center;
-        }
+<!--        /* Левая панель (фон + изображение) */-->
+<!--        .left-panel {-->
+<!--            width: 50%;-->
+<!--            height: 100%;-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            justify-content: space-between;-->
+<!--            align-items: center;-->
+<!--            text-align: center;-->
+<!--        }-->
 
-        .logo-img {
-            border-radius: 8px;
-            position: relative;
-            width: 100%;
-            height: 100%;
+<!--        .logo-img {-->
+<!--            border-radius: 8px;-->
+<!--            position: relative;-->
+<!--            width: 100%;-->
+<!--            height: 100%;-->
 
-        }
+<!--        }-->
 
-        .back-btn {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            top: 8%;
-            padding: 6px;
-            left: 32%;
-            color: white;
-            border-radius: 1vh;
-            cursor: pointer;
-            font-size: 1rem;
-        }
+<!--        .back-btn {-->
+<!--            position: absolute;-->
+<!--            background: rgba(255, 255, 255, 0.2);-->
+<!--            border: none;-->
+<!--            top: 8%;-->
+<!--            padding: 6px;-->
+<!--            left: 32%;-->
+<!--            color: white;-->
+<!--            border-radius: 1vh;-->
+<!--            cursor: pointer;-->
+<!--            font-size: 1rem;-->
+<!--        }-->
 
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
+<!--        .back-btn:hover {-->
+<!--            background: rgba(255, 255, 255, 0.3);-->
+<!--        }-->
 
-        .text {
-            position: absolute;
-            color: #f4f4f4;
-            top: 8%;
+<!--        .text {-->
+<!--            position: absolute;-->
+<!--            color: #f4f4f4;-->
+<!--            top: 8%;-->
 
-            left: 5%;
-        }
+<!--            left: 5%;-->
+<!--        }-->
 
-        /* ОН жагы*/
-        .right-panel {
-            width: 60%;
-            height: 100%;
-            padding: 10vh 4vw;
-            display: block;
-        }
+<!--        /* ОН жагы*/-->
+<!--        .right-panel {-->
+<!--            width: 60%;-->
+<!--            height: 100%;-->
+<!--            padding: 10vh 4vw;-->
+<!--            display: block;-->
+<!--        }-->
 
-        h2 {
-            font-size: 2rem;
-            font-weight: bold;
-        }
+<!--        h2 {-->
+<!--            font-size: 2rem;-->
+<!--            font-weight: bold;-->
+<!--        }-->
 
-        p {
-            margin-top: 5%;
-            font-size: 1rem;
-            margin-bottom: 2vh;
-        }
+<!--        p {-->
+<!--            margin-top: 5%;-->
+<!--            font-size: 1rem;-->
+<!--            margin-bottom: 2vh;-->
+<!--        }-->
 
-        a {
-            color: #ff6dd1;
-        }
+<!--        a {-->
+<!--            color: #ff6dd1;-->
+<!--        }-->
 
-        a:hover {
-            text-decoration: underline;
-        }
+<!--        a:hover {-->
+<!--            text-decoration: underline;-->
+<!--        }-->
 
-        /* Поля ввода */
-        form {
-            display: flex;
-            flex-direction: column;
-            width: 80%;
-        }
+<!--        /* Поля ввода */-->
+<!--        form {-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            width: 80%;-->
+<!--        }-->
 
-        .name-fields {
-            display: flex;
-            gap: 1vw;
-            margin-top: 5%;
-            width: 100%;
-        }
+<!--        .name-fields {-->
+<!--            display: flex;-->
+<!--            gap: 1vw;-->
+<!--            margin-top: 5%;-->
+<!--            width: 100%;-->
+<!--        }-->
 
-        input {
-            width: 100%;
-            padding: 2vh;
-            margin: 2vh 0;
-            border: 0.1vh solid #ccc;
-            border-radius: 1vh;
-            font-size: 1rem;
-            background-color: #f4f4f4;
-        }
+<!--        input {-->
+<!--            width: 100%;-->
+<!--            padding: 2vh;-->
+<!--            margin: 2vh 0;-->
+<!--            border: 0.1vh solid #ccc;-->
+<!--            border-radius: 1vh;-->
+<!--            font-size: 1rem;-->
+<!--            background-color: #f4f4f4;-->
+<!--        }-->
 
-        .password-wrapper {
-            position: relative;
-        }
+<!--        .password-wrapper {-->
+<!--            position: relative;-->
+<!--        }-->
 
-        .eye-icon {
-            position: absolute;
-            right: 1vw;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
+<!--        .eye-icon {-->
+<!--            position: absolute;-->
+<!--            right: 1vw;-->
+<!--            top: 50%;-->
+<!--            transform: translateY(-50%);-->
+<!--            cursor: pointer;-->
+<!--        }-->
 
-        /* Кнопка "Создать аккаунт" */
-        .create-btn {
-            background: #FF50D6;
-            color: white;
-            border: none;
-            padding: 1.5vh;
-            border-radius: 1vh;
-            font-size: 1.2rem;
-            cursor: pointer;
-            margin-top: 2vh;
-        }
+<!--        /* Кнопка "Создать аккаунт" */-->
+<!--        .create-btn {-->
+<!--            background: #FF50D6;-->
+<!--            color: white;-->
+<!--            border: none;-->
+<!--            padding: 1.5vh;-->
+<!--            border-radius: 1vh;-->
+<!--            font-size: 1.2rem;-->
+<!--            cursor: pointer;-->
+<!--            margin-top: 2vh;-->
+<!--        }-->
 
-        .create-btn:hover {
-            background: #e55fbb;
-        }
+<!--        .create-btn:hover {-->
+<!--            background: #e55fbb;-->
+<!--        }-->
 
-        /* Разделитель */
-        .divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 2vh 0;
-            color: gray;
-            width: 80%;
-        }
+<!--        /* Разделитель */-->
+<!--        .divider {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            margin: 2vh 0;-->
+<!--            color: gray;-->
+<!--            width: 80%;-->
+<!--        }-->
 
-        .divider span {
-            flex: 1;
-            height: 0.1vh;
-            background: #ccc;
-            margin: 0 1vw;
-        }
+<!--        .divider span {-->
+<!--            flex: 1;-->
+<!--            height: 0.1vh;-->
+<!--            background: #ccc;-->
+<!--            margin: 0 1vw;-->
+<!--        }-->
 
-        /* Кнопка Google */
-        .google-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            border: 0.1vh solid #ccc;
-            padding: 1.2vh;
-            width: 80%;
-            border-radius: 1vh;
-            font-size: 1rem;
-            cursor: pointer;
-        }
+<!--        /* Кнопка Google */-->
+<!--        .google-btn {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            justify-content: center;-->
+<!--            background: white;-->
+<!--            border: 0.1vh solid #ccc;-->
+<!--            padding: 1.2vh;-->
+<!--            width: 80%;-->
+<!--            border-radius: 1vh;-->
+<!--            font-size: 1rem;-->
+<!--            cursor: pointer;-->
+<!--        }-->
 
-        .google-btn img {
-            width: 1.8vw;
-            margin-right: 1vw;
-        }
+<!--        .google-btn img {-->
+<!--            width: 1.8vw;-->
+<!--            margin-right: 1vw;-->
+<!--        }-->
 
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                width: 90vw;
-                height: auto;
-            }
+<!--        /* Адаптивность */-->
+<!--        @media (max-width: 768px) {-->
+<!--            .container {-->
+<!--                flex-direction: column;-->
+<!--                width: 90vw;-->
+<!--                height: auto;-->
+<!--            }-->
 
-            .left-panel {
-                width: 100%;
-                height: 25vh;
-            }
+<!--            .left-panel {-->
+<!--                width: 100%;-->
+<!--                height: 25vh;-->
+<!--            }-->
 
-            .right-panel {
-                width: 100%;
-                padding: 4vh 5vw;
-            }
+<!--            .right-panel {-->
+<!--                width: 100%;-->
+<!--                padding: 4vh 5vw;-->
+<!--            }-->
 
-            .logo-img {
-                width: 50vw;
-            }
-        }
+<!--            .logo-img {-->
+<!--                width: 50vw;-->
+<!--            }-->
+<!--        }-->
 
-    </style>
-</head>
-<body>
-<div class="container">
-    <div class="left-panel">
-                <img src="/library/29b25a38fe24097894357e496e293379.jpg" alt="MindBridge Logo" class="logo-img">
-        <div class="text">MindBridge</div>
-        <a href={% url 'home' %} class="back-btn">Back to website →</a>
-    </div>
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <div class="left-panel">-->
+<!--                <img src="/library/29b25a38fe24097894357e496e293379.jpg" alt="MindBridge Logo" class="logo-img">-->
+<!--        <div class="text">MindBridge</div>-->
+<!--        <a href={% url 'home' %} class="back-btn">Back to website →</a>-->
+<!--    </div>-->
 
-    <div class="right-panel">
-        <h2>Log in</h2>
-        <p>Don't have an account? <a href={% url 'sign-up' %}>Sign up</a></p>
+<!--    <div class="right-panel">-->
+<!--        <h2>Log in</h2>-->
+<!--        <p>Don't have an account? <a href={% url 'sign-up' %}>Sign up</a></p>-->
 
-        <form method="POST" action="">
-            {% csrf_token %}
+<!--        <form method="POST" action="">-->
+<!--            {% csrf_token %}-->
 
-            <label for="input_username"></label>
-            <input id="input_username" type="text" name="username" placeholder="Username" required/>
+<!--            <label for="input_username"></label>-->
+<!--            <input id="input_username" type="text" name="username" placeholder="Username" required/>-->
 
-            <div class="password-wrapper">
-                <label for="input_password"></label>
-                <input id="input_password" type="password" name="password" placeholder="Password" required/>
-                <span class="eye-icon">👁</span>
-            </div>
+<!--            <div class="password-wrapper">-->
+<!--                <label for="input_password"></label>-->
+<!--                <input id="input_password" type="password" name="password" placeholder="Password" required/>-->
+<!--                <span class="eye-icon">👁</span>-->
+<!--            </div>-->
 
-            <input type="submit" class="create-btn" value="Login"/>
-        </form>
+<!--            <input type="submit" class="create-btn" value="Login"/>-->
+<!--        </form>-->
 
-        <div class="divider">
-            <span></span> or <span></span>
+<!--        <div class="divider">-->
+<!--            <span></span> or <span></span>-->
+<!--        </div>-->
+
+<!--                <button class="google-btn">-->
+<!--                    <img src="/library/google.png" alt="Google"> Continue with Google-->
+<!--                </button>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+{% extends 'main.html' %}
+
+{% block content %}
+    {% if page == 'login' %}
+        <div>
+            <form method="POST" action="">
+                {% csrf_token %}
+
+                <label>Username:</label>
+                <input type="text" name="username" placeholder="Enter username"/>
+
+                <label>Password:</label>
+                <input type="password" name="password" placeholder="Enter password"/>
+
+                <input type="submit" value="Login"/>
+            </form>
+            <p>Haven't signed up yet?</p>
+            <a href="{% url 'sign-up' %}">Sign up</a>
         </div>
+    {% else %}
+        <div>
+            <form method="POST" action="">
+                {% csrf_token %}
 
-                <button class="google-btn">
-                    <img src="/library/google.png" alt="Google"> Continue with Google
-                </button>
-    </div>
-</div>
-</body>
-</html>
+                {{ form.as_p }}
 
-
-{#{% extends 'main.html' %}#}
-{##}
-{#{% block content %}#}
-{#    {% if page == 'login' %}#}
-{#        <div>#}
-{#            <form method="POST" action="">#}
-{#                {% csrf_token %}#}
-{##}
-{#                <label>Username:</label>#}
-{#                <input type="text" name="username" placeholder="Enter username"/>#}
-{##}
-{#                <label>Password:</label>#}
-{#                <input type="password" name="password" placeholder="Enter password"/>#}
-{##}
-{#                <input type="submit" value="Login"/>#}
-{#            </form>#}
-{#            <p>Haven't signed up yet?</p>#}
-{#            <a href="{% url 'sign-up' %}">Sign up</a>#}
-{#        </div>#}
-{#    {% else %}#}
-{#        <div>#}
-{#            <form method="POST" action="">#}
-{#                {% csrf_token %}#}
-{##}
-{#                {{ form.as_p }}#}
-{##}
-{#                <input type="submit" value="Sign up"/>#}
-{#            </form>#}
-{#            <p>Already signed up?</p>#}
-{#            <a href="{% url 'login' %}">Login</a>#}
-{#        </div>#}
-{#    {% endif %}#}
-{#{% endblock %}#}
+                <input type="submit" value="Sign up"/>
+            </form>
+            <p>Already signed up?</p>
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+    {% endif %}
+{% endblock %}
