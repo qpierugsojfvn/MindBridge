@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8ba59ec-23b4-48da-8619-0758660b203d" name="Changes" comment="Altered MindBridge career app">
-      <change beforePath="$PROJECT_DIR$/.idea/MindBridge.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MindBridge.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="d8ba59ec-23b4-48da-8619-0758660b203d" name="Changes" comment="fix vacancy list">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/0001_initial.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/mindbridge_library/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_library/migrations/0002_videos.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_library/migrations/0003_rename_videos_video.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +41,9 @@
     &quot;assignee&quot;: &quot;qpierugsojfvn&quot;
   }
 }</component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="9bd5389c-39f7-4058-94b8-797451a7ac2e" />
+  </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/qpierugsojfvn/MindBridge.git&quot;,
@@ -500,7 +499,23 @@
       <option name="project" value="LOCAL" />
       <updated>1745936883623</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="fix migrations">
+      <option name="closed" value="true" />
+      <created>1746344242947</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1746344242947</updated>
+    </task>
+    <task id="LOCAL-00030" summary="fix vacancy list">
+      <option name="closed" value="true" />
+      <created>1746344876817</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1746344876817</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -537,7 +552,9 @@
     <MESSAGE value="MindBridge library fixes;&#10;MindBridge career main page;&#10;Navbar logo fix" />
     <MESSAGE value="Added MindBridge career app" />
     <MESSAGE value="Altered MindBridge career app" />
-    <option name="LAST_COMMIT_MESSAGE" value="Altered MindBridge career app" />
+    <MESSAGE value="fix migrations" />
+    <MESSAGE value="fix vacancy list" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix vacancy list" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MindBridge$manage.coverage" NAME="manage Coverage Results" MODIFIED="1745940754889" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />

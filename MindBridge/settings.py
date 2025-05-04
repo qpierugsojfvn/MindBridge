@@ -105,8 +105,8 @@ DATABASES = {
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
     #     'NAME': 'mindbridge',
-    #     'USER': 'mindbridge_',
-    #     'PASSWORD': 'lB7£f^g4Ki`2',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'postgres',
     #     'HOST': 'localhost',
     #     'PORT': '5432',
     # }
