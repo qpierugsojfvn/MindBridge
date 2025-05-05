@@ -4,33 +4,44 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8ba59ec-23b4-48da-8619-0758660b203d" name="Changes" comment="fix migrations">
-      <change beforePath="$PROJECT_DIR$/base/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/login_signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/login_signup.html" afterDir="false" />
+    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/MindBridge.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MindBridge.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MindBridge/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/signals.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/forms.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/application_form.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/base.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/career_home.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/company_form.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/manage_vacancies.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/my_applications.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/my_companies.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_applications.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_detail.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_form.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_list.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/navbar.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
-    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="CSS File" />
-        <option value="Python Script" />
-        <option value="HTML File" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="main" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -39,9 +50,6 @@
     &quot;assignee&quot;: &quot;qpierugsojfvn&quot;
   }
 }</component>
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="9bd5389c-39f7-4058-94b8-797451a7ac2e" />
-  </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/qpierugsojfvn/MindBridge.git&quot;,
@@ -49,10 +57,9 @@
   }
 }</component>
   <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 8
+  &quot;associatedIndex&quot;: 3
 }</component>
-  <component name="ProjectId" id="2thf08Qdk6pKXKqZyYP85pU7gDy" />
+  <component name="ProjectId" id="2wg8Ke3To41zmlcKl99Qr08xdXu" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
@@ -60,78 +67,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Django Server.MindBridge.executor&quot;: &quot;Run&quot;,
-    &quot;Notification.DisplayName-DoNotAsk-Database detector&quot;: &quot;Database detector&quot;,
-    &quot;Notification.DoNotAsk-Database detector&quot;: &quot;true&quot;,
-    &quot;Python.manage.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
-    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/armanlyosman/PycharmProjects/MindBridge&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "django.template.preview.state": "SHOW_EDITOR_AND_PREVIEW",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/nural/Documents/University/diploma prep/MindBridge",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;
-    ],
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\static\base" />
-      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\templates\staticfiles" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\static\base" />
-      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\static" />
-      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\static\logo" />
-      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\MindBridge\static" />
-      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\static" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Python.manage">
-    <configuration name="manage" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="MindBridge" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/manage.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+}]]></component>
+  <component name="RunManager">
     <configuration name="MindBridge" type="Python.DjangoServer" factoryName="Django server">
       <module name="MindBridge" />
       <option name="ENV_FILES" value="" />
@@ -139,10 +97,8 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="DJANGO_SETTINGS_MODULE" value="MindBridge.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.12 virtualenv at C:\Users\nural\Documents\University\diploma prep\MindBridge\venv" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -158,411 +114,29 @@
       <option name="customRunCommand" value="" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="ShConfigurationType">
-      <option name="SCRIPT_TEXT" value="" />
-      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
-      <option name="SCRIPT_PATH" value="" />
-      <option name="SCRIPT_OPTIONS" value="" />
-      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
-      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
-      <option name="INTERPRETER_PATH" value="powershell.exe" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="EXECUTE_IN_TERMINAL" value="true" />
-      <option name="EXECUTE_SCRIPT_FILE" value="true" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <list>
-      <item itemvalue="Python.manage" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.manage" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-4f4e415b4190-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.26053.29" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.26053.29" />
+        <option value="bundled-python-sdk-b1dbf8ef85a6-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.26053.29" />
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d8ba59ec-23b4-48da-8619-0758660b203d" name="Changes" comment="" />
-      <created>1740809001114</created>
+      <changelist id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="" />
+      <created>1746451794080</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1740809001114</updated>
-      <workItem from="1740809002126" duration="4577000" />
-      <workItem from="1740814756674" duration="9960000" />
-      <workItem from="1740895157182" duration="6057000" />
-      <workItem from="1740912622988" duration="3831000" />
-      <workItem from="1740926480828" duration="451000" />
-      <workItem from="1740979742373" duration="375000" />
-      <workItem from="1740980393237" duration="650000" />
-      <workItem from="1740981313664" duration="17000" />
-      <workItem from="1741448857859" duration="166000" />
-      <workItem from="1742043840229" duration="7015000" />
-      <workItem from="1742087895781" duration="13399000" />
-      <workItem from="1742106733082" duration="3268000" />
-      <workItem from="1742118099128" duration="1220000" />
-      <workItem from="1742141133923" duration="209000" />
-      <workItem from="1742281028027" duration="1673000" />
-      <workItem from="1742282881365" duration="2665000" />
-      <workItem from="1742290122540" duration="1041000" />
-      <workItem from="1742313893164" duration="7239000" />
-      <workItem from="1742372323103" duration="1156000" />
-      <workItem from="1742373496246" duration="26000" />
-      <workItem from="1742545933406" duration="330000" />
-      <workItem from="1742623978314" duration="2930000" />
-      <workItem from="1742708939212" duration="439000" />
-      <workItem from="1742709947317" duration="8148000" />
-      <workItem from="1742812646668" duration="3730000" />
-      <workItem from="1742831653498" duration="2718000" />
-      <workItem from="1742884467143" duration="554000" />
-      <workItem from="1743098162649" duration="3404000" />
-      <workItem from="1743276273049" duration="5336000" />
-      <workItem from="1743319192217" duration="5616000" />
-      <workItem from="1743843354091" duration="13172000" />
-      <workItem from="1743871274302" duration="2079000" />
-      <workItem from="1743920696827" duration="3237000" />
-      <workItem from="1743925166121" duration="4555000" />
-      <workItem from="1744023194604" duration="92000" />
-      <workItem from="1744106611663" duration="1638000" />
-      <workItem from="1744108587420" duration="688000" />
-      <workItem from="1744114909139" duration="1550000" />
-      <workItem from="1744177113514" duration="26000" />
-      <workItem from="1744193407705" duration="6119000" />
-      <workItem from="1744215207844" duration="621000" />
-      <workItem from="1744264456379" duration="3636000" />
-      <workItem from="1744276526985" duration="3907000" />
-      <workItem from="1744289934776" duration="6000" />
-      <workItem from="1744388463329" duration="1033000" />
-      <workItem from="1744607413797" duration="2566000" />
-      <workItem from="1744614975033" duration="249000" />
-      <workItem from="1744629597903" duration="680000" />
-      <workItem from="1744641692986" duration="656000" />
-      <workItem from="1744644239521" duration="11861000" />
-      <workItem from="1744699347228" duration="704000" />
-      <workItem from="1744700069994" duration="407000" />
-      <workItem from="1745047079061" duration="7257000" />
-      <workItem from="1745061129980" duration="5278000" />
-      <workItem from="1745080720418" duration="1484000" />
-      <workItem from="1745140710733" duration="4861000" />
-      <workItem from="1745161356965" duration="9920000" />
-      <workItem from="1745178647832" duration="389000" />
-      <workItem from="1745213609838" duration="3476000" />
-      <workItem from="1745220975355" duration="113000" />
-      <workItem from="1745338130455" duration="2591000" />
-      <workItem from="1745395199687" duration="9759000" />
-      <workItem from="1745417504430" duration="3097000" />
-      <workItem from="1745426700508" duration="3030000" />
-      <workItem from="1745471071678" duration="4934000" />
-      <workItem from="1745477740816" duration="1346000" />
-      <workItem from="1745483255236" duration="4132000" />
-      <workItem from="1745492666961" duration="567000" />
-      <workItem from="1745493335269" duration="670000" />
-      <workItem from="1745558497568" duration="6351000" />
-      <workItem from="1745574438662" duration="4279000" />
-      <workItem from="1745845303954" duration="8778000" />
-      <workItem from="1745935523279" duration="2031000" />
-      <workItem from="1745939994303" duration="3986000" />
-      <workItem from="1745991525308" duration="2004000" />
+      <updated>1746451794080</updated>
+      <workItem from="1746451794878" duration="202000" />
+      <workItem from="1746466147716" duration="1866000" />
     </task>
-    <task id="LOCAL-00001" summary="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality">
-      <option name="closed" value="true" />
-      <created>1742625973940</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1742625973940</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality">
-      <option name="closed" value="true" />
-      <created>1742626039946</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1742626039946</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality.">
-      <option name="closed" value="true" />
-      <created>1742718334265</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1742718334265</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Updates:&#10;Added create discussion functionality (needs fixes).">
-      <option name="closed" value="true" />
-      <created>1742718399551</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1742718399551</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Updates:&#10;Added create discussion functionality (needs fixes).">
-      <option name="closed" value="true" />
-      <created>1743845570274</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1743845570274</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Updates:&#10;Added create discussion functionality (needs fixes).">
-      <option name="closed" value="true" />
-      <created>1743845639052</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1743845639052</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Updates:&#10;Added create discussion functionality (needs fixes).">
-      <option name="closed" value="true" />
-      <created>1743845662590</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1743845662590</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Updates:&#10;Added create discussion functionality (needs fixes).">
-      <option name="closed" value="true" />
-      <created>1743845950678</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1743845950678</updated>
-    </task>
-    <task id="LOCAL-00009" summary="requirements.txt">
-      <option name="closed" value="true" />
-      <created>1744645825411</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1744645825411</updated>
-    </task>
-    <task id="LOCAL-00010" summary="deployment setting requirements.txt">
-      <option name="closed" value="true" />
-      <created>1744651119027</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1744651119027</updated>
-    </task>
-    <task id="LOCAL-00011" summary="allowedhost">
-      <option name="closed" value="true" />
-      <created>1744651727202</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1744651727202</updated>
-    </task>
-    <task id="LOCAL-00012" summary="white noise to static filess">
-      <option name="closed" value="true" />
-      <created>1744653581361</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1744653581361</updated>
-    </task>
-    <task id="LOCAL-00013" summary="manage fix">
-      <option name="closed" value="true" />
-      <created>1744654466999</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1744654466999</updated>
-    </task>
-    <task id="LOCAL-00014" summary="site id 3">
-      <option name="closed" value="true" />
-      <created>1744656012846</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1744656012846</updated>
-    </task>
-    <task id="LOCAL-00015" summary="Added edit profile">
-      <option name="closed" value="true" />
-      <created>1745068132220</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1745068132222</updated>
-    </task>
-    <task id="LOCAL-00016" summary="Added edit profile">
-      <option name="closed" value="true" />
-      <created>1745141419409</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1745141419409</updated>
-    </task>
-    <task id="LOCAL-00017" summary="Edited navbar">
-      <option name="closed" value="true" />
-      <created>1745144054867</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1745144054867</updated>
-    </task>
-    <task id="LOCAL-00018" summary="updated activate view in views.py">
-      <option name="closed" value="true" />
-      <created>1745163518021</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1745163518021</updated>
-    </task>
-    <task id="LOCAL-00019" summary="added user avatar;&#10;edited header">
-      <option name="closed" value="true" />
-      <created>1745213741235</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1745213741241</updated>
-    </task>
-    <task id="LOCAL-00020" summary="Updated ALLOWED_HOSTS">
-      <option name="closed" value="true" />
-      <created>1745219222317</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1745219222317</updated>
-    </task>
-    <task id="LOCAL-00021" summary="Updated ALLOWED_HOSTS">
-      <option name="closed" value="true" />
-      <created>1745220069168</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1745220069168</updated>
-    </task>
-    <task id="LOCAL-00022" summary="Updated ALLOWED_HOSTS">
-      <option name="closed" value="true" />
-      <created>1745220501936</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1745220501936</updated>
-    </task>
-    <task id="LOCAL-00023" summary="add railway url with https://..">
-      <option name="closed" value="true" />
-      <created>1745324365135</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1745324365135</updated>
-    </task>
-    <task id="LOCAL-00024" summary="updated 'navbar.html'">
-      <option name="closed" value="true" />
-      <created>1745339586027</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1745339586027</updated>
-    </task>
-    <task id="LOCAL-00025" summary="MindBridge library fixes;&#10;MindBridge career main page;&#10;Navbar logo fix">
-      <option name="closed" value="true" />
-      <created>1745488961213</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1745488961213</updated>
-    </task>
-    <task id="LOCAL-00026" summary="Added MindBridge career app">
-      <option name="closed" value="true" />
-      <created>1745489592462</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1745489592462</updated>
-    </task>
-    <task id="LOCAL-00027" summary="Added MindBridge career app">
-      <option name="closed" value="true" />
-      <created>1745493103053</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1745493103058</updated>
-    </task>
-    <task id="LOCAL-00028" summary="Altered MindBridge career app">
-      <option name="closed" value="true" />
-      <created>1745936883623</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1745936883623</updated>
-    </task>
-    <task id="LOCAL-00029" summary="fix migrations">
-      <option name="closed" value="true" />
-      <created>1746344242947</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1746344242947</updated>
-    </task>
-    <task id="LOCAL-00030" summary="fix vacancy list">
-      <option name="closed" value="true" />
-      <created>1746344876817</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1746344876817</updated>
-    </task>
-    <task id="LOCAL-00031" summary="fix migrations">
-      <option name="closed" value="true" />
-      <created>1746370220749</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1746370220749</updated>
-    </task>
-    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality" />
-    <MESSAGE value="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality." />
-    <MESSAGE value="Updates:&#10;Added create discussion functionality (needs fixes)." />
-    <MESSAGE value="requirements.txt" />
-    <MESSAGE value="deployment setting requirements.txt" />
-    <MESSAGE value="allowedhost" />
-    <MESSAGE value="white noise to static filess" />
-    <MESSAGE value="manage fix" />
-    <MESSAGE value="site id 3" />
-    <MESSAGE value="Added edit profile" />
-    <MESSAGE value="Edited navbar" />
-    <MESSAGE value="updated activate view in views.py" />
-    <MESSAGE value="added user avatar;&#10;edited header" />
-    <MESSAGE value="Updated ALLOWED_HOSTS" />
-    <MESSAGE value="add railway url with https://.." />
-    <MESSAGE value="updated 'navbar.html'" />
-    <MESSAGE value="MindBridge library fixes;&#10;MindBridge career main page;&#10;Navbar logo fix" />
-    <MESSAGE value="Added MindBridge career app" />
-    <MESSAGE value="Altered MindBridge career app" />
-    <MESSAGE value="fix vacancy list" />
-    <MESSAGE value="fix migrations" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix migrations" />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MindBridge$manage.coverage" NAME="manage Coverage Results" MODIFIED="1745940754889" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

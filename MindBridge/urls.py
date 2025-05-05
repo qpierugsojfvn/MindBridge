@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('base.urls')),
     path('library/', include('mindbridge_library.urls'), name='library'),
-    path('career/', include('mindbridge_career.urls'), name='career'),
+    # path('career/', include('mindbridge_career.urls'), name='career'),
 ]
