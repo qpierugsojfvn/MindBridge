@@ -1,3 +1,5 @@
+from dataclasses import fields
+
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
@@ -62,6 +64,11 @@ class UserRegistrationForm(UserCreationForm):
         model = get_user_model()
         # fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
         fields = ['first_name', 'last_name', 'email', 'username', 'password1']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        del self.fields['password2']
+        self.fields['password1'].help_text = "Enter your password"
 
     def save(self, commit=True):
         user = super(UserRegistrationForm, self).save(commit=False)

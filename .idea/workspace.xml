@@ -4,37 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/MindBridge.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MindBridge.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="Fixing sign up and removing career app only for now">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MindBridge/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/apps.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/base/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/signals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/forms.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/application_form.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/base.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/career_home.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/company_form.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/manage_vacancies.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/my_applications.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/my_companies.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_applications.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_detail.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_form.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_list.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/urls.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/static/base/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/static/base/home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/static/base/style-wel.css" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/static/base/style-wel.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/static/base/userprofile.css" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/static/base/userprofile.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/static/logo/Asset 7.svg" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/static/logo/Asset 7.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/static/logo/Asset 8.png" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/static/logo/Asset 8.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/login_signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/login_signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/welcome_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/welcome_page.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/navbar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/welcome.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/welcome.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,9 +52,11 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Django Server.MindBridge.executor": "Run",
     "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
     "django.template.preview.state": "SHOW_EDITOR_AND_PREVIEW",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
@@ -89,6 +74,14 @@
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\icons" />
+      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\login_page" />
+      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base" />
+      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\static\icons" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="MindBridge" type="Python.DjangoServer" factoryName="Django server">
       <module name="MindBridge" />
@@ -97,6 +90,7 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="MindBridge.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -132,11 +126,25 @@
       <option name="presentableId" value="Default" />
       <updated>1746451794080</updated>
       <workItem from="1746451794878" duration="202000" />
-      <workItem from="1746466147716" duration="1866000" />
+      <workItem from="1746466147716" duration="3850000" />
+      <workItem from="1746505144005" duration="8751000" />
     </task>
+    <task id="LOCAL-00001" summary="Fixing sign up and removing career app only for now">
+      <option name="closed" value="true" />
+      <created>1746468424044</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1746468424044</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Fixing sign up and removing career app only for now" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixing sign up and removing career app only for now" />
   </component>
 </project>
