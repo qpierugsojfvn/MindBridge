@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'base.apps.BaseConfig',
     'mindbridge_library.apps.MindbridgeLibraryConfig',
-    # 'mindbridge_career.apps.MindbridgeCareerConfig',
+    'mindbridge_career.apps.MindbridgeCareerConfig',
     'taggit',
     'embed_video',
     'django.contrib.sites',
