@@ -6,18 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="Fixing sign up and removing career app only for now">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/apps.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/base/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/static/base/home.css" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/static/base/home.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/static/base/style-wel.css" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/static/base/style-wel.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/static/base/userprofile.css" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/static/base/userprofile.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/static/logo/Asset 7.svg" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/static/logo/Asset 7.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/static/logo/Asset 8.png" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/static/logo/Asset 8.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/base/templates/base/login_signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/login_signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/welcome_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/welcome_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/navbar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/welcome.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/welcome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/welcome_page.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +53,7 @@
     "django.template.preview.state": "SHOW_EDITOR_AND_PREVIEW",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/nural/Documents/University/diploma prep/MindBridge",
+    "last_opened_file_path": "C:/Users/nural/Documents/University/diploma prep/MindBridge/base/templates/base/static/loginPage",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -75,6 +68,10 @@
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\loginPage" />
+      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\icons" />
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\login_page" />
@@ -128,6 +125,7 @@
       <workItem from="1746451794878" duration="202000" />
       <workItem from="1746466147716" duration="3850000" />
       <workItem from="1746505144005" duration="8751000" />
+      <workItem from="1746641492322" duration="1289000" />
     </task>
     <task id="LOCAL-00001" summary="Fixing sign up and removing career app only for now">
       <option name="closed" value="true" />
@@ -142,6 +140,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fixing sign up and removing career app only for now" />

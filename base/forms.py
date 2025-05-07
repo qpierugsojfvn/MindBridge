@@ -58,17 +58,49 @@ class DiscussionForm(ModelForm):
 
 
 class UserRegistrationForm(UserCreationForm):
-    email = forms.EmailField(help_text='Required. Please enter a valid email address.', required=True)
+    email = forms.EmailField(
+        help_text='Required. Please enter a valid email address.',
+        required=True,
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Email'
+        })
+    )
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'First Name'
+        })
+    )
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Last Name'
+        })
+    )
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Username'
+        })
+    )
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Password'
+        })
+    )
 
     class Meta:
         model = get_user_model()
-        # fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
         fields = ['first_name', 'last_name', 'email', 'username', 'password1']
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         del self.fields['password2']
         self.fields['password1'].help_text = "Enter your password"
+
 
     def save(self, commit=True):
         user = super(UserRegistrationForm, self).save(commit=False)
@@ -77,6 +109,7 @@ class UserRegistrationForm(UserCreationForm):
             user.save()
 
         return user
+
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

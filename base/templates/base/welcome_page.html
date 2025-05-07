@@ -3,80 +3,806 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <title>Welcome to MindBridge!</title>
-    <link rel="stylesheet" href="{% static "base/style-wel.css" %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindBridge</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            margin-left: 5%;
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-right: auto;
+        }
+
+        .logo span {
+            color: #d39cff;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links li {
+            display: inline;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #BFBFBF;
+            font-weight: 600;
+        }
+
+        .search-bar {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #768694;
+            margin-left: 5vw;
+            width: 30vw;
+        }
+
+        .login-btn {
+            background-color: #0B304A;
+            color: white;
+            width: 10vw;
+            padding: 1vh 1vw;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 5vw;
+        }
+
+        .text {
+            padding: 50px 20px;
+            position: relative;
+        }
+
+        .hero {
+            display: flex;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #0B304A;
+            margin-left: 5vw;
+        }
+
+        .hero h1 span {
+            color: #0B304A;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-left: 5vw;
+        }
+
+        .subtitle span {
+            color: #d39cff;
+        }
+
+        .hero-buttons {
+            margin-top: 20px;
+        }
+
+        .cta-btn {
+            background-color: #0d1b2a;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 5vw;
+        }
+
+        .secondary-btn {
+            background: none;
+            border: none;
+            color: #0d1b2a;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+
+        .floating-icons {
+            display: flex;
+            align-items: center; /* Выравниваем по центру */
+            gap: 2vh;
+        }
+
+        .icon1 {
+            width: 15vw;
+            height: auto;
+            margin-left: 5vw;
+        }
+
+        .icon2 {
+            width: 10vw;
+            margin-top: 25vh;
+            transform: rotate(10deg);
+
+        }
+
+        .icon3 {
+            width: 13vw;
+        }
+
+
+        /* Анимация бегущей строки */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            background-color: white;
+            padding: 10px 0;
+            position: relative;
+            width: 100vw;
+        }
+
+        .marquee {
+            white-space: nowrap;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff00ff;
+            animation: marquee 20s linear infinite;
+        }
+
+        .star {
+            background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translateX(0%);
+            }
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Карточка обсуждения */
+        .discussion {
+            display: flex;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .discussion-card {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .discussion-card img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .tags span {
+            background: #ddd;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+
+        .post-btn {
+            background-color: #0d1b2a;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0d1b2a;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .marquee {
+                font-size: 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .login-btn {
+                padding: 8px 15px;
+            }
+        }
+
+        .discussion-section {
+            position: relative;
+            width: 100%;
+            max-width: 1440px;
+            height: 544px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .discussion-box {
+            width: 576px;
+            height: 496px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+            padding: 24px;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card {
+            border: 1px solid #e1e6ec;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card .user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card .user img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .card h4 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .card h5 {
+            margin: 4px 0 8px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #1c2c50;
+        }
+
+        .card p {
+            margin: 0 0 12px;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tags span {
+            background: #f0f2f6;
+            color: #444;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        .footer-text h3 {
+            margin: 0 0 6px;
+            font-size: 18px;
+        }
+
+        .footer-text p {
+            margin: 0;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .bottom-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+        }
+
+        .explore-btn {
+            background: none;
+            border: none;
+            color: #1c2c50;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .explore-link {
+            text-decoration: none;
+            color: #768694;
+
+        }
+
+
+        .post-btn {
+            background: #0a2540;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 100px;
+        }
+
+        .tag-btn {
+            position: absolute;
+            background: #e5e9f0;
+            color: #1a2a44;
+            font-size: 12px;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .discussion-wrapper {
+            width: 90%;
+            max-width: 36rem; /* ≈ 576px */
+            padding: 2rem; /* ≈ 32px */
+            margin: 5vh auto;
+            border-radius: 1rem; /* ≈ 16px */
+            background: #ffffff;
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.06); /* ≈ 0 4px 12px */
+            font-family: 'Arial', sans-serif;
+        }
+
+        .discussion-card {
+            border: 0.063rem solid #e2e8f0; /* ≈ 1px */
+            border-radius: 0.75rem; /* ≈ 12px */
+            padding: 1.25rem; /* ≈ 20px */
+            background: #ffffff;
+            margin: 5vh auto;
+            width: 100%;
+            max-width: 31.25rem; /* ≈ 500px */
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.06); /* ≈ 0 4px 12px */
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+
+        .user-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .user-row img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .user-name {
+            font-weight: bold;
+            font-size: 14px;
+            color: #0b304a;
+        }
+
+        .discussion-title {
+            font-weight: bold;
+            font-size: 16px;
+            color: #0b304a;
+            margin-bottom: 10px;
+        }
+
+        .discussion-message {
+            font-size: 14px;
+            color: #1f2a37;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .discussion-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .discussion-tags span {
+            background: #e5e8ec;
+            color: #1f2a37;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 576px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            z-index: 2;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-btn.left {
+            left: -40px;
+        }
+
+        .carousel-btn.right {
+            right: -40px;
+        }
+
+        .discussion-card {
+            min-width: 576px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            background: #ffffff;
+            border: 1px solid #d0d0d0;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s;
+        }
+
+        .carousel-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .carousel-btn.left {
+            left: -20px; /* подвинь ближе, если слишком далеко */
+        }
+
+        .carousel-btn.right {
+            right: -20px;
+        }
+
+        .floating-hashtag {
+            position: absolute;
+            background-color: #f0f2f6;
+            color: #5f6c7b;
+            font-size: 17px;
+            padding: 6px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: background 0.3s;
+            white-space: nowrap;
+        }
+
+        .floating-hashtag:hover {
+            background-color: #e2e8f0;
+        }
+
+        .floating-wrapper {
+            position: relative; /* важно! */
+            width: 100%;
+            height: 800px; /* или столько, сколько нужно под контент */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 60px;
+            overflow: hidden; /* чтобы кнопки не вылезали */
+        }
+
+        @media (max-width: 400px) {
+            .floating-icons, .floating-hashtag {
+                display: none;
+            }
+        }
+
+
+    </style>
 </head>
 <body>
-    {% include 'navbar.html' %}
-{#    <header>#}
-{#        <nav class="navbar">#}
-{#            <div class="logo">Mind<span>Bridge</span></div>#}
-{#            <ul class="nav-links">#}
-{#                <li><a href="/">Home</a></li>#}
-{#                <li><a href="/">Discussions</a></li>#}
-{#                <li><a href="">Library</a></li>#}
-{#                <li><a href="#">Career</a></li>#}
-{#            </ul>#}
-{#            <input type="text" class="search-bar" placeholder="Search for...">#}
-{#            <button class="login-btn">Log in</button>#}
-{#        </nav>#}
-{#    </header>#}
 
-    <main>
-        <section class="hero">
-            <div class="text">
+<header>
+    <nav class="navbar">
+        {#        <div class="logo">Mind<span>Bridge</span></div>#}
+        <div class="logo"><a href="{% url 'home' %}">
+            <img alt="logo" src={% static 'logo/Asset 8.png' %}>
+        </a></div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/">Discussions</a></li>
+            <li><a href={% url 'library' %}>Library</a></li>
+            <li><a href={% url 'careers:vacancy_list' %}>Career</a></li>
+        </ul>
+        <input type="text" class="search-bar" placeholder="Search for...">
+        {% if request.user.is_authenticated %}
+            <a href={% url 'user-profile' pk=user.id %}><i class="bi bi-person"></i></a>
+            Hello, {{ request.user.username }}!
+            <a href={% url 'logout' %}><i class="bi bi-door-open"></i></a>
+
+        {% else %}
+            <a href={% url 'login' %}>
+                <button class="login-btn">Log in</button>
+            </a>
+            {#            <a href={% url 'login' %}><i class="bi bi-person"></i></a>#}
+        {% endif %}
+    </nav>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="text">
             <h1>Welcome to <span>MindBridge</span></h1>
             <p class="subtitle">where <span>Learning, Networking, and Opportunities</span> Meet</p>
             <div class="hero-buttons">
-                <a class="cta-btn" href={% url 'login' %}>Log in</a>
+                {#<button class="cta-btn">Log in</button>#}
+                <a class="cta-btn" style="text-decoration: none" href={% url 'login' %}>
+                    Log in
+{#                    <button class="login-btn">Log in</button>#}
+                </a>
 {#                <button class="secondary-btn">Visit the community →</button>#}
             </div>
         </div>
-            <div class="floating-icons">
-                <img src="static/icons/chat.png" class="icon1" alt="chat">
-                <img src="static/icons/fav.png" class="icon2" alt="fav">
-                <img src="static/icons/trofey.png" class="icon3" alt="trofey">
-            </div>
-        </section>
+        <div class="floating-icons">
+            <img src="static/icons/chat.png" class="icon1">
+            <img src="static/icons/fav.png" class="icon2">
+            <img src="static/icons/trofey.png" class="icon3">
+        </div>
+    </section>
 
-        <div class="marquee-container">
-            <div class="marquee">
-                TRY THINGS OUT <span class="star">✦</span> TRY THINGS OUT <span class="star">✦</span>
-                TRY THINGS OUT <span class="star">✦</span> TRY THINGS OUT <span class="star">✦</span>
-                TRY THINGS OUT <span class="star">✦</span> TRY THINGS OUT <span class="star">✦</span>
-                TRY THINGS OUT <span class="star">✦</span> TRY THINGS OUT <span class="star">✦</span>
-                TRY THINGS OUT <span class="star">✦</span> TRY THINGS OUT <span class="star">✦</span>
-                TRY THINGS OUT <span class="star">✦</span> TRY THINGS OUT <span class="star">✦</span>
-                TRY THINGS OUT <span class="star">✦</span> TRY THINGS OUT <span class="star">✦</span>
-                TRY THINGS OUT <span class="star">✦</span> TRY THINGS OUT <span class="star">✦</span>
-            </div>
-
+    <div class="marquee-container">
+        <div class="marquee">
+            TRY THINGS OUT <span class="star">✦</span> TRY THINGS OUT <span class="star">✦</span>
+            TRY THINGS OUT <span class="star">✦</span> TRY THINGS OUT <span class="star">✦</span>
+            TRY THINGS OUT <span class="star">✦</span> TRY THINGS OUT <span class="star">✦</span>
+            TRY THINGS OUT <span class="star">✦</span> TRY THINGS OUT <span class="star">✦</span>
         </div>
 
-        <section class="discussion">
-            <div class="discussion-card">
+    </div>
+    <div class="floating-wrapper">
+        <div class="discussion-wrapper">
+            <div class="carousel-container">
+                <button class="carousel-btn left" onclick="moveSlide(-1)">←</button>
 
-            </div>
-        </section>
-    </main>
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Card 1 -->
+                    <div class="discussion-card">
+                        <div>
+                            <div class="user-row">
+                                <img src="static/images/profile.png" alt="Lianna Lim">
+                                <div class="user-name">Lianna Lim</div>
+                            </div>
+                            <div class="discussion-title">Figma App</div>
+                            <p class="discussion-message">
+                                Designers, what is going on with Figma interface? I find it really annoying lol
+                            </p>
+                            <div class="discussion-tags">
+                                <span>#design</span>
+                                <span>#figma</span>
+                                <span>#interfaces</span>
+                            </div>
+                        </div>
+                        <div class="discussion-footer">
+                            <h3>Start discussions</h3>
+                            <p>join discussions, read insights,<br>and post your expertise</p>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="#">Home</a>
-                <a href="#">Career</a>
-                <a href="#">Discussions</a>
-                <a href="#">Articles</a>
-                <a href="#">Videos</a>
-                <a href="#">Books</a>
-                <a href="#">About</a>
-                <a href="#">Help</a>
+                            <div class="discussion-actions">
+                                <a href="#" class="explore-link">Explore →</a>
+                                <button class="post-btn">Post</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Card 2 (Job Opportunity) -->
+                    <div class="discussion-card" style="flex-direction: column;">
+                        <div style="margin-left: -50px;">
+                            <div class="user-row" style="justify-content: space-between; align-items: flex-start;">
+                                <div>
+                                    <div class="user-name" style="font-size: 16px;">Intern Business Analyst</div>
+                                    <div class="discussion-tags" style="margin: 8px 0;">
+                                        <span>No experience</span>
+                                        <span>Remote</span>
+                                    </div>
+                                    <div style="font-size: 14px; color: #4a5568;">
+                                        BI Group<br>Almaty
+                                    </div>
+                                </div>
+                                <div style="font-size: 20px; color: #ccc;">♡</div>
+                            </div>
+
+                            <div style="margin-top: 20px;">
+                                <button style="
+      background-color: #ff40c5;
+      color: white;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+    ">
+                                    Apply
+                                </button>
+                            </div>
+                        </div>
+                        <div class="discussion-footer">
+                            <h3>Learn and improve</h3>
+                            <p>join discussions, read insights,<br>and post your expertise</p>
+
+                            <div class="discussion-actions">
+                                <a href="#" class="explore-link">Explore →</a>
+                                <button class="post-btn">Browse</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Card 3 -->
+                    <div class="discussion-card">
+                        <div>
+                            <div class="user-row">
+                                <img src="https://via.placeholder.com/40" alt="Amira Jones">
+                                <div class="user-name">Amira Jones</div>
+                            </div>
+                            <div class="discussion-title">Dark Mode vs Light Mode</div>
+                            <p class="discussion-message">
+                                Which one do you prefer as a user and as a designer? Why?
+                            </p>
+                            <div class="discussion-tags">
+                                <span>#ux</span>
+                                <span>#darkmode</span>
+                                <span>#accessibility</span>
+                            </div>
+                        </div>
+                        <div class="discussion-footer">
+                            <h3>Learn and improve</h3>
+                            <p>join discussions, read insights,<br>and post your expertise</p>
+
+                            <div class="discussion-actions">
+                                <a href="#" class="explore-link">Explore →</a>
+                                <button class="post-btn">Learn</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="carousel-btn right" onclick="moveSlide(1)">→</button>
             </div>
-            <p>© 2025 MindBridge</p>
         </div>
-    </footer>
+        <a href="/tag/time-management" class="floating-hashtag"
+           style="top: 15%; left: 6%; transform: rotate(-3.53deg);">#time-management</a>
+        <a href="/tag/biology" class="floating-hashtag" style="top: 45%; left: 10%; transform: rotate(-1.49deg);">#biology</a>
+        <a href="/tag/java" class="floating-hashtag" style="top: 30%; left: 4%; transform: rotate(1.64deg);">#java</a>
+        <a href="/tag/grammar" class="floating-hashtag"
+           style="top: 70%; left: 7%; transform: rotate(-5deg);">#grammar</a>
+        <a href="/tag/chemistry" class="floating-hashtag" style="top: 15%; right: 10%; transform: rotate(6.58deg);">#chemistry</a>
+        <a href="/tag/python" class="floating-hashtag"
+           style="top: 35%; right: 15%; transform: rotate(-6deg);">#python</a>
+        <a href="/tag/interfaces" class="floating-hashtag" style="top: 50%; right: 8%; transform: rotate(4deg);">#interfaces</a>
+        <a href="/tag/health" class="floating-hashtag" style="bottom: 25%; right: 18%; transform: rotate(2.89deg);">#health</a>
 
+    </div>
+</main>
+
+<footer>
+    <div class="footer-links">
+        <a href="#">Home</a>
+        <a href="#">Career</a>
+        <a href="#">Discussions</a>
+        <a href="#">Articles</a>
+        <a href="#">Videos</a>
+        <a href="#">Books</a>
+        <a href="#">About</a>
+        <a href="#">Help</a>
+    </div>
+    <p>© 2025 MindBridge</p>
+</footer>
 </body>
+<script>
+    let currentSlide = 0;
+
+    function moveSlide(direction) {
+        const track = document.getElementById('carouselTrack');
+        const cards = track.children.length;
+        currentSlide = Math.max(0, Math.min(currentSlide + direction, cards - 1));
+        track.style.transform = `translateX(-${currentSlide * 576}px)`;
+    }
+</script>
+
 </html>
