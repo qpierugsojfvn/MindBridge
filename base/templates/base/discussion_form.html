@@ -1,69 +1,600 @@
-{% extends 'main.html' %}
-{% block content %}
-    <div>
-        <form method="POST" action="">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Submit">
-        </form>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const tagsInput = document.querySelector('.tags-input');
-            const dropdown = document.createElement('div');
-            dropdown.className = 'tags-dropdown';
-            dropdown.style.display = 'none';
-            tagsInput.parentNode.appendChild(dropdown);
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Profile Card</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+          integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<style>:root {
+    --padding-x: clamp(1rem, 5vw, 4rem);
+    --max-width: 1280px;
+}
 
-            tagsInput.addEventListener('focus', function () {
-                fetch(tagsInput.dataset.url)
-                    .then(response => response.json())
-                    .then(tags => {
-                        dropdown.innerHTML = '';
-                        tags.forEach(tag => {
-                            const option = document.createElement('div');
-                            option.textContent = tag;
-                            option.addEventListener('click', function () {
-                                addTag(tag);
-                            });
-                            dropdown.appendChild(option);
-                        });
-                        dropdown.style.display = 'block';
-                    });
-            });
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-            tagsInput.addEventListener('blur', function () {
-                setTimeout(() => {
-                    dropdown.style.display = 'none';
-                }, 200);
-            });
+body {
+    font-family: 'General Sans', sans-serif;
+    background: #fff;
+}
 
-            function addTag(tag) {
-                const currentValue = tagsInput.value.trim();
-                if (currentValue === '') {
-                    tagsInput.value = tag;
-                } else {
-                    tagsInput.value = currentValue + ', ' + tag;
-                }
-                dropdown.style.display = 'none';
+.dropdown {
+    position: relative;
+}
+
+.dropbtn {
+    background: none;
+    border: none;
+    color: #BFBFBF;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+}
+
+.dropbtn:hover,
+.dropbtn:focus {
+    color: #0B304A;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.show {
+    display: block;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem var(--padding-x);
+    background: #ffffff;
+    box-shadow: 0 0.375rem 0.75rem rgba(132, 140, 156, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: var(--max-width);
+    gap: clamp(1rem, 5vw, 3.5rem);
+}
+
+.logo {
+    font-size: clamp(1.5rem, 2vw, 2rem);
+    font-weight: 800;
+    font-family: 'Sofia Sans', sans-serif;
+    background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.menu {
+    display: flex;
+    gap: clamp(1rem, 3vw, 2.5rem);
+    list-style: none;
+}
+
+.menu li a {
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #BFBFBF;
+    transition: color 0.3s ease;
+}
+
+.menu li a.active,
+.menu li a:hover {
+    color: #0B304A;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    border: 2px solid #768694;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    flex-grow: 1;
+    max-width: 20rem;
+    gap: 0.5rem;
+}
+
+.search input {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    flex: 1;
+    background: transparent;
+    color: #768694;
+}
+
+.search i {
+    color: #768694;
+}
+
+.icons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: 5%;
+}
+
+.icons i {
+    font-size: 1.25rem;
+    color: #0B304A;
+    cursor: pointer;
+}
+
+.avatar-dropdown {
+    position: relative;
+}
+
+.avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #BFBFBF;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 200px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(132, 140, 156, 0.2);
+    display: none;
+    flex-direction: column;
+    padding: 16px 0;
+    z-index: 1000;
+}
+
+.dropdown-menu a {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #0B304A;
+    font-weight: 600;
+    font-size: 16px;
+    transition: background 0.2s ease;
+}
+
+.dropdown-menu a:hover {
+    background: #F5F6F9;
+    border-radius: 8px;
+}
+
+.show {
+    display: flex;
+}
+
+
+body {
+    font-family: 'General Sans', sans-serif;
+    margin: 0;
+    background: #f9f9f9;
+}
+
+.discussion-container {
+    display: flex;
+    padding: 2rem 3rem;
+}
+
+.discussion-form {
+    background: #fff;
+    width: 100%;
+    max-width: 65vw;
+    padding: 4vh 4vw;
+
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.header-top h1 {
+    font-size: clamp(1.5rem, 2vw + 1rem, 2.25rem);
+    font-weight: 600;
+    color: #0B304A;
+    margin: 0;
+}
+
+.go-back {
+    background: #EBECF2;
+    color: #0B304A;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease;
+}
+
+.go-back:hover {
+    background: #dcdde2;
+}
+
+
+.header p {
+    font-size: 1rem;
+    color: #0B304A;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+label {
+    font-weight: 600;
+    color: #0B304A;
+    margin-bottom: 0.2rem;
+}
+
+small {
+    font-size: 0.875rem;
+    color: #0B304A;
+    margin-bottom: 0.8rem;
+}
+
+.discussion-form input,
+.discussion-form textarea {
+    padding: 1rem;
+    border: 1px solid #e2e2e2;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: none;
+    background: #fff;
+}
+
+textarea {
+    min-height: 20vh;
+}
+
+a {
+    text-decoration: none;
+}
+
+.post-btn {
+    background-color: #FF42C2;
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+.footer {
+    background-color: #0B304A;
+    padding: 48px 80px 40px;
+    margin-top: 50px;
+    color: #FFFFFF;
+    font-family: 'General Sans', sans-serif;
+}
+
+.footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.footer-logo {
+    font-size: 32px;
+    font-weight: 800;
+    font-family: 'Sofia Sans', sans-serif;
+    margin-bottom: 36px;
+}
+
+.footer-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 80px;
+    margin-bottom: 40px;
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-column a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+}
+
+.footer-copy {
+    color: #EBECF2;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .post-card {
+        padding: 1rem;
+    }
+
+    .post-text {
+        font-size: 0.95rem;
+    }
+
+    .username {
+        font-size: 0.9rem;
+    }
+
+    .reactions {
+        gap: 1rem;
+    }
+}</style>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo">MindBridge</div>
+            <ul class="menu">
+                <li><a href="home2.html">Home</a></li>
+                <li><a href="discussionpage.html">Discussions</a></li>
+                <li class="dropdown">
+                    <button onclick="toggleDropdown()" class="dropbtn">Library</button>
+                    <div class="dropdown-content" id="libraryDropdown">
+                        <a href="library_main.html">Library Home</a>
+                        <a href="library-book.html">Library Book</a>
+                        <a href="library-view.html">Library View</a>
+                    </div>
+                </li>
+                <li><a href="MainCareer.html">Career</a></li>
+            </ul>
+            <div class="search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search for..." onkeyup="filterContent()"/>
+            </div>
+            <div class="icons">
+                <a href="message.html"><i class="fa-regular fa-comment"></i></a>
+                <i class="fa-regular fa-bell"></i>
+                <div class="avatar-dropdown">
+                    <div class="avatar" onclick="toggleMenu()">
+                        <img src="library/ava.png" alt="Profile Picture"/>
+                    </div>
+                    <div class="dropdown-menu" id="profileMenu">
+                        <a href="userprofile.html"><i class="fa-regular fa-user"></i> Profile</a>
+                        <a href="editprofile.html"><i class="fa-solid fa-pen"></i> Edit</a>
+                        <a href="saved.html"><i class="fa-regular fa-bookmark"></i> Saved</a>
+                        <a href="welcome.html"><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </nav>
+</header>
+<main class="discussion-container">
+    <section class="discussion-form">
+        <div class="header">
+            <div class="header-top">
+                <h1>Start a discussion</h1>
+                <button class="go-back">Go back</button>
+            </div>
+            <p>Share your thoughts or ask something</p>
+        </div>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <small>Be specific and imagine you’re asking a question to another person</small>
+            <input type="text" id="title" placeholder="I think Universities are overrated"/>
+        </div>
+
+        <div class="form-group">
+            <label for="details">Details</label>
+            <small>Be specific and imagine you’re asking a question to another person</small>
+            <textarea id="details" rows="5" placeholder="I think Universities are overrated"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="tags">Tags</label>
+            <small>Add up to 3 tags that describe this discussion</small>
+            <input type="text1" id="tags" placeholder="I think Universities are overrated"/>
+        </div>
+
+        <a href="mydiscussion.html" class="post-btn">Post</a>
+    </section>
+</main>
+
+<script>
+    function openModal(src) {
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('/library/post.png');
+        modal.style.display = 'flex';
+        modalImg.src = src;
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+
+    function toggleDropdown() {
+        document.getElementById("libraryDropdown").classList.toggle("show");
+    }
+
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            const dropdowns = document.getElementsByClassName("dropdown-content");
+            for (let i = 0; i < dropdowns.length; i++) {
+                dropdowns[i].classList.remove('show');
             }
-        });</script>
-    <style>.tags-dropdown {
-        position: absolute;
-        background: white;
-        border: 1px solid #ddd;
-        max-height: 200px;
-        overflow-y: auto;
-        z-index: 1000;
-        width: 100%;
+        }
     }
 
-    .tags-dropdown div {
-        padding: 8px;
-        cursor: pointer;
+    function filterContent() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+        const cards = document.querySelectorAll('.post-card');
+
+        cards.forEach(function (card) {
+            const text = card.textContent.toLowerCase();
+            card.style.display = text.includes(filter) ? 'block' : 'none';
+        });
     }
 
-    .tags-dropdown div:hover {
-        background-color: #f5f5f5;
-    }</style>
-{% endblock %}
+    function toggleMenu() {
+        document.getElementById("profileMenu").classList.toggle("show");
+    }
+
+    window.onclick = function (event) {
+        if (!event.target.closest('.avatar-dropdown')) {
+            document.getElementById("profileMenu").classList.remove("show");
+        }
+    }
+</script>
+</body>
+<footer class="footer">
+    <div class="footer-inner">
+        <h2 class="footer-logo">MindBridge</h2>
+        <div class="footer-grid">
+            <div class="footer-column">
+                <a href="home2.html">Home</a>
+                <a href="MainCareer.html">Career</a>
+                <a href="discussionpage.html">Discussions</a>
+            </div>
+            <div class="footer-column">
+                <a href="library_main.html">Articles</a>
+                <a href="library-view.html">Videos</a>
+                <a href="library-book.html">Books</a>
+            </div>
+            <div class="footer-column">
+                <a href="welcome.html">About</a>
+            </div>
+        </div>
+        <p class="footer-copy">2025 MindBridge</p>
+    </div>
+</footer>
+
+
+{#{% extends 'main.html' %}#}
+{#{% block content %}#}
+{#    <div>#}
+{#        <form method="POST" action="">#}
+{#            {% csrf_token %}#}
+{#            {{ form.as_p }}#}
+{#            <input type="submit" value="Submit">#}
+{#        </form>#}
+{#    </div>#}
+{#    <script>#}
+{#        document.addEventListener('DOMContentLoaded', function () {#}
+{#            const tagsInput = document.querySelector('.tags-input');#}
+{#            const dropdown = document.createElement('div');#}
+{#            dropdown.className = 'tags-dropdown';#}
+{#            dropdown.style.display = 'none';#}
+{#            tagsInput.parentNode.appendChild(dropdown);#}
+{##}
+{#            tagsInput.addEventListener('focus', function () {#}
+{#                fetch(tagsInput.dataset.url)#}
+{#                    .then(response => response.json())#}
+{#                    .then(tags => {#}
+{#                        dropdown.innerHTML = '';#}
+{#                        tags.forEach(tag => {#}
+{#                            const option = document.createElement('div');#}
+{#                            option.textContent = tag;#}
+{#                            option.addEventListener('click', function () {#}
+{#                                addTag(tag);#}
+{#                            });#}
+{#                            dropdown.appendChild(option);#}
+{#                        });#}
+{#                        dropdown.style.display = 'block';#}
+{#                    });#}
+{#            });#}
+{##}
+{#            tagsInput.addEventListener('blur', function () {#}
+{#                setTimeout(() => {#}
+{#                    dropdown.style.display = 'none';#}
+{#                }, 200);#}
+{#            });#}
+{##}
+{#            function addTag(tag) {#}
+{#                const currentValue = tagsInput.value.trim();#}
+{#                if (currentValue === '') {#}
+{#                    tagsInput.value = tag;#}
+{#                } else {#}
+{#                    tagsInput.value = currentValue + ', ' + tag;#}
+{#                }#}
+{#                dropdown.style.display = 'none';#}
+{#            }#}
+{#        });</script>#}
+{#    <style>.tags-dropdown {#}
+{#        position: absolute;#}
+{#        background: white;#}
+{#        border: 1px solid #ddd;#}
+{#        max-height: 200px;#}
+{#        overflow-y: auto;#}
+{#        z-index: 1000;#}
+{#        width: 100%;#}
+{#    }#}
+{##}
+{#    .tags-dropdown div {#}
+{#        padding: 8px;#}
+{#        cursor: pointer;#}
+{#    }#}
+{##}
+{#    .tags-dropdown div:hover {#}
+{#        background-color: #f5f5f5;#}
+{#    }</style>#}
+{#{% endblock %}#}

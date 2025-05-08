@@ -762,12 +762,12 @@
                 <li class="dropdown">
                     <button onclick="toggleDropdown()" class="dropbtn">Library</button>
                     <div class="dropdown-content" id="libraryDropdown">
-                        <a href="library_main.html">Library Home</a>
-                        <a href="library-book.html">Library Book</a>
-                        <a href="library-view.html">Library View</a>
+                        <a href={% url 'library' %}>Library Home</a>
+                        <a href={% url 'library' %}>Library Book</a>
+                        <a href={% url 'library' %}>Library View</a>
                     </div>
                 </li>
-                <li><a href="MainCareer.html" class="active">Career</a></li>
+                <li><a class="active" href={% url 'careers:vacancy_list' %}>Career</a></li>
             </ul>
             <div class="search">
                 <i class="fas fa-search"></i>
@@ -781,8 +781,8 @@
                         <img src="library/ava.png" alt="Profile Picture"/>
                     </div>
                     <div class="dropdown-menu" id="profileMenu">
-                        <a href="userprofile.html"><i class="fa-regular fa-user"></i> Profile</a>
-                        <a href="editprofile.html"><i class="fa-solid fa-pen"></i> Edit</a>
+                        <a href={% url 'user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>
+                        <a href={% url 'edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i> Edit</a>
                         <a href="saved.html"><i class="fa-regular fa-bookmark"></i> Saved</a>
                         <a href="welcome.html"><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
                     </div>
