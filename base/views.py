@@ -341,6 +341,9 @@ def load_cities(request):
     return JsonResponse(list(cities.values('id', 'name')), safe=False)
 
 
+def view_discussion(request):
+    return render(request, 'base/viewdisscusion.html')
+
 @login_required(login_url='login')
 def create_discussion(request):
     if request.method == 'POST':

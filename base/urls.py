@@ -19,5 +19,6 @@ urlpatterns = [
     path('delete-discussion/<str:pk>/', views.delete_discussion, name='delete-discussion'),
     path('delete-answer/<str:pk>/', views.delete_answer, name='delete-answer'),
     path('api/tags/',TagAutocompleteView.as_view(), name='tags-autocomplete'),
+    path('view-discussion', views.view_discussion, name='view-discussion'),
 ]
 
