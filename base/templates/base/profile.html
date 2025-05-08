@@ -6,7 +6,7 @@
 {#    <h1>{{ user.username }}</h1>#}
 {#{% endblock %}#}
 
-{% include 'navbar.html' %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,6 +21,46 @@
     <link href="https://fonts.cdnfonts.com/css/general-sans" rel="stylesheet">
 </head>
 <body>
+<header>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo">MindBridge</div>
+            <ul class="menu">
+                <li><a href="home2.html">Home</a></li>
+                <li><a href="discussionpage.html">Discussions</a></li>
+                <li class="dropdown">
+                    <button onclick="toggleDropdown()" class="dropbtn">Library</button>
+                    <div class="dropdown-content" id="libraryDropdown">
+                        <a href={% url 'library' %}>Library Home</a>
+                        <a href={% url 'library' %}>Library Book</a>
+                        <a href={% url 'library' %}>Library View</a>
+                    </div>
+                </li>
+                <li><a class="active" href={% url 'careers:vacancy_list' %}>Career</a></li>
+            </ul>
+            <div class="search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search for..." onkeyup="filterContent()"/>
+            </div>
+            <div class="icons">
+                <a href="message.html"><i class="fa-regular fa-comment"></i></a>
+                <i class="fa-regular fa-bell"></i>
+                <div class="avatar-dropdown">
+                    <div class="avatar" onclick="toggleMenu()">
+                        <img src="library/ava.png" alt="Profile Picture"/>
+                    </div>
+                    <div class="dropdown-menu" id="profileMenu">
+                        <a href={% url 'user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>
+                        <a href={% url 'edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i> Edit</a>
+                        <a href="saved.html"><i class="fa-regular fa-bookmark"></i> Saved</a>
+                        <a href={% url 'logout' %}><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </nav>
+</header>
 <div class="profile-container">
     <div class="cover">
         <button class="edit-button"><i class="fa fa-camera"></i></button>
