@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<html lang="en">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -669,7 +668,7 @@
                 <i class="fa-regular fa-bell"></i>
                 <div class="avatar-dropdown">
                     <div class="avatar" onclick="toggleMenu()">
-                        <img src="library/ava.png" alt="Profile Picture"/>
+                        <img src={% static 'icons/ava.png' %} alt="Profile Picture" />
                     </div>
                     <div class="dropdown-menu" id="profileMenu">
                         <a href={% url 'user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>
@@ -695,7 +694,7 @@
         </button>
     </div>
 
-    <img src="images\profile.png" alt="Profile Picture" class="avatar1"/>
+    <img src={% static 'icons/ava.png' %} alt="Profile Picture" class="avatar1"/>
 
     <div class="profile-content">
         <div class="profile-left">
@@ -797,7 +796,7 @@
 <div class="post-card">
     <div class="post-header">
         <div class="user-info">
-            <img src="images\profile.png" alt="User Avatar" class="avatar">
+            <img src={% static 'icons/ava.png' %} alt="UserAvatar" class="avatar">
             <span class="username">Lianna Lim</span>
         </div>
         <div class="dots">
@@ -826,9 +825,9 @@
         </p>
 
         <div class="post-images">
-            <img src="images\post1.png" alt="screenshot">
-            <img src="images\post1.png" alt="screenshot">
-            <img src="images\post1.png" alt="screenshot">
+            <img src={% static 'images/saved1.png' %} alt="screenshot">
+            <img src={% static 'images/saved2.png' %} alt="screenshot">
+            <img src={% static 'images/saved3.png' %} alt="screenshot">
         </div>
 
         <div class="tags">
