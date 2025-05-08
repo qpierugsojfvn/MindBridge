@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <html lang="en">
@@ -553,7 +554,7 @@ body {
                         <a href={% url 'library' %}>Library View</a>
                     </div>
                 </li>
-                <li><a class="active" href={% url 'careers:vacancy_list' %}>Career</a></li>
+                <li><a href={% url 'careers:vacancy_list' %}>Career</a></li>
             </ul>
             <div class="search">
                 <i class="fas fa-search"></i>
@@ -564,7 +565,7 @@ body {
                 <i class="fa-regular fa-bell"></i>
                 <div class="avatar-dropdown">
                     <div class="avatar" onclick="toggleMenu()">
-                        <img src="library/ava.png" alt="Profile Picture"/>
+                        <img src={% static 'icons/ava.png' %} alt="Profile Picture"/>
                     </div>
                     <div class="dropdown-menu" id="profileMenu">
                         <a href={% url 'user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>
@@ -589,7 +590,7 @@ body {
             </svg>
         </button>
     </div>
-    <img src="images\profile.png" alt="Profile Picture" class="avatar1"/>
+    <img src={% static 'icons/ava.png' %} alt="ProfilePicture" class="avatar1"/>
 
     <div class="profile-content">
         <p>This will be displayed on your profile</p>
