@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>MindBridge Library</title>
+    <title>Library View - MindBridge</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"/>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -27,7 +27,6 @@
         font-family: sans-serif;
         background: var(--main-bg);
         color: #222;
-        line-height: 1.6;
     }
 
     .dropdown {
@@ -220,30 +219,6 @@
         display: flex;
     }
 
-    .search {
-        display: flex;
-        align-items: center;
-        border: 2px solid #768694;
-        border-radius: 0.25rem;
-        padding: 0.5rem 1rem;
-        flex-grow: 1;
-        max-width: 20rem;
-        gap: 0.5rem;
-    }
-
-    .search input {
-        border: none;
-        outline: none;
-        font-size: 1rem;
-        flex: 1;
-        background: transparent;
-        color: #768694;
-    }
-
-    .search i {
-        color: #768694;
-    }
-
     .icons {
         display: flex;
         align-items: center;
@@ -257,53 +232,17 @@
         cursor: pointer;
     }
 
-    .avatar {
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 2px solid #BFBFBF;
-    }
-
-    .avatar img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .filters-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--spacing-sm);
-        padding: var(--spacing-md) var(--spacing-lg) var(--spacing-sm);
-        margin-top: var(--spacing-sm);
-    }
-
-    .filters {
-        display: flex;
-        gap: var(--spacing-sm);
-        flex-wrap: wrap;
-    }
-
-    .filters button,
-    .ask-btn {
-        background: #e0e3e7;
-        border: none;
-        padding: var(--spacing-sm) var(--spacing-md);
-        border-radius: 1.25rem;
-        font-size: var(--font-sm);
-        cursor: pointer;
-    }
 
     .page-container {
         display: flex;
-        flex-direction: row;
-        padding: 2em;
         gap: 2em;
+        padding: 2em;
+        flex-wrap: wrap;
     }
 
     .content {
         flex: 3;
+        min-width: 60%;
     }
 
     .sidebar {
@@ -311,8 +250,9 @@
         background: white;
         padding: 1em;
         border-radius: 8px;
-        height: 50%;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        min-width: 200px;
+        height: 50%;
     }
 
     .sidebar h3 {
@@ -328,24 +268,39 @@
         font-size: 0.85rem;
     }
 
-    .filter-bar {
-        display: flex;
-        gap: 1em;
+    .big-card {
+        background: white;
+        padding: 1em;
+        border-radius: 10px;
         margin-bottom: 2em;
-        flex-wrap: wrap;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
 
-    .filter-bar button {
-        padding: 0.6em 1.2em;
-        border: none;
-        background: #EBECF2;
-        border-radius: 5px;
+    .big-card-media {
+        position: relative;
+    }
+
+    .big-card-media img {
+        width: 100%;
+        border-radius: 8px;
+    }
+
+    .play-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3rem;
+        color: white;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 50%;
+        padding: 0.4em 0.6em;
         cursor: pointer;
     }
 
-    .filter-btn {
-        background: #12344d;
-        color: black;
+    .big-card h1 {
+        margin-top: 1rem;
+        font-size: 1.5rem;
     }
 
     .section {
@@ -419,6 +374,14 @@
         font-family: 'General Sans', sans-serif;
     }
 
+    .footer {
+        background-color: #0B304A;
+        padding: 48px 80px 40px;
+        margin-top: 50px;
+        color: #FFFFFF;
+        font-family: 'General Sans', sans-serif;
+    }
+
     .footer-inner {
         max-width: 1280px;
         margin: 0 auto;
@@ -457,7 +420,6 @@
         font-size: 16px;
     }
 
-    /* ✅ Mobile Adaptation */
     @media (max-width: 768px) {
         .navbar {
             flex-direction: column;
@@ -489,11 +451,11 @@
                 <li><a href="home2.html">Home</a></li>
                 <li><a href="discussionpage.html">Discussions</a></li>
                 <li class="dropdown">
-                    <button onclick="toggleDropdown()" class="dropbtn" class="active">Library</button>
+                    <button onclick="toggleDropdown()" class="dropbtn">Library</button>
                     <div class="dropdown-content" id="libraryDropdown">
-                        <a href="library_main.html" class="active">Library Home</a>
+                        <a href="library_main.html">Library Home</a>
                         <a href="library-book.html">Library Book</a>
-                        <a href="library-view.html">Library View</a>
+                        <a href="library-view.html" class="active">Library View</a>
                     </div>
                 </li>
                 <li><a href="MainCareer.html">Career</a></li>
@@ -522,62 +484,21 @@
     </nav>
 </header>
 
+
 <div class="page-container">
     <main class="content">
-        <div class="filter-bar">
-            <button>#books</button>
-            <button>#videos</button>
-            <button class="filter-btn">Filter</button>
+        <!-- 🟩 Большая карточка -->
+        <div class="big-card">
+            <div class="big-card-media">
+                <img src="/library/lab.png" alt="Video preview"/>
+                <div class="play-button">▶</div>
+            </div>
+            <h1>How do you create a class in Java?</h1>
         </div>
 
+        <!-- 🟦 Рекомендации -->
         <section class="section">
-            <h2>Continue studying</h2>
-            <div class="card-grid">
-                <div class="card watch">
-                    <div class="card-content">
-                        <img src="/library/lab.png" alt="Preview"/>
-                        <p>Arrays in Java</p>
-                    </div>
-                    <span>Watch</span>
-                </div>
-                <div class="card read">
-                    <div class="card-content">
-                        <p>How do you create a class in Java?</p>
-                    </div>
-                    <span>Read</span>
-                </div>
-            </div>
-        </section>
-
-        <section class="section">
-            <h2>Popular now</h2>
-            <div class="card-grid">
-                <div class="card watch">
-                    <div class="card-content">
-                        <p>How do you create a class in Java?</p>
-                        <video controls>
-                            <source src="sample-video.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <span>Watch</span>
-                </div>
-                <div class="card read">
-                    <div class="card-content">
-                        <p>Text-only post with explanation of Java classes.</p>
-                    </div>
-                    <span>Read</span>
-                </div>
-                <div class="card watch">
-                    <div class="card-content">
-                        <img src="/library/lab.png" alt="Java example"/>
-                        <p>Visual Java class example.</p>
-                    </div>
-                    <span>Watch</span>
-                </div>
-            </div>
-        </section>
-        <section class="section">
-            <h2>For you</h2>
+            <h2>Engineering</h2>
             <div class="card-grid">
                 <div class="card watch">
                     <div class="card-content">
@@ -630,36 +551,10 @@
                 </div>
             </div>
         </section>
-        <section class="section">
-            <h2>Engineering</h2>
-            <div class="card-grid">
-                <div class="card watch">
-                    <div class="card-content">
-                        <p>How do you create a class in Java?</p>
-                        <video controls>
-                            <source src="sample-video.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <span>Watch</span>
-                </div>
-                <div class="card read">
-                    <div class="card-content">
-                        <p>Text-only post with explanation of Java classes.</p>
-                    </div>
-                    <span>Read</span>
-                </div>
-                <div class="card watch">
-                    <div class="card-content">
-                        <img src="/library/lab.png" alt="Java example"/>
-                        <p>Visual Java class example.</p>
-                    </div>
-                    <span>Watch</span>
-                </div>
-            </div>
-        </section>
-        <!-- Additional sections as needed -->
+
     </main>
 
+    <!-- 🟥 Sidebar -->
     <aside class="sidebar">
         <h3>Recently viewed</h3>
         <div class="tags">
@@ -742,216 +637,3 @@
     }
 </script>
 </html>
-
-
-{#<!DOCTYPE html>#}
-{#<html lang="en">#}
-{#<head>#}
-{#    <meta charset="UTF-8">#}
-{#    <title>Library</title>#}
-{#    <style>#}
-{#        .lesson-grid {#}
-{#            display: grid;#}
-{#            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));#}
-{#            gap: 20px;#}
-{#            padding: 20px;#}
-{#        }#}
-{##}
-{#        .lesson-card {#}
-{#            border: 1px solid #ddd;#}
-{#            border-radius: 8px;#}
-{#            padding: 15px;#}
-{#            transition: transform 0.2s;#}
-{#        }#}
-{##}
-{#        .lesson-card:hover {#}
-{#            transform: translateY(-5px);#}
-{#            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);#}
-{#        }#}
-{##}
-{#        .lesson-format {#}
-{#            display: inline-block;#}
-{#            padding: 3px 8px;#}
-{#            border-radius: 4px;#}
-{#            font-size: 0.8em;#}
-{#            margin-bottom: 10px;#}
-{#        }#}
-{##}
-{#        .video-format {#}
-{#            background-color: #ffebee;#}
-{#            color: #c62828;#}
-{#        }#}
-{##}
-{#        .article-format {#}
-{#            background-color: #e8f5e9;#}
-{#            color: #2e7d32;#}
-{#        }#}
-{##}
-{#        .create-btn {#}
-{#            display: inline-block;#}
-{#            margin: 20px;#}
-{#            padding: 10px 15px;#}
-{#            background-color: #4CAF50;#}
-{#            color: white;#}
-{#            text-decoration: none;#}
-{#            border-radius: 4px;#}
-{#        }#}
-{#    </style>#}
-{#</head>#}
-{#<body>#}
-{#{% include 'navbar.html' %}#}
-{##}
-{#<h1>Welcome to the library, {{ user.username }}</h1>#}
-{##}
-{#{% if user.is_authenticated %}#}
-{#    <a href="{% url 'create_lesson' %}" class="create-btn">Create New Lesson</a>#}
-{#{% endif %}#}
-{##}
-{#    <a href="{% url 'filter_articles' %}" class="create-btn">Articles</a>#}
-{#    <a href="{% url 'filter_videos' %}" class="create-btn">Videos</a>#}
-{##}
-{##}
-{#<!-- After filter buttons, before lesson-grid -->#}
-{#{% if user.is_authenticated %}#}
-{#    <!-- Continue Watching/Reading Section -->#}
-{#    <div class="section-container">#}
-{#        <h2>Continue {% if current_format == 'video' %}Watching{% elif current_format == 'article' %}Reading{% else %}Learning{% endif %}</h2>#}
-{#        <div class="horizontal-scroll">#}
-{#            {% for lesson in continue_section %}#}
-{#                <div class="lesson-card compact">#}
-{#                    <div class="lesson-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">#}
-{#                        {{ lesson.get_format_display }}#}
-{#                    </div>#}
-{#                    <h3><a href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h3>#}
-{#                    <div class="progress-container">#}
-{#                        <small>progress goes here</small>#}
-{#                        {% with progress=lesson.user_progress_set.get(user=request.user) %}#}
-{#                            <div class="progress-bar" style="width: {{ progress.get_progress_percentage }}%"></div>#}
-{#                            <small>{{ progress.get_progress_percentage }}% complete</small>#}
-{#                        {% endwith %}#}
-{#                    </div>#}
-{#                </div>#}
-{#            {% empty %}#}
-{#                <p>No lessons in progress. Start learning!</p>#}
-{#            {% endfor %}#}
-{#        </div>#}
-{#    </div>#}
-{##}
-{#    <!-- Recommended for you section -->#}
-{#    <div class="section-container">#}
-{#        <h2>Recommended {% if current_format == 'videos' %}Videos{% elif current_format == 'articles' %}Articles{% else %}Content{% endif %}</h2>#}
-{#        <div class="horizontal-scroll">#}
-{#            {% for lesson in for_you %}#}
-{#                <div class="lesson-card compact">#}
-{#                    <div class="lesson-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">#}
-{#                        {{ lesson.get_format_display }}#}
-{#                    </div>#}
-{#                    <h3><a href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h3>#}
-{#                    <p>{{ lesson.description|truncatechars:80 }}</p>#}
-{#                </div>#}
-{#            {% empty %}#}
-{#                <p>Complete some lessons to get recommendations</p>#}
-{#            {% endfor %}#}
-{#        </div>#}
-{#    </div>#}
-{#{% endif %}#}
-{##}
-{#<!-- Change the filter buttons -->#}
-{#<a href="{% url 'filter_articles' %}" class="create-btn {% if current_filter == 'article' %}active{% endif %}">Articles</a>#}
-{#<a href="{% url 'filter_videos' %}" class="create-btn {% if current_filter == 'video' %}active{% endif %}">Videos</a>#}
-{#<a href="{% url 'library' %}" class="create-btn {% if not current_filter %}active{% endif %}">All Content</a>#}
-{##}
-{#<!-- Update section headings -->#}
-{#<div class="section-container">#}
-{#    <h2>#}
-{#        {% if current_filter == 'video' %}#}
-{#            Continue Watching#}
-{#        {% elif current_filter == 'article' %}#}
-{#            Continue Reading#}
-{#        {% else %}#}
-{#            Continue Learning#}
-{#        {% endif %}#}
-{#    </h2>#}
-{#    <!-- ... rest of the section ... -->#}
-{#</div>#}
-{##}
-{#<div class="section-container">#}
-{#    <h2>#}
-{#        {% if current_filter == 'video' %}#}
-{#            Recommended Videos#}
-{#        {% elif current_filter == 'article' %}#}
-{#            Recommended Articles#}
-{#        {% else %}#}
-{#            Recommended For You#}
-{#        {% endif %}#}
-{#    </h2>#}
-{#    <!-- ... rest of the section ... -->#}
-{#</div>#}
-{##}
-{#<!-- Update pagination to maintain filter -->#}
-{#<div class="pagination">#}
-{#    <span class="step-links">#}
-{#        {% if page_obj.has_previous %}#}
-{#            <a href="?page=1{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">&laquo; first</a>#}
-{#            <a href="?page={{ page_obj.previous_page_number }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">previous</a>#}
-{#        {% endif %}#}
-{##}
-{#        <span class="current">#}
-{#            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
-{#        </span>#}
-{##}
-{#        {% if page_obj.has_next %}#}
-{#            <a href="?page={{ page_obj.next_page_number }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">next</a>#}
-{#            <a href="?page={{ page_obj.paginator.num_pages }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">last &raquo;</a>#}
-{#        {% endif %}#}
-{#    </span>#}
-{#</div>#}
-{##}
-{##}
-{##}
-{#<div class="lesson-grid">#}
-{#    {% for lesson in lessons %}#}
-{#        <div class="lesson-card">#}
-{#            <div class="lesson-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">#}
-{#                {{ lesson.get_format_display }}#}
-{#            </div>#}
-{#            <h2><a href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h2>#}
-{#            <p>{{ lesson.description|truncatechars:100 }}</p>#}
-{#            <div class="lesson-meta">#}
-{#                <small>By {{ lesson.author.username }}</small>#}
-{#                <small> | {{ lesson.created_at|date:"M d, Y" }}</small>#}
-{#                {% if lesson.format == 'video' and lesson.duration %}#}
-{#                    <small> | {{ lesson.get_video_duration }}</small>#}
-{#                {% endif %}#}
-{#            </div>#}
-{#            {% if lesson.attachments.all %}#}
-{#                <div class="attachments">#}
-{#                    <small>📎 {{ lesson.attachments.count }} attachment(s)</small>#}
-{#                </div>#}
-{#            {% endif %}#}
-{#        </div>#}
-{#    {% empty %}#}
-{#        <p>No lessons available yet.</p>#}
-{#    {% endfor %}#}
-{#</div>#}
-{#{% if page_obj.paginator.num_pages > 0 %}#}
-{#    <div class="pagination">#}
-{#    <span class="step-links">#}
-{#        {% if page_obj.has_previous %}#}
-{#            <a href="?page=1">&laquo; first</a>#}
-{#            <a href="?page={{ page_obj.previous_page_number }}">previous</a>#}
-{#        {% endif %}#}
-{##}
-{#        <span class="current">#}
-{#            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
-{#        </span>#}
-{##}
-{#        {% if page_obj.has_next %}#}
-{#            <a href="?page={{ page_obj.next_page_number }}">next</a>#}
-{#            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>#}
-{#        {% endif %}#}
-{#    </span>#}
-{#    </div>#}
-{#{% endif %}#}
-{#</body>#}
-{#</html>#}
