@@ -393,8 +393,8 @@ a {
         <div class="navbar-container">
             <div class="logo">MindBridge</div>
             <ul class="menu">
-                <li><a href="home2.html">Home</a></li>
-                <li><a href="discussionpage.html">Discussions</a></li>
+                <li><a href={% url 'home' %}>Home</a></li>
+                <li><a class="active" href={% url 'home' %}>Discussions</a></li>
                 <li class="dropdown">
                     <button onclick="toggleDropdown()" class="dropbtn">Library</button>
                     <div class="dropdown-content" id="libraryDropdown">
@@ -403,7 +403,7 @@ a {
                         <a href={% url 'library' %}>Library View</a>
                     </div>
                 </li>
-                <li><a class="active" href={% url 'careers:vacancy_list' %}>Career</a></li>
+                <li><a href={% url 'careers:vacancy_list' %}>Career</a></li>
             </ul>
             <div class="search">
                 <i class="fas fa-search"></i>
