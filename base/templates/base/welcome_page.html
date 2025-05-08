@@ -818,17 +818,17 @@
         <div class="navbar-container">
             <div class="logo">MindBridge</div>
             <ul class="menu">
-                <li><a href="home2.html">Home</a></li>
-                <li><a href="discussionpage.html">Discussions</a></li>
+                <li><a href={% url 'home' %}>Home</a></li>
+                <li><a class="active" href={% url 'home' %}>Discussions</a></li>
                 <li class="dropdown">
                     <button onclick="toggleDropdown()" class="dropbtn">Library</button>
                     <div class="dropdown-content" id="libraryDropdown">
-                        <a href="library_main.html">Library Home</a>
-                        <a href="library-book.html">Library Book</a>
-                        <a href="library-view.html">Library View</a>
+                        <a href={% url 'library' %}>Library Home</a>
+                        <a href={% url 'library' %}>Library Book</a>
+                        <a href={% url 'library' %}>Library View</a>
                     </div>
                 </li>
-                <li><a href="MainCareer.html">Career</a></li>
+                <li><a href={% url 'careers:vacancy_list' %}>Career</a></li>
             </ul>
             <div class="search">
                 <i class="fas fa-search"></i>
@@ -842,8 +842,8 @@
                         <img alt="ProfilePicture" src={% static "icons/ava.png" %}/>
                     </div>
                     <div class="dropdown-menu" id="profileMenu">
-                        <a href="userprofile.html"><i class="fa-regular fa-user"></i> Profile</a>
-                        <a href="editprofile.html"><i class="fa-solid fa-pen"></i> Edit</a>
+                        <a href={% url 'login' %}><i class="fa-regular fa-user"></i> Profile</a>
+                        <a href={% url 'login' %}><i class="fa-solid fa-pen"></i> Edit</a>
                         <a href="saved.html"><i class="fa-regular fa-bookmark"></i> Saved</a>
                         <a href="welcome.html"><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
                     </div>
@@ -859,7 +859,7 @@
             <h1>Welcome to <span>MindBridge</span></h1>
             <p class="subtitle">where <span>Learning, Networking, and Opportunities</span> Meet</p>
             <div class="hero-buttons">
-                <a href="login.html" class="cta-btn">Log in</a>
+                <a href={% url 'login' %} class="cta-btn">Log in</a>
                 <button class="secondary-btn">Visit the community →</button>
             </div>
         </div>
