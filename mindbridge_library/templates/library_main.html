@@ -486,8 +486,8 @@
         <div class="navbar-container">
             <div class="logo">MindBridge</div>
             <ul class="menu">
-                <li><a href="home2.html">Home</a></li>
-                <li><a href="discussionpage.html">Discussions</a></li>
+                <li><a href={% url 'home' %}>Home</a></li>
+                <li><a href={% url 'home' %}>Discussions</a></li>
                 <li class="dropdown">
                     <button onclick="toggleDropdown()" class="dropbtn"><a class="active" href={% url 'library' %}>Library</a></button>
                     <div class="dropdown-content" id="libraryDropdown">
