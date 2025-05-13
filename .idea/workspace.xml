@@ -4,18 +4,44 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="Fixing sign up and removing career app only for now">
+    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="removed template from create discussion">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/login_signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/login_signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/welcome_page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/discussion_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/discussion_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/forms.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/0002_alter_application_options_alter_company_options_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/0003_vacancy_currency.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/application_form.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/base.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/career_home.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/company_form.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/manage_vacancies.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/my_applications.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/my_companies.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_detail.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_form.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_list.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/views.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -43,34 +69,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Django Server.MindBridge.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
-    "django.template.preview.state": "SHOW_EDITOR_AND_PREVIEW",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/nural/Documents/University/diploma prep/MindBridge/base/templates/base/static/loginPage",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Django Server.MindBridge.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
+    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR_AND_PREVIEW&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/nural/Documents/University/diploma prep/MindBridge/base/templates/base/static/style&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\loginPage" />
+      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\style" />
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base" />
+      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\images" />
+      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\icons" />
+      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\loginPage" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\icons" />
@@ -125,7 +155,11 @@
       <workItem from="1746451794878" duration="202000" />
       <workItem from="1746466147716" duration="3850000" />
       <workItem from="1746505144005" duration="8751000" />
-      <workItem from="1746641492322" duration="1289000" />
+      <workItem from="1746641492322" duration="5713000" />
+      <workItem from="1746671353570" duration="7830000" />
+      <workItem from="1746793584880" duration="1517000" />
+      <workItem from="1746893037829" duration="14386000" />
+      <workItem from="1747065299679" duration="1918000" />
     </task>
     <task id="LOCAL-00001" summary="Fixing sign up and removing career app only for now">
       <option name="closed" value="true" />
@@ -135,7 +169,119 @@
       <option name="project" value="LOCAL" />
       <updated>1746468424044</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Fixing sign up and removing career app only for now">
+      <option name="closed" value="true" />
+      <created>1746643276346</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1746643276346</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added welcome page icons">
+      <option name="closed" value="true" />
+      <created>1746644082146</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1746644082146</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added templates to library and career apps">
+      <option name="closed" value="true" />
+      <created>1746671546889</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1746671546889</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Added templates to discussion form, home, career home">
+      <option name="closed" value="true" />
+      <created>1746672320492</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1746672320492</updated>
+    </task>
+    <task id="LOCAL-00006" summary="navbar edited">
+      <option name="closed" value="true" />
+      <created>1746672718028</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1746672718028</updated>
+    </task>
+    <task id="LOCAL-00007" summary="navbar edited 2">
+      <option name="closed" value="true" />
+      <created>1746672932066</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1746672932066</updated>
+    </task>
+    <task id="LOCAL-00008" summary="navbar edited active section">
+      <option name="closed" value="true" />
+      <created>1746673271729</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1746673271729</updated>
+    </task>
+    <task id="LOCAL-00009" summary="navbar edited library active section">
+      <option name="closed" value="true" />
+      <created>1746673981777</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1746673981777</updated>
+    </task>
+    <task id="LOCAL-00010" summary="edited navbar links, welcome page, profile page">
+      <option name="closed" value="true" />
+      <created>1746674945185</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1746674945185</updated>
+    </task>
+    <task id="LOCAL-00011" summary="edited welcome page">
+      <option name="closed" value="true" />
+      <created>1746675223815</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1746675223815</updated>
+    </task>
+    <task id="LOCAL-00012" summary="edited discussion page, profile, edit profile, added images">
+      <option name="closed" value="true" />
+      <created>1746676595463</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1746676595463</updated>
+    </task>
+    <task id="LOCAL-00013" summary="edited discussion page, added images">
+      <option name="closed" value="true" />
+      <created>1746677900060</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1746677900060</updated>
+    </task>
+    <task id="LOCAL-00014" summary="edited profile page">
+      <option name="closed" value="true" />
+      <created>1746678536469</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1746678536470</updated>
+    </task>
+    <task id="LOCAL-00015" summary="removed template from create discussion">
+      <option name="closed" value="true" />
+      <created>1746893392017</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1746893392017</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -154,6 +300,19 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fixing sign up and removing career app only for now" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixing sign up and removing career app only for now" />
+    <MESSAGE value="Added welcome page icons" />
+    <MESSAGE value="Added templates to library and career apps" />
+    <MESSAGE value="Added templates to discussion form, home, career home" />
+    <MESSAGE value="navbar edited" />
+    <MESSAGE value="navbar edited 2" />
+    <MESSAGE value="navbar edited active section" />
+    <MESSAGE value="navbar edited library active section" />
+    <MESSAGE value="edited navbar links, welcome page, profile page" />
+    <MESSAGE value="edited welcome page" />
+    <MESSAGE value="edited discussion page, profile, edit profile, added images" />
+    <MESSAGE value="edited discussion page, added images" />
+    <MESSAGE value="edited profile page" />
+    <MESSAGE value="removed template from create discussion" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed template from create discussion" />
   </component>
 </project>

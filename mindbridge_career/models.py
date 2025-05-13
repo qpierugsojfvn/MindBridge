@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 
+
 class Company(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
@@ -67,6 +68,15 @@ class Vacancy(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='vacancies')
 
+    def currency_symbol(self):
+        symbols = {
+            'USD': '$',
+            'EUR': '€',
+            'RUB': '₽',
+            'KZT': '₸',
+        }
+        return symbols.get(self.currency, self.currency)
+
     class Meta:
         app_label = 'mindbridge_career'
         verbose_name = 'Vacancy'
@@ -101,4 +111,3 @@ class Application(models.Model):
 
     def __str__(self):
         return f"{self.applicant.username} application for {self.vacancy.title}"
-    
