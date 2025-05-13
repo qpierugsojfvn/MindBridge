@@ -850,35 +850,54 @@
         </aside>
 
         <section class="jobs">
-            <div class="job-card">
-                <h3>Intern Business Analyst Intern</h3>
-                <p class="salary">100 000 – 150 000 ₸ / month</p>
-                <p class="tags">No experience • Remote</p>
-                <p class="company">BI Group, Almaty</p>
-                <button class="apply-btn">Apply</button>
-            </div>
+            {% if page_obj %}
+                {% for vacancy in page_obj %}
+                    <div class="job-card">
+                    <a style="text-decoration: none; color:#333"
+                       href="{% url 'careers:vacancy_detail' vacancy.pk %}"><h3>{{ vacancy.title }}</h3></a>
 
-            <div class="job-card">
-                <h3>Intern Business Analyst Intern</h3>
-                <p class="tags">No experience • Remote</p>
-                <p class="company">BI Group, Almaty</p>
-                <button class="apply-btn">Apply</button>
-            </div>
+                        <p class="salary">{{ vacancy.salary }} {{ vacancy.currency_symbol }} / month</p>
+                        <p class="tags">{{ vacancy.get_experience_required_display }} • Remote</p>
+                        <p class="company">{{ vacancy.company.name }}, {{ vacancy.location_city }}, {{ vacancy.location_country }}</p>
 
-            <div class="job-card">
-                <h3>Intern Business Analyst Intern</h3>
-                <p class="tags">Remote</p>
-                <p class="company">BI Group, Almaty</p>
-                <button class="apply-btn">Apply</button>
-            </div>
+                        <a style="text-decoration: none; color:#FFFFFF"
+                           href="{% url 'careers:vacancy_detail' vacancy.pk %}">
+                            <button class="apply-btn">Apply</button>
+                        </a>
+                    </div>
+                {% endfor %}
 
-            <div class="pagination">
-                <button class="page active">1</button>
-                <button class="page">2</button>
-                <button class="page">3</button>
-                <span>...</span>
-                <button class="page">10</button>
-            </div>
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1" class="page">&laquo; first</a>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="page">previous</a>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <a href="?page={{ num }}" class="page active">{{ num }}</a>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <a href="?page={{ num }}" class="page">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="page">next</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="page">last &raquo;</a>
+                    {% endif %}
+                </div>
+                {#                <div class="pagination">#}
+                {#                    <button class="page active">1</button>#}
+                {#                    <button class="page">2</button>#}
+                {#                    <button class="page">3</button>#}
+                {#                    <span>...</span>#}
+                {#                    <button class="page">10</button>#}
+                {#                </div>#}
+            {% else %}
+                <div class="job-card">
+                    <h3>No jobs available</h3>
+                </div>
+            {% endif %}
         </section>
     </div>
 </main>
@@ -961,143 +980,3 @@
 </html>
 
 
-{#{% extends "base.html" %}#}
-{##}
-{#{% block careers_content %}#}
-{#<h1 class="mb-4">Career Opportunities</h1>#}
-{##}
-{#<div class="filter-section mb-4">#}
-{#    <form method="get" class="row g-3">#}
-{#        <div class="col-md-4">#}
-{#            <label for="employment_type" class="form-label">Employment Type</label>#}
-{#            <select name="employment_type" id="employment_type" class="form-select">#}
-{#                <option value="">All Types</option>#}
-{#                {% for value, label in employment_types %}#}
-{#                <option value="{{ value }}" {% if request.GET.employment_type == value %}selected{% endif %}>{{ label }}</option>#}
-{#                {% endfor %}#}
-{#            </select>#}
-{#        </div>#}
-{#        <div class="col-md-4">#}
-{#            <label for="location" class="form-label">Location</label>#}
-{#            <input type="text" name="location" id="location" class="form-control" #}
-{#                   placeholder="City or country" value="{{ request.GET.location }}">#}
-{#        </div>#}
-{#        <div class="col-md-4 d-flex align-items-end">#}
-{#            <button type="submit" class="btn btn-primary me-2">Filter</button>#}
-{#            <a href="{% url 'careers:vacancy_list' %}" class="btn btn-outline-secondary">Reset</a>#}
-{#        </div>#}
-{#    </form>#}
-{#</div>#}
-{##}
-{#{% if page_obj %}#}
-{#<div class="row">#}
-{#    {% for vacancy in page_obj %}#}
-{#    <div class="col-md-6">#}
-{#        <div class="card vacancy-card h-100">#}
-{#            <div class="card-body">#}
-{#                <div class="d-flex justify-content-between align-items-start mb-2">#}
-{#                    <h5 class="card-title mb-0">{{ vacancy.title }}</h5>#}
-{#                    {% if vacancy.salary %}#}
-{#                    <span class="badge bg-success rounded-pill">${{ vacancy.salary }}</span>#}
-{#                    {% endif %}#}
-{#                </div>#}
-{#                <h6 class="card-subtitle mb-2 text-muted">{{ vacancy.company.name }}</h6>#}
-{#                #}
-{#                <div class="d-flex flex-wrap gap-2 my-3">#}
-{#                    <span class="badge badge-custom bg-info">{{ vacancy.get_employment_type_display }}</span>#}
-{#                    <span class="badge badge-custom bg-secondary">{{ vacancy.get_schedule_display }}</span>#}
-{#                    <span class="badge badge-custom bg-warning text-dark">{{ vacancy.get_experience_required_display }}</span>#}
-{#                </div>#}
-{#                #}
-{#                <p class="card-text">{{ vacancy.description|truncatewords:30 }}</p>#}
-{#                #}
-{#                <div class="d-flex justify-content-between align-items-center">#}
-{#                    <small class="text-muted">#}
-{#                        <i class="fas fa-map-marker-alt"></i> {{ vacancy.location_city }}, {{ vacancy.location_country }}#}
-{#                    </small>#}
-{#                    <a href="{% url 'careers:vacancy_detail' vacancy.pk %}" class="btn btn-sm btn-outline-primary">View Details</a>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#    {% endfor %}#}
-{#</div>#}
-{##}
-{#<!-- Pagination -->#}
-{#<nav aria-label="Page navigation" class="mt-4">#}
-{#    <ul class="pagination justify-content-center">#}
-{#        {% if page_obj.has_previous %}#}
-{#        <li class="page-item">#}
-{#            <a class="page-link" href="?page=1{% if request.GET.employment_type %}&employment_type={{ request.GET.employment_type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">&laquo; First</a>#}
-{#        </li>#}
-{#        <li class="page-item">#}
-{#            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.employment_type %}&employment_type={{ request.GET.employment_type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">Previous</a>#}
-{#        </li>#}
-{#        {% endif %}#}
-{#        #}
-{#        <li class="page-item disabled">#}
-{#            <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>#}
-{#        </li>#}
-{#        #}
-{#        {% if page_obj.has_next %}#}
-{#        <li class="page-item">#}
-{#            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.employment_type %}&employment_type={{ request.GET.employment_type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">Next</a>#}
-{#        </li>#}
-{#        <li class="page-item">#}
-{#            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.employment_type %}&employment_type={{ request.GET.employment_type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">Last &raquo;</a>#}
-{#        </li>#}
-{#        {% endif %}#}
-{#    </ul>#}
-{#</nav>#}
-{##}
-{#{% else %}#}
-{#<div class="text-center py-5 my-5">#}
-{#    <div class="card border-0 bg-light">#}
-{#        <div class="card-body p-5">#}
-{#            <i class="fas fa-briefcase fa-4x text-muted mb-4"></i>#}
-{#            <h3 class="mb-3">No Open Positions Available</h3>#}
-{#            <p class="text-muted mb-4">#}
-{#                We currently don't have any open positions, but check back soon!#}
-{#                Great opportunities are always around the corner.#}
-{#            </p>#}
-{##}
-{#            {% if request.user.is_authenticated %}#}
-{#                <!-- For employers -->#}
-{#                <div class="mt-4">#}
-{#                    <p class="mb-2">Are you looking to hire?</p>#}
-{#                    <a href="{% url 'careers:create_company' %}" class="btn btn-primary me-2">#}
-{#                        <i class="fas fa-plus"></i> Register Your Company#}
-{#                    </a>#}
-{#                    <a href="{% url 'careers:create_vacancy' %}" class="btn btn-outline-primary">#}
-{#                        <i class="fas fa-bullhorn"></i> Post a Job#}
-{#                    </a>#}
-{#                </div>#}
-{#            {% else %}#}
-{#                <div class="mt-4">#}
-{#                    <p class="mb-2">Want to be notified when we have openings?</p>#}
-{#                        {% csrf_token %}#}
-{#                        <div class="input-group" style="max-width: 400px;">#}
-{#                            <input type="email" name="email" class="form-control" placeholder="Your email address" required>#}
-{#                            <button class="btn btn-primary" type="submit">#}
-{#                                <i class="fas fa-bell"></i> Notify Me#}
-{#                            </button>#}
-{#                        </div>#}
-{#                    </form>#}
-{#                </div>#}
-{#            {% endif %}#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
-{#{% endif %}#}
-{##}
-{#{% if request.user.is_authenticated %}#}
-{#<div class="mt-4">#}
-{#    <a href="{% url 'careers:create_company' %}" class="btn btn-outline-success me-2">#}
-{#        <i class="fas fa-plus"></i> Add Company#}
-{#    </a>#}
-{#    <a href="{% url 'careers:create_vacancy' %}" class="btn btn-outline-success">#}
-{#        <i class="fas fa-plus"></i> Post Vacancy#}
-{#    </a>#}
-{#</div>#}
-{#{% endif %}#}
-{#{% endblock %}#}
