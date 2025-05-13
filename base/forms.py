@@ -1,60 +1,9 @@
-from dataclasses import fields
-
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
-from django.forms import ModelForm
-from taggit.forms import TagField
 
 from .models import *
-
-
-class DiscussionForm(ModelForm):
-    tags = TagField(
-        required=False,
-        widget=forms.TextInput(attrs={
-            'placeholder': 'comma, separated, tags',
-            'class': 'form-control tags-input',
-            'data-url': '/api/tags/',
-            'autocomplete': 'off'
-        }),
-        help_text="Enter tags separated by commas",
-        label="Discussion Tags"
-    )
-
-    class Meta:
-        model = Discussion
-        fields = ['title', 'content', 'tags']
-        widgets = {
-            'title': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter discussion title'
-            }),
-            'content': forms.Textarea(attrs={
-                'class': 'form-control',
-                'rows': 5,
-                'placeholder': 'Enter your discussion content'
-            }),
-        }
-
-    def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user', None)
-        super().__init__(*args, **kwargs)
-        if self.instance.pk:
-            self.initial['tags'] = ", ".join(tag.name for tag in self.instance.tags.all())
-
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-
-        if self.user:
-            instance.host = self.user
-
-        if commit:
-            instance.save()
-            self.save_m2m()
-
-        return instance
 
 
 class UserRegistrationForm(UserCreationForm):

@@ -23,6 +23,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from taggit.models import Tag
+from .models import CustomTag
 from django.core.mail import EmailMessage
 
 from .forms import *
@@ -248,7 +249,6 @@ def discussion(request, pk):
     answers = discussion.answers.all().order_by('-created_at')
 
     tags = discussion.tags.all()
-    tagged_items = GenericRelation(TaggedItem, related_query_name='discussion')
     popular_tags = get_popular_tags()
 
     if 'recently_viewed' not in request.session:
@@ -347,26 +347,24 @@ def view_discussion(request):
 @login_required(login_url='login')
 def create_discussion(request):
     if request.method == 'POST':
-        form = DiscussionForm(request.POST)
-        if form.is_valid():
-            discussion = form.save(commit=False)
-            discussion.host = request.user
-            discussion.save()
+        new_discussion = Discussion()
+        new_discussion.title = request.POST.get('title')
+        new_discussion.content = request.POST.get('details')
+        new_discussion.host = request.user
+        new_discussion.save()
 
-            tags_list = form.cleaned_data.get('tags_input', '')
+        tags_list = request.POST.getlist('tags[]')
+        print(tags_list)
 
-            for tag_name in tags_list:
-                tag, created = Tag.objects.get_or_create(
-                    name=tag_name,
-                    defaults={'slug': custom_slugify_(tag_name)},
-                )
-                discussion.tags.add(*tags_list)
+        for tag_name in tags_list:
+            tag, create = CustomTag.objects.get_or_create(name=tag_name)
+            print(tag, create)
+            tag.save()
+            new_discussion.tags.add(tag)
+        new_discussion.save()
 
-            return redirect('home')
-    else:
-        form = DiscussionForm()
-
-    return render(request, 'base/discussion_form.html', {'form': form})
+        return redirect('home')
+    return render(request, 'base/discussion_form.html')
 
 
 @login_required(login_url='login')
@@ -378,14 +376,25 @@ def update_discussion(request, pk):
         return redirect('home')
 
     if request.method == 'POST':
-        form = DiscussionForm(request.POST, instance=discussion, user=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    else:
-        form = DiscussionForm(instance=discussion, user=request.user)
+        discussion.title = request.POST.get('title')
+        discussion.content = request.POST.get('details')
 
-    context = {'form': form}
+        # Очищаем все текущие теги
+        discussion.tags.clear()
+
+        # Добавляем новые теги
+        tags_list = request.POST.getlist('tags[]')
+        for tag_name in tags_list:
+            if tag_name.strip():  # Проверяем, что тег не пустой
+                tag, created = CustomTag.objects.get_or_create(name=tag_name.strip())
+                discussion.tags.add(tag)
+        print(tags_list)
+        discussion.save()
+
+        return redirect('home')
+
+    context = {'discussion': discussion, 'tags': discussion.tags.all()}
+
     return render(request, 'base/discussion_form.html', context)
 
 
