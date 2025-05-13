@@ -4,13 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="Fixing sign up and removing career app only for now">
+    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="Remade discussions">
+      <change beforePath="$PROJECT_DIR$/.idea/MindBridge.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MindBridge.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/base/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/login_signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/login_signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/welcome_page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/discussion_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/discussion_form.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/0002_alter_application_options_alter_company_options_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/0003_vacancy_currency.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_library/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_library/migrations/0001_initial.py" afterDir="false" />
+    </list>
+    <list id="321f1dca-06e3-4bc8-b51e-b75544aa79c3" name="local ignore" comment="">
+      <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +28,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -46,12 +61,13 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Django Server.MindBridge.executor": "Run",
+    "Python.views.executor": "Run",
     "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
     "django.template.preview.state": "SHOW_EDITOR_AND_PREVIEW",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "dev1",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/nural/Documents/University/diploma prep/MindBridge/base/templates/base/static/loginPage",
     "node.js.detected.package.eslint": "true",
@@ -109,8 +125,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.26053.29" />
-        <option value="bundled-python-sdk-b1dbf8ef85a6-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.26053.29" />
+        <option value="bundled-python-sdk-4f4e415b4190-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.26053.29" />
       </set>
     </attachedChunks>
   </component>
@@ -118,6 +133,7 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="" />
+      <changelist id="321f1dca-06e3-4bc8-b51e-b75544aa79c3" name="local ignore" comment="" />
       <created>1746451794080</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -146,7 +162,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -154,6 +182,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fixing sign up and removing career app only for now" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixing sign up and removing career app only for now" />
+    <MESSAGE value="fix migrations" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix migrations" />
   </component>
 </project>

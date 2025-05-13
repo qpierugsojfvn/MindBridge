@@ -386,6 +386,72 @@ a {
     .reactions {
         gap: 1rem;
     }
+
+    .add-tag-button {
+        margin-top: 5px;
+        background: #eee;
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .add-tag-button:hover {
+        background: #ddd;
+    }
+
+
+    .tag-input-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .tag-input-group input {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .remove-tag-btn {
+        margin-left: 8px;
+        background: #ff6b6b;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    .remove-tag-btn:hover {
+        background: #ff5252;
+    }
+
+    .add-tag-button {
+        margin-top: 8px;
+        background: #4CAF50;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .add-tag-button:hover {
+        background: #45a049;
+    }
+
+    .tag-input-group {
+    transition: opacity 0.3s;
+}
+.tag-input-group.removing {
+    opacity: 0;
+}
 }</style>
 <body>
 <header>
@@ -428,7 +494,9 @@ a {
         </div>
     </nav>
 </header>
-<main class="discussion-container">
+{% if 'create-discussion' in request.path %}
+<form class="discussion-container" method="POST" action="{% url 'create-discussion' %}">
+    {% csrf_token %}
     <section class="discussion-form">
         <div class="header">
             <div class="header-top">
@@ -440,25 +508,64 @@ a {
         <div class="form-group">
             <label for="title">Title</label>
             <small>Be specific and imagine you’re asking a question to another person</small>
-            <input type="text" id="title" placeholder="I think Universities are overrated"/>
+            <input name = "title" type="text" id="title" placeholder="I think Universities are overrated"/>
         </div>
 
         <div class="form-group">
             <label for="details">Details</label>
             <small>Be specific and imagine you’re asking a question to another person</small>
-            <textarea id="details" rows="5" placeholder="I think Universities are overrated"></textarea>
+            <textarea name="details" id="details" rows="5" placeholder="I think Universities are overrated"></textarea>
+        </div>
+
+        <div id="tags-create-container">
+            <input type="text" name="tags[]" class="tag-input" placeholder="Tag 1">
+        </div>
+        <button type="button" id="create-add-tag-btn">+</button>
+        <button type="Submit" class="post-btn">Post</button>
+    </section>
+</form>
+{% else %}
+<form class="discussion-container" method="POST" action="{% url 'update-discussion' discussion.id %}">
+    {% csrf_token %}
+    <section class="discussion-form">
+        <div class="header">
+            <div class="header-top">
+                <h1>Edit the discussion</h1>
+                <button class="go-back">Go back</button>
+            </div>
+            <p>Share your thoughts or ask something</p>
+        </div>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <small>Be specific and imagine you’re asking a question to another person</small>
+            <input value="{{ discussion.title }}" name = "title" type="text" id="title" placeholder="I think Universities are overrated"/>
         </div>
 
         <div class="form-group">
-            <label for="tags">Tags</label>
-            <small>Add up to 3 tags that describe this discussion</small>
-            <input type="text1" id="tags" placeholder="I think Universities are overrated"/>
+            <label for="details">Details</label>
+            <small>Be specific and imagine you’re asking a question to another person</small>
+            <textarea name="details" id="details" rows="5" placeholder="I think Universities are overrated">{{ discussion.content }}</textarea>
         </div>
 
-        <a href="mydiscussion.html" class="post-btn">Post</a>
-    </section>
-</main>
+        <div class="form-group">
+            <label>Tags</label>
+            <small>Add tags that describe this discussion</small>
+            <div id="tags-container">
+                <!-- Каждый тег в своем собственном div.tag-input-group -->
+                {% for tag in tags %}
+                <div class="tag-input-group">
+                    <input type="text" name="tags[]" class="tag-input" value="{{ tag.name }}" placeholder="Enter a tag...">
+                    <button type="button" class="remove-tag-btn">×</button>
+                </div>
+                {% endfor %}
+            </div>
+            <button type="button" id="add-tag-btn" class="add-tag-button">+ Add Tag</button>
+        </div>
+        <button type="Submit" class="post-btn">Post</button>
 
+    </section>
+</form>
+{% endif %}
 <script>
     function openModal(src) {
         const modal = document.getElementById('modal');
@@ -504,6 +611,52 @@ a {
             document.getElementById("profileMenu").classList.remove("show");
         }
     }
+
+     document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('tags-container');
+    const addButton = document.getElementById('add-tag-btn');
+
+    // Функция для создания новой группы тегов (input + кнопка удаления)
+    function createTagInputGroup() {
+        const group = document.createElement('div');
+        group.className = 'tag-input-group';
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = 'tags[]';
+        input.placeholder = 'Enter a tag...';
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'remove-tag-btn';
+        removeBtn.innerHTML = '×';
+
+        // Обработчик удаления конкретного тега
+        removeBtn.addEventListener('click', function() {
+            group.remove(); // Удаляем только родительский div (тег + кнопку)
+        });
+
+        group.appendChild(input);
+        group.appendChild(removeBtn);
+
+        return group;
+    }
+
+    // Добавление нового тега
+    addButton.addEventListener('click', function() {
+        const newGroup = createTagInputGroup();
+        container.appendChild(newGroup);
+        newGroup.querySelector('input').focus(); // Автофокус на новое поле
+    });
+
+    // Назначение обработчиков для существующих кнопок удаления
+    document.querySelectorAll('.remove-tag-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.parentElement.remove(); // Удаляем только родительский div
+        });
+    });
+});
+
 </script>
 </body>
 <footer class="footer">
