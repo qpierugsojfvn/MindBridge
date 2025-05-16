@@ -1,194 +1,19 @@
-import os
-
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_exempt
 # from google.oauth2 import id_token
 # from google.auth.transport import requests
 
 
 from datetime import datetime, timedelta
-# from imaplib import Flags
 
 from django.contrib import messages
-from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.sites.shortcuts import get_current_site
+from django.db.models import Q, Count
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Q, Count
-from django.template.loader import render_to_string
-from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
-from django.views.decorators.csrf import csrf_exempt
 from taggit.models import Tag
-from .models import CustomTag
-from django.core.mail import EmailMessage
 
 from .forms import *
-from .decorators import user_not_authenticated
-from .tokens import account_activation_token
-from .utils import custom_slugify_
 
-
-def login_page(request):
-    page = 'login'
-    if request.user.is_authenticated:
-        return redirect('home')
-
-    if request.method == 'POST':
-        username = request.POST.get('username').lower()
-        password = request.POST.get('password')
-        try:
-            user = User.objects.get(username=username)
-        except:
-            messages.error(request, 'User doesn\'t exist.')
-
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.error(request, 'Invalid username or password.')
-    context = {'page': page}
-    return render(request, 'base/login_signup.html', context)
-
-
-def logout_page(request):
-    logout(request)
-    return redirect('home')
-
-
-def success(request):
-    return redirect('home')
-
-
-def activate(request, uidb64, token):
-    User = get_user_model()
-    try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except:
-        user = None
-
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-
-        messages.success(request, "Thank you for your email confirmation. Now you can login your account.")
-        return redirect('login')
-    else:
-        messages.error(request, "Activation link is invalid!")
-
-    return redirect('home')
-
-
-# def activateEmail(request, user, to_email):
-#     User = get_user_model()
-#
-#     if User.objects.filter(email=to_email).exclude(pk=user.pk).exists():
-#         messages.error(request, f'Email {to_email} is already in use by another account.')
-#         return False
-#     else:
-#         mail_subject = "Activate your user account."
-#         message = render_to_string("base/template_activate_account.html", {
-#             'user': user.username,
-#             'domain': get_current_site(request).domain,
-#             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-#             'token': account_activation_token.make_token(user),
-#             "protocol": 'https' if request.is_secure() else 'http'
-#         })
-#         email = EmailMessage(mail_subject, message, to=[to_email])
-#         if email.send():
-#             messages.success(request, f'Dear <b>{user}</b>, please go to you email <b>{to_email}</b> inbox and click on \
-#                         received activation link to confirm and complete the registration. <b>Note:</b> Check your spam folder.')
-#         else:
-#             messages.error(request, f'Problem sending email to {to_email}, check if you typed it correctly.')
-#
-# # @csrf_exempt
-# # def auth_receiver(request):
-# #     """
-# #     Google calls this URL after the user has signed in with their Google account.
-# #     """
-# #     print('Inside')
-# #     token = request.POST['credential']
-# #
-# #     try:
-# #         user_data = id_token.verify_oauth2_token(
-# #             token, requests.Request(), os.environ['GOOGLE_OAUTH_CLIENT_ID']
-# #         )
-# #     except ValueError:
-# #         return HttpResponse(status=403)
-# #
-# #     # In a real app, I'd also save any new user here to the database.
-# #     # You could also authenticate the user here using the details from Google (https://docs.djangoproject.com/en/4.2/topics/auth/default/#how-to-log-a-user-in)
-# #     request.session['user_data'] = user_data
-# #
-# #     return redirect('sign_in')
-
-
-def activateEmail(request, user, to_email):
-    User = get_user_model()
-
-    if User.objects.filter(email=to_email).exclude(pk=user.pk).exists():
-        messages.error(request, f'Email {to_email} is already in use by another account.')
-        return False
-
-    mail_subject = "Activate your user account."
-    message = render_to_string("base/template_activate_account.html", {
-        'user': user.username,
-        'domain': get_current_site(request).domain,
-        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-        'token': account_activation_token.make_token(user),
-        "protocol": 'https' if request.is_secure() else 'http'
-    })
-    email = EmailMessage(mail_subject, message, to=[to_email])
-
-    try:
-        if email.send():
-            messages.success(request,
-                             f'Dear <b>{user}</b>, please go to your email <b>{to_email}</b> inbox and click on the received activation link to confirm and complete the registration. <b>Note:</b> Check your spam folder.')
-            return True
-        else:
-            messages.error(request, f'Problem sending email to {to_email}, check if you typed it correctly.')
-            return False
-    except Exception as e:
-        messages.error(request, f'Error sending email: {str(e)}')
-        return False
-
-
-@user_not_authenticated
-def signup_page(request):
-    page = 'signup'
-    form = UserRegistrationForm(request.POST or None)
-
-    if request.method == 'POST':
-        if form.is_valid():
-            email = form.cleaned_data.get('email')
-
-            if User.objects.filter(email=email).exists():
-                messages.error(request, 'This email is already registered. Please use a different email.')
-                return render(request, 'base/login_signup.html', {'page': page, 'form': form})
-
-            user = form.save(commit=False)
-            user.username = user.username.lower()
-            user.is_active = False
-            user.save()
-
-            if not activateEmail(request, user, email):
-                return render(request, 'base/login_signup.html', {'page': page, 'form': form})
-
-            return redirect('login')  # Redirect to login after successful signup
-
-        else:
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"{field}: {error}")
-
-    context = {'page': page, 'form': form}
-    return render(request, 'base/login_signup.html', context)
 
 
 # @user_not_authenticated

@@ -22,4 +22,6 @@ urlpatterns = [
     path('', include('base.urls')),
     path('library/', include('mindbridge_library.urls'), name='library'),
     path('career/', include('mindbridge_career.urls'), name='career'),
+    path('auth/', include('mindbridge_auth.urls'), name='auth'),
+    path('accounts/', include('allauth.urls')),
 ]

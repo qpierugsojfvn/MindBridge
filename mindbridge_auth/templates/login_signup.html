@@ -224,15 +224,15 @@
     <div class="left-panel">
         <img alt="MindBridge Logo" class="logo-img" src={% static 'loginPage/29b25a38fe24097894357e496e293379.jpg' %}>
         <div class="text">MindBridge</div>
-        <a class="back-btn" href={% url 'home' %}>Back to website →</a>
+        <a class="back-btn" href={% url 'base:home' %}>Back to website →</a>
     </div>
 
     {% if page == 'login' %}
         <div class="right-panel">
             <h2>Log in</h2>
-            <p>Don't have an account? <a href={% url 'sign-up' %}>Sign up</a></p>
+            <p>Don't have an account? <a href={% url 'auth:sign-up' %}>Sign up</a></p>
 
-            <form method="POST" action="{% url 'login' %}">
+            <form method="POST" action="{% url 'auth:login' %}">
                 {% csrf_token %}
 
                 <label for="input_username"></label>
@@ -249,20 +249,14 @@
 
                 <input class="create-btn" type="submit" value="Login"/>
             </form>
-
-            {#            <div class="divider">#}
-            {#                <span></span> or <span></span>#}
-            {#            </div>#}
-            {#            <a class="google-btn" style="text-decoration: none; color:#000000" href="{% provider_login_url 'google' %}"><img#}
-            {#                    alt="Google" src={% static 'icons/google.png' %}>Continue with google</a>#}
-
+            <a href="/accounts/google/login/" class="google-btn">Login with Google</a>
         </div>
     {% else %}
         <div class="right-panel">
             <h2>Create an account</h2>
-            <p>Already have an account? <a href={% url 'login' %}>Login</a></p>
+            <p>Already have an account? <a href={% url 'auth:login' %}>Login</a></p>
 
-            <form method="POST" action="{% url 'sign-up' %}">
+            <form method="POST" action="{% url 'auth:sign-up' %}">
                 {% csrf_token %}
 
                 {% if form.errors %}
