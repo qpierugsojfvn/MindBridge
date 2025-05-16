@@ -610,8 +610,8 @@
         <div class="navbar-container">
             <div class="logo">MindBridge</div>
             <ul class="menu">
-                <li><a class="active" href={% url 'home' %}>Home</a></li>
-                <li><a href={% url 'home' %}>Discussions</a></li>
+                <li><a class="active" href={% url 'base:home' %}>Home</a></li>
+                <li><a href={% url 'base:home' %}>Discussions</a></li>
                 <li class="dropdown">
                     <button onclick="toggleDropdown()" class="dropbtn">Library</button>
                     <div class="dropdown-content" id="libraryDropdown">
@@ -634,10 +634,10 @@
                         <img src={% static 'icons/ava.png' %} alt="ProfilePicture"/>
                     </div>
                     <div class="dropdown-menu" id="profileMenu">
-                        <a href={% url 'user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>
-                        <a href={% url 'edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i> Edit</a>
+                        <a href={% url 'base:user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>
+                        <a href={% url 'base:edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i> Edit</a>
                         <a href="saved.html"><i class="fa-regular fa-bookmark"></i> Saved</a>
-                        <a href={% url 'logout' %}><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
+                        <a href={% url 'auth:logout' %}><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
                     </div>
                 </div>
             </div>
@@ -657,7 +657,7 @@
     <button class="filter-btn">
         <i class="fa-solid fa-sliders"></i> Filter
     </button>
-    <a href={% url 'create-discussion' %} class="new-discussion-btn">
+    <a href={% url 'base:create-discussion' %} class="new-discussion-btn">
         <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M8.5 15C12.366 15 15.5 11.866 15.5 8C15.5 4.13401 12.366 1 8.5 1C4.63401 1 1.5 4.13401 1.5 8C1.5 11.866 4.63401 15 8.5 15Z"
                   stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -738,8 +738,8 @@
                                   stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    {#                    <div class="reaction"><a href={% url 'discussion' 1 %}>#}
-                    <div class="reaction"><a href={% url 'view-discussion' %}>
+                    {#                    <div class="reaction"><a href={% url 'base:discussion' %}>#}
+                    <div class="reaction"><a href={% url 'base:view-discussion' %}>
                         <svg width=" 22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5.99944 11.7142C6.39393 11.7142 6.71373 11.3944 6.71373 10.9999C6.71373 10.6054 6.39393 10.2856 5.99944 10.2856C5.60495 10.2856 5.28516 10.6054 5.28516 10.9999C5.28516 11.3944 5.60495 11.7142 5.99944 11.7142Z"
                                   stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -812,7 +812,7 @@
                                   stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <div class="reaction"><a href={% url 'discussion' 1 %}>
+                    <div class="reaction"><a href={% url 'base:discussion' 1 %}>
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5.99944 11.7142C6.39393 11.7142 6.71373 11.3944 6.71373 10.9999C6.71373 10.6054 6.39393 10.2856 5.99944 10.2856C5.60495 10.2856 5.28516 10.6054 5.28516 10.9999C5.28516 11.3944 5.60495 11.7142 5.99944 11.7142Z"
                                   stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -892,7 +892,7 @@
                                   stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <div class="reaction"><a href={% url 'discussion' 1 %}>
+                    <div class="reaction"><a href={% url 'base:discussion' 1 %}>
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5.99944 11.7142C6.39393 11.7142 6.71373 11.3944 6.71373 10.9999C6.71373 10.6054 6.39393 10.2856 5.99944 10.2856C5.60495 10.2856 5.28516 10.6054 5.28516 10.9999C5.28516 11.3944 5.60495 11.7142 5.99944 11.7142Z"
                                   stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -973,7 +973,7 @@
                                   stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <div class="reaction"><a href={% url 'discussion' 1 %}>
+                    <div class="reaction"><a href={% url 'base:discussion' 1 %}>
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5.99944 11.7142C6.39393 11.7142 6.71373 11.3944 6.71373 10.9999C6.71373 10.6054 6.39393 10.2856 5.99944 10.2856C5.60495 10.2856 5.28516 10.6054 5.28516 10.9999C5.28516 11.3944 5.60495 11.7142 5.99944 11.7142Z"
                                   stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1112,63 +1112,3 @@
     </div>
 </footer>
 </html>
-
-
-{##}
-{#{% extends 'main.html' %}#}
-{##}
-{#{% block content %}#}
-{#    <style>#}
-{#        .home-container {#}
-{#            display: grid;#}
-{#            grid-template-rows: 0.5fr 3fr;#}
-{#        }#}
-{#    </style>#}
-{##}
-{#    <div class="home-container">#}
-{##}
-{#        <div>#}
-{#            <a href="{% url 'home' %}">All</a> |#}
-{#            {% for tag in tags %}#}
-{#                <a href="{% url 'home' %}?q={{ tag.slug }}">{{ tag.name }}</a> |#}
-{#            {% endfor %}#}
-{#            <hr>#}
-{#            Filter#}
-{#        </div>#}
-{##}
-{#        <div>#}
-{#            <h5>{{ discussion_count }} discussions available</h5>#}
-{#            <a href="{% url 'create-discussion' %}">Create discussion</a>#}
-{#            <div>#}
-{#                {% for discussion in discussions %}#}
-{#                    <div>#}
-{#                        <hr>#}
-{#                        <h5><a href="/discussion/{{ discussion.id }}">{{ discussion.title }}</a>#}
-{#                        </h5>#}
-{##}
-{#                        {{ discussion.content|truncatewords:15 }}#}
-{#                        <br>#}
-{#                        {% if request.user == discussion.host or request.user.is_staff %}#}
-{#                            <a href="{% url 'update-discussion' discussion.id %}">Edit</a>#}
-{#                            <a href="{% url 'delete-discussion' discussion.id %}">Delete</a>#}
-{#                        {% endif %}#}
-{#                        <br>#}
-{#                        <small>#}
-{#                            <a href="{% url 'user-profile' discussion.host.id %}">@{{ discussion.host }}</a>#}
-{#                            {{ discussion.created_at|timesince }}#}
-{#                            ago</small><br>#}
-{#                        tags:#}
-{#                        {% for tag in discussion.tags.all %}#}
-{#                            <small>{{ tag.slug }}</small> |#}
-{#                        {% endfor %}#}
-{#                        <br>#}
-{#                        answer qty: {{ discussion.answers_count }}#}
-{##}
-{#                    </div>#}
-{#                {% endfor %}#}
-{#            </div>#}
-{#        </div>#}
-{##}
-{##}
-{#    </div>#}
-{#{% endblock %}#}

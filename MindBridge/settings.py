@@ -35,7 +35,7 @@ ALLOWED_HOSTS = [
 ]
 
 # Application definition
-SITE_ID = 1
+SITE_ID = 4
 
 INSTALLED_APPS = [
     'django.contrib.auth',
@@ -47,9 +47,11 @@ INSTALLED_APPS = [
     'base.apps.BaseConfig',
     'mindbridge_library.apps.MindbridgeLibraryConfig',
     'mindbridge_career.apps.MindbridgeCareerConfig',
+    'mindbridge_auth.apps.MindbridgeAuthConfig',
     'taggit',
     'embed_video',
     'django.contrib.sites',
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -57,6 +59,7 @@ INSTALLED_APPS = [
 ]
 
 AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
@@ -77,8 +80,7 @@ ROOT_URLCONF = 'MindBridge.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,16 +102,16 @@ WSGI_APPLICATION = 'MindBridge.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app']
 DATABASES = {
-    'default': dj_database_url.config(
-        default="postgresql://postgres:tCYumsnvAWhhrAHeyRZRKBPaVysgShzY@switchyard.proxy.rlwy.net:31340/railway")
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'mindbridge',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'postgres',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432',
-    # }
+    # 'default': dj_database_url.config(
+    #     default="postgresql://postgres:tCYumsnvAWhhrAHeyRZRKBPaVysgShzY@switchyard.proxy.rlwy.net:31340/railway")
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mindbridge',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 # Password validation
@@ -169,26 +171,20 @@ DEFAULT_FROM_EMAIL = '210103259@stu.sdu.edu.kz'
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        'APP': {
-            'client_id': '831514105810-rptt4l1k7cc5jcbc4e4k9sov2pd702s6.apps.googleusercontent.com',
-            'client_secret': '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',
-            'key': '',
-        },
         'SCOPE': [
             'profile',
             'email',
         ],
         'AUTH_PARAMS': {
             'access_type': 'online',
-        },
-        'METHOD': 'oauth2',
-        'VERIFIED_EMAIL': True,
-        'OAUTH_PKCE_ENABLED': True,
+        }
     }
 }
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = 'success'
+LOGIN_REDIRECT_URL = '/auth/success'
+LOGOUT_REDIRECT_URL = '/' # Куда перенаправлять после выхода
+
 ACCOUNT_LOGOUT_REDIRECT_URL = 'login'

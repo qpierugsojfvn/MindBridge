@@ -2,13 +2,10 @@ from django.urls import path
 from . import views
 from .views import TagAutocompleteView
 
+app_name = 'base'
+
 urlpatterns = [
-    path('login/', views.login_page, name='login'),
-    path('logout/', views.logout_page, name='logout'),
-    path('sign-up/', views.signup_page, name='sign-up'),
-    path('activate/<uidb64>/<token>', views.activate, name='activate'),
     # path('auth-receiver', views.auth_receiver, name='auth-receiver'),
-    path('success/', views.success, name='success'),
     path('', views.home, name='home'),
     path('discussion/<str:pk>/', views.discussion, name='discussion'),
     path('user-profile/<str:pk>/', views.user_profile, name='user-profile'),
