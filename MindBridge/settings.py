@@ -35,7 +35,7 @@ ALLOWED_HOSTS = [
 ]
 
 # Application definition
-SITE_ID = 4
+SITE_ID = 1
 
 INSTALLED_APPS = [
     'django.contrib.auth',
@@ -102,16 +102,16 @@ WSGI_APPLICATION = 'MindBridge.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app']
 DATABASES = {
-    # 'default': dj_database_url.config(
-    #     default="postgresql://postgres:tCYumsnvAWhhrAHeyRZRKBPaVysgShzY@switchyard.proxy.rlwy.net:31340/railway")
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mindbridge',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        default="postgresql://postgres:tCYumsnvAWhhrAHeyRZRKBPaVysgShzY@switchyard.proxy.rlwy.net:31340/railway")
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'mindbridge',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'postgres',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
+    # }
 }
 
 # Password validation
