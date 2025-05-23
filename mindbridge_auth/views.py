@@ -59,7 +59,7 @@ def activate(request, uidb64, token):
         user.save()
 
         messages.success(request, "Thank you for your email confirmation. Now you can login your account.")
-        return redirect('login')
+        return redirect('auth:login')
     else:
         messages.error(request, "Activation link is invalid!")
 
@@ -94,6 +94,18 @@ def activateEmail(request, user, to_email):
         messages.error(request, f'Error sending email: {str(e)}')
         return False
 
+def send_success_auth_with_google(request, user, to_email):
+    mail_subject = "Welcome to MindBridge!"
+
+    message = render_to_string("base/template_activate_account.html", {
+        'user': user.username,
+        'domain': get_current_site(request).domain,
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': account_activation_token.make_token(user),
+        "protocol": 'https' if request.is_secure() else 'http'
+    })
+    email = EmailMessage(mail_subject, message, to=[to_email])
+
 
 @user_not_authenticated
 def signup_page(request):
@@ -116,7 +128,7 @@ def signup_page(request):
             if not activateEmail(request, user, email):
                 return render(request, 'login_signup.html', {'page': page, 'form': form})
 
-            return redirect('login')  # Redirect to login after successful signup
+            return redirect('auth:login')  # Redirect to login after successful signup
 
         else:
             for field, errors in form.errors.items():
