@@ -16,7 +16,7 @@
     <header>
         <nav class="navbar">
             <div class="logo">
-                <a href="{% url 'home' %}">
+                <a href="{% url 'base:home' %}">
                     <img alt="logo" src={% static 'logo/Asset 8.png' %}>
                 </a>
             </div>
@@ -27,7 +27,7 @@
                 <li><a href={% url 'careers:vacancy_list' %}>Career</a></li>
             </ul>
 {#            <input type="text" class="search-bar" placeholder="Search for...">#}
-            <form method="GET" action="{% url 'home' %}">
+            <form method="GET" action="{% url 'base:home' %}">
                 <label for="search-bar"></label>
                 <input id="search-bar" type="text" name="q" class="search-bar" placeholder="{% if '/library/' in request.path %}Search lessons...{% elif '/career/' in request.path %}Search vacancies...{% else %} Search discussions...{% endif %}">
             </form>
@@ -38,13 +38,13 @@
                     welcome, {{ request.user.first_name }} {{ request.user.last_name }}
 {#                     profile photo#}
 {#                    <i class="bi bi-person"><a  href={% url 'user-profile' pk=user.id %}></a></i>#}
-                    <a  href={% url 'user-profile' pk=user.id %}><i class="bi bi-person"></i></a>
+                    <a  href={% url 'base:user-profile' pk=user.id %}><i class="bi bi-person"></i></a>
                     Hello, {{ request.user.username }}!
-                    <a href={% url 'logout' %}><i class="bi bi-door-open"></i></a>
+                    <a href={% url 'auth:logout' %}><i class="bi bi-door-open"></i></a>
 
                 {% else %}
                     login bro
-                    <a href={% url 'login' %}><i class="bi bi-person"></i></a>
+                    <a href={% url 'auth:login' %}><i class="bi bi-person"></i></a>
                 {% endif %}
             </div>
         </nav>

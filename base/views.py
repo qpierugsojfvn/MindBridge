@@ -147,7 +147,7 @@ def edit_profile(request, pk):
             u_form.save()
             p_form.save()
             messages.success(request, 'Your profile has been updated!')
-            return redirect('user-profile', pk=user.pk)
+            return redirect('base:user-profile', pk=user.pk)
     else:
         u_form = UserUpdateForm(instance=user)
         p_form = ProfileUpdateForm(instance=user.profile)

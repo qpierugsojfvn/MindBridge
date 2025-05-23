@@ -630,9 +630,15 @@
                 <a href="message.html"><i class="fa-regular fa-comment"></i></a>
                 <i class="fa-regular fa-bell"></i>
                 <div class="avatar-dropdown">
-                    <div class="avatar" onclick="toggleMenu()">
-                        <img src={% static 'icons/ava.png' %} alt="ProfilePicture"/>
-                    </div>
+                    {% if request.user.is_authenticated %}
+                        <div class="avatar" onclick="toggleMenu()">
+                            <img src="{% static 'icons/ava.png' %}" alt="ProfilePicture"/>
+                        </div>
+                    {% else %}
+                        <div class="avatar" onclick="toggleMenu()">
+                            <img src="{% static 'icons/no_avatar.jpg' %}" alt="ProfilePicture"/>
+                        </div>
+                    {% endif %}
                     <div class="dropdown-menu" id="profileMenu">
                         <a href={% url 'base:user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>
                         <a href={% url 'base:edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i> Edit</a>

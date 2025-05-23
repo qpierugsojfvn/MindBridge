@@ -87,10 +87,10 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ['avatar', 'about', 'description', 'country', 'city', 'portfolio_url']
+        fields = ['avatar', 'about', 'bio', 'country', 'city', 'portfolio_url']
         widgets = {
             'about': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
+            'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 5}),
             'country': forms.Select(attrs={'class': 'form-control'}),
             'city': forms.Select(attrs={'class': 'form-control'}),
             'portfolio_url': forms.URLInput(attrs={'class': 'form-control'}),
@@ -120,7 +120,7 @@ class ProfileUpdateForm(forms.ModelForm):
     # class Meta:
     #     model = UserProfile
     #     # fields = ['bio', 'profile_pic']
-    #     fields = ['about', 'description', 'portfolio_url']
+    #     fields = ['about', 'bio', 'portfolio_url']
     #
     # def clean_profile_pic(self):
     #     picture = self.cleaned_data.get('profile_pic')

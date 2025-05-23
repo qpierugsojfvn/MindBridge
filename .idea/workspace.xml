@@ -4,34 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="Remade discussions">
-      <change afterPath="$PROJECT_DIR$/mindbridge_auth/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mindbridge_auth/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mindbridge_auth/apps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mindbridge_auth/migrations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mindbridge_auth/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mindbridge_auth/tests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mindbridge_auth/tokens.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mindbridge_auth/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mindbridge_auth/views.py" afterDir="false" />
+    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="Edited requirements.txt">
+      <change afterPath="$PROJECT_DIR$/base/templates/base/static/icons/no_avatar.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MindBridge/asgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/asgi.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MindBridge/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_auth/signals.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/discussion_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/discussion_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/edit_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/edit_profile.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/base/templates/base/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/login_signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_auth/templates/login_signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/template_activate_account.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/template_activate_account.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/welcome_page.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/welcome_page.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/profile.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_auth/templates/login_signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_auth/templates/login_signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_auth/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_auth/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_library/templates/library_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_library/templates/library_main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/navbar.html" afterDir="false" />
     </list>
     <list id="321f1dca-06e3-4bc8-b51e-b75544aa79c3" name="local ignore" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
@@ -53,7 +51,7 @@
   }
 }</component>
   <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="1811353e-578e-428f-bfad-32cc9a81ada9" />
+    <option name="defaultAccountId" value="b46aaf78-05ab-4361-bfd8-afe8bfbe77e8" />
   </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
@@ -72,31 +70,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Django Server.MindBridge.executor": "Run",
-    "Python.views.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
-    "django.template.preview.state": "SHOW_EDITOR_AND_PREVIEW",
-    "git-widget-placeholder": "dev1",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "/Users/armanlyosman/PycharmProjects/MindBridge/mindbridge_auth",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Django Server.MindBridge.executor&quot;: &quot;Run&quot;,
+    &quot;Python.views.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
+    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR_AND_PREVIEW&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/armanlyosman/PycharmProjects/MindBridge/mindbridge_auth&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/mindbridge_auth" />
@@ -104,9 +103,9 @@
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\icons" />
       <recent name="$PROJECT_DIR$/mindbridge_auth" />
       <recent name="$PROJECT_DIR$/mindbridge_auth/templates" />
-      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\icons" />
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\login_page" />
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base" />
     </key>
@@ -141,7 +140,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-4f4e415b4190-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.26053.29" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.26053.29" />
+        <option value="bundled-python-sdk-b1dbf8ef85a6-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.26053.29" />
       </set>
     </attachedChunks>
   </component>
@@ -158,6 +158,8 @@
       <workItem from="1746466147716" duration="3850000" />
       <workItem from="1746505144005" duration="8751000" />
       <workItem from="1746641492322" duration="1289000" />
+      <workItem from="1747807361318" duration="2115000" />
+      <workItem from="1747995378089" duration="3706000" />
     </task>
     <task id="LOCAL-00001" summary="Fixing sign up and removing career app only for now">
       <option name="closed" value="true" />
@@ -175,7 +177,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747153874104</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Edited requirements.txt">
+      <option name="closed" value="true" />
+      <created>1747754792234</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1747754792234</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -208,6 +218,7 @@
     <MESSAGE value="Fixing sign up and removing career app only for now" />
     <MESSAGE value="fix migrations" />
     <MESSAGE value="Update vacancy list" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update vacancy list" />
+    <MESSAGE value="Edited requirements.txt" />
+    <option name="LAST_COMMIT_MESSAGE" value="Edited requirements.txt" />
   </component>
 </project>
