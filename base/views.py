@@ -7,13 +7,13 @@ from datetime import datetime, timedelta
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Count
+from django.db.models.functions import TruncDate
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from taggit.models import Tag
 
 from .forms import *
-
 
 
 # @user_not_authenticated
@@ -69,6 +69,55 @@ def home(request):
         return render(request, 'base/home.html', context)
 
 
+def get_three_weeks_activity(request):
+    host_id = request.user.id
+
+    today = datetime.now().date()
+    current_weekday = today.weekday()  # 0-пн, 6-вс
+
+    # Находим понедельник текущей недели
+    current_monday = today - timedelta(days=current_weekday)
+
+    # Вычисляем даты начала периодов
+    week3_start = current_monday - timedelta(weeks=2)
+    week2_start = current_monday - timedelta(weeks=1)
+    week1_start = current_monday
+
+    # Создаем список всех нужных дат
+    date_list = []
+
+    # 2 недели назад (полная неделя)
+    date_list.extend([week3_start + timedelta(days=x) for x in range(7)])
+
+    # 1 неделя назад (полная неделя)
+    date_list.extend([week2_start + timedelta(days=x) for x in range(7)])
+
+    # Текущая неделя (только пройденные дни)
+    date_list.extend([week1_start + timedelta(days=x) for x in range(current_weekday + 1)])
+
+    # Получаем даты публикаций хоста за весь период
+    published_dates = Discussion.objects.filter(
+        host_id=host_id,
+        created_at__date__gte=week3_start,
+        created_at__date__lte=today
+    ).annotate(
+        date_only=TruncDate('created_at')
+    ).values_list('date_only', flat=True).distinct()
+
+    published_dates = set(published_dates)
+
+    # Формируем результат с датами и флагами
+    activity_array = [date in published_dates for date in date_list]
+
+    total_days = len(activity_array)
+    active_days = sum(activity_array)
+    activity_percent = round((active_days / total_days) * 100) if total_days > 0 else 0
+
+    return {
+        'activity_days': activity_array,
+        'activity_percent': activity_percent
+    }
+
 def discussion(request, pk):
     discussion = Discussion.objects.get(id=pk)
     answers = discussion.answers.all().order_by('-created_at')
@@ -116,11 +165,16 @@ def discussion(request, pk):
 
 def user_profile(request, pk):
     user = get_object_or_404(User, id=pk)
+
+    activity = get_three_weeks_activity(request)
+    print(activity.get('activity_days'))
     context = {
         'user': user,
         'profile': user.profile,
         'recent_discussions': Discussion.objects.filter(host=user).order_by('-created_at')[:5],
-        'recent_answers': Answer.objects.filter(user=user).order_by('-created_at')[:5]
+        'recent_answers': Answer.objects.filter(user=user).order_by('-created_at')[:5],
+        'activity_days': activity.get('activity_days'),
+        'activity_percent': activity.get('activity_percent')
     }
     return render(request, 'base/profile.html', context)
 

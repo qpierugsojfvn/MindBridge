@@ -639,6 +639,55 @@
                 font-size: 13px;
             }
         }
+        .activity-container {
+        display: flex;
+        width: 69vw;
+        height: 40vh;
+        gap: 20px;
+        background-color: #ffffff;
+        margin: 30px 75px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    }
+        .active-days {
+            color: #ff52bf;
+            font-size: 16px;
+            margin-top: -15px;
+        }
+
+                .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+
+            .day {
+            font-weight: bold;
+            font-size: 14px;
+            color: #555;
+        }
+
+            .circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #eee;
+        }
+
+        .circle.active {
+            background-color: #ff52bf;
+        }
+
+        .circle.inactive {
+            background-color: #f7d6eb;
+        }
+
+        .pink {
+        font-size: 20px;
+        background: linear-gradient(to right,#FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF) ;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
     </style>
 </head>
 <body>
@@ -764,6 +813,31 @@
             {{ request.user.profile.about }}
         </p>
     </div>
+
+    <div class="activity-container">
+    <div class="card">
+        <!-- My Activity Section -->
+        <div class="activity-card">
+            <h2><span class="pink">My activity</span></h2>
+            <p class="active-days">{{activity_percent}}% active days this month</p>
+            <div class="calendar">
+                <div class="day">M</div>
+                <div class="day">T</div>
+                <div class="day">W</div>
+                <div class="day">T</div>
+                <div class="day">F</div>
+                <div class="day">S</div>
+                <div class="day">S</div>
+
+                {% for is_active in activity_days %}
+                    {% if is_active %}
+                    <div class="circle active"></div>
+                    {% else %}
+                    <div class="circle inactive"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
 </div>
 <div class="activity-progress-container">
     <div class="activity-progress">
