@@ -72,6 +72,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'mindbridge_career.middleware.ProfileCompletionMiddleware',
 ]
 
 ROOT_URLCONF = 'MindBridge.urls'
@@ -101,16 +102,16 @@ WSGI_APPLICATION = 'MindBridge.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app']
 DATABASES = {
-    'default': dj_database_url.config(
-        default="postgresql://postgres:tCYumsnvAWhhrAHeyRZRKBPaVysgShzY@switchyard.proxy.rlwy.net:31340/railway")
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'mindbridge',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'nurali2004',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432',
-    # }
+    # 'default': dj_database_url.config(
+    #     default="postgresql://postgres:tCYumsnvAWhhrAHeyRZRKBPaVysgShzY@switchyard.proxy.rlwy.net:31340/railway")
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mindbridge',
+        'USER': 'postgres',
+        'PASSWORD': 'nurali2004',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 # Password validation
@@ -184,6 +185,6 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = '/auth/success'
-LOGOUT_REDIRECT_URL = '/' # Куда перенаправлять после выхода
+LOGOUT_REDIRECT_URL = '/'  # Куда перенаправлять после выхода
 
 ACCOUNT_LOGOUT_REDIRECT_URL = 'login'

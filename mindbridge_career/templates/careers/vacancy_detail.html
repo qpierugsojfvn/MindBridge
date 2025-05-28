@@ -1,0 +1,101 @@
+{% extends "main.html" %}
+
+{% block content %}
+    <div class="vacancy-detail">
+        <h1>{{ vacancy.title }}</h1>
+        <h2>{{ vacancy.company.name }}</h2>
+
+        <div class="meta-info">
+        <span class="location">
+            {{ vacancy.location_city }}, {{ vacancy.location_country }}
+            {% if vacancy.is_remote %} (Remote){% endif %}
+        </span>
+            <span class="employment-type">{{ vacancy.get_employment_type_display }}</span>
+            <span class="work-schedule">{{ vacancy.get_work_schedule_display }}</span>
+            <span class="experience">{{ vacancy.get_experience_required_display }}</span>
+            {% if vacancy.salary_min or vacancy.salary_max %}
+                <span class="salary">
+            Salary:
+                    {% if vacancy.salary_min and vacancy.salary_max %}
+                        ${{ vacancy.salary_min }} - ${{ vacancy.salary_max }}
+                    {% elif vacancy.salary_min %}
+                        From ${{ vacancy.salary_min }}
+                    {% elif vacancy.salary_max %}
+                        Up to ${{ vacancy.salary_max }}
+                    {% endif %}
+        </span>
+            {% endif %}
+        </div>
+
+        <div class="description">
+            <h3>Job Description</h3>
+            {{ vacancy.description|linebreaks }}
+        </div>
+
+        {% if user.is_authenticated and user.userprofile.role == 'EMPLOYEE' %}
+            <a href="{% url 'apply_vacancy' vacancy.pk %}" class="btn btn-primary">Apply Now</a>
+        {% elif not user.is_authenticated %}
+            <p><a href="{% url 'login' %}?next={% url 'apply_vacancy' vacancy.pk %}">Log in to apply</a></p>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{#{% extends "base.html" %}#}
+{##}
+{#{% block careers_content %}#}
+{#<div class="card mb-4">#}
+{#    <div class="card-body">#}
+{#        <div class="d-flex justify-content-between align-items-start mb-3">#}
+{#            <div>#}
+{#                <h1 class="card-title">{{ vacancy.title }}</h1>#}
+{#                <h4 class="card-subtitle text-muted">{{ vacancy.company.name }}</h4>#}
+{#            </div>#}
+{#            {% if vacancy.salary %}#}
+{#            <span class="badge bg-success fs-5">${{ vacancy.salary }}</span>#}
+{#            {% endif %}#}
+{#        </div>#}
+{#        #}
+{#        <div class="d-flex flex-wrap gap-3 mb-4">#}
+{#            <span class="badge bg-primary fs-6">{{ vacancy.get_employment_type_display }}</span>#}
+{#            <span class="badge bg-secondary fs-6">{{ vacancy.get_schedule_display }}</span>#}
+{#            <span class="badge bg-warning text-dark fs-6">{{ vacancy.get_experience_required_display }}</span>#}
+{#            <span class="badge bg-info text-dark fs-6">#}
+{#                <i class="fas fa-map-marker-alt"></i> {{ vacancy.location_city }}, {{ vacancy.location_country }}#}
+{#            </span>#}
+{#        </div>#}
+{#        #}
+{#        <div class="mb-4">#}
+{#            <h4>Job Description</h4>#}
+{#            <div class="border p-3 bg-light rounded">#}
+{#                {{ vacancy.description|linebreaks }}#}
+{#            </div>#}
+{#        </div>#}
+{#        #}
+{#        <div class="d-flex justify-content-between align-items-center">#}
+{#            <small class="text-muted">#}
+{#                Posted on {{ vacancy.created_at|date:"F j, Y" }}#}
+{#            </small>#}
+{#            #}
+{#            {% if request.user.is_authenticated %}#}
+{#                {% if has_applied %}#}
+{#                <button class="btn btn-success" disabled>#}
+{#                    <i class="fas fa-check"></i> Already Applied#}
+{#                </button>#}
+{#                {% else %}#}
+{#                <a href="{% url 'careers:apply_vacancy' vacancy.pk %}" class="btn btn-primary">#}
+{#                    <i class="fas fa-paper-plane"></i> Apply Now#}
+{#                </a>#}
+{#                {% endif %}#}
+{#            {% else %}#}
+{#            <a href="{% url 'login' %}?next={% url 'careers:vacancy_detail' vacancy.pk %}" class="btn btn-primary">#}
+{#                <i class="fas fa-sign-in-alt"></i> Login to Apply#}
+{#            </a>#}
+{#            {% endif %}#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#<a href="{% url 'careers:vacancy_list' %}" class="btn btn-outline-secondary">#}
+{#    <i class="fas fa-arrow-left"></i> Back to all vacancies#}
+{#</a>#}
+{#{% endblock %}#}

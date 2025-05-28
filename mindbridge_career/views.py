@@ -1,96 +1,56 @@
-from django.shortcuts import render, redirect, get_object_or_404
+# careers/views.py
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.core.paginator import Paginator
-from .models import Vacancy, Company, Application
-from .forms import CompanyForm, VacancyForm, ApplicationForm
+from .models import Vacancy, Application, Company
+from .forms import VacancyForm, ApplicationForm, UserProfileForm
+from mindbridge_auth.decorators import role_required
+from mindbridge_auth.models import UserProfile
+from django.core.exceptions import ObjectDoesNotExist
 
+# careers/views.py
 def vacancy_list(request):
-    vacancies = Vacancy.objects.filter(is_active=True).order_by('-created_at')
+    vacancies = Vacancy.objects.filter(is_active=True)
 
-    # Filtering
+    # Filter by search query
+    query = request.GET.get('q')
+    if query:
+        vacancies = vacancies.filter(
+            models.Q(title__icontains=query) |
+            models.Q(description__icontains=query) |
+            models.Q(company__name__icontains=query)
+        )
+
+    # Filter by other parameters
     employment_type = request.GET.get('employment_type')
     if employment_type:
         vacancies = vacancies.filter(employment_type=employment_type)
 
-    location = request.GET.get('location')
-    if location:
-        vacancies = vacancies.filter(location_city__icontains=location)
+    # Add more filters as needed
 
-    # Pagination (восстановить!)
-    paginator = Paginator(vacancies, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
-    context = {
-        'page_obj': page_obj,
-        'employment_types': Vacancy.EMPLOYMENT_TYPES,
-    }
-    return render(request, 'vacancy_list.html', context)
+    return render(request, 'careers/vacancy_list.html', {'vacancies': vacancies})
 
 def vacancy_detail(request, pk):
     vacancy = get_object_or_404(Vacancy, pk=pk, is_active=True)
-    has_applied = False
-
-    if request.user.is_authenticated:
-        has_applied = Application.objects.filter(
-            vacancy=vacancy,
-            applicant=request.user
-        ).exists()
-
-    context = {
-        'vacancy': vacancy,
-        'has_applied': has_applied,
-    }
-    return render(request, 'vacancy_detail.html', context)
-
+    return render(request, 'careers/vacancy_detail.html', {'vacancy': vacancy})
 
 @login_required
-def create_company(request):
+@role_required(['COMPANY', 'ADMIN'])
+def post_vacancy(request):
     if request.method == 'POST':
-        form = CompanyForm(request.POST, request.FILES)
-        if form.is_valid():
-            company = form.save(commit=False)
-            company.created_by = request.user
-            company.save()
-            messages.success(request, 'Company created successfully!')
-            return redirect('careers:my_companies')
-    else:
-        form = CompanyForm()
-
-    return render(request, 'company_form.html', {'form': form})
-
-
-@login_required
-def my_companies(request):
-    companies = Company.objects.filter(created_by=request.user)
-    return render(request, 'my_companies.html', {'companies': companies})
-
-
-@login_required
-def create_vacancy(request):
-    if request.method == 'POST':
-        form = VacancyForm(request.user, request.POST)
+        form = VacancyForm(request.POST)
         if form.is_valid():
             vacancy = form.save(commit=False)
-            vacancy.created_by = request.user
+            vacancy.company = request.user.company_profile
             vacancy.save()
-            messages.success(request, 'Vacancy created successfully!')
-            return redirect('careers:vacancy_detail', pk=vacancy.pk)
+            return redirect('vacancy_detail', pk=vacancy.pk)
     else:
-        form = VacancyForm(request.user)
-
-    return render(request, 'vacancy_form.html', {'form': form})
-
+        form = VacancyForm()
+    return render(request, 'careers/post_vacancy.html', {'form': form})
 
 @login_required
+@role_required(['EMPLOYEE', 'ADMIN'])
 def apply_vacancy(request, pk):
     vacancy = get_object_or_404(Vacancy, pk=pk, is_active=True)
-
-    if Application.objects.filter(vacancy=vacancy, applicant=request.user).exists():
-        messages.warning(request, 'You have already applied for this position.')
-        return redirect('careers:vacancy_detail', pk=pk)
-
     if request.method == 'POST':
         form = ApplicationForm(request.POST, request.FILES)
         if form.is_valid():
@@ -98,31 +58,45 @@ def apply_vacancy(request, pk):
             application.vacancy = vacancy
             application.applicant = request.user
             application.save()
-            messages.success(request, 'Your application has been submitted successfully!')
-            return redirect('careers:vacancy_detail', pk=pk)
+            return redirect('application_status', pk=application.pk)
     else:
         form = ApplicationForm()
+    return render(request, 'careers/apply_vacancy.html', {'form': form, 'vacancy': vacancy})
 
-    context = {
-        'form': form,
-        'vacancy': vacancy,
-    }
-    return render(request, 'application_form.html', context)
+@login_required
+def application_status(request, pk):
+    application = get_object_or_404(Application, pk=pk, applicant=request.user)
+    return render(request, 'careers/application_status.html', {'application': application})
+
+@login_required
+@role_required(['COMPANY', 'ADMIN'])
+def company_dashboard(request):
+    company = request.user.company_profile
+    vacancies = Vacancy.objects.filter(company=company)
+    applications = Application.objects.filter(vacancy__in=vacancies)
+    return render(request, 'careers/company_dashboard.html', {
+        'company': company,
+        'vacancies': vacancies,
+        'applications': applications
+    })
 
 
 @login_required
-def my_applications(request):
-    applications = Application.objects.filter(applicant=request.user).order_by('-applied_at')
-    return render(request, 'my_applications.html', {'applications': applications})
+def complete_profile(request):
+    # try:
+    #     # profile = request.user.userprofile
+    #     return redirect('base:home')  # Profile already exists
+    # except ObjectDoesNotExist:
+    #     pass
 
-
-@login_required
-def manage_vacancies(request):
-    if not request.user.is_staff:
-        vacancies = Vacancy.objects.filter(created_by=request.user)
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            return redirect('base:home')
     else:
-        vacancies = Vacancy.objects.all()
+        form = UserProfileForm()
 
-    return render(request, 'manage_vacancies.html', {'vacancies': vacancies})
-
-
+    return render(request, 'careers/complete_profile.html', {'form': form})

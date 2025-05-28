@@ -691,8 +691,7 @@
     </style>
 </head>
 <body>
-<header>
-    <nav class="navbar">
+<nav class="navbar">
         <div class="navbar-container">
             <div class="logo">MindBridge</div>
             <ul class="menu">
@@ -706,7 +705,7 @@
                         <a href={% url 'library' %}>Library View</a>
                     </div>
                 </li>
-                <li><a href={% url 'careers:vacancy_list' %}>Career</a></li>
+                <li><a class="active" href={% url 'careers:vacancy_list' %}>Career</a></li>
             </ul>
             <div class="search">
                 <i class="fas fa-search"></i>
@@ -717,7 +716,7 @@
                 <i class="fa-regular fa-bell"></i>
                 <div class="avatar-dropdown">
                     <div class="avatar" onclick="toggleMenu()">
-                        {#                        <img src={{ request.user.profile.avatar.url }} alt="Profile Picture" />#}
+                        <img src="library/ava.png" alt="Profile Picture"/>
                     </div>
                     <div class="dropdown-menu" id="profileMenu">
                         <a href={% url 'base:user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>

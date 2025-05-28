@@ -5,21 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="Edited requirements.txt">
-      <change afterPath="$PROJECT_DIR$/base/templates/base/static/icons/no_avatar.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mindbridge_auth/decorators.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mindbridge_auth/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mindbridge_career/middleware.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mindbridge_career/signals.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mindbridge_career/templates/careers/complete_profile.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mindbridge_career/templates/careers/vacancy_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/base/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/migrations/0002_rename_description_userprofile_bio.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/base/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/discussion_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/discussion_form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/edit_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/edit_profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/base/templates/base/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_auth/templates/login_signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_auth/templates/login_signup.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_auth/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_auth/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_library/templates/library_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_library/templates/library_main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_auth/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_auth/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_auth/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_auth/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_auth/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_auth/signals.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/application_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/templates/careers/application_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/career_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/templates/careers/career_home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/company_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/templates/careers/company_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/manage_vacancies.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/templates/careers/manage_vacancies.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/my_applications.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/templates/careers/my_applications.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/my_companies.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/templates/careers/my_companies.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/templates/careers/vacancy_detail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_detail_old.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/templates/careers/vacancy_detail_old.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/templates/careers/vacancy_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/vacancy_list.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_library/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_library/migrations/0001_initial.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/navbar.html" afterDir="false" />
     </list>
     <list id="321f1dca-06e3-4bc8-b51e-b75544aa79c3" name="local ignore" comment="" />
@@ -30,6 +49,14 @@
   </component>
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
@@ -70,32 +97,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Django Server.MindBridge.executor&quot;: &quot;Run&quot;,
-    &quot;Python.views.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
-    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR_AND_PREVIEW&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/armanlyosman/PycharmProjects/MindBridge/mindbridge_auth&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Django Server.MindBridge.executor": "Run",
+    "Python.views.executor": "Run",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
+    "django.template.preview.state": "SHOW_EDITOR_AND_PREVIEW",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "/Users/armanlyosman/PycharmProjects/MindBridge/mindbridge_auth",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/mindbridge_auth" />
@@ -103,11 +131,11 @@
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\mindbridge_career\templates" />
+      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\mindbridge_career\templates\careers" />
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\icons" />
       <recent name="$PROJECT_DIR$/mindbridge_auth" />
       <recent name="$PROJECT_DIR$/mindbridge_auth/templates" />
-      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\login_page" />
-      <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base" />
     </key>
   </component>
   <component name="RunManager">
@@ -121,12 +149,23 @@
         <env name="DJANGO_SETTINGS_MODULE" value="MindBridge.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.12 virtualenv at C:\Users\nural\Documents\University\diploma prep\MindBridge\.venv" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="net.ashald.envfile">
+        <option name="IS_ENABLED" value="false" />
+        <option name="IS_SUBST" value="false" />
+        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
+        <option name="IS_IGNORE_MISSING_FILES" value="false" />
+        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
+        <ENTRIES>
+          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
+        </ENTRIES>
+      </EXTENSION>
       <option name="launchJavascriptDebuger" value="false" />
-      <option name="port" value="8000" />
+      <option name="port" value="5432" />
       <option name="host" value="" />
       <option name="additionalOptions" value="" />
       <option name="browserUrl" value="" />
@@ -160,6 +199,9 @@
       <workItem from="1746641492322" duration="1289000" />
       <workItem from="1747807361318" duration="2115000" />
       <workItem from="1747995378089" duration="3706000" />
+      <workItem from="1748341085502" duration="1275000" />
+      <workItem from="1748348188354" duration="1000" />
+      <workItem from="1748447565874" duration="4694000" />
     </task>
     <task id="LOCAL-00001" summary="Fixing sign up and removing career app only for now">
       <option name="closed" value="true" />
