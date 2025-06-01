@@ -40,7 +40,7 @@ def post_vacancy(request):
         form = VacancyForm(request.POST)
         if form.is_valid():
             vacancy = form.save(commit=False)
-            vacancy.company = request.user.company_profile
+            vacancy.company = Company.objects.filter(user=request.user)
             vacancy.save()
             return redirect('vacancy_detail', pk=vacancy.pk)
     else:
@@ -68,18 +68,30 @@ def application_status(request, pk):
     application = get_object_or_404(Application, pk=pk, applicant=request.user)
     return render(request, 'careers/application_status.html', {'application': application})
 
+
 @login_required
 @role_required(['COMPANY', 'ADMIN'])
 def company_dashboard(request):
-    company = request.user.company_profile
-    vacancies = Vacancy.objects.filter(company=company)
-    applications = Application.objects.filter(vacancy__in=vacancies)
+    # Получаем конкретную компанию (используем get() вместо filter())
+    try:
+        company = Company.objects.get(user=request.user)
+    except Company.DoesNotExist:
+        # Обработка случая, когда у пользователя нет компании
+        company = None
+
+    # Если компания существует, получаем связанные вакансии
+    if company:
+        vacancies = Vacancy.objects.filter(company=company)
+        applications = Application.objects.filter(vacancy__in=vacancies)
+    else:
+        vacancies = Vacancy.objects.none()
+        applications = Application.objects.none()
+
     return render(request, 'careers/company_dashboard.html', {
         'company': company,
         'vacancies': vacancies,
         'applications': applications
     })
-
 
 @login_required
 def complete_profile(request):
