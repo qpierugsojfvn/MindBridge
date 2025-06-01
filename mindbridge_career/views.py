@@ -90,13 +90,22 @@ def complete_profile(request):
     #     pass
 
     if request.method == 'POST':
+        user = request.user
         form = UserProfileForm(request.POST)
         if form.is_valid():
-            profile = form.save(commit=False)
-            profile.user = request.user
+            # Получаем или создаем профиль пользователя
+            profile, created = UserProfile.objects.get_or_create(user=user)
+            # Обновляем поля профиля из формы
+            profile.role = form.cleaned_data['role']
+            profile.phone = form.cleaned_data['phone']
             profile.save()
+
+            # Обновляем поля пользователя
+            user.role = profile.role
+            user.phone = profile.phone
+            user.save()
+
             return redirect('base:home')
     else:
         form = UserProfileForm()
-
     return render(request, 'careers/complete_profile.html', {'form': form})
