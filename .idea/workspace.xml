@@ -4,23 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="Added company, employee roles">
+    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="fix complete profile">
+      <change afterPath="$PROJECT_DIR$/mindbridge_career/templates/careers/company_dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/discussion.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/discussion.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/discussion_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/discussion_form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/viewdisscusion.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/viewdisscusion.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mindbridge_auth/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_auth/decorators.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_auth/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/templates/careers/vacancy_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/templates/careers/vacancy_list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mindbridge_career/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_library/migrations/0001_initial.py" beforeDir="false" />
     </list>
     <list id="321f1dca-06e3-4bc8-b51e-b75544aa79c3" name="local ignore" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -58,9 +46,6 @@
     &quot;assignee&quot;: &quot;qpierugsojfvn&quot;
   }
 }</component>
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="b46aaf78-05ab-4361-bfd8-afe8bfbe77e8" />
-  </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/qpierugsojfvn/MindBridge.git&quot;,
@@ -78,35 +63,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Django Server.MindBridge.executor&quot;: &quot;Run&quot;,
-    &quot;Python.views.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
-    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR_AND_PREVIEW&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/armanlyosman/PycharmProjects/MindBridge/mindbridge_auth&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Django Server.MindBridge.executor": "Run",
+    "Python.views.executor": "Run",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
+    "django.template.preview.state": "SHOW_EDITOR_AND_PREVIEW",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "/Users/armanlyosman/PycharmProjects/MindBridge/mindbridge_career/templates/careers",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/mindbridge_career/templates/careers" />
       <recent name="$PROJECT_DIR$/mindbridge_auth" />
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base\static\loginPage" />
       <recent name="C:\Users\nural\Documents\University\diploma prep\MindBridge\base\templates\base" />
@@ -183,8 +169,6 @@
       <workItem from="1748341085502" duration="1275000" />
       <workItem from="1748348188354" duration="1000" />
       <workItem from="1748447565874" duration="4694000" />
-      <workItem from="1748886087247" duration="1419000" />
-      <workItem from="1748932294126" duration="19351000" />
     </task>
     <task id="LOCAL-00001" summary="Fixing sign up and removing career app only for now">
       <option name="closed" value="true" />
@@ -210,7 +194,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747754792234</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="fix complete profile">
+      <option name="closed" value="true" />
+      <created>1748787689174</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1748787689174</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -244,6 +236,8 @@
     <MESSAGE value="fix migrations" />
     <MESSAGE value="Update vacancy list" />
     <MESSAGE value="Edited requirements.txt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Edited requirements.txt" />
+    <MESSAGE value="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality." />
+    <MESSAGE value="fix complete profile" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix complete profile" />
   </component>
 </project>
