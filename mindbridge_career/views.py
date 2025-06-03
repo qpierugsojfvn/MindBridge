@@ -71,9 +71,18 @@ def application_status(request, pk):
 @login_required
 @role_required(['COMPANY', 'ADMIN'])
 def company_dashboard(request):
-    company = request.user.company_profile
-    vacancies = Vacancy.objects.filter(company=company)
-    applications = Application.objects.filter(vacancy__in=vacancies)
+    try:
+        company = Company.objects.get(user=request.user)
+    except Company.DoesNotExist:
+        company = None
+
+    if company:
+        vacancies = Vacancy.objects.filter(company=company)
+        applications = Application.objects.filter(vacancy__in=vacancies)
+    else:
+        vacancies = Vacancy.objects.none()
+        applications = Application.objects.none()
+
     return render(request, 'careers/company_dashboard.html', {
         'company': company,
         'vacancies': vacancies,
@@ -109,3 +118,33 @@ def complete_profile(request):
     else:
         form = UserProfileForm()
     return render(request, 'careers/complete_profile.html', {'form': form})
+
+
+@login_required
+@role_required(['COMPANY', 'ADMIN'])
+def toggle_vacancy(request, pk):
+    vacancy = get_object_or_404(Vacancy, pk=pk, company=request.user.company_profile)
+    vacancy.is_active = not vacancy.is_active
+    vacancy.save()
+    return redirect('careers:company_dashboard')
+
+@login_required
+@role_required(['COMPANY', 'ADMIN'])
+def update_application_status(request, pk):
+    application = get_object_or_404(Application, pk=pk, vacancy__company=request.user.company_profile)
+    if request.method == 'POST':
+        new_status = request.POST.get('status')
+        if new_status in dict(Application.STATUS_CHOICES).keys():
+            application.status = new_status
+            application.save()
+    return redirect('careers:company_dashboard')
+
+@login_required
+@role_required(['COMPANY', 'ADMIN'])
+def application_detail(request, pk):
+    application = get_object_or_404(
+        Application.objects.select_related('applicant', 'vacancy'),
+        pk=pk,
+        vacancy__company=request.user.company_profile
+    )
+    return render(request, 'careers/application_detail.html', {'application': application})

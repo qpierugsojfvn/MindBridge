@@ -410,7 +410,6 @@ a {
                 <input type="text" id="searchInput" placeholder="Search for..." onkeyup="filterContent()"/>
             </div>
             <div class="icons">
-                <a href="message.html"><i class="fa-regular fa-comment"></i></a>
                 <i class="fa-regular fa-bell"></i>
                 <div class="avatar-dropdown">
                     <div class="avatar" onclick="toggleMenu()">
@@ -419,7 +418,6 @@ a {
                     <div class="dropdown-menu" id="profileMenu">
                         <a href={% url 'base:user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>
                         <a href={% url 'base:edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i> Edit</a>
-                        <a href="saved.html"><i class="fa-regular fa-bookmark"></i> Saved</a>
                         <a href={% url 'auth:logout' %}><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
                     </div>
                 </div>
@@ -437,25 +435,28 @@ a {
             </div>
             <p>Share your thoughts or ask something</p>
         </div>
-        <div class="form-group">
-            <label for="title">Title</label>
-            <small>Be specific and imagine you’re asking a question to another person</small>
-            <input type="text" id="title" placeholder="I think Universities are overrated"/>
-        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="title">Title</label>
+                <small>Be specific and imagine you’re asking a question to another person</small>
+                <input type="text" id="title" placeholder="I think Universities are overrated"/>
+            </div>
 
-        <div class="form-group">
-            <label for="details">Details</label>
-            <small>Be specific and imagine you’re asking a question to another person</small>
-            <textarea id="details" rows="5" placeholder="I think Universities are overrated"></textarea>
-        </div>
+            <div class="form-group">
+                <label for="details">Details</label>
+                <small>Be specific and imagine you’re asking a question to another person</small>
+                <textarea id="details" rows="5" placeholder="I think Universities are overrated"></textarea>
+            </div>
 
-        <div class="form-group">
-            <label for="tags">Tags</label>
-            <small>Add up to 3 tags that describe this discussion</small>
-            <input type="text1" id="tags" placeholder="I think Universities are overrated"/>
-        </div>
+            <div class="form-group">
+                <label for="tags">Tags</label>
+                <small>Add up to 3 tags that describe this discussion</small>
+                <input type="text" id="tags" placeholder="I think Universities are overrated"/>
+            </div>
 
-        <a href={% url 'base:view-discussion/' %} class="post-btn">Post</a>
+            <button type="submit" class="post-btn">Post</button>
+        </form>
     </section>
 </main>
 
@@ -528,7 +529,7 @@ a {
     </div>
 </footer>
 
-
+{##}
 {#{% extends 'main.html' %}#}
 {#{% block content %}#}
 {#    <div>#}

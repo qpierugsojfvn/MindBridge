@@ -10,7 +10,7 @@
     <div class="vacancy-list">
         {% for vacancy in vacancies %}
             <div class="vacancy-card">
-                <h2><a href="{% url 'vacancy_detail' vacancy.pk %}">{{ vacancy.title }}</a></h2>
+                <h2><a href="{% url 'careers:vacancy_detail' vacancy.pk %}">{{ vacancy.title }}</a></h2>
                 <p class="company">{{ vacancy.company.name }}</p>
                 <p class="location">
                     {{ vacancy.location_city }}, {{ vacancy.location_country }}
@@ -26,7 +26,7 @@
                         Up to ${{ vacancy.salary_max }}
                     {% endif %}
                 </p>
-                <a href="{% url 'vacancy_detail' vacancy.pk %}" class="btn btn-primary">View Details</a>
+                <a href="{% url 'careers:vacancy_detail' vacancy.pk %}" class="btn btn-primary">View Details</a>
             </div>
         {% empty %}
             <p>No current vacancies available.</p>

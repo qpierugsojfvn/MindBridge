@@ -1,0 +1,303 @@
+{% extends "main.html" %}
+
+{% block content %}
+<div class="company-dashboard">
+    <div class="dashboard-header">
+        <h1>{{ company.name }} Dashboard</h1>
+        <div class="company-info">
+            {% if company.logo %}
+                <img src="{{ company.logo.url }}" alt="{{ company.name }} logo" class="company-logo">
+            {% endif %}
+            <a href="{% url 'careers:post_vacancy' %}" class="btn btn-primary">Post New Vacancy</a>
+        </div>
+    </div>
+
+    <div class="dashboard-sections">
+        <!-- Vacancies Section -->
+        <section class="dashboard-section vacancies-section">
+            <h2>Your Active Vacancies</h2>
+            <div class="vacancies-list">
+                {% for vacancy in vacancies %}
+                <div class="vacancy-card {% if not vacancy.is_active %}inactive{% endif %}">
+                    <div class="vacancy-header">
+                        <h3><a href="{% url 'careers:vacancy_detail' vacancy.pk %}">{{ vacancy.title }}</a></h3>
+                        <span class="status-badge {% if vacancy.is_active %}active{% else %}inactive{% endif %}">
+                            {% if vacancy.is_active %}Active{% else %}Inactive{% endif %}
+                        </span>
+                    </div>
+                    <div class="vacancy-meta">
+                        <span class="meta-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            {{ vacancy.location_city }}, {{ vacancy.location_country }}
+                            {% if vacancy.is_remote %} (Remote){% endif %}
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-briefcase"></i>
+                            {{ vacancy.get_employment_type_display }}
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            {{ vacancy.get_work_schedule_display }}
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-star"></i>
+                            {{ vacancy.get_experience_required_display }}
+                        </span>
+                    </div>
+                    <div class="vacancy-actions">
+                        <a href="{% url 'careers:vacancy_detail' vacancy.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                        <a href="{% url 'careers:post_vacancy' %}?edit={{ vacancy.pk }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <form method="post" action="{% url 'careers:toggle_vacancy' vacancy.pk %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm {% if vacancy.is_active %}btn-outline-warning{% else %}btn-outline-success{% endif %}">
+                                {% if vacancy.is_active %}Deactivate{% else %}Activate{% endif %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="alert alert-info">
+                    You haven't posted any vacancies yet. <a href="{% url 'careers:post_vacancy' %}">Post your first vacancy</a> to get started.
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Applications Section -->
+        <section class="dashboard-section applications-section">
+            <h2>Recent Applications</h2>
+            <div class="application-filters">
+                <form method="get" class="filter-form">
+                    <select name="status" class="form-select">
+                        <option value="">All Statuses</option>
+                        {% for value, label in Application.STATUS_CHOICES %}
+                            <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="vacancy" class="form-select">
+                        <option value="">All Vacancies</option>
+                        {% for v in vacancies %}
+                            <option value="{{ v.pk }}" {% if request.GET.vacancy == v.pk|stringformat:"s" %}selected{% endif %}>{{ v.title }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </form>
+            </div>
+
+            <div class="applications-list">
+                {% for application in applications %}
+                <div class="application-card status-{{ application.status|lower }}">
+                    <div class="application-header">
+                        <h4>
+                            <a href="{% url 'careers:application_detail' application.pk %}">
+                                {{ application.applicant.get_full_name|default:application.applicant.username }}
+                            </a>
+                            <small>for {{ application.vacancy.title }}</small>
+                        </h4>
+                        <span class="status-badge {{ application.status|lower }}">
+                            {{ application.get_status_display }}
+                        </span>
+                    </div>
+                    <div class="application-meta">
+                        <span class="meta-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            Applied on {{ application.application_date|date:"M d, Y" }}
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-envelope"></i>
+                            {{ application.applicant.email }}
+                        </span>
+                        {% if application.applicant.profile.phone %}
+                        <span class="meta-item">
+                            <i class="fas fa-phone"></i>
+                            {{ application.applicant.profile.phone }}
+                        </span>
+                        {% endif %}
+                    </div>
+                    <div class="application-actions">
+                        <a href="{{ application.resume.url }}" class="btn btn-sm btn-outline-primary" download>
+                            <i class="fas fa-download"></i> Download Resume
+                        </a>
+                        <div class="status-actions">
+                            <form method="post" action="{% url 'careers:update_application_status' application.pk %}" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="REVIEWED">
+                                <button type="submit" class="btn btn-sm btn-outline-secondary {% if application.status == 'REVIEWED' %}active{% endif %}">
+                                    Mark Reviewed
+                                </button>
+                            </form>
+                            <form method="post" action="{% url 'careers:update_application_status' application.pk %}" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="INTERVIEW">
+                                <button type="submit" class="btn btn-sm btn-outline-info {% if application.status == 'INTERVIEW' %}active{% endif %}">
+                                    Schedule Interview
+                                </button>
+                            </form>
+                            <form method="post" action="{% url 'careers:update_application_status' application.pk %}" class="d-inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="REJECTED">
+                                <button type="submit" class="btn btn-sm btn-outline-danger {% if application.status == 'REJECTED' %}active{% endif %}">
+                                    Reject
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="alert alert-info">
+                    No applications found matching your criteria.
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+</div>
+
+<style>
+    .company-dashboard {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .company-logo {
+        max-height: 80px;
+        margin-right: 20px;
+    }
+
+    .company-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .dashboard-sections {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .vacancies-list, .applications-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .vacancy-card, .application-card {
+        padding: 20px;
+        border-radius: 8px;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .vacancy-card.inactive {
+        opacity: 0.7;
+        background-color: #f8f9fa;
+    }
+
+    .vacancy-header, .application-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .status-badge {
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+
+    .status-badge.active {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .status-badge.inactive {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .status-badge.applied {
+        background-color: #e2e3e5;
+        color: #383d41;
+    }
+
+    .status-badge.reviewed {
+        background-color: #cce5ff;
+        color: #004085;
+    }
+
+    .status-badge.interview {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .status-badge.rejected {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .vacancy-meta, .application-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 15px;
+        color: #6c757d;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .vacancy-actions, .application-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .application-filters {
+        margin-bottom: 20px;
+    }
+
+    .filter-form {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .form-select {
+        min-width: 200px;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .company-info {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .filter-form {
+            flex-direction: column;
+        }
+
+        .form-select {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}

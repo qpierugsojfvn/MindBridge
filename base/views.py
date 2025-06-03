@@ -16,35 +16,6 @@ from taggit.models import Tag
 from .forms import *
 
 
-# @user_not_authenticated
-# def signup_page(request):
-#     page = 'signup'
-#     form = UserRegistrationForm(request.POST or None)
-#
-#     if request.method == 'POST':
-#         if form.is_valid():
-#             email = form.cleaned_data.get('email')
-#
-#             if User.objects.filter(email=email).exists():
-#                 messages.error(request, 'This email is already registered. Please use a different email.')
-#                 return render(request, 'base/login_signup.html', {'page': page, 'form': form})
-#
-#             user = form.save(commit=False)
-#             user.username = user.username.lower()
-#             user.is_active = False
-#             user.save()
-#
-#             activateEmail(request, user, email)
-#
-#             return render(request, 'base/login_signup.html', {'page': page})
-#
-#         else:
-#             messages.error(request, 'Please correct the errors below.')
-#
-#     context = {'page': page, 'form': form}
-#     return render(request, 'base/login_signup.html', context)
-
-
 def home(request):
     if not request.user.is_authenticated:
         return render(request, 'base/welcome_page.html')
@@ -62,10 +33,28 @@ def home(request):
 
         discussions = discussions.annotate(answers_count=Count('answers')).order_by('-updated_at')
 
-        tags = Tag.objects.all()[:6]
+        tags = CustomTag.objects.all()[:6]
         discussion_count = discussions.count()
+        popular_tags = get_popular_tags()
 
-        context = {'discussions': discussions, 'tags': tags, 'discussion_count': discussion_count}
+        if 'recently_viewed' not in request.session:
+            request.session['recently_viewed'] = []
+
+
+        recently_viewed_count = 3
+        if len(request.session['recently_viewed']) > recently_viewed_count:
+            request.session['recently_viewed'] = request.session['recently_viewed'][:recently_viewed_count]
+
+        recently_viewed_ids = request.session['recently_viewed']
+        recently_viewed_discussions = Discussion.objects.filter(id__in=recently_viewed_ids)
+
+        context = {
+            'discussions': discussions,
+            'tags': tags,
+            'discussion_count': discussion_count,
+            'popular_tags': popular_tags,
+            'recently_viewed_discussions': recently_viewed_discussions
+        }
         return render(request, 'base/home.html', context)
 
 
@@ -118,9 +107,11 @@ def get_three_weeks_activity(request):
         'activity_percent': activity_percent
     }
 
+
 def discussion(request, pk):
     discussion = Discussion.objects.get(id=pk)
     answers = discussion.answers.all().order_by('-created_at')
+    answer_count=answers.count()
 
     tags = discussion.tags.all()
     popular_tags = get_popular_tags()
@@ -149,12 +140,13 @@ def discussion(request, pk):
             tag_names = request.POST.getlist('tags')
             discussion.tags.add(*tag_names)
 
-        return redirect('discussion', pk=discussion.id)
+        return redirect('base:discussion', pk=discussion.id)
 
     top_level_answers = discussion.answers.filter().order_by('created_at')
 
     context = {'discussion': discussion,
                'answers': answers,
+               'answer_count': answer_count,
                'tags': tags,
                'popular_tags': popular_tags,
                'top_level_answers': top_level_answers,
@@ -221,7 +213,11 @@ def load_cities(request):
 
 
 def view_discussion(request):
-    return render(request, 'base/viewdisscusion.html')
+    context = {
+        'popular_tags': get_popular_tags(request),
+    }
+    return render(request, 'base/viewdisscusion.html', context)
+
 
 @login_required(login_url='login')
 def create_discussion(request):
@@ -252,25 +248,23 @@ def update_discussion(request, pk):
 
     if request.user != discussion.host:
         messages.error(request, 'You don\'t have permission to edit this discussion.')
-        return redirect('home')
+        return redirect('base:home')
 
     if request.method == 'POST':
         discussion.title = request.POST.get('title')
         discussion.content = request.POST.get('details')
 
-        # Очищаем все текущие теги
         discussion.tags.clear()
 
-        # Добавляем новые теги
         tags_list = request.POST.getlist('tags[]')
         for tag_name in tags_list:
-            if tag_name.strip():  # Проверяем, что тег не пустой
+            if tag_name.strip():
                 tag, created = CustomTag.objects.get_or_create(name=tag_name.strip())
                 discussion.tags.add(tag)
         print(tags_list)
         discussion.save()
 
-        return redirect('home')
+        return redirect('base:home')
 
     context = {'discussion': discussion, 'tags': discussion.tags.all()}
 
@@ -283,11 +277,11 @@ def delete_discussion(request, pk):
 
     if request.user != discussion.host:
         messages.error(request, 'You don\'t have permission to delete this discussion.')
-        return redirect('home')
+        return redirect('base:home')
 
     if request.method == 'POST':
         discussion.delete()
-        return redirect('home')
+        return redirect('base:home')
 
     return render(request, 'base/delete.html', {'obj': discussion})
 
@@ -298,30 +292,36 @@ def delete_answer(request, pk):
 
     if request.user != answer.user:
         messages.error(request, 'You don\'t have permission to delete this answer.')
-        return redirect('home')
+        return redirect('base:home')
     if request.method == 'POST':
         answer.delete()
-        return redirect('home')
+        return redirect('base:home')
 
     return render(request, 'base/delete.html', {'obj': answer})
 
 
-def get_popular_tags(days=50, limit=3):
+def get_popular_tags(days=150, limit=2):
     time_threshold = datetime.now() - timedelta(days=days)
 
-    popular_tags = (
-        TaggedItem.objects.filter(
-            content_type__model='discussion',
-            object_id__in=Discussion.objects.filter(
-                created_at__gte=time_threshold
-            ).values('id')
-        )
-        .values('tag__name', 'tag__slug')
-        .annotate(tag_count=Count('tag'))
-        .order_by('-tag_count')  # Descending order
+    # Get recent discussions
+    recent_discussion_ids = Discussion.objects.filter(
+        created_at__gte=time_threshold
+    ).values_list('id', flat=True)
+
+    # Get tags for these discussions
+    tags = Tag.objects.filter(
+        taggit_taggeditem_items__object_id__in=recent_discussion_ids,
+        taggit_taggeditem_items__content_type__model='discussion'
     )
 
-    return popular_tags[:limit]
+    # Count and order
+    popular_tags = (
+        tags.annotate(tag_count=Count('id'))
+        .order_by('-tag_count')
+        .values('name', 'slug', 'tag_count')[:limit]
+    )
+
+    return popular_tags
 
 
 class TagAutocompleteView(View):

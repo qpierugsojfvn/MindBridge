@@ -1,22 +1,931 @@
-{% extends 'main.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>View Answer</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+          integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<style>:root {
+    --padding-x: clamp(1rem, 5vw, 4rem);
+    --max-width: 1280px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'General Sans', sans-serif;
+    background: #fff;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropbtn {
+    background: none;
+    border: none;
+    color: #BFBFBF;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+}
+
+.dropbtn:hover,
+.dropbtn:focus {
+    color: #0B304A;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.show {
+    display: block;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem var(--padding-x);
+    background: #ffffff;
+    box-shadow: 0 0.375rem 0.75rem rgba(132, 140, 156, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: var(--max-width);
+    gap: clamp(1rem, 5vw, 3.5rem);
+}
+
+.logo {
+    font-size: clamp(1.5rem, 2vw, 2rem);
+    font-weight: 800;
+    font-family: 'Sofia Sans', sans-serif;
+    background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.menu {
+    display: flex;
+    gap: clamp(1rem, 3vw, 2.5rem);
+    list-style: none;
+}
+
+.menu li a {
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #BFBFBF;
+    transition: color 0.3s ease;
+}
+
+.menu li a.active,
+.menu li a:hover {
+    color: #0B304A;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    border: 2px solid #768694;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    flex-grow: 1;
+    max-width: 20rem;
+    gap: 0.5rem;
+}
+
+.search input {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    flex: 1;
+    background: transparent;
+    color: #768694;
+}
+
+.search i {
+    color: #768694;
+}
+
+.icons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: 5%;
+}
+
+.icons i {
+    font-size: 1.25rem;
+    color: #0B304A;
+    cursor: pointer;
+}
+
+.avatar-dropdown {
+    position: relative;
+}
+
+.avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #BFBFBF;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 200px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(132, 140, 156, 0.2);
+    display: none;
+    flex-direction: column;
+    padding: 16px 0;
+    z-index: 1000;
+}
+
+.dropdown-menu a {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #0B304A;
+    font-weight: 600;
+    font-size: 16px;
+    transition: background 0.2s ease;
+}
+
+.dropdown-menu a:hover {
+    background: #F5F6F9;
+    border-radius: 8px;
+}
+
+.show {
+    display: flex;
+}
+
+
+.circle-arrow-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    box-shadow: 0px 6px 12px rgba(132, 140, 156, 0.2);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    margin: 2rem 3rem;
+}
+
+.comment-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 2rem 0;
+    font-family: 'General Sans', sans-serif;
+}
+
+.comment-section label {
+    font-weight: 600;
+    color: #0B304A;
+    font-size: 1.5rem;
+}
+
+.comment-section textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 1px solid #E0E0E0;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    color: #0B304A;
+}
+
+.comment-section textarea::placeholder {
+    color: #BFBFBF;
+}
+
+
+.section-heading {
+    width: 100%;
+    max-width: 920px;
+    font-family: 'General Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.1;
+    letter-spacing: 0.5px;
+    color: #0B304A;
+
+    display: flex;
+    align-items: center;
+    margin: 0 4rem;
+}
+
+.post {
+    margin: 2vh 3rem;
+}
+
+.post-card {
+    font-family: 'General Sans', sans-serif;
+    color: #0B304A;
+    width: 65vw;
+    padding: 2rem;
+    background: #ffffff;
+    border: 0.125rem solid #ebecf2;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin: 2vh 0;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 0.0625rem solid #0B304A;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.username {
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.03rem;
+}
+
+.dots {
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+
+.post-content {
+    padding-left: clamp(2rem, 4vw, 3rem);
+}
+
+.post-title {
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    font-weight: 600;
+    letter-spacing: 0.03rem;
+    margin: 0 0 0.5rem;
+}
+
+.post-text {
+    font-size: clamp(0.9rem, 1.5vw, 1rem);
+    font-weight: 400;
+    letter-spacing: 0.03rem;
+    line-height: 1.6;
+    margin: 0 0 1rem;
+}
+
+.post-images {
+    display: flex;
+    flex-wrap: nowrap; /* отключаем перенос */
+    gap: 1rem;
+    overflow-x: auto; /* добавляем скролл при необходимости */
+    margin-bottom: 1rem;
+}
+
+.post-images img {
+    height: 10rem;
+    width: auto;
+    border-radius: 0.75rem;
+    object-fit: cover;
+    flex-shrink: 0; /* чтобы не сжимались */
+}
+
+.post-images::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tag {
+    background: #EBECF2;
+    color: #768694;
+    font-size: 0.75rem;
+    padding: 0.375rem 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.reactions {
+    display: flex;
+    gap: 1.75rem;
+    align-items: center;
+}
+
+.reaction {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.reaction svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #0B304A;
+}
+
+.pagination {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin: 2rem 15rem;
+
+}
+
+.pagination button {
+    background-color: #fff;
+    border: none;
+    border-radius: 0.75rem;
+    padding: 0.5rem 0.85rem;
+    font-size: 1rem;
+    color: #0B304A;
+    cursor: pointer;
+    box-shadow: 0 0 0.1rem rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.pagination button.active {
+    background-color: #FF4DC4;
+    color: white;
+}
+
+.pagination .dots {
+    padding: 0 0.5rem;
+    font-size: 1.2rem;
+    color: #0B304A;
+}
+
+.sidebar-right {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1.2rem 2rem;
+}
+
+.sidebar-right h4 {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #0B304A;
+    margin-bottom: 1rem;
+}
+
+.popular-now {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    width: 280px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+}
+
+.popular-now h4 {
+    color: #ff4dc4;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    font-family: 'General Sans', sans-serif;
+}
+
+.popular-now .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.popular-now .tag {
+    background-color: #f1f3f8;
+    color: #64748b;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.main-container {
+    display: flex;
+}
+
+.recently-viewed {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    width: 280px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+}
+
+.recently-viewed h4 {
+    font-size: 1rem;
+    color: #ff50d6;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.recently-viewed .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.recently-viewed .tag {
+    background: #F1F3F8;
+    color: #64748B;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.85rem;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+.viewed-card {
+    border: 2px solid #0B304A;
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    color: #0B304A;
+}
+
+.viewed-card a {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: #64748B;
+    text-decoration: none;
+}
+
+.answer-title {
+    position: absolute;
+    width: 76px;
+    height: 22px;
+    left: 152px;
+    font-family: 'General Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 110%;
+    letter-spacing: 0.5px;
+    color: #0B304A;
+    display: flex;
+    align-items: flex-end;
+}
+
+
+.footer {
+    background-color: #0B304A;
+    padding: 48px 80px 40px;
+    margin-top: 50px;
+    color: #FFFFFF;
+    font-family: 'General Sans', sans-serif;
+}
+
+.footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.footer-logo {
+    font-size: 32px;
+    font-weight: 800;
+    font-family: 'Sofia Sans', sans-serif;
+    margin-bottom: 36px;
+}
+
+.footer-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 80px;
+    margin-bottom: 40px;
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-column a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+}
+
+.footer-copy {
+    color: #EBECF2;
+    font-size: 16px;
+}
+
+</style>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo">MindBridge</div>
+            <ul class="menu">
+                <li><a href="home2.html">Home</a></li>
+                <li><a href="discussionpage.html">Discussions</a></li>
+                <li class="dropdown">
+                    <button onclick="toggleDropdown()" class="dropbtn">Library</button>
+                    <div class="dropdown-content" id="libraryDropdown">
+                        <a href="library_main.html">Library Home</a>
+                        <a href="library-book.html">Library Book</a>
+                        <a href="library-view.html">Library View</a>
+                    </div>
+                </li>
+                <li><a href="MainCareer.html">Career</a></li>
+            </ul>
+            <div class="search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search for..." onkeyup="filterContent()"/>
+            </div>
+            <div class="icons">
+                <a href="message.html"><i class="fa-regular fa-comment"></i></a>
+                <i class="fa-regular fa-bell"></i>
+                <div class="avatar-dropdown">
+                    <div class="avatar" onclick="toggleMenu()">
+                        <img src="library/ava.png" alt="Profile Picture"/>
+                    </div>
+                    <div class="dropdown-menu" id="profileMenu">
+                        <a href="userprofile.html"><i class="fa-regular fa-user"></i> Profile</a>
+                        <a href="editprofile.html"><i class="fa-solid fa-pen"></i> Edit</a>
+                        <a href="saved.html"><i class="fa-regular fa-bookmark"></i> Saved</a>
+                        <a href="welcome.html"><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </nav>
+</header>
+<a href={% url 'base:home' %} class="circle-arrow-btn">
+    <svg width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M24.1426 12L1.85687 12" stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round"/>
+        <path d="M7.85742 18L1.85742 12L7.85742 6" stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round"/>
+    </svg>
+    <h3 class="answer-title">Answer</h3>
+</a>
+<div class="main-container">
+    <div class="post">
+        <div class="post-card">
+            <div class="post-header">
+                <div class="user-info">
+                    <img src="images\profile.png" alt="User Avatar" class="avatar">
+                    <span class="username">{{ discussion.host.username }}</span>
+                </div>
+                <div class="dots">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 8.5C12.8284 8.5 13.5 7.82843 13.5 7C13.5 6.17157 12.8284 5.5 12 5.5C11.1716 5.5 10.5 6.17157 10.5 7C10.5 7.82843 11.1716 8.5 12 8.5Z"
+                              fill="#0B304A"/>
+                        <path d="M7 8.5C7.82843 8.5 8.5 7.82843 8.5 7C8.5 6.17157 7.82843 5.5 7 5.5C6.17157 5.5 5.5 6.17157 5.5 7C5.5 7.82843 6.17157 8.5 7 8.5Z"
+                              fill="#0B304A"/>
+                        <path d="M2 8.5C2.82843 8.5 3.5 7.82843 3.5 7C3.5 6.17157 2.82843 5.5 2 5.5C1.17157 5.5 0.5 6.17157 0.5 7C0.5 7.82843 1.17157 8.5 2 8.5Z"
+                              fill="#0B304A"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="post-content">
+                <h2 class="post-title">{{ discussion.title }}</h2>
+                <p class="post-text">
+                    {{ discussion.content }}
+                </p>
+
+
+                <div class="tags">
+                    {% for tag in discussion.tags.all %}
+                        <span class="tag">#{{ tag }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="reactions">
+                    <div class="reaction">
+                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.99944 11.7142C6.39393 11.7142 6.71373 11.3944 6.71373 10.9999C6.71373 10.6054 6.39393 10.2856 5.99944 10.2856C5.60495 10.2856 5.28516 10.6054 5.28516 10.9999C5.28516 11.3944 5.60495 11.7142 5.99944 11.7142Z"
+                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10.642 11.7142C11.0365 11.7142 11.3563 11.3944 11.3563 10.9999C11.3563 10.6054 11.0365 10.2856 10.642 10.2856C10.2475 10.2856 9.92773 10.6054 9.92773 10.9999C9.92773 11.3944 10.2475 11.7142 10.642 11.7142Z"
+                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15.2856 11.7142C15.6801 11.7142 15.9999 11.3944 15.9999 10.9999C15.9999 10.6054 15.6801 10.2856 15.2856 10.2856C14.8911 10.2856 14.5713 10.6054 14.5713 10.9999C14.5713 11.3944 14.8911 11.7142 15.2856 11.7142Z"
+                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10.9996 1.71436C9.31993 1.71488 7.67186 2.17098 6.23093 3.03409C4.78999 3.8972 3.61015 5.13498 2.81706 6.61561C2.02397 8.09623 1.64734 9.76425 1.72728 11.442C1.80722 13.1198 2.34074 14.7444 3.27101 16.1429L1.71387 20.2858L6.92815 19.3429C8.18374 19.9565 9.56161 20.2787 10.9591 20.2857C12.3565 20.2926 13.7375 19.984 14.9991 19.3829C16.2607 18.7818 17.3704 17.9037 18.2454 16.814C19.1204 15.7244 19.7381 14.4513 20.0526 13.0897C20.3671 11.728 20.3702 10.313 20.0616 8.94997C19.7531 7.58697 19.1409 6.31119 18.2707 5.21774C17.4004 4.12428 16.2946 3.24134 15.0357 2.63474C13.7767 2.02814 12.3971 1.71353 10.9996 1.71436V1.71436Z"
+                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>{{ answer_count }}</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="comment-section">
+            <label for="comment">Comment</label>
+            <textarea id="comment" placeholder="I think Universities are overrated"></textarea>
+        </div>
+
+
+        {% for answer in answers %}
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="user-info">
+                        <img src="images\profile.png" alt="User Avatar" class="avatar">
+                        <span class="username"><a href="{% url 'base:user-profile' discussion.host.id %}"
+                                                  style="text-decoration: none; color: #0B304A;">@{{ answer.user }}</a> <span
+                                style="color: #9B9B9B;">{{ discussion.created_at|timesince }} ago</span></span>
+                    </div>
+                    <div class="dots">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 8.5C12.8284 8.5 13.5 7.82843 13.5 7C13.5 6.17157 12.8284 5.5 12 5.5C11.1716 5.5 10.5 6.17157 10.5 7C10.5 7.82843 11.1716 8.5 12 8.5Z"
+                                  fill="#0B304A"/>
+                            <path d="M7 8.5C7.82843 8.5 8.5 7.82843 8.5 7C8.5 6.17157 7.82843 5.5 7 5.5C6.17157 5.5 5.5 6.17157 5.5 7C5.5 7.82843 6.17157 8.5 7 8.5Z"
+                                  fill="#0B304A"/>
+                            <path d="M2 8.5C2.82843 8.5 3.5 7.82843 3.5 7C3.5 6.17157 2.82843 5.5 2 5.5C1.17157 5.5 0.5 6.17157 0.5 7C0.5 7.82843 1.17157 8.5 2 8.5Z"
+                                  fill="#0B304A"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="post-content">
+{#                    <h2 class="post-title">{{ discussion.title }}</h2>#}
+                    <p class="post-text">
+                        {{ answer.content }}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+
+
+
+{#        <div class="discussion-container">#}
+{##}
+{#            <div>#}
+{#                <small><a#}
+{#                        href="{% url 'base:user-profile' discussion.host.id %}">@{{ discussion.host }}</a> {{ discussion.created_at|timesince }}ago</small>#}
+{#                <br>#}
+{#                title: <b>{{ discussion.title }}</b> <br>#}
+{#                content: {{ discussion.content }} <br>#}
+{#                tags:#}
+{#                {% for tag in tags %}#}
+{#                    {{ tag }} |#}
+{#                {% endfor %}#}
+{#                <div class="comment-wrapper right-shift">#}
+{#                    <h3>Conversation</h3>#}
+{#                    <hr>#}
+{#                    {% for answer in top_level_answers %}#}
+{#                        <div>#}
+{#                            {% if request.user == answer.user or request.user.is_staff %}#}
+{#                                <a href="{% url 'base:delete-answer' answer.id %}">Delete</a>#}
+{#                            {% endif %}#}
+{#                            <small><a#}
+{#                                    href="{% url 'base:user-profile' answer.user.id %}">@{{ answer.user }}</a> {{ answer.created_at|timesince }}#}
+{#                                ago</small>#}
+{#                            <hr>#}
+{#                            <p>{{ answer.content }}</p>#}
+{#                            <hr>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{##}
+{#                    {% if request.user.is_authenticated %}#}
+{#                        <div class="comment-form">#}
+{#                            <form method="POST" action="">#}
+{#                                {% csrf_token %}#}
+{#                                <label>#}
+{#                                    <input type="text" name="body" placeholder="Leave your answer here..."/>#}
+{#                                    <input type="submit" value="Submit">#}
+{#                                </label>#}
+{#                            </form>#}
+{#                        </div>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{##}
+{##}
+{#            </div>#}
+{#            <div>#}
+{#                <h3>Popular now</h3>#}
+{#                <hr>#}
+{#                {% for tag in popular_tags %}#}
+{#                    <a href="{% url 'base:tagged' tag.slug %}" class="tag">#{{ tag.name }}</a>#}
+{#                {% endfor %}#}
+{#                <hr>#}
+{#                <h3>Recently viewed discussions</h3>#}
+{#                <div>#}
+{#                    {% for discussion in recently_viewed_discussions %}#}
+{#                        <li><a href="{% url 'base:discussion' discussion.id %}">{{ discussion.title }}</a></li>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+
+
+    </div>
+    <div class="sidebar-right">
+        <div class="popular-now">
+            <h4>Popular now</h4>
+            <div class="tags">
+                {#                <span class="tag">#design</span>#}
+                {% for tag in popular_tags %}
+                    <a href="{% url 'base:tagged' tag.slug %}" class="tag">#{{ tag.name }}</a>
+                    <span>#{{ tag.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="recently-viewed">
+            <h4>Recently viewed</h4>
+            <div class="tags">
+                {% for recent_viewed_discussion in recently_viewed_discussions %}
+                    <a href="{% url 'base:discussion' pk=recent_viewed_discussion.id %}"
+                       class="tag">{{ recent_viewed_discussion.title }}</a>
+                {% endfor %}
+
+                {% for recent_viewed_discussion in recently_viewed_discussions %}
+                    <div class="viewed-card">
+                        <p>{{ recent_viewed_discussion.content|truncatewords:20 }}</p>
+                        <a href="{% url 'base:discussion' pk=recent_viewed_discussion.id %}">View more…</a>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pagination">
+    <button>&lt;</button>
+    <button class="active">1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+    <button>5</button>
+    <span class="dots">...</span>
+    <button>10</button>
+    <button>&gt;</button>
+</div>
+
+<script>
+    function openModal(src) {
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('/library/post.png');
+        modal.style.display = 'flex';
+        modalImg.src = src;
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+
+    function toggleDropdown() {
+        document.getElementById("libraryDropdown").classList.toggle("show");
+    }
+
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            const dropdowns = document.getElementsByClassName("dropdown-content");
+            for (let i = 0; i < dropdowns.length; i++) {
+                dropdowns[i].classList.remove('show');
+            }
+        }
+    }
+
+    function filterContent() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+        const cards = document.querySelectorAll('.post-card');
+
+        cards.forEach(function (card) {
+            const text = card.textContent.toLowerCase();
+            card.style.display = text.includes(filter) ? 'block' : 'none';
+        });
+    }
+
+    function toggleMenu() {
+        document.getElementById("profileMenu").classList.toggle("show");
+    }
+
+    window.onclick = function (event) {
+        if (!event.target.closest('.avatar-dropdown')) {
+            document.getElementById("profileMenu").classList.remove("show");
+        }
+    }
+</script>
+</body>
+<footer class="footer">
+    <div class="footer-inner">
+        <h2 class="footer-logo">MindBridge</h2>
+        <div class="footer-grid">
+            <div class="footer-column">
+                <a href="home2.html">Home</a>
+                <a href="MainCareer.html">Career</a>
+                <a href="discussionpage.html">Discussions</a>
+            </div>
+            <div class="footer-column">
+                <a href="library_main.html">Articles</a>
+                <a href="library-view.html">Videos</a>
+                <a href="library-book.html">Books</a>
+            </div>
+            <div class="footer-column">
+                <a href="welcome.html">About</a>
+            </div>
+        </div>
+        <p class="footer-copy">2025 MindBridge</p>
+    </div>
+</footer>
+</html>
+
+
+{#{% extends 'main.html' %}#}
 {#{% load static %}#}
-
-{% include 'navbar.html' %}
-
-{% block content %}
-    <style>
-        .discussion-container {
-            display: grid;
-            grid-template-columns: 3fr 1fr;
-        }
-
-        .right-shift {
-            margin-left: 20px; /* Indent replies for better hierarchy */
-        }
-    </style>
-
+{##}
+{#{% include 'navbar.html' %}#}
+{##}
+{#{% block content %}#}
+{#    <style>#}
+{#        .discussion-container {#}
+{#            display: grid;#}
+{#            grid-template-columns: 3fr 1fr;#}
+{#        }#}
+{##}
+{#        .right-shift {#}
+{#            margin-left: 20px; /* Indent replies for better hierarchy */#}
+{#        }#}
+{#    </style>#}
+{##}
 {#    <div id="posts-container"></div>#}
-
+{##}
 {#    <script>#}
 {#        let posts = [#}
 {#            {#}
@@ -116,66 +1025,66 @@
 {##}
 {#        });#}
 {#    </script>#}
-
-
-    <div class="discussion-container">
-
-        <div>
-            <small><a
-                    href="{% url 'user-profile' discussion.host.id %}">@{{ discussion.host }}</a> {{ discussion.created_at|timesince }}
-                ago</small>
-            <br>
-            title: <b>{{ discussion.title }}</b> <br>
-            content: {{ discussion.content }} <br>
-            tags:
-            {% for tag in tags %}
-                {{ tag }} |
-            {% endfor %}
-            <div class="comment-wrapper right-shift">
-                <h3>Conversation</h3>
-                                <hr>
-                {% for answer in top_level_answers %}
-                    <div>
-                        {% if request.user == answer.user or request.user.is_staff %}
-                            <a href="{% url 'delete-answer' answer.id %}">Delete</a>
-                        {% endif %}
-                        <small><a
-                                href="{% url 'user-profile' answer.user.id %}">@{{ answer.user }}</a> {{ answer.created_at|timesince }}
-                            ago</small>
-                                                <hr>
-                        <p>{{ answer.content }}</p>
-                        <hr>
-                    </div>
-                {% endfor %}
-
-                {% if request.user.is_authenticated %}
-                    <div class="comment-form">
-                        <form method="POST" action="">
-                            {% csrf_token %}
-                            <label>
-                                <input type="text" name="body" placeholder="Leave your answer here..."/>
-                                <input type="submit" value="Submit">
-                            </label>
-                        </form>
-                    </div>
-                {% endif %}
-            </div>
-
-
-        </div>
-        <div>
-            <h3>Popular now</h3>
-            <hr>
-            {% for tag in popular_tags %}
-                {{ tag.tag__name }} |
-            {% endfor %}
-            <hr>
-            <h3>Recently viewed discussions</h3>
-            <div>
-                {% for discussion in recently_viewed_discussions %}
-                    <li><a href="{% url 'discussion' discussion.id %}">{{ discussion.title }}</a></li>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-{% endblock %}
+{##}
+{##}
+{#    <div class="discussion-container">#}
+{##}
+{#        <div>#}
+{#            <small><a#}
+{#                    href="{% url 'base:user-profile' discussion.host.id %}">@{{ discussion.host }}</a> {{ discussion.created_at|timesince }}#}
+{#                ago</small>#}
+{#            <br>#}
+{#            title: <b>{{ discussion.title }}</b> <br>#}
+{#            content: {{ discussion.content }} <br>#}
+{#            tags:#}
+{#            {% for tag in tags %}#}
+{#                {{ tag }} |#}
+{#            {% endfor %}#}
+{#            <div class="comment-wrapper right-shift">#}
+{#                <h3>Conversation</h3>#}
+{#                <hr>#}
+{#                {% for answer in top_level_answers %}#}
+{#                    <div>#}
+{#                        {% if request.user == answer.user or request.user.is_staff %}#}
+{#                            <a href="{% url 'base:delete-answer' answer.id %}">Delete</a>#}
+{#                        {% endif %}#}
+{#                        <small><a#}
+{#                                href="{% url 'base:user-profile' answer.user.id %}">@{{ answer.user }}</a> {{ answer.created_at|timesince }}#}
+{#                            ago</small>#}
+{#                        <hr>#}
+{#                        <p>{{ answer.content }}</p>#}
+{#                        <hr>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{##}
+{#                {% if request.user.is_authenticated %}#}
+{#                    <div class="comment-form">#}
+{#                        <form method="POST" action="">#}
+{#                            {% csrf_token %}#}
+{#                            <label>#}
+{#                                <input type="text" name="body" placeholder="Leave your answer here..."/>#}
+{#                                <input type="submit" value="Submit">#}
+{#                            </label>#}
+{#                        </form>#}
+{#                    </div>#}
+{#                {% endif %}#}
+{#            </div>#}
+{##}
+{##}
+{#        </div>#}
+{#        <div>#}
+{#            <h3>Popular now</h3>#}
+{#            <hr>#}
+{#            {% for tag in popular_tags %}#}
+{#                <a href="{% url 'base:tagged' tag.slug %}" class="tag">#{{ tag.name }}</a>#}
+{#            {% endfor %}#}
+{#            <hr>#}
+{#            <h3>Recently viewed discussions</h3>#}
+{#            <div>#}
+{#                {% for discussion in recently_viewed_discussions %}#}
+{#                    <li><a href="{% url 'base:discussion' discussion.id %}">{{ discussion.title }}</a></li>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#{% endblock %}#}

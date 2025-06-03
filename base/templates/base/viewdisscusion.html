@@ -18,8 +18,8 @@
         <div class="navbar-container">
             <div class="logo">MindBridge</div>
             <ul class="menu">
-                <li><a class="active" href={% url 'home' %}>Home</a></li>
-                <li><a href={% url 'home' %}>Discussions</a></li>
+                <li><a class="active" href={% url 'base:home' %}>Home</a></li>
+                <li><a href={% url 'base:home' %}>Discussions</a></li>
                 <li class="dropdown">
                     <button onclick="toggleDropdown()" class="dropbtn">Library</button>
                     <div class="dropdown-content" id="libraryDropdown">
@@ -42,10 +42,10 @@
                         <img src={% static 'icons/ava.png' %} alt="ProfilePicture"/>
                     </div>
                     <div class="dropdown-menu" id="profileMenu">
-                        <a href={% url 'user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>
-                        <a href={% url 'edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i> Edit</a>
+                        <a href={% url 'base:user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>
+                        <a href={% url 'base:edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i> Edit</a>
                         <a href="saved.html"><i class="fa-regular fa-bookmark"></i> Saved</a>
-                        <a href={% url 'logout' %}><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
+                        <a href={% url 'auth:logout' %}><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
         </div>
     </nav>
 </header>
-<a href={% url 'home' %} class="circle-arrow-btn">
+<a href={% url 'base:home' %} class="circle-arrow-btn">
     <svg width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M24.1426 12L1.85687 12" stroke="#0B304A" stroke-width="2" stroke-linecap="round"
               stroke-linejoin="round"/>

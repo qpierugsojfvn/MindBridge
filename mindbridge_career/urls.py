@@ -2,16 +2,19 @@
 from django.urls import path
 from . import views
 
-app_name='careers'
+app_name = 'careers'
 
 urlpatterns = [
     path('', views.vacancy_list, name='vacancy_list'),
     path('<int:pk>/', views.vacancy_detail, name='vacancy_detail'),
     path('post/', views.post_vacancy, name='post_vacancy'),
     path('<int:pk>/apply/', views.apply_vacancy, name='apply_vacancy'),
-    path('application/<int:pk>/', views.application_status, name='application_status'),
+    # path('application/<int:pk>/', views.application_status, name='application_status'),
     path('dashboard/', views.company_dashboard, name='company_dashboard'),
     path('complete-profile/', views.complete_profile, name='complete_profile'),
+    path('vacancy/toggle/<int:pk>/', views.toggle_vacancy, name='toggle_vacancy'),
+    path('application/<int:pk>/status/', views.update_application_status, name='update_application_status'),
+    path('application/<int:pk>/', views.application_detail, name='application_detail'),
 ]
 
 # from django.urls import path
