@@ -12,6 +12,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from taggit.models import Tag
+import random
 
 from .forms import *
 
@@ -37,9 +38,10 @@ def home(request):
         discussion_count = discussions.count()
         popular_tags = get_popular_tags()
 
+        random_tags = random.sample(list(tags), min(5, len(tags)))
+
         if 'recently_viewed' not in request.session:
             request.session['recently_viewed'] = []
-
 
         recently_viewed_count = 3
         if len(request.session['recently_viewed']) > recently_viewed_count:
@@ -53,7 +55,8 @@ def home(request):
             'tags': tags,
             'discussion_count': discussion_count,
             'popular_tags': popular_tags,
-            'recently_viewed_discussions': recently_viewed_discussions
+            'recently_viewed_discussions': recently_viewed_discussions,
+            'random_tags': random_tags,
         }
         return render(request, 'base/home.html', context)
 
@@ -111,7 +114,7 @@ def get_three_weeks_activity(request):
 def discussion(request, pk):
     discussion = Discussion.objects.get(id=pk)
     answers = discussion.answers.all().order_by('-created_at')
-    answer_count=answers.count()
+    answer_count = answers.count()
 
     tags = discussion.tags.all()
     popular_tags = get_popular_tags()
@@ -309,33 +312,34 @@ def update_discussion(request, pk):
     }
     return render(request, 'base/discussion_form.html', context)
 
+
 # @login_required(login_url='login')
 # def update_discussion(request, pk):
-    # discussion = Discussion.objects.get(id=pk)
-    #
-    # if request.user != discussion.host:
-    #     messages.error(request, 'You don\'t have permission to edit this discussion.')
-    #     return redirect('base:home')
-    #
-    # if request.method == 'POST':
-    #     discussion.title = request.POST.get('title')
-    #     discussion.content = request.POST.get('details')
-    #
-    #     discussion.tags.clear()
-    #
-    #     tags_list = request.POST.getlist('tags[]')
-    #     for tag_name in tags_list:
-    #         if tag_name.strip():
-    #             tag, created = CustomTag.objects.get_or_create(name=tag_name.strip())
-    #             discussion.tags.add(tag)
-    #     print(tags_list)
-    #     discussion.save()
-    #
-    #     return redirect('base:home')
-    #
-    # context = {'discussion': discussion, 'tags': discussion.tags.all()}
-    #
-    # return render(request, 'base/discussion_form.html', context)
+# discussion = Discussion.objects.get(id=pk)
+#
+# if request.user != discussion.host:
+#     messages.error(request, 'You don\'t have permission to edit this discussion.')
+#     return redirect('base:home')
+#
+# if request.method == 'POST':
+#     discussion.title = request.POST.get('title')
+#     discussion.content = request.POST.get('details')
+#
+#     discussion.tags.clear()
+#
+#     tags_list = request.POST.getlist('tags[]')
+#     for tag_name in tags_list:
+#         if tag_name.strip():
+#             tag, created = CustomTag.objects.get_or_create(name=tag_name.strip())
+#             discussion.tags.add(tag)
+#     print(tags_list)
+#     discussion.save()
+#
+#     return redirect('base:home')
+#
+# context = {'discussion': discussion, 'tags': discussion.tags.all()}
+#
+# return render(request, 'base/discussion_form.html', context)
 
 
 @login_required(login_url='login')
