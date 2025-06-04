@@ -715,7 +715,8 @@
                         </div>
                         <div class="post-dropdown-menu">
                             {% if request.user == discussion.host %}
-                                <a href="{% url 'base:update-discussion' discussion.id %}"><i class="fa-solid fa-pen"></i>
+                                <a href="{% url 'base:update-discussion' discussion.id %}"><i
+                                        class="fa-solid fa-pen"></i>
                                     Edit</a>
                                 <a href="{% url 'base:delete-discussion' discussion.id %}" class="delete-btn"><i
                                         class="fa-solid fa-trash"></i> Delete</a>
@@ -868,28 +869,29 @@
             document.getElementById("profileMenu").classList.remove("show");
         }
     }
+
     function togglePostMenu(element) {
-    // Close all other open menus first
-    document.querySelectorAll('.post-dropdown-menu').forEach(menu => {
-        if (menu !== element.nextElementSibling) {
-            menu.classList.remove('show');
-        }
-    });
+        // Close all other open menus first
+        document.querySelectorAll('.post-dropdown-menu').forEach(menu => {
+            if (menu !== element.nextElementSibling) {
+                menu.classList.remove('show');
+            }
+        });
 
-    // Toggle the clicked menu
-    const menu = element.nextElementSibling;
-    menu.classList.toggle('show');
+        // Toggle the clicked menu
+        const menu = element.nextElementSibling;
+        menu.classList.toggle('show');
 
-    // Close when clicking outside
-    const clickHandler = function(e) {
-        if (!menu.contains(e.target) && e.target !== element) {
-            menu.classList.remove('show');
-            document.removeEventListener('click', clickHandler);
-        }
-    };
+        // Close when clicking outside
+        const clickHandler = function (e) {
+            if (!menu.contains(e.target) && e.target !== element) {
+                menu.classList.remove('show');
+                document.removeEventListener('click', clickHandler);
+            }
+        };
 
-    document.addEventListener('click', clickHandler);
-}
+        document.addEventListener('click', clickHandler);
+    }
 </script>
 
 </body>

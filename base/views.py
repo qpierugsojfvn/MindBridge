@@ -219,27 +219,55 @@ def view_discussion(request):
     return render(request, 'base/viewdisscusion.html', context)
 
 
+# @login_required(login_url='login')
+# def create_discussion(request):
+#     if request.method == 'POST':
+#         new_discussion = Discussion()
+#         new_discussion.title = request.POST.get('title')
+#         new_discussion.content = request.POST.get('details')
+#         new_discussion.host = request.user
+#         new_discussion.save()
+#
+#         tags_list = request.POST.getlist('tags[]')
+#         print(tags_list)
+#
+#         for tag_name in tags_list:
+#             tag, create = CustomTag.objects.get_or_create(name=tag_name)
+#             print(tag, create)
+#             tag.save()
+#             new_discussion.tags.add(tag)
+#         new_discussion.save()
+#
+#         return redirect('home')
+#     return render(request, 'base/discussion_form.html')
+
 @login_required(login_url='login')
 def create_discussion(request):
     if request.method == 'POST':
-        new_discussion = Discussion()
-        new_discussion.title = request.POST.get('title')
-        new_discussion.content = request.POST.get('details')
-        new_discussion.host = request.user
-        new_discussion.save()
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        tags_input = request.POST.get('tags', '')
 
-        tags_list = request.POST.getlist('tags[]')
-        print(tags_list)
+        # Create new discussion
+        new_discussion = Discussion.objects.create(
+            title=title,
+            content=content,
+            host=request.user
+        )
 
+        # Process tags
+        tags_list = [tag.strip() for tag in tags_input.split(',') if tag.strip()]
         for tag_name in tags_list:
-            tag, create = CustomTag.objects.get_or_create(name=tag_name)
-            print(tag, create)
-            tag.save()
+            tag, created = CustomTag.objects.get_or_create(name=tag_name)
             new_discussion.tags.add(tag)
-        new_discussion.save()
 
-        return redirect('home')
-    return render(request, 'base/discussion_form.html')
+        messages.success(request, 'Discussion created successfully!')
+        return redirect('base:discussion', pk=new_discussion.id)
+
+    # For GET request, render empty form
+    return render(request, 'base/discussion_form.html', {
+        'is_create': True  # Add this to distinguish between create and update
+    })
 
 
 @login_required(login_url='login')
