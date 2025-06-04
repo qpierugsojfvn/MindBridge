@@ -426,40 +426,89 @@ a {
         </div>
     </nav>
 </header>
+{#<main class="discussion-container">#}
+{#    <section class="discussion-form">#}
+{#        <div class="header">#}
+{#            <div class="header-top">#}
+{#                <h1>Start a discussion</h1>#}
+{#                <button class="go-back">Go back</button>#}
+{#            </div>#}
+{#            <p>Share your thoughts or ask something</p>#}
+{#        </div>#}
+{#        <form method="POST">#}
+{#            {% csrf_token %}#}
+{#            <div class="form-group">#}
+{#                <label for="title">Title</label>#}
+{#                <small>Be specific and imagine you’re asking a question to another person</small>#}
+{#                <input type="text" id="title" placeholder="I think Universities are overrated"/>#}
+{#            </div>#}
+{##}
+{#            <div class="form-group">#}
+{#                <label for="details">Details</label>#}
+{#                <small>Be specific and imagine you’re asking a question to another person</small>#}
+{#                <textarea id="details" rows="5" placeholder="I think Universities are overrated"></textarea>#}
+{#            </div>#}
+{##}
+{#            <div class="form-group">#}
+{#                <label for="tags">Tags</label>#}
+{#                <small>Add up to 3 tags that describe this discussion</small>#}
+{#                <input type="text" id="tags" placeholder="I think Universities are overrated"/>#}
+{#            </div>#}
+{##}
+{#            <button type="submit" class="post-btn">Post</button>#}
+{#        </form>#}
+{#    </section>#}
+{#</main>#}
 <main class="discussion-container">
     <section class="discussion-form">
         <div class="header">
             <div class="header-top">
-                <h1>Start a discussion</h1>
-                <button class="go-back">Go back</button>
+                <h1>Edit Discussion</h1>
+                <a href="{% url 'base:discussion' discussion.id %}" class="go-back">Go back</a>
             </div>
-            <p>Share your thoughts or ask something</p>
+            <p>Edit your discussion below</p>
         </div>
         <form method="POST">
             {% csrf_token %}
             <div class="form-group">
                 <label for="title">Title</label>
-                <small>Be specific and imagine you’re asking a question to another person</small>
-                <input type="text" id="title" placeholder="I think Universities are overrated"/>
+                <small>Be specific and imagine you're asking a question to another person</small>
+                <input type="text" id="title" name="title" placeholder="Enter discussion title"
+                       value="{{ discussion.title }}">
             </div>
 
             <div class="form-group">
-                <label for="details">Details</label>
-                <small>Be specific and imagine you’re asking a question to another person</small>
-                <textarea id="details" rows="5" placeholder="I think Universities are overrated"></textarea>
+                <label for="content">Details</label>
+                <small>Describe your discussion in detail</small>
+                <textarea id="content" name="content" rows="5"
+                          placeholder="Enter discussion details">{{ discussion.content }}</textarea>
             </div>
 
             <div class="form-group">
                 <label for="tags">Tags</label>
-                <small>Add up to 3 tags that describe this discussion</small>
-                <input type="text" id="tags" placeholder="I think Universities are overrated"/>
+                <small>Add tags separated by commas (e.g., education, university, career)</small>
+                <input type="text" id="tags" name="tags" placeholder="education, university, career"
+                       value="{{ current_tags }}">
             </div>
 
-            <button type="submit" class="post-btn">Post</button>
+            <button type="submit" class="post-btn">Update Discussion</button>
         </form>
     </section>
 </main>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Simple tag input helper - converts comma-separated tags to proper format
+        const tagsInput = document.getElementById('tags');
+        if (tagsInput) {
+            tagsInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
+</script>
 <script>
     function openModal(src) {
         const modal = document.getElementById('modal');

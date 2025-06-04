@@ -244,31 +244,70 @@ def create_discussion(request):
 
 @login_required(login_url='login')
 def update_discussion(request, pk):
-    discussion = Discussion.objects.get(id=pk)
+    discussion = get_object_or_404(Discussion, id=pk)
 
     if request.user != discussion.host:
         messages.error(request, 'You don\'t have permission to edit this discussion.')
         return redirect('base:home')
 
     if request.method == 'POST':
-        discussion.title = request.POST.get('title')
-        discussion.content = request.POST.get('details')
+        # Get form data
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        tags_list = request.POST.get('tags', '').split(',')
 
+        # Update discussion
+        discussion.title = title
+        discussion.content = content
+
+        # Update tags
         discussion.tags.clear()
-
-        tags_list = request.POST.getlist('tags[]')
         for tag_name in tags_list:
-            if tag_name.strip():
-                tag, created = CustomTag.objects.get_or_create(name=tag_name.strip())
+            tag_name = tag_name.strip()
+            if tag_name:
+                tag, created = CustomTag.objects.get_or_create(name=tag_name)
                 discussion.tags.add(tag)
-        print(tags_list)
+
         discussion.save()
+        messages.success(request, 'Discussion updated successfully!')
+        return redirect('base:discussion', pk=discussion.id)
 
-        return redirect('base:home')
+    # Get current tags as comma-separated string
+    current_tags = ', '.join(tag.name for tag in discussion.tags.all())
 
-    context = {'discussion': discussion, 'tags': discussion.tags.all()}
-
+    context = {
+        'discussion': discussion,
+        'current_tags': current_tags
+    }
     return render(request, 'base/discussion_form.html', context)
+
+# @login_required(login_url='login')
+# def update_discussion(request, pk):
+    # discussion = Discussion.objects.get(id=pk)
+    #
+    # if request.user != discussion.host:
+    #     messages.error(request, 'You don\'t have permission to edit this discussion.')
+    #     return redirect('base:home')
+    #
+    # if request.method == 'POST':
+    #     discussion.title = request.POST.get('title')
+    #     discussion.content = request.POST.get('details')
+    #
+    #     discussion.tags.clear()
+    #
+    #     tags_list = request.POST.getlist('tags[]')
+    #     for tag_name in tags_list:
+    #         if tag_name.strip():
+    #             tag, created = CustomTag.objects.get_or_create(name=tag_name.strip())
+    #             discussion.tags.add(tag)
+    #     print(tags_list)
+    #     discussion.save()
+    #
+    #     return redirect('base:home')
+    #
+    # context = {'discussion': discussion, 'tags': discussion.tags.all()}
+    #
+    # return render(request, 'base/discussion_form.html', context)
 
 
 @login_required(login_url='login')
