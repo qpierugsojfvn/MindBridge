@@ -17,6 +17,8 @@ class UserProfile(models.Model):
     phone = models.CharField(max_length=20, blank=True)
     about = models.TextField(max_length=50, blank=True)
     bio = models.TextField(max_length=500, blank=True)
+    # todo скрыть от юзера эти поля(только для компаний)
+    company_name = models.CharField(max_length=30, blank=True)
     avatar = models.ImageField(
         upload_to='avatars/',
         null=True,

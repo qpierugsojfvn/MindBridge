@@ -4,7 +4,12 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from mindbridge_auth.models import UserProfile
 from .models import *
+import re
 
+def validate_phone_number(value):
+    pattern = r'^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$'
+    if not re.match(pattern, value):
+        raise ValidationError('Введите корректный номер телефона')
 
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(
@@ -16,24 +21,43 @@ class UserRegistrationForm(UserCreationForm):
         })
     )
     first_name = forms.CharField(
+        required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'First Name'
         })
     )
+    company_name = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Company Name'
+        })
+    )
+    phone = forms.CharField(
+        required=False,
+        validators=[validate_phone_number],
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': '+7 (XXX) XXX-XX-XX'
+        })
+    )
     last_name = forms.CharField(
+        required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Last Name'
         })
     )
     username = forms.CharField(
+        required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Username'
         })
     )
     password1 = forms.CharField(
+        required=False,
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
             'placeholder': 'Password'
@@ -42,7 +66,7 @@ class UserRegistrationForm(UserCreationForm):
 
     class Meta:
         model = get_user_model()
-        fields = ['first_name', 'last_name', 'email', 'username', 'password1']
+        fields = ['first_name', 'last_name', 'company_name', 'email', 'username', 'password1']
 
 
     def __init__(self, *args, **kwargs):

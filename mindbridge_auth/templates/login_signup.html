@@ -231,6 +231,7 @@
         <div class="right-panel">
             <h2>Log in</h2>
             <p>Don't have an account? <a href={% url 'auth:sign-up' %}>Sign up</a></p>
+            <p>Looking for employees?<a href={% url 'auth:sign-up-company' %}>Sign up a company</a></p>
 
             <form method="POST" action="{% url 'auth:login' %}">
                 {% csrf_token %}
@@ -252,6 +253,7 @@
             <a href="/accounts/google/login/" class="google-btn">
                 <img alt="Google" src={% static 'icons/google.png' %}> Login with Google
             </a>
+            <a href={% url 'auth:sign-up-company' %}></a>
         </div>
     {% else %}
         <div class="right-panel">
@@ -300,13 +302,6 @@
 
                 <input class="create-btn" type="submit" value="Create Account"/>
             </form>
-
-            {#            <div class="divider">#}
-            {#                <span></span> or <span></span>#}
-            {#            </div>#}
-            {#            <button class="google-btn">#}
-            {#                <img alt="Google" src={% static 'icons/google.png' %}> Continue with Google#}
-            {#            </button>#}
         </div>
 
     {% endif %}

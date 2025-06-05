@@ -11,6 +11,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from base.decorators import user_not_authenticated
 from base.forms import UserRegistrationForm
 from base.tokens import account_activation_token
+from mindbridge_auth.models import UserProfile
 
 
 # Create your views here.
@@ -125,3 +126,43 @@ def signup_page(request):
 
     context = {'page': page, 'form': form}
     return render(request, 'login_signup.html', context)
+
+
+def sign_up_company(request):
+    form = UserRegistrationForm(request.POST or None)
+
+    if request.method == 'POST':
+        print("1")
+        if form.is_valid():
+            print("2")
+            email = form.cleaned_data.get('email')
+            print(email)
+
+            if User.objects.filter(email=email).exists():
+                messages.error(request, 'This email is already registered. Please use a different email.')
+                return render(request, 'login_signup.html', {'form': form})
+
+            user = form.save(commit=False)
+            user.is_active = False
+            user.username = form.cleaned_data.get('company_name')
+            user.save()  # Save the user first
+
+            # Create or get the user profile
+            user_profile, created = UserProfile.objects.get_or_create(user=user)
+            user_profile.role = 'COMPANY'
+            user_profile.phone = form.cleaned_data.get('phone')
+            user_profile.company_name = form.cleaned_data.get('company_name')
+            user_profile.save()  # Save the profile
+
+            if not activateEmail(request, user, email):
+                return render(request, 'sign_up_company.html', {'form': form})
+
+            return redirect('auth:login')
+
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+
+    context = {'form': form}
+    return render(request, 'sign_up_company.html', context)
