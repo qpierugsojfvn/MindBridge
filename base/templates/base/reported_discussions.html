@@ -1,0 +1,247 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .reports-list {
+        display: grid;
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .report-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-left: 4px solid #EF4444;
+        transition: transform 0.2s ease;
+    }
+
+    .report-card:hover {
+        transform: translateY(-2px);
+    }
+
+    .report-card.resolved {
+        border-left-color: #10B981;
+        opacity: 0.8;
+    }
+
+    .report-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .report-header h3 {
+        margin: 0;
+        color: #0B304A;
+    }
+
+    .report-header h3 a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .report-header small {
+        color: #64748B;
+        font-size: 0.9rem;
+    }
+
+    .report-reason {
+        background: #F8FAFC;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+    }
+
+    .report-reason strong {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #475569;
+    }
+
+    .report-reason p {
+        margin: 0;
+        color: #475569;
+    }
+
+    .report-actions {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .resolve-btn {
+        background: #10B981;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background 0.2s ease;
+    }
+
+    .resolve-btn:hover {
+        background: #0D9F6E;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .empty-state p {
+        color: #64748B;
+        margin-top: 1rem;
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .status-badge.pending {
+        background: #FEF3C7;
+        color: #92400E;
+    }
+
+    .status-badge.resolved {
+        background: #D1FAE5;
+        color: #065F46;
+    }
+</style>
+
+<div class="container">
+    <h1>Reported Discussions</h1>
+    {% if reported_discussions %}
+        <div class="reports-list">
+            {% for report in reported_discussions %}
+                <div class="report-card {% if report.is_resolved %}resolved{% endif %}" id="report-{{ report.id }}">
+                    <div class="report-header">
+                        <h3>
+                            <a href="{% url 'base:discussion' report.discussion.id %}">
+                                {{ report.discussion.title }}
+                            </a>
+                        </h3>
+                        <div>
+                            <small>
+                                Reported on {{ report.reported_at|date:"M d, Y" }}
+                                {% if is_staff %}by {{ report.user.username }}{% endif %}
+                            </small>
+                            <span class="status-badge {% if report.is_resolved %}resolved{% else %}pending{% endif %}">
+                                {% if report.is_resolved %}Resolved{% else %}Pending{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="report-reason">
+                        <strong>Reason:</strong>
+                        <p>{{ report.reason }}</p>
+                    </div>
+                    {% if is_staff and not report.is_resolved %}
+                    <div class="report-actions">
+                        <form method="POST" action="{% url 'base:resolve-report' report.id %}" class="resolve-form">
+                            {% csrf_token %}
+                            <button type="submit" class="resolve-btn">
+                                <i class="fas fa-check-circle"></i> Mark as Resolved
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-flag" style="font-size: 3rem; color: #CBD5E1;"></i>
+            <p>No discussions have been reported.</p>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Report discussion functionality
+    const reportModal = document.getElementById('reportModal');
+    const reportBtns = document.querySelectorAll('.report-btn');
+    const closeBtn = document.querySelector('.close');
+    const reportForm = document.getElementById('reportForm');
+
+    reportBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const discussionId = this.getAttribute('data-discussion-id');
+            document.getElementById('reportDiscussionId').value = discussionId;
+            reportModal.style.display = 'block';
+        });
+    });
+
+    closeBtn.onclick = function() {
+        reportModal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == reportModal) {
+            reportModal.style.display = 'none';
+        }
+    }
+
+    reportForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const discussionId = document.getElementById('reportDiscussionId').value;
+        const reason = document.getElementById('reportReason').value.trim(); // Add trim() here
+
+        // Client-side validation
+        if (!reason) {
+            alert('Please enter a reason for reporting.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/report-discussion/${discussionId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `reason=${encodeURIComponent(reason)}`,
+                credentials: 'same-origin'
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'reported') {
+                alert('Discussion reported successfully. Thank you!');
+                reportModal.style.display = 'none';
+                reportForm.reset();
+            } else if (data.status === 'already_reported') {
+                alert('You have already reported this discussion.');
+                reportModal.style.display = 'none';
+            } else {
+                alert('Error: ' + (data.message || 'Something went wrong'));
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while reporting the discussion.');
+        }
+    });
+});
+</script>
+
+{% endblock %}

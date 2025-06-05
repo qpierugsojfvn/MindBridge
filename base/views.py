@@ -12,6 +12,9 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from taggit.models import Tag
+import random
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 
 from .forms import *
 
@@ -37,9 +40,10 @@ def home(request):
         discussion_count = discussions.count()
         popular_tags = get_popular_tags()
 
+        random_tags = random.sample(list(tags), min(5, len(tags)))
+
         if 'recently_viewed' not in request.session:
             request.session['recently_viewed'] = []
-
 
         recently_viewed_count = 3
         if len(request.session['recently_viewed']) > recently_viewed_count:
@@ -53,7 +57,8 @@ def home(request):
             'tags': tags,
             'discussion_count': discussion_count,
             'popular_tags': popular_tags,
-            'recently_viewed_discussions': recently_viewed_discussions
+            'recently_viewed_discussions': recently_viewed_discussions,
+            'random_tags': random_tags,
         }
         return render(request, 'base/home.html', context)
 
@@ -111,7 +116,7 @@ def get_three_weeks_activity(request):
 def discussion(request, pk):
     discussion = Discussion.objects.get(id=pk)
     answers = discussion.answers.all().order_by('-created_at')
-    answer_count=answers.count()
+    answer_count = answers.count()
 
     tags = discussion.tags.all()
     popular_tags = get_popular_tags()
@@ -222,24 +227,30 @@ def view_discussion(request):
 @login_required(login_url='login')
 def create_discussion(request):
     if request.method == 'POST':
-        new_discussion = Discussion()
-        new_discussion.title = request.POST.get('title')
-        new_discussion.content = request.POST.get('details')
-        new_discussion.host = request.user
-        new_discussion.save()
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        tags_input = request.POST.get('tags', '')
 
-        tags_list = request.POST.getlist('tags[]')
-        print(tags_list)
+        # Create new discussion
+        new_discussion = Discussion.objects.create(
+            title=title,
+            content=content,
+            host=request.user
+        )
 
+        # Process tags
+        tags_list = [tag.strip() for tag in tags_input.split(',') if tag.strip()]
         for tag_name in tags_list:
-            tag, create = CustomTag.objects.get_or_create(name=tag_name)
-            print(tag, create)
-            tag.save()
+            tag, created = CustomTag.objects.get_or_create(name=tag_name)
             new_discussion.tags.add(tag)
-        new_discussion.save()
 
-        return redirect('home')
-    return render(request, 'base/discussion_form.html')
+        messages.success(request, 'Discussion created successfully!')
+        return redirect('base:discussion', pk=new_discussion.id)
+
+    # For GET request, render empty form
+    return render(request, 'base/discussion_form.html', {
+        'is_create': True  # Add this to distinguish between create and update
+    })
 
 
 @login_required(login_url='login')
@@ -281,34 +292,6 @@ def update_discussion(request, pk):
     }
     return render(request, 'base/discussion_form.html', context)
 
-# @login_required(login_url='login')
-# def update_discussion(request, pk):
-    # discussion = Discussion.objects.get(id=pk)
-    #
-    # if request.user != discussion.host:
-    #     messages.error(request, 'You don\'t have permission to edit this discussion.')
-    #     return redirect('base:home')
-    #
-    # if request.method == 'POST':
-    #     discussion.title = request.POST.get('title')
-    #     discussion.content = request.POST.get('details')
-    #
-    #     discussion.tags.clear()
-    #
-    #     tags_list = request.POST.getlist('tags[]')
-    #     for tag_name in tags_list:
-    #         if tag_name.strip():
-    #             tag, created = CustomTag.objects.get_or_create(name=tag_name.strip())
-    #             discussion.tags.add(tag)
-    #     print(tags_list)
-    #     discussion.save()
-    #
-    #     return redirect('base:home')
-    #
-    # context = {'discussion': discussion, 'tags': discussion.tags.all()}
-    #
-    # return render(request, 'base/discussion_form.html', context)
-
 
 @login_required(login_url='login')
 def delete_discussion(request, pk):
@@ -337,6 +320,98 @@ def delete_answer(request, pk):
         return redirect('base:home')
 
     return render(request, 'base/delete.html', {'obj': answer})
+
+
+@login_required
+@require_POST
+def save_discussion(request, pk):
+    discussion = get_object_or_404(Discussion, pk=pk)
+    saved, created = SavedDiscussion.objects.get_or_create(
+        user=request.user,
+        discussion=discussion
+    )
+    if not created:
+        saved.delete()
+        return JsonResponse({'status': 'unsaved'})
+    return JsonResponse({'status': 'saved'})
+
+
+@login_required
+@require_POST
+def report_discussion(request, pk):
+    discussion = get_object_or_404(Discussion, pk=pk)
+    reason = request.POST.get('reason', '').strip()  # Add strip() here
+
+    if not reason:
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Reason is required'
+        }, status=400)
+
+    # Check if user already reported this discussion
+    existing_report = ReportedDiscussion.objects.filter(
+        user=request.user,
+        discussion=discussion
+    ).first()
+
+    if existing_report:
+        return JsonResponse({
+            'status': 'already_reported',
+            'message': 'You have already reported this discussion'
+        })
+
+    # Create new report
+    ReportedDiscussion.objects.create(
+        user=request.user,
+        discussion=discussion,
+        reason=reason
+    )
+
+    return JsonResponse({
+        'status': 'reported',
+        'message': 'Discussion reported successfully'
+    })
+
+
+@login_required
+def saved_discussions(request):
+    saved_discussions = SavedDiscussion.objects.filter(user=request.user).select_related('discussion')
+    context = {
+        'saved_discussions': saved_discussions,
+        'title': 'Saved Discussions'
+    }
+    return render(request, 'base/saved_discussions.html', context)
+
+
+@login_required
+def reported_discussions(request):
+    # For regular users, show only their reports
+    if not request.user.is_staff:
+        reports = ReportedDiscussion.objects.filter(user=request.user).select_related('discussion')
+    # For staff/admin, show all reports
+    else:
+        reports = ReportedDiscussion.objects.all().select_related('discussion', 'user')
+
+    context = {
+        'reported_discussions': reports,
+        'title': 'Reported Discussions',
+        'is_staff': request.user.is_staff
+    }
+    return render(request, 'base/reported_discussions.html', context)
+
+
+@login_required
+@require_POST
+def resolve_report(request, pk):
+    if not request.user.is_staff:
+        return HttpResponseForbidden()
+
+    report = get_object_or_404(ReportedDiscussion, pk=pk)
+    report.is_resolved = True
+    report.save()
+
+    messages.success(request, 'Report marked as resolved.')
+    return redirect('base:reported-discussions')
 
 
 def get_popular_tags(days=150, limit=2):

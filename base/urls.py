@@ -15,6 +15,11 @@ urlpatterns = [
     path('update-discussion/<str:pk>/', views.update_discussion, name='update-discussion'),
     path('delete-discussion/<str:pk>/', views.delete_discussion, name='delete-discussion'),
     path('delete-answer/<str:pk>/', views.delete_answer, name='delete-answer'),
+    path('save-discussion/<int:pk>/', views.save_discussion, name='save-discussion'),
+    path('report-discussion/<int:pk>/', views.report_discussion, name='report-discussion'),
     path('api/tags/', TagAutocompleteView.as_view(), name='tags-autocomplete'),
     path('view-discussion', views.view_discussion, name='view-discussion'),
+    path('saved/', views.saved_discussions, name='saved-discussions'),
+    path('reported/', views.reported_discussions, name='reported-discussions'),
+    path('resolve-report/<int:pk>/', views.resolve_report, name='resolve-report'),
 ]

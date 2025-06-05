@@ -4,8 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="fix company dashboard">
+    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="Fixed create-discussion, update-discussion views">
+      <change afterPath="$PROJECT_DIR$/base/templates/base/reported_discussions.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/base/templates/base/saved_discussions.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/templates/base/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
     </list>
     <list id="321f1dca-06e3-4bc8-b51e-b75544aa79c3" name="local ignore" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,11 +39,10 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="test" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -144,7 +150,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-4f4e415b4190-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.26053.29" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.26053.29" />
+        <option value="bundled-python-sdk-b1dbf8ef85a6-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.26053.29" />
       </set>
     </attachedChunks>
   </component>
@@ -166,7 +173,9 @@
       <workItem from="1748341085502" duration="1275000" />
       <workItem from="1748348188354" duration="1000" />
       <workItem from="1748447565874" duration="4694000" />
-      <workItem from="1749018456859" duration="712000" />
+      <workItem from="1749018456859" duration="6601000" />
+      <workItem from="1749034247928" duration="6480000" />
+      <workItem from="1749109003636" duration="996000" />
     </task>
     <task id="LOCAL-00001" summary="Fixing sign up and removing career app only for now">
       <option name="closed" value="true" />
@@ -200,7 +209,31 @@
       <option name="project" value="LOCAL" />
       <updated>1748787689174</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Fixed update-discussion view">
+      <option name="closed" value="true" />
+      <created>1749019409681</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1749019409681</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Fixed create-discussion, update-discussion views">
+      <option name="closed" value="true" />
+      <created>1749020484340</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1749020484340</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fixed create-discussion, update-discussion views">
+      <option name="closed" value="true" />
+      <created>1749042597595</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1749042597595</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -217,7 +250,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="test" />
+                        <option value="origin/master" />
                       </list>
                     </value>
                   </entry>
@@ -236,6 +269,8 @@
     <MESSAGE value="Edited requirements.txt" />
     <MESSAGE value="Updates:&#10;Fixed 'answers' functionality (add, delete, edit answers);&#10;Added profile page;&#10;Added log in, sign up;&#10;Updated 'discussion tags' functionality." />
     <MESSAGE value="fix complete profile" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix complete profile" />
+    <MESSAGE value="Fixed update-discussion view" />
+    <MESSAGE value="Fixed create-discussion, update-discussion views" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed create-discussion, update-discussion views" />
   </component>
 </project>

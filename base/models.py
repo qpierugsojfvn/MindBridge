@@ -3,11 +3,13 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
+
 class CustomTag(models.Model):
     name = models.CharField(unique=True, max_length=100)
 
     def __str__(self):
         return self.name
+
 
 class Discussion(models.Model):
     host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
@@ -17,11 +19,35 @@ class Discussion(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(CustomTag)
 
+    @property
+    def saved_by(self):
+        return User.objects.filter(saveddiscussion__discussion=self)
+
     class Meta:
         ordering = ['-updated_at', '-created_at']
 
     def __str__(self):
         return self.title
+
+
+class SavedDiscussion(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    discussion = models.ForeignKey('Discussion', on_delete=models.CASCADE)
+    saved_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'discussion')
+
+
+class ReportedDiscussion(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    discussion = models.ForeignKey('Discussion', on_delete=models.CASCADE)
+    reason = models.TextField()
+    reported_at = models.DateTimeField(auto_now_add=True)
+    is_resolved = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('user', 'discussion')
 
 
 class Answer(models.Model):

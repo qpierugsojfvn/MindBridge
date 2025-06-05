@@ -459,14 +459,55 @@ a {
 {#        </form>#}
 {#    </section>#}
 {#</main>#}
+
+
+
+{#<main class="discussion-container">#}
+{#    <section class="discussion-form">#}
+{#        <div class="header">#}
+{#            <div class="header-top">#}
+{#                <h1>Edit Discussion</h1>#}
+{#                <a href="{% url 'base:discussion' discussion.id %}" class="go-back">Go back</a>#}
+{#            </div>#}
+{#            <p>Edit your discussion below</p>#}
+{#        </div>#}
+{#        <form method="POST">#}
+{#            {% csrf_token %}#}
+{#            <div class="form-group">#}
+{#                <label for="title">Title</label>#}
+{#                <small>Be specific and imagine you're asking a question to another person</small>#}
+{#                <input type="text" id="title" name="title" placeholder="Enter discussion title"#}
+{#                       value="{{ discussion.title }}">#}
+{#            </div>#}
+{##}
+{#            <div class="form-group">#}
+{#                <label for="content">Details</label>#}
+{#                <small>Describe your discussion in detail</small>#}
+{#                <textarea id="content" name="content" rows="5"#}
+{#                          placeholder="Enter discussion details">{{ discussion.content }}</textarea>#}
+{#            </div>#}
+{##}
+{#            <div class="form-group">#}
+{#                <label for="tags">Tags</label>#}
+{#                <small>Add tags separated by commas (e.g., education, university, career)</small>#}
+{#                <input type="text" id="tags" name="tags" placeholder="education, university, career"#}
+{#                       value="{{ current_tags }}">#}
+{#            </div>#}
+{##}
+{#            <button type="submit" class="post-btn">Update Discussion</button>#}
+{#        </form>#}
+{#    </section>#}
+{#</main>#}
+
+
 <main class="discussion-container">
     <section class="discussion-form">
         <div class="header">
             <div class="header-top">
-                <h1>Edit Discussion</h1>
-                <a href="{% url 'base:discussion' discussion.id %}" class="go-back">Go back</a>
+                <h1>{% if is_create %}Start a discussion{% else %}Edit Discussion{% endif %}</h1>
+                <a href="{% if is_create %}{% url 'base:home' %}{% else %}{% url 'base:discussion' discussion.id %}{% endif %}" class="go-back">Go back</a>
             </div>
-            <p>Edit your discussion below</p>
+            <p>{% if is_create %}Share your thoughts or ask something{% else %}Edit your discussion below{% endif %}</p>
         </div>
         <form method="POST">
             {% csrf_token %}
@@ -474,27 +515,28 @@ a {
                 <label for="title">Title</label>
                 <small>Be specific and imagine you're asking a question to another person</small>
                 <input type="text" id="title" name="title" placeholder="Enter discussion title"
-                       value="{{ discussion.title }}">
+                       value="{% if not is_create %}{{ discussion.title }}{% endif %}">
             </div>
 
             <div class="form-group">
                 <label for="content">Details</label>
                 <small>Describe your discussion in detail</small>
                 <textarea id="content" name="content" rows="5"
-                          placeholder="Enter discussion details">{{ discussion.content }}</textarea>
+                          placeholder="Enter discussion details">{% if not is_create %}{{ discussion.content }}{% endif %}</textarea>
             </div>
 
             <div class="form-group">
                 <label for="tags">Tags</label>
                 <small>Add tags separated by commas (e.g., education, university, career)</small>
                 <input type="text" id="tags" name="tags" placeholder="education, university, career"
-                       value="{{ current_tags }}">
+                       value="{% if not is_create %}{{ current_tags }}{% endif %}">
             </div>
 
-            <button type="submit" class="post-btn">Update Discussion</button>
+            <button type="submit" class="post-btn">{% if is_create %}Post{% else %}Update{% endif %}</button>
         </form>
     </section>
 </main>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
