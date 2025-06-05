@@ -4,15 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="Fixed create-discussion, update-discussion views">
-      <change afterPath="$PROJECT_DIR$/base/templates/base/reported_discussions.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/templates/base/saved_discussions.html" afterDir="false" />
+    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="set user role">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/middleware.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_career/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mindbridge_library/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_library/views.py" afterDir="false" />
     </list>
     <list id="321f1dca-06e3-4bc8-b51e-b75544aa79c3" name="local ignore" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -233,13 +231,36 @@
       <option name="project" value="LOCAL" />
       <updated>1749042597595</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="set user role">
+      <option name="closed" value="true" />
+      <created>1749148153663</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1749148153663</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="master" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -271,6 +292,7 @@
     <MESSAGE value="fix complete profile" />
     <MESSAGE value="Fixed update-discussion view" />
     <MESSAGE value="Fixed create-discussion, update-discussion views" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed create-discussion, update-discussion views" />
+    <MESSAGE value="set user role" />
+    <option name="LAST_COMMIT_MESSAGE" value="set user role" />
   </component>
 </project>
