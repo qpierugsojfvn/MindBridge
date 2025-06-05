@@ -113,6 +113,8 @@ def signup_page(request):
             user.username = user.username.lower()
             user.is_active = False
             user.save()
+            user_profile, created = UserProfile.objects.get_or_create(user=user)
+            user_profile.role = 'USER'
 
             if not activateEmail(request, user, email):
                 return render(request, 'login_signup.html', {'page': page, 'form': form})
@@ -132,11 +134,8 @@ def sign_up_company(request):
     form = UserRegistrationForm(request.POST or None)
 
     if request.method == 'POST':
-        print("1")
         if form.is_valid():
-            print("2")
             email = form.cleaned_data.get('email')
-            print(email)
 
             if User.objects.filter(email=email).exists():
                 messages.error(request, 'This email is already registered. Please use a different email.')
