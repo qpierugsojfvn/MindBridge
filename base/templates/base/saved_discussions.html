@@ -1,0 +1,168 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .discussion-list {
+        display: grid;
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .discussion-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+    }
+
+    .discussion-card:hover {
+        transform: translateY(-2px);
+    }
+
+    .discussion-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .discussion-header h3 {
+        margin: 0;
+        color: #0B304A;
+    }
+
+    .discussion-header h3 a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .discussion-header small {
+        color: #64748B;
+        font-size: 0.9rem;
+    }
+
+    .discussion-card p {
+        color: #475569;
+        margin: 0.5rem 0;
+    }
+
+    .actions {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .unsave-btn {
+        color: #EF4444;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        background: #FEF2F2;
+        transition: background 0.2s ease;
+    }
+
+    .unsave-btn:hover {
+        background: #FEE2E2;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .empty-state p {
+        color: #64748B;
+        margin-top: 1rem;
+    }
+</style>
+
+<div class="container">
+    <h1>Saved Discussions</h1>
+    {% if saved_discussions %}
+        <div class="discussion-list">
+            {% for saved in saved_discussions %}
+                <div class="discussion-card" id="discussion-{{ saved.discussion.id }}">
+                    <div class="discussion-header">
+                        <h3><a href="{% url 'base:discussion' saved.discussion.id %}">{{ saved.discussion.title }}</a></h3>
+                        <small>Saved on {{ saved.saved_at|date:"M d, Y" }}</small>
+                    </div>
+                    <p>{{ saved.discussion.content|truncatewords:30 }}</p>
+                    <div class="actions">
+                        <a href="#" class="unsave-btn" data-discussion-id="{{ saved.discussion.id }}">
+                            <i class="fas fa-bookmark"></i> Unsave
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-bookmark" style="font-size: 3rem; color: #CBD5E1;"></i>
+            <p>You haven't saved any discussions yet.</p>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle unsaving discussions
+    document.querySelectorAll('.unsave-btn').forEach(btn => {
+        btn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            const discussionId = this.getAttribute('data-discussion-id');
+
+            try {
+                const response = await fetch(`/save-discussion/${discussionId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin'
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'unsaved') {
+                    // Remove the card from the UI
+                    const card = document.getElementById(`discussion-${discussionId}`);
+                    if (card) {
+                        card.style.opacity = '0';
+                        setTimeout(() => card.remove(), 200);
+                    }
+
+                    // Show empty state if no discussions left
+                    if (document.querySelectorAll('.discussion-card').length === 0) {
+                        document.querySelector('.discussion-list').innerHTML = `
+                            <div class="empty-state">
+                                <i class="fas fa-bookmark" style="font-size: 3rem; color: #CBD5E1;"></i>
+                                <p>You haven't saved any discussions yet.</p>
+                            </div>
+                        `;
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to unsave discussion. Please try again.');
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}
