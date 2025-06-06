@@ -696,8 +696,13 @@ body {
             </div>
         </div>
         <div class="comment-section">
-            <label for="comment">Comment</label>
-            <textarea id="comment" placeholder="I think Universities are overrated"></textarea>
+            <form method="POST" action="{% url 'base:create-answer' %}">
+                {% csrf_token %}
+                <input type="hidden" name="discussion_id" value="{{ discussion_id }}">
+                <label for="comment">Comment</label>
+                <textarea id="comment" name = 'comment' placeholder="I think Universities are overrated"></textarea>
+                <button type="submit" class="create-btn">Post comment</button>
+            </form>
         </div>
 
 
@@ -708,7 +713,7 @@ body {
                         <img src="images\profile.png" alt="User Avatar" class="avatar">
                         <span class="username"><a href="{% url 'base:user-profile' discussion.host.id %}"
                                                   style="text-decoration: none; color: #0B304A;">@{{ answer.user }}</a> <span
-                                style="color: #9B9B9B;">{{ discussion.created_at|timesince }} ago</span></span>
+                                style="color: #9B9B9B;">{{ answer.created_at|timesince }} ago</span></span>
                     </div>
                     <div class="dots">
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">

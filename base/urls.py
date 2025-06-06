@@ -22,4 +22,5 @@ urlpatterns = [
     path('saved/', views.saved_discussions, name='saved-discussions'),
     path('reported/', views.reported_discussions, name='reported-discussions'),
     path('resolve-report/<int:pk>/', views.resolve_report, name='resolve-report'),
+    path('create-answer', views.create_answer, name='create-answer')
 ]

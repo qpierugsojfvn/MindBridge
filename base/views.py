@@ -150,6 +150,7 @@ def discussion(request, pk):
     top_level_answers = discussion.answers.filter().order_by('created_at')
 
     context = {'discussion': discussion,
+               'discussion_id': discussion.id,
                'answers': answers,
                'answer_count': answer_count,
                'tags': tags,
@@ -307,6 +308,20 @@ def delete_discussion(request, pk):
 
     return render(request, 'base/delete.html', {'obj': discussion})
 
+@login_required(login_url='login')
+def create_answer(request):
+    if request.method == 'POST':
+        discussion_id = request.POST.get('discussion_id')
+        print(discussion_id + "lksdnflksndf")
+        discussion = Discussion.objects.get(id=discussion_id)
+        comment = request.POST.get('comment')
+        Answer.objects.create(
+            user=request.user,
+            discussion=discussion,
+            content=comment
+        )
+        return redirect('base:discussion', pk=discussion_id)
+    return redirect(request, 'home')
 
 @login_required(login_url='login')
 def delete_answer(request, pk):
