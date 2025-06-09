@@ -152,6 +152,23 @@
         color: #768694;
     }
 
+    .search form {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .search input {
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        flex: 1;
+        background: transparent;
+        color: #768694;
+        padding: 0;
+        margin: 0;
+    }
+
     .icons {
         display: flex;
         align-items: center;
@@ -231,6 +248,34 @@
         display: flex;
         flex-wrap: wrap;
         gap: 0.75rem;
+    }
+
+    .tag-container a.tag {
+        display: inline-block;
+        background: #F1F2F6;
+        padding: 0.5rem 1.1rem;
+        border-radius: 0.5rem;
+        font-size: 0.9rem;
+        color: #64748B;
+        white-space: nowrap;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .tag-container a.tag:hover {
+        background: #E2E4EB;
+        color: #0B304A;
+    }
+
+    .tag-container a.tag.active {
+        background: #0B304A;
+        color: white;
+        font-weight: 600;
+        order: -1;
+    }
+
+    .tag-container a.tag:first-child {
+        order: -2;
     }
 
     .tag {
@@ -387,6 +432,52 @@
 
     .post-images::-webkit-scrollbar {
         display: none; /* Chrome, Safari, Opera */
+    }
+
+    .no-results {
+        text-align: center;
+        padding: 4rem 2rem;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .no-results-image {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 1.5rem;
+        opacity: 0.7;
+    }
+
+    .no-results h3 {
+        font-size: 1.5rem;
+        color: #0B304A;
+        margin-bottom: 0.5rem;
+    }
+
+    .no-results p {
+        color: #64748B;
+        margin-bottom: 1.5rem;
+    }
+
+    .create-discussion-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1.75rem;
+        background: #FF50D6;
+        color: white;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.3s ease;
+    }
+
+    .create-discussion-btn:hover {
+        background: #e946c1;
     }
 
     .tags {
@@ -714,12 +805,14 @@
                 <li><a href={% url 'careers:vacancy_list' %}>Career</a></li>
             </ul>
             <div class="search">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Search for..." onkeyup="filterContent()"/>
+                <form action="{% url 'base:home' %}" method="get">
+                    <i class="fas fa-search"></i>
+                    <input type="text" name="q" id="searchInput" placeholder="Search for..."
+                           value="{% if active_tag %}#{{ active_tag }}{% else %}{{ search_query|default:'' }}{% endif %}"/>
+                    <button type="submit" style="display: none;"></button>
+                </form>
             </div>
             <div class="icons">
-                {#                <a href="message.html"><i class="fa-regular fa-comment"></i></a>#}
-                {#                <i class="fa-regular fa-bell"></i>#}
 
                 <a href="{% url 'base:saved-discussions' %}"><i class="fa-regular fa-bookmark"></i> Saved
                     Discussions</a>
@@ -751,9 +844,12 @@
 </header>
 <div class="filter-header">
     <div class="tag-container">
-        <span class="tag">#all</span>
+        <a href="{% url 'base:home' %}" class="tag {% if not active_tag %}active{% endif %}">#all</a>
         {% for tag in random_tags %}
-            <span class="tag">#{{ tag.name }}</span>
+            <a href="{% url 'base:home' %}?q=%23{{ tag.name|urlencode }}"
+               class="tag {% if active_tag == tag.name %}active{% endif %}">
+                #{{ tag.name }}
+            </a>
         {% endfor %}
     </div>
     <button class="filter-btn">
@@ -776,214 +872,211 @@
 <div class="main-container">
 
     <div class="post">
-        {% for discussion in discussions %}
-            <div class="post-card">
-                <div class="post-header">
-                    <div class="user-info">
-                        <img src={% static 'icons/ava.png' %} alt="UserAvatar" class="avatar">
-                        <span class="username">{{ discussion.host.username }}</span>
-                    </div>
-                    <div class="dots-container">
-                        <div class="dots" onclick="togglePostMenu(this)">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 8.5C12.8284 8.5 13.5 7.82843 13.5 7C13.5 6.17157 12.8284 5.5 12 5.5C11.1716 5.5 10.5 6.17157 10.5 7C10.5 7.82843 11.1716 8.5 12 8.5Z"
-                                      fill="#0B304A"/>
-                                <path d="M7 8.5C7.82843 8.5 8.5 7.82843 8.5 7C8.5 6.17157 7.82843 5.5 7 5.5C6.17157 5.5 5.5 6.17157 5.5 7C5.5 7.82843 6.17157 8.5 7 8.5Z"
-                                      fill="#0B304A"/>
-                                <path d="M2 8.5C2.82843 8.5 3.5 7.82843 3.5 7C3.5 6.17157 2.82843 5.5 2 5.5C1.17157 5.5 0.5 6.17157 0.5 7C0.5 7.82843 1.17157 8.5 2 8.5Z"
-                                      fill="#0B304A"/>
-                            </svg>
+
+
+        {% if discussions %}
+            {% for discussion in discussions %}
+
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="user-info">
+                            <img src={% static 'icons/ava.png' %} alt="UserAvatar" class="avatar">
+                            <span class="username">{{ discussion.host.username }}</span>
                         </div>
-                        {#                        <div class="post-dropdown-menu">#}
-                        {#                            {% if request.user == discussion.host %}#}
-                        {#                                <a href="{% url 'base:update-discussion' discussion.id %}">#}
-                        {#                                    <i class="fa-solid fa-pen"></i> Edit#}
-                        {#                                </a>#}
-                        {#                                <a href="{% url 'base:delete-discussion' discussion.id %}" class="delete-btn">#}
-                        {#                                    <i class="fa-solid fa-trash"></i> Delete#}
-                        {#                                </a>#}
-                        {#                            {% else %}#}
-                        {#                                <a href="#">#}
-                        {#                                    <i class="fa-regular fa-bookmark"></i> Save#}
-                        {#                                </a>#}
-                        {#                                <a href="#">#}
-                        {#                                    <i class="fa-solid fa-flag"></i> Report#}
-                        {#                                </a>#}
-                        {#                            {% endif %}#}
-                        {#                        </div>#}
-                        <div class="post-dropdown-menu">
-                            {% if request.user == discussion.host %}
-                                <a href="{% url 'base:update-discussion' discussion.id %}">
-                                    <i class="fa-solid fa-pen"></i> Edit
-                                </a>
-                                <a href="{% url 'base:delete-discussion' discussion.id %}" class="delete-btn">
-                                    <i class="fa-solid fa-trash"></i> Delete
-                                </a>
-                                <a href="#" class="save-btn" data-discussion-id="{{ discussion.id }}">
-                                    <i class="fa-regular fa-bookmark"></i>
-                                    <span class="save-text">
+                        <div class="dots-container">
+                            <div class="dots" onclick="togglePostMenu(this)">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 8.5C12.8284 8.5 13.5 7.82843 13.5 7C13.5 6.17157 12.8284 5.5 12 5.5C11.1716 5.5 10.5 6.17157 10.5 7C10.5 7.82843 11.1716 8.5 12 8.5Z"
+                                          fill="#0B304A"/>
+                                    <path d="M7 8.5C7.82843 8.5 8.5 7.82843 8.5 7C8.5 6.17157 7.82843 5.5 7 5.5C6.17157 5.5 5.5 6.17157 5.5 7C5.5 7.82843 6.17157 8.5 7 8.5Z"
+                                          fill="#0B304A"/>
+                                    <path d="M2 8.5C2.82843 8.5 3.5 7.82843 3.5 7C3.5 6.17157 2.82843 5.5 2 5.5C1.17157 5.5 0.5 6.17157 0.5 7C0.5 7.82843 1.17157 8.5 2 8.5Z"
+                                          fill="#0B304A"/>
+                                </svg>
+                            </div>
+                            <div class="post-dropdown-menu">
+                                {% if request.user == discussion.host %}
+                                    <a href="{% url 'base:update-discussion' discussion.id %}">
+                                        <i class="fa-solid fa-pen"></i> Edit
+                                    </a>
+                                    <a href="{% url 'base:delete-discussion' discussion.id %}" class="delete-btn">
+                                        <i class="fa-solid fa-trash"></i> Delete
+                                    </a>
+                                    <a href="#" class="save-btn" data-discussion-id="{{ discussion.id }}">
+                                        <i class="fa-regular fa-bookmark"></i>
+                                        <span class="save-text">
                                         {% if request.user in discussion.saved_by.all %}Unsave{% else %}Save{% endif %}
                                     </span>
-                                </a>
-                            {% else %}
-                                <a href="#" class="save-btn" data-discussion-id="{{ discussion.id }}">
-                                    <i class="fa-regular fa-bookmark"></i>
-                                    <span class="save-text">
+                                    </a>
+                                {% else %}
+                                    <a href="#" class="save-btn" data-discussion-id="{{ discussion.id }}">
+                                        <i class="fa-regular fa-bookmark"></i>
+                                        <span class="save-text">
                                         {% if request.user in discussion.saved_by.all %}Unsave{% else %}Save{% endif %}
                                     </span>
-                                </a>
-                                <a href="#" class="report-btn" data-discussion-id="{{ discussion.id }}">
-                                    <i class="fa-solid fa-flag"></i> Report
-                                </a>
-                            {% endif %}
+                                    </a>
+                                    <a href="#" class="report-btn" data-discussion-id="{{ discussion.id }}">
+                                        <i class="fa-solid fa-flag"></i> Report
+                                    </a>
+                                {% endif %}
+                            </div>
+
+                            <div id="reportModal" class="modal">
+                                <div class="modal-content">
+                                    <span class="close">&times;</span>
+                                    <h3>Report Discussion</h3>
+                                    <form id="reportForm">
+                                        <input type="hidden" id="reportDiscussionId" value="">
+                                        <textarea id="reportReason"
+                                                  placeholder="Please explain the reason for reporting..."
+                                                  required></textarea>
+                                        <div id="reportError" style="color: red; display: none;"></div>
+                                        <button type="submit">Submit Report</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <style>
+                                .modal {
+                                    display: none;
+                                    position: fixed;
+                                    z-index: 1000;
+                                    left: 0;
+                                    top: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    background-color: rgba(0, 0, 0, 0.4);
+                                }
+
+                                .modal-content {
+                                    background-color: #fff;
+                                    margin: 15% auto;
+                                    padding: 20px;
+                                    border-radius: 8px;
+                                    width: 400px;
+                                    max-width: 90%;
+                                }
+
+                                .modal-content h3 {
+                                    margin-top: 0;
+                                    color: #0B304A;
+                                }
+
+                                .modal-content textarea {
+                                    width: 100%;
+                                    height: 120px;
+                                    padding: 10px;
+                                    margin: 10px 0;
+                                    border: 1px solid #ddd;
+                                    border-radius: 4px;
+                                    resize: vertical;
+                                }
+
+                                .modal-content button {
+                                    background-color: #FF42C2;
+                                    color: white;
+                                    border: none;
+                                    padding: 8px 16px;
+                                    border-radius: 4px;
+                                    cursor: pointer;
+                                    font-size: 1rem;
+                                }
+
+                                .close {
+                                    color: #aaa;
+                                    float: right;
+                                    font-size: 28px;
+                                    font-weight: bold;
+                                    cursor: pointer;
+                                }
+
+                                .close:hover {
+                                    color: #000;
+                                }
+                            </style>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <a href={% url 'base:discussion' pk=discussion.id %} style="text-decoration:none;color:#0B304A;">
+                            <h2 class="post-title">{{ discussion.title }}</h2>
+                            <p class="post-text">
+                                {{ discussion.content }}
+                            </p></a>
+                        <div class="tags">
+
+                            {% for tag in discussion.tags.all %}
+                                <span class="tag">#{{ tag }}</span>
+                            {% endfor %}
                         </div>
 
-                        <!-- Add this modal for report reason -->
-                        {#                        <div id="reportModal" class="modal">#}
-                        {#                            <div class="modal-content">#}
-                        {#                                <span class="close">&times;</span>#}
-                        {#                                <h3>Report Discussion</h3>#}
-                        {#                                <form id="reportForm">#}
-                        {#                                    <input type="hidden" id="reportDiscussionId" value="">#}
-                        {#                                    <textarea id="reportReason" placeholder="Please explain the reason for reporting..."#}
-                        {#                                              required></textarea>#}
-                        {#                                    <button type="submit">Submit Report</button>#}
-                        {#                                </form>#}
-                        {#                            </div>#}
-                        {#                        </div>#}
-                        <!-- Add this modal for report reason -->
-                        <div id="reportModal" class="modal">
-                            <div class="modal-content">
-                                <span class="close">&times;</span>
-                                <h3>Report Discussion</h3>
-                                <form id="reportForm">
-                                    <input type="hidden" id="reportDiscussionId" value="">
-                                    <textarea id="reportReason" placeholder="Please explain the reason for reporting..."
-                                              required></textarea>
-                                    <div id="reportError" style="color: red; display: none;"></div>
-                                    <button type="submit">Submit Report</button>
-                                </form>
+                        <div class="reactions">
+                            <div class="reaction">
+                                <svg width="22" height="20" viewBox="0 0 22 20" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.81348 8.35737L9.44205 2.55737C9.58267 2.32812 9.78028 2.1392 10.0156 2.00902C10.2509 1.87884 10.516 1.81182 10.7849 1.81451V1.81451C10.9967 1.80686 11.2079 1.84175 11.406 1.91712C11.6041 1.99248 11.785 2.10679 11.9382 2.25329C12.0913 2.39978 12.2136 2.5755 12.2977 2.77004C12.3818 2.96458 12.426 3.17401 12.4278 3.38594V7.54308H18.6992C18.9309 7.5506 19.1584 7.60708 19.3668 7.70881C19.5751 7.81054 19.7596 7.95523 19.908 8.13334C20.0564 8.31146 20.1655 8.51898 20.228 8.74225C20.2905 8.96553 20.305 9.1995 20.2706 9.42879L19.1278 16.8002C19.079 17.1942 18.8881 17.5567 18.5908 17.8198C18.2935 18.0829 17.9104 18.2283 17.5135 18.2288H8.14205C7.69593 18.2305 7.25561 18.1278 6.85633 17.9288L5.82776 17.4145"
+                                          stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                    <path d="M5.81348 8.35742V17.3717" stroke="#0B304A" stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                    <path d="M2.42815 8.35742H5.81387V17.3717H2.42815C2.23871 17.3717 2.05703 17.2965 1.92308 17.1625C1.78912 17.0285 1.71387 16.8469 1.71387 16.6574V9.07171C1.71387 8.88227 1.78912 8.70059 1.92308 8.56663C2.05703 8.43268 2.23871 8.35742 2.42815 8.35742V8.35742Z"
+                                          stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                </svg>
+                                <span></span></div>
+                            <div class="reaction">
+                                <svg width="22" height="20" viewBox="0 0 22 20" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.1895 11.6832L12.5609 17.4832C12.4203 17.7124 12.2227 17.9013 11.9873 18.0315C11.752 18.1617 11.487 18.2287 11.218 18.226V18.226C11.0062 18.2337 10.795 18.1988 10.597 18.1234C10.3989 18.048 10.2179 17.9337 10.0647 17.7872C9.91159 17.6407 9.78935 17.465 9.70526 17.2705C9.62118 17.0759 9.57694 16.8665 9.57517 16.6546V12.4974H3.30374C3.072 12.4899 2.84448 12.4334 2.63614 12.3317C2.42779 12.23 2.24334 12.0853 2.09491 11.9072C1.94648 11.7291 1.83743 11.5215 1.77493 11.2983C1.71244 11.075 1.69791 10.841 1.73231 10.6117L2.87517 3.2403C2.92391 2.84635 3.11486 2.48378 3.41213 2.22071C3.70939 1.95764 4.0925 1.81221 4.48945 1.81173H13.8609C14.307 1.80998 14.7473 1.91272 15.1466 2.11173L16.1752 2.62602"
+                                          stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                    <path d="M16.1895 11.6831V2.66882" stroke="#0B304A" stroke-width="2"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                    <path d="M19.5748 11.6831H16.1891V2.66882H19.5748C19.7642 2.66882 19.9459 2.74407 20.0799 2.87803C20.2138 3.01198 20.2891 3.19366 20.2891 3.3831V10.9688C20.2891 11.1583 20.2138 11.3399 20.0799 11.4739C19.9459 11.6079 19.7642 11.6831 19.5748 11.6831V11.6831Z"
+                                          stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="reaction"><a
+                                    href={% url 'base:discussion' pk=discussion.id %} style="text-decoration:none;color:#0B304A;">
+                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.99944 11.7142C6.39393 11.7142 6.71373 11.3944 6.71373 10.9999C6.71373 10.6054 6.39393 10.2856 5.99944 10.2856C5.60495 10.2856 5.28516 10.6054 5.28516 10.9999C5.28516 11.3944 5.60495 11.7142 5.99944 11.7142Z"
+                                          stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                    <path d="M10.642 11.7142C11.0365 11.7142 11.3563 11.3944 11.3563 10.9999C11.3563 10.6054 11.0365 10.2856 10.642 10.2856C10.2475 10.2856 9.92773 10.6054 9.92773 10.9999C9.92773 11.3944 10.2475 11.7142 10.642 11.7142Z"
+                                          stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                    <path d="M15.2856 11.7142C15.6801 11.7142 15.9999 11.3944 15.9999 10.9999C15.9999 10.6054 15.6801 10.2856 15.2856 10.2856C14.8911 10.2856 14.5713 10.6054 14.5713 10.9999C14.5713 11.3944 14.8911 11.7142 15.2856 11.7142Z"
+                                          stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                    <path d="M10.9996 1.71436C9.31993 1.71488 7.67186 2.17098 6.23093 3.03409C4.78999 3.8972 3.61015 5.13498 2.81706 6.61561C2.02397 8.09623 1.64734 9.76425 1.72728 11.442C1.80722 13.1198 2.34074 14.7444 3.27101 16.1429L1.71387 20.2858L6.92815 19.3429C8.18374 19.9565 9.56161 20.2787 10.9591 20.2857C12.3565 20.2926 13.7375 19.984 14.9991 19.3829C16.2607 18.7818 17.3704 17.9037 18.2454 16.814C19.1204 15.7244 19.7381 14.4513 20.0526 13.0897C20.3671 11.728 20.3702 10.313 20.0616 8.94997C19.7531 7.58697 19.1409 6.31119 18.2707 5.21774C17.4004 4.12428 16.2946 3.24134 15.0357 2.63474C13.7767 2.02814 12.3971 1.71353 10.9996 1.71436V1.71436Z"
+                                          stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                </svg>
+                                <span>{{ discussion.answers_count }}</span></a>
                             </div>
                         </div>
-
-                        <style>
-                            .modal {
-                                display: none;
-                                position: fixed;
-                                z-index: 1000;
-                                left: 0;
-                                top: 0;
-                                width: 100%;
-                                height: 100%;
-                                background-color: rgba(0, 0, 0, 0.4);
-                            }
-
-                            .modal-content {
-                                background-color: #fff;
-                                margin: 15% auto;
-                                padding: 20px;
-                                border-radius: 8px;
-                                width: 400px;
-                                max-width: 90%;
-                            }
-
-                            .modal-content h3 {
-                                margin-top: 0;
-                                color: #0B304A;
-                            }
-
-                            .modal-content textarea {
-                                width: 100%;
-                                height: 120px;
-                                padding: 10px;
-                                margin: 10px 0;
-                                border: 1px solid #ddd;
-                                border-radius: 4px;
-                                resize: vertical;
-                            }
-
-                            .modal-content button {
-                                background-color: #FF42C2;
-                                color: white;
-                                border: none;
-                                padding: 8px 16px;
-                                border-radius: 4px;
-                                cursor: pointer;
-                                font-size: 1rem;
-                            }
-
-                            .close {
-                                color: #aaa;
-                                float: right;
-                                font-size: 28px;
-                                font-weight: bold;
-                                cursor: pointer;
-                            }
-
-                            .close:hover {
-                                color: #000;
-                            }
-                        </style>
                     </div>
                 </div>
-                <div class="post-content">
-                    <a href={% url 'base:discussion' pk=discussion.id %} style="text-decoration:none;color:#0B304A;">
-                        <h2 class="post-title">{{ discussion.title }}</h2>
-                        <p class="post-text">
-                            {{ discussion.content }}
-                        </p></a>
-                    <div class="tags">
-
-                        {% for tag in discussion.tags.all %}
-                            <span class="tag">#{{ tag }}</span>
-                        {% endfor %}
-                    </div>
-
-                    <div class="reactions">
-                        <div class="reaction">
-                            <svg width="22" height="20" viewBox="0 0 22 20" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5.81348 8.35737L9.44205 2.55737C9.58267 2.32812 9.78028 2.1392 10.0156 2.00902C10.2509 1.87884 10.516 1.81182 10.7849 1.81451V1.81451C10.9967 1.80686 11.2079 1.84175 11.406 1.91712C11.6041 1.99248 11.785 2.10679 11.9382 2.25329C12.0913 2.39978 12.2136 2.5755 12.2977 2.77004C12.3818 2.96458 12.426 3.17401 12.4278 3.38594V7.54308H18.6992C18.9309 7.5506 19.1584 7.60708 19.3668 7.70881C19.5751 7.81054 19.7596 7.95523 19.908 8.13334C20.0564 8.31146 20.1655 8.51898 20.228 8.74225C20.2905 8.96553 20.305 9.1995 20.2706 9.42879L19.1278 16.8002C19.079 17.1942 18.8881 17.5567 18.5908 17.8198C18.2935 18.0829 17.9104 18.2283 17.5135 18.2288H8.14205C7.69593 18.2305 7.25561 18.1278 6.85633 17.9288L5.82776 17.4145"
-                                      stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M5.81348 8.35742V17.3717" stroke="#0B304A" stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"/>
-                                <path d="M2.42815 8.35742H5.81387V17.3717H2.42815C2.23871 17.3717 2.05703 17.2965 1.92308 17.1625C1.78912 17.0285 1.71387 16.8469 1.71387 16.6574V9.07171C1.71387 8.88227 1.78912 8.70059 1.92308 8.56663C2.05703 8.43268 2.23871 8.35742 2.42815 8.35742V8.35742Z"
-                                      stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span></span></div>
-                        <div class="reaction">
-                            <svg width="22" height="20" viewBox="0 0 22 20" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M16.1895 11.6832L12.5609 17.4832C12.4203 17.7124 12.2227 17.9013 11.9873 18.0315C11.752 18.1617 11.487 18.2287 11.218 18.226V18.226C11.0062 18.2337 10.795 18.1988 10.597 18.1234C10.3989 18.048 10.2179 17.9337 10.0647 17.7872C9.91159 17.6407 9.78935 17.465 9.70526 17.2705C9.62118 17.0759 9.57694 16.8665 9.57517 16.6546V12.4974H3.30374C3.072 12.4899 2.84448 12.4334 2.63614 12.3317C2.42779 12.23 2.24334 12.0853 2.09491 11.9072C1.94648 11.7291 1.83743 11.5215 1.77493 11.2983C1.71244 11.075 1.69791 10.841 1.73231 10.6117L2.87517 3.2403C2.92391 2.84635 3.11486 2.48378 3.41213 2.22071C3.70939 1.95764 4.0925 1.81221 4.48945 1.81173H13.8609C14.307 1.80998 14.7473 1.91272 15.1466 2.11173L16.1752 2.62602"
-                                      stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M16.1895 11.6831V2.66882" stroke="#0B304A" stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"/>
-                                <path d="M19.5748 11.6831H16.1891V2.66882H19.5748C19.7642 2.66882 19.9459 2.74407 20.0799 2.87803C20.2138 3.01198 20.2891 3.19366 20.2891 3.3831V10.9688C20.2891 11.1583 20.2138 11.3399 20.0799 11.4739C19.9459 11.6079 19.7642 11.6831 19.5748 11.6831V11.6831Z"
-                                      stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <div class="reaction"><a
-                                href={% url 'base:discussion' pk=discussion.id %} style="text-decoration:none;color:#0B304A;">
-                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M5.99944 11.7142C6.39393 11.7142 6.71373 11.3944 6.71373 10.9999C6.71373 10.6054 6.39393 10.2856 5.99944 10.2856C5.60495 10.2856 5.28516 10.6054 5.28516 10.9999C5.28516 11.3944 5.60495 11.7142 5.99944 11.7142Z"
-                                      stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M10.642 11.7142C11.0365 11.7142 11.3563 11.3944 11.3563 10.9999C11.3563 10.6054 11.0365 10.2856 10.642 10.2856C10.2475 10.2856 9.92773 10.6054 9.92773 10.9999C9.92773 11.3944 10.2475 11.7142 10.642 11.7142Z"
-                                      stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M15.2856 11.7142C15.6801 11.7142 15.9999 11.3944 15.9999 10.9999C15.9999 10.6054 15.6801 10.2856 15.2856 10.2856C14.8911 10.2856 14.5713 10.6054 14.5713 10.9999C14.5713 11.3944 14.8911 11.7142 15.2856 11.7142Z"
-                                      stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M10.9996 1.71436C9.31993 1.71488 7.67186 2.17098 6.23093 3.03409C4.78999 3.8972 3.61015 5.13498 2.81706 6.61561C2.02397 8.09623 1.64734 9.76425 1.72728 11.442C1.80722 13.1198 2.34074 14.7444 3.27101 16.1429L1.71387 20.2858L6.92815 19.3429C8.18374 19.9565 9.56161 20.2787 10.9591 20.2857C12.3565 20.2926 13.7375 19.984 14.9991 19.3829C16.2607 18.7818 17.3704 17.9037 18.2454 16.814C19.1204 15.7244 19.7381 14.4513 20.0526 13.0897C20.3671 11.728 20.3702 10.313 20.0616 8.94997C19.7531 7.58697 19.1409 6.31119 18.2707 5.21774C17.4004 4.12428 16.2946 3.24134 15.0357 2.63474C13.7767 2.02814 12.3971 1.71353 10.9996 1.71436V1.71436Z"
-                                      stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span>{{ discussion.answers_count }}</span></a>
-                        </div>
-                    </div>
-                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-results">
+                <img src="{% static 'icons/no-results.svg' %}" alt="No discussions found" class="no-results-image">
+                <h3>No discussions found</h3>
+                <p>{% if search_query %}Your search "{{ search_query }}" didn't match any discussions{% else %}There are
+                    no discussions yet{% endif %}</p>
+                <a href="{% url 'base:create-discussion' %}" class="create-discussion-btn">
+                    <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Your plus icon SVG here -->
+                    </svg>
+                    Start a discussion
+                </a>
             </div>
-        {% endfor %}
+        {% endif %}
+
     </div>
 
     <div class="sidebar-right">
@@ -1052,16 +1145,29 @@
         }
     }
 
-    function filterContent() {
-        const input = document.getElementById('searchInput');
-        const filter = input.value.toLowerCase();
-        const cards = document.querySelectorAll('.post-card');
+    document.getElementById('searchInput').addEventListener('keyup', function (e) {
+        if (e.key === 'Enter') {
+            this.form.submit();
+        }
+    });
 
-        cards.forEach(function (card) {
-            const text = card.textContent.toLowerCase();
-            card.style.display = text.includes(filter) ? 'block' : 'none';
-        });
+    function debounce(func, wait) {
+        let timeout;
+        return function () {
+            const context = this, args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                func.apply(context, args);
+            }, wait);
+        };
     }
+
+    const debouncedSearch = debounce(function () {
+        this.form.submit();
+    }, 500);
+
+    document.getElementById('searchInput').addEventListener('input', debouncedSearch);
+
 
     function toggleMenu() {
         document.getElementById("profileMenu").classList.toggle("show");
@@ -1126,6 +1232,15 @@
             } catch (error) {
                 console.error('Error:', error);
             }
+        });
+    });
+
+    document.querySelectorAll('.tag-container a.tag').forEach(tag => {
+        tag.addEventListener('click', function (e) {
+            e.preventDefault();
+            const url = this.getAttribute('href');
+            window.history.pushState({}, '', url);
+            window.location.href = url;
         });
     });
 

@@ -23,24 +23,44 @@ def home(request):
     if not request.user.is_authenticated:
         return render(request, 'base/welcome_page.html')
     else:
-        q = request.GET.get('q', '')
+        active_tag = None
+        q = request.GET.get('q', '').strip()
+
         if q:
-            discussions = Discussion.objects.filter(
-                Q(tags__name__icontains=q) |
-                Q(tags__slug__icontains=q) |
-                Q(title__icontains=' ' + q + ' ') |
-                Q(content__icontains=' ' + q + ' ')
-            ).distinct()
+            if q.startswith('#'):
+                tag_name = q[1:]
+                active_tag = tag_name
+                discussions = Discussion.objects.filter(
+                    tags__name__iexact=tag_name
+                ).distinct()
+            else:
+                discussions = Discussion.objects.filter(
+                    Q(title__icontains=q) |
+                    Q(content__icontains=q) |
+                    Q(tags__name__icontains=q)
+                ).distinct()
         else:
             discussions = Discussion.objects.all()
 
-        discussions = discussions.annotate(answers_count=Count('answers')).order_by('-updated_at')
+        discussions = discussions.annotate(answers_count=Count('answers', distinct=True)).order_by('-updated_at')
 
-        tags = CustomTag.objects.all()[:6]
+        all_tags = CustomTag.objects.all()
+
+        if active_tag:
+            try:
+                active_tag_obj = CustomTag.objects.get(name__iexact=active_tag)
+                other_tags = list(all_tags.exclude(id=active_tag_obj.id))
+                random.shuffle(other_tags)
+                random_tags = [active_tag_obj] + other_tags[:4]
+            except CustomTag.DoesNotExist:
+                random_tags = random.sample(list(all_tags), min(5, all_tags.count()))
+        else:
+            random_tags = random.sample(list(all_tags), min(5, all_tags.count()))
+
+        tags = all_tags[:6]
+
         discussion_count = discussions.count()
         popular_tags = get_popular_tags()
-
-        random_tags = random.sample(list(tags), min(5, len(tags)))
 
         if 'recently_viewed' not in request.session:
             request.session['recently_viewed'] = []
@@ -59,6 +79,8 @@ def home(request):
             'popular_tags': popular_tags,
             'recently_viewed_discussions': recently_viewed_discussions,
             'random_tags': random_tags,
+            'search_query': q,
+            'active_tag': active_tag,
         }
         return render(request, 'base/home.html', context)
 
