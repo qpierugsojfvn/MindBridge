@@ -31,6 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'mindbridge-production-c67d.up.railway.app',
+    'mindbridge.kz',
     '127.0.0.1',
 ]
 
@@ -103,14 +104,14 @@ CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app']
 DATABASES = {
     'default': dj_database_url.config(
         default="postgresql://postgres:tCYumsnvAWhhrAHeyRZRKBPaVysgShzY@switchyard.proxy.rlwy.net:31340/railway")
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'mindbridge',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'nurali2004',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432',
-    # }
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'mindbridge',
+#         'USER': 'postgres',
+#         'PASSWORD': 'nurali2004',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
 }
 
 # Password validation
@@ -149,7 +150,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'base/templates/base/static',
 ]
-# STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
