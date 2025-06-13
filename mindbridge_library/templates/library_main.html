@@ -1,957 +1,924 @@
-{#<!DOCTYPE html>#}
-{#<html lang="en">#}
-{#<head>#}
-{#    <meta charset="UTF-8"/>#}
-{#    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>#}
-{#    <title>MindBridge Library</title>#}
-{#    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"/>#}
-{#    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>#}
-{#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"#}
-{#          integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"/>#}
-{#    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&display=swap" rel="stylesheet">#}
-{#</head>#}
-{#<style>#}
-{#    :root {#}
-{#        --main-bg: #f8f9fb;#}
-{#        --accent: #d174e1;#}
-{#        --primary-dark: #0f2940;#}
-{#    }#}
-{##}
-{#    * {#}
-{#        box-sizing: border-box;#}
-{#        margin: 0;#}
-{#        padding: 0;#}
-{#    }#}
-{##}
-{#    body {#}
-{#        font-family: sans-serif;#}
-{#        background: var(--main-bg);#}
-{#        color: #222;#}
-{#        line-height: 1.6;#}
-{#    }#}
-{##}
-{#    .dropdown {#}
-{#        position: relative;#}
-{#    }#}
-{##}
-{#    .dropbtn {#}
-{#        background: none;#}
-{#        border: none;#}
-{#        color: #BFBFBF;#}
-{#        font-size: 1rem;#}
-{#        font-weight: 600;#}
-{#        cursor: pointer;#}
-{#        padding: 0;#}
-{#    }#}
-{##}
-{#    .dropbtn:hover,#}
-{#    .dropbtn:focus {#}
-{#        color: #0B304A;#}
-{#    }#}
-{##}
-{#    .dropdown-content {#}
-{#        display: none;#}
-{#        position: absolute;#}
-{#        background-color: white;#}
-{#        min-width: 160px;#}
-{#        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);#}
-{#        z-index: 1000;#}
-{#        border-radius: 6px;#}
-{#        margin-top: 10px;#}
-{#    }#}
-{##}
-{#    .dropdown-content a {#}
-{#        color: black;#}
-{#        padding: 10px 16px;#}
-{#        text-decoration: none;#}
-{#        display: block;#}
-{#    }#}
-{##}
-{#    .dropdown-content a:hover {#}
-{#        background-color: #f1f1f1;#}
-{#    }#}
-{##}
-{#    .show {#}
-{#        display: block;#}
-{#    }#}
-{##}
-{#    .navbar {#}
-{#        display: flex;#}
-{#        justify-content: center;#}
-{#        align-items: center;#}
-{#        padding: 1rem var(--padding-x);#}
-{#        background: #ffffff;#}
-{#        box-shadow: 0 0.375rem 0.75rem rgba(132, 140, 156, 0.2);#}
-{#        position: sticky;#}
-{#        top: 0;#}
-{#        z-index: 999;#}
-{#        background-color: white;#}
-{#        padding: 10px 20px;#}
-{#        display: flex;#}
-{#        justify-content: space-between;#}
-{#        align-items: center;#}
-{#        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);#}
-{#    }#}
-{##}
-{#    .navbar-container {#}
-{#        display: flex;#}
-{#        justify-content: space-between;#}
-{#        align-items: center;#}
-{#        width: 100%;#}
-{#        max-width: var(--max-width);#}
-{#        gap: clamp(1rem, 5vw, 3.5rem);#}
-{#    }#}
-{##}
-{#    .logo {#}
-{#        font-size: clamp(1.5rem, 2vw, 2rem);#}
-{#        font-weight: 800;#}
-{#        font-family: 'Sofia Sans', sans-serif;#}
-{#        background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);#}
-{#        -webkit-background-clip: text;#}
-{#        -webkit-text-fill-color: transparent;#}
-{#    }#}
-{##}
-{#    .menu {#}
-{#        display: flex;#}
-{#        gap: clamp(1rem, 3vw, 2.5rem);#}
-{#        list-style: none;#}
-{#    }#}
-{##}
-{#    .menu li a {#}
-{#        text-decoration: none;#}
-{#        font-size: 1rem;#}
-{#        font-weight: 600;#}
-{#        color: #BFBFBF;#}
-{#        transition: color 0.3s ease;#}
-{#    }#}
-{##}
-{#    .menu li a.active,#}
-{#    .menu li a:hover {#}
-{#        color: #0B304A;#}
-{#    }#}
-{##}
-{#    .search {#}
-{#        display: flex;#}
-{#        align-items: center;#}
-{#        border: 2px solid #768694;#}
-{#        border-radius: 0.25rem;#}
-{#        padding: 0.5rem 1rem;#}
-{#        flex-grow: 1;#}
-{#        max-width: 20rem;#}
-{#        gap: 0.5rem;#}
-{#    }#}
-{##}
-{#    .search input {#}
-{#        border: none;#}
-{#        outline: none;#}
-{#        font-size: 1rem;#}
-{#        flex: 1;#}
-{#        background: transparent;#}
-{#        color: #768694;#}
-{#    }#}
-{##}
-{#    .search i {#}
-{#        color: #768694;#}
-{#    }#}
-{##}
-{#    .icons {#}
-{#        display: flex;#}
-{#        align-items: center;#}
-{#        gap: 1rem;#}
-{#        margin-left: 5%;#}
-{#    }#}
-{##}
-{#    .icons i {#}
-{#        font-size: 1.25rem;#}
-{#        color: #0B304A;#}
-{#        cursor: pointer;#}
-{#    }#}
-{##}
-{#    .avatar-dropdown {#}
-{#        position: relative;#}
-{#    }#}
-{##}
-{#    .avatar {#}
-{#        width: 2.5rem;#}
-{#        height: 2.5rem;#}
-{#        border-radius: 50%;#}
-{#        overflow: hidden;#}
-{#        border: 2px solid #BFBFBF;#}
-{#    }#}
-{##}
-{#    .avatar img {#}
-{#        width: 100%;#}
-{#        height: 100%;#}
-{#        object-fit: cover;#}
-{#    }#}
-{##}
-{#    .dropdown-menu {#}
-{#        position: absolute;#}
-{#        top: 50px;#}
-{#        right: 0;#}
-{#        width: 200px;#}
-{#        background: white;#}
-{#        border-radius: 12px;#}
-{#        box-shadow: 0 6px 12px rgba(132, 140, 156, 0.2);#}
-{#        display: none;#}
-{#        flex-direction: column;#}
-{#        padding: 16px 0;#}
-{#        z-index: 1000;#}
-{#    }#}
-{##}
-{#    .dropdown-menu a {#}
-{#        padding: 12px 20px;#}
-{#        display: flex;#}
-{#        align-items: center;#}
-{#        gap: 12px;#}
-{#        text-decoration: none;#}
-{#        color: #0B304A;#}
-{#        font-weight: 600;#}
-{#        font-size: 16px;#}
-{#        transition: background 0.2s ease;#}
-{#    }#}
-{##}
-{#    .dropdown-menu a:hover {#}
-{#        background: #F5F6F9;#}
-{#        border-radius: 8px;#}
-{#    }#}
-{##}
-{#    .show {#}
-{#        display: flex;#}
-{#    }#}
-{##}
-{#    .search {#}
-{#        display: flex;#}
-{#        align-items: center;#}
-{#        border: 2px solid #768694;#}
-{#        border-radius: 0.25rem;#}
-{#        padding: 0.5rem 1rem;#}
-{#        flex-grow: 1;#}
-{#        max-width: 20rem;#}
-{#        gap: 0.5rem;#}
-{#    }#}
-{##}
-{#    .search input {#}
-{#        border: none;#}
-{#        outline: none;#}
-{#        font-size: 1rem;#}
-{#        flex: 1;#}
-{#        background: transparent;#}
-{#        color: #768694;#}
-{#    }#}
-{##}
-{#    .search i {#}
-{#        color: #768694;#}
-{#    }#}
-{##}
-{#    .icons {#}
-{#        display: flex;#}
-{#        align-items: center;#}
-{#        gap: 1rem;#}
-{#        margin-left: 5%;#}
-{#    }#}
-{##}
-{#    .icons i {#}
-{#        font-size: 1.25rem;#}
-{#        color: #0B304A;#}
-{#        cursor: pointer;#}
-{#    }#}
-{##}
-{#    .avatar {#}
-{#        width: 2.5rem;#}
-{#        height: 2.5rem;#}
-{#        border-radius: 50%;#}
-{#        overflow: hidden;#}
-{#        border: 2px solid #BFBFBF;#}
-{#    }#}
-{##}
-{#    .avatar img {#}
-{#        width: 100%;#}
-{#        height: 100%;#}
-{#        object-fit: cover;#}
-{#    }#}
-{##}
-{#    .filters-container {#}
-{#        display: flex;#}
-{#        flex-wrap: wrap;#}
-{#        gap: var(--spacing-sm);#}
-{#        padding: var(--spacing-md) var(--spacing-lg) var(--spacing-sm);#}
-{#        margin-top: var(--spacing-sm);#}
-{#    }#}
-{##}
-{#    .filters {#}
-{#        display: flex;#}
-{#        gap: var(--spacing-sm);#}
-{#        flex-wrap: wrap;#}
-{#    }#}
-{##}
-{#    .filters button,#}
-{#    .ask-btn {#}
-{#        background: #e0e3e7;#}
-{#        border: none;#}
-{#        padding: var(--spacing-sm) var(--spacing-md);#}
-{#        border-radius: 1.25rem;#}
-{#        font-size: var(--font-sm);#}
-{#        cursor: pointer;#}
-{#    }#}
-{##}
-{#    .page-container {#}
-{#        display: flex;#}
-{#        flex-direction: row;#}
-{#        padding: 2em;#}
-{#        gap: 2em;#}
-{#    }#}
-{##}
-{#    .content {#}
-{#        flex: 3;#}
-{#    }#}
-{##}
-{#    .sidebar {#}
-{#        flex: 1;#}
-{#        background: white;#}
-{#        padding: 1em;#}
-{#        border-radius: 8px;#}
-{#        height: 50%;#}
-{#        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);#}
-{#    }#}
-{##}
-{#    .sidebar h3 {#}
-{#        margin-bottom: 1em;#}
-{#    }#}
-{##}
-{#    .tags span {#}
-{#        display: inline-block;#}
-{#        background: #eaeaea;#}
-{#        padding: 0.3em 0.7em;#}
-{#        border-radius: 20px;#}
-{#        margin: 0.2em;#}
-{#        font-size: 0.85rem;#}
-{#    }#}
-{##}
-{#    .filter-bar {#}
-{#        display: flex;#}
-{#        gap: 1em;#}
-{#        margin-bottom: 2em;#}
-{#        flex-wrap: wrap;#}
-{#    }#}
-{##}
-{#    .filter-bar button {#}
-{#        padding: 0.6em 1.2em;#}
-{#        border: none;#}
-{#        background: #EBECF2;#}
-{#        border-radius: 5px;#}
-{#        cursor: pointer;#}
-{#    }#}
-{##}
-{#    .filter-btn {#}
-{#        background: #12344d;#}
-{#        color: black;#}
-{#    }#}
-{##}
-{#    .section {#}
-{#        margin-bottom: 2em;#}
-{#    }#}
-{##}
-{#    .section h2 {#}
-{#        margin-bottom: 0.5em;#}
-{#    }#}
-{##}
-{#    .card-grid {#}
-{#        display: grid;#}
-{#        grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));#}
-{#        gap: 1rem;#}
-{#    }#}
-{##}
-{#    .card {#}
-{#        background: white;#}
-{#        padding: 1em;#}
-{#        border-radius: 8px;#}
-{#        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);#}
-{#        min-height: 7rem;#}
-{#        display: flex;#}
-{#        flex-direction: column;#}
-{#        justify-content: space-between;#}
-{#    }#}
-{##}
-{#    .card span {#}
-{#        font-size: 0.9rem;#}
-{#        color: #666;#}
-{#        margin-top: 0.5rem;#}
-{#    }#}
-{##}
-{#    .card.watch {#}
-{#        border: 1px solid #0B304A;#}
-{#    }#}
-{##}
-{#    .card.read {#}
-{#        border: 1px solid #0B304A;#}
-{#    }#}
-{##}
-{#    .card-content {#}
-{#        display: flex;#}
-{#        flex-direction: column;#}
-{#        gap: 0.5em;#}
-{#        overflow: hidden;#}
-{#    }#}
-{##}
-{#    .card-content img,#}
-{#    .card-content video {#}
-{#        width: 100%;#}
-{#        height: auto;#}
-{#        max-height: 200px;#}
-{#        object-fit: cover;#}
-{#        border-radius: 4px;#}
-{#    }#}
-{##}
-{#    .card-content p {#}
-{#        margin: 0;#}
-{#        font-size: 1rem;#}
-{#        color: #222;#}
-{#        word-wrap: break-word;#}
-{#        overflow-wrap: break-word;#}
-{#    }#}
-{##}
-{#    .footer {#}
-{#        background-color: #0B304A;#}
-{#        padding: 48px 80px 40px;#}
-{#        margin-top: 50px;#}
-{#        color: #FFFFFF;#}
-{#        font-family: 'General Sans', sans-serif;#}
-{#    }#}
-{##}
-{#    .footer-inner {#}
-{#        max-width: 1280px;#}
-{#        margin: 0 auto;#}
-{#    }#}
-{##}
-{#    .footer-logo {#}
-{#        font-size: 32px;#}
-{#        font-weight: 800;#}
-{#        font-family: 'Sofia Sans', sans-serif;#}
-{#        margin-bottom: 36px;#}
-{#    }#}
-{##}
-{#    .footer-grid {#}
-{#        display: flex;#}
-{#        flex-wrap: wrap;#}
-{#        gap: 80px;#}
-{#        margin-bottom: 40px;#}
-{#    }#}
-{##}
-{#    .footer-column {#}
-{#        display: flex;#}
-{#        flex-direction: column;#}
-{#        gap: 12px;#}
-{#    }#}
-{##}
-{#    .footer-column a {#}
-{#        color: #FFFFFF;#}
-{#        text-decoration: none;#}
-{#        font-weight: 400;#}
-{#        font-size: 16px;#}
-{#        letter-spacing: 0.5px;#}
-{#    }#}
-{##}
-{#    .footer-copy {#}
-{#        color: #EBECF2;#}
-{#        font-size: 16px;#}
-{#    }#}
-{##}
-{#    /* ✅ Mobile Adaptation */#}
-{#    @media (max-width: 768px) {#}
-{#        .navbar {#}
-{#            flex-direction: column;#}
-{#            align-items: flex-start;#}
-{#        }#}
-{##}
-{#        .search-profile {#}
-{#            width: 100%;#}
-{#            margin-top: 1em;#}
-{#        }#}
-{##}
-{#        .page-container {#}
-{#            flex-direction: column;#}
-{#            padding: 1em;#}
-{#        }#}
-{##}
-{#        .sidebar {#}
-{#            display: none;#}
-{#        }#}
-{#    }#}
-{##}
-{#</style>#}
-{#<body>#}
-{#<header>#}
-{#    <nav class="navbar">#}
-{#        <div class="navbar-container">#}
-{#            <div class="logo">MindBridge</div>#}
-{#            <ul class="menu">#}
-{#                <li><a href={% url 'base:home' %}>Home</a></li>#}
-{#                <li><a href={% url 'base:home' %}>Discussions</a></li>#}
-{#                <li class="dropdown">#}
-{#                    <button onclick="toggleDropdown()" class="dropbtn"><a class="active" href={% url 'library' %}>Library</a></button>#}
-{#                    <div class="dropdown-content" id="libraryDropdown">#}
-{#                        <a href={% url 'library' %}>Library Home</a>#}
-{#                        <a href={% url 'library' %}>Library Book</a>#}
-{#                        <a href={% url 'library' %}>Library View</a>#}
-{#                    </div>#}
-{#                </li>#}
-{#                <li><a href={% url 'careers:vacancy_list' %}>Career</a></li>#}
-{#            </ul>#}
-{#            <div class="search">#}
-{#                <i class="fas fa-search"></i>#}
-{#                <input type="text" id="searchInput" placeholder="Search for..." onkeyup="filterContent()"/>#}
-{#            </div>#}
-{#            <div class="icons">#}
-{#                <a href="message.html"><i class="fa-regular fa-comment"></i></a>#}
-{#                <i class="fa-regular fa-bell"></i>#}
-{#                <div class="avatar-dropdown">#}
-{#                    <div class="avatar" onclick="toggleMenu()">#}
-{#                        <img src="library/ava.png" alt="Profile Picture"/>#}
-{#                    </div>#}
-{#                    <div class="dropdown-menu" id="profileMenu">#}
-{#                        <a href={% url 'base:user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>#}
-{#                        <a href={% url 'base:edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i> Edit</a>#}
-{#                        <a href="saved.html"><i class="fa-regular fa-bookmark"></i> Saved</a>#}
-{#                        <a href={% url 'auth:logout' %}><i class="fa-solid fa-right-from-bracket"></i> Log out</a>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#        </div>#}
-{#    </nav>#}
-{#</header>#}
-{##}
-{#<div class="page-container">#}
-{#    <main class="content">#}
-{#        <div class="filter-bar">#}
-{#            <button>#books</button>#}
-{#            <button>#videos</button>#}
-{#            <button class="filter-btn">Filter</button>#}
-{#        </div>#}
-{##}
-{#        <section class="section">#}
-{#            <h2>Continue studying</h2>#}
-{#            <div class="card-grid">#}
-{#                <div class="card watch">#}
-{#                    <div class="card-content">#}
-{#                        <img src="/library/lab.png" alt="Preview"/>#}
-{#                        <p>Arrays in Java</p>#}
-{#                    </div>#}
-{#                    <span>Watch</span>#}
-{#                </div>#}
-{#                <div class="card read">#}
-{#                    <div class="card-content">#}
-{#                        <p>How do you create a class in Java?</p>#}
-{#                    </div>#}
-{#                    <span>Read</span>#}
-{#                </div>#}
-{#            </div>#}
-{#        </section>#}
-{##}
-{#        <section class="section">#}
-{#            <h2>Popular now</h2>#}
-{#            <div class="card-grid">#}
-{#                <div class="card watch">#}
-{#                    <div class="card-content">#}
-{#                        <p>How do you create a class in Java?</p>#}
-{#                        <video controls>#}
-{#                            <source src="sample-video.mp4" type="video/mp4">#}
-{#                        </video>#}
-{#                    </div>#}
-{#                    <span>Watch</span>#}
-{#                </div>#}
-{#                <div class="card read">#}
-{#                    <div class="card-content">#}
-{#                        <p>Text-only post with explanation of Java classes.</p>#}
-{#                    </div>#}
-{#                    <span>Read</span>#}
-{#                </div>#}
-{#                <div class="card watch">#}
-{#                    <div class="card-content">#}
-{#                        <img src="/library/lab.png" alt="Java example"/>#}
-{#                        <p>Visual Java class example.</p>#}
-{#                    </div>#}
-{#                    <span>Watch</span>#}
-{#                </div>#}
-{#            </div>#}
-{#        </section>#}
-{#        <section class="section">#}
-{#            <h2>For you</h2>#}
-{#            <div class="card-grid">#}
-{#                <div class="card watch">#}
-{#                    <div class="card-content">#}
-{#                        <p>How do you create a class in Java?</p>#}
-{#                        <video controls>#}
-{#                            <source src="sample-video.mp4" type="video/mp4">#}
-{#                        </video>#}
-{#                    </div>#}
-{#                    <span>Watch</span>#}
-{#                </div>#}
-{#                <div class="card read">#}
-{#                    <div class="card-content">#}
-{#                        <p>Text-only post with explanation of Java classes.</p>#}
-{#                    </div>#}
-{#                    <span>Read</span>#}
-{#                </div>#}
-{#                <div class="card watch">#}
-{#                    <div class="card-content">#}
-{#                        <img src="/library/lab.png" alt="Java example"/>#}
-{#                        <p>Visual Java class example.</p>#}
-{#                    </div>#}
-{#                    <span>Watch</span>#}
-{#                </div>#}
-{#            </div>#}
-{#        </section>#}
-{#        <section class="section">#}
-{#            <h2>Computer Science</h2>#}
-{#            <div class="card-grid">#}
-{#                <div class="card watch">#}
-{#                    <div class="card-content">#}
-{#                        <p>How do you create a class in Java?</p>#}
-{#                        <video controls>#}
-{#                            <source src="sample-video.mp4" type="video/mp4">#}
-{#                        </video>#}
-{#                    </div>#}
-{#                    <span>Watch</span>#}
-{#                </div>#}
-{#                <div class="card read">#}
-{#                    <div class="card-content">#}
-{#                        <p>Text-only post with explanation of Java classes.</p>#}
-{#                    </div>#}
-{#                    <span>Read</span>#}
-{#                </div>#}
-{#                <div class="card watch">#}
-{#                    <div class="card-content">#}
-{#                        <img src="/library/lab.png" alt="Java example"/>#}
-{#                        <p>Visual Java class example.</p>#}
-{#                    </div>#}
-{#                    <span>Watch</span>#}
-{#                </div>#}
-{#            </div>#}
-{#        </section>#}
-{#        <section class="section">#}
-{#            <h2>Engineering</h2>#}
-{#            <div class="card-grid">#}
-{#                <div class="card watch">#}
-{#                    <div class="card-content">#}
-{#                        <p>How do you create a class in Java?</p>#}
-{#                        <video controls>#}
-{#                            <source src="sample-video.mp4" type="video/mp4">#}
-{#                        </video>#}
-{#                    </div>#}
-{#                    <span>Watch</span>#}
-{#                </div>#}
-{#                <div class="card read">#}
-{#                    <div class="card-content">#}
-{#                        <p>Text-only post with explanation of Java classes.</p>#}
-{#                    </div>#}
-{#                    <span>Read</span>#}
-{#                </div>#}
-{#                <div class="card watch">#}
-{#                    <div class="card-content">#}
-{#                        <img src="/library/lab.png" alt="Java example"/>#}
-{#                        <p>Visual Java class example.</p>#}
-{#                    </div>#}
-{#                    <span>Watch</span>#}
-{#                </div>#}
-{#            </div>#}
-{#        </section>#}
-{#        <!-- Additional sections as needed -->#}
-{#    </main>#}
-{##}
-{#    <aside class="sidebar">#}
-{#        <h3>Recently viewed</h3>#}
-{#        <div class="tags">#}
-{#            <span>How to create an array</span>#}
-{#            <span>python</span>#}
-{#            <span>How to breathe</span>#}
-{#            <span>DNA</span>#}
-{#            <span>interfaces</span>#}
-{#            <span>Time management</span>#}
-{#        </div>#}
-{#    </aside>#}
-{#</div>#}
-{##}
-{#<footer class="footer">#}
-{#    <div class="footer-inner">#}
-{#        <h2 class="footer-logo">MindBridge</h2>#}
-{#        <div class="footer-grid">#}
-{#            <div class="footer-column">#}
-{#                <a href="home2.html">Home</a>#}
-{#                <a href="MainCareer.html">Career</a>#}
-{#                <a href="discussionpage.html">Discussions</a>#}
-{#            </div>#}
-{#            <div class="footer-column">#}
-{#                <a href="library_main.html">Articles</a>#}
-{#                <a href="library-view.html">Videos</a>#}
-{#                <a href="library-book.html">Books</a>#}
-{#            </div>#}
-{#            <div class="footer-column">#}
-{#                <a href="welcome.html">About</a>#}
-{#            </div>#}
-{#        </div>#}
-{#        <p class="footer-copy">2025 MindBridge</p>#}
-{#    </div>#}
-{#</footer>#}
-{#</body>#}
-{#<script>#}
-{#    function openModal(src) {#}
-{#        const modal = document.getElementById('modal');#}
-{#        const modalImg = document.getElementById('/library/post.png');#}
-{#        modal.style.display = 'flex';#}
-{#        modalImg.src = src;#}
-{#    }#}
-{##}
-{#    function closeModal() {#}
-{#        document.getElementById('modal').style.display = 'none';#}
-{#    }#}
-{##}
-{#    function toggleDropdown() {#}
-{#        document.getElementById("libraryDropdown").classList.toggle("show");#}
-{#    }#}
-{##}
-{#    window.onclick = function (event) {#}
-{#        if (!event.target.matches('.dropbtn')) {#}
-{#            const dropdowns = document.getElementsByClassName("dropdown-content");#}
-{#            for (let i = 0; i < dropdowns.length; i++) {#}
-{#                dropdowns[i].classList.remove('show');#}
-{#            }#}
-{#        }#}
-{#    }#}
-{##}
-{#    function filterContent() {#}
-{#        const input = document.getElementById('searchInput');#}
-{#        const filter = input.value.toLowerCase();#}
-{#        const cards = document.querySelectorAll('.post-card');#}
-{##}
-{#        cards.forEach(function (card) {#}
-{#            const text = card.textContent.toLowerCase();#}
-{#            card.style.display = text.includes(filter) ? 'block' : 'none';#}
-{#        });#}
-{#    }#}
-{##}
-{#    function toggleMenu() {#}
-{#        document.getElementById("profileMenu").classList.toggle("show");#}
-{#    }#}
-{##}
-{#    window.onclick = function (event) {#}
-{#        if (!event.target.closest('.avatar-dropdown')) {#}
-{#            document.getElementById("profileMenu").classList.remove("show");#}
-{#        }#}
-{#    }#}
-{#</script>#}
-{#</html>#}
-
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Library</title>
-    <style>
-        .lesson-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .lesson-card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            transition: transform 0.2s;
-        }
-
-        .lesson-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .lesson-format {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            margin-bottom: 10px;
-        }
-
-        .video-format {
-            background-color: #ffebee;
-            color: #c62828;
-        }
-
-        .article-format {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .create-btn {
-            display: inline-block;
-            margin: 20px;
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-    </style>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MindBridge Library</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"/>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+          integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&display=swap" rel="stylesheet">
 </head>
+<style>
+    :root {
+        --main-bg: #f8f9fb;
+        --accent: #d174e1;
+        --primary-dark: #0f2940;
+        --padding-x: clamp(1rem, 5vw, 4rem);
+        --max-width: 1280px;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: sans-serif;
+        background: var(--main-bg);
+        color: #222;
+        line-height: 1.6;
+    }
+
+    .dropdown {
+        position: relative;
+    }
+
+    .dropbtn {
+        background: none;
+        border: none;
+        color: #BFBFBF;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .dropbtn:hover,
+    .dropbtn:focus {
+        color: #0B304A;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        border-radius: 6px;
+        margin-top: 10px;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 10px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .show {
+        display: block;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem var(--padding-x);
+        background: #ffffff;
+        box-shadow: 0 0.375rem 0.75rem rgba(132, 140, 156, 0.2);
+        position: sticky;
+        top: 0;
+        z-index: 999;
+        background-color: white;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: var(--max-width);
+        gap: clamp(1rem, 5vw, 3.5rem);
+    }
+
+    .logo {
+        font-size: clamp(1.5rem, 2vw, 2rem);
+        font-weight: 800;
+        font-family: 'Sofia Sans', sans-serif;
+        background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .menu {
+        display: flex;
+        gap: clamp(1rem, 3vw, 2.5rem);
+        list-style: none;
+    }
+
+    .menu li a {
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #BFBFBF;
+        transition: color 0.3s ease;
+    }
+
+    .menu li a.active,
+    .menu li a:hover {
+        color: #0B304A;
+    }
+
+    .search {
+        display: flex;
+        align-items: center;
+        border: 2px solid #768694;
+        border-radius: 0.25rem;
+        padding: 0.5rem 1rem;
+        flex-grow: 1;
+        max-width: 20rem;
+        gap: 0.5rem;
+    }
+
+    .search input {
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        flex: 1;
+        background: transparent;
+        color: #768694;
+    }
+
+    .search i {
+        color: #768694;
+    }
+
+    .icons {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-left: 5%;
+    }
+
+    .icons i {
+        font-size: 1.25rem;
+        color: #0B304A;
+        cursor: pointer;
+    }
+
+    .avatar-dropdown {
+        position: relative;
+    }
+
+    .avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid #BFBFBF;
+    }
+
+    .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 200px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(132, 140, 156, 0.2);
+        display: none;
+        flex-direction: column;
+        padding: 16px 0;
+        z-index: 1000;
+    }
+
+    .dropdown-menu a {
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: #0B304A;
+        font-weight: 600;
+        font-size: 16px;
+        transition: background 0.2s ease;
+    }
+
+    .dropdown-menu a:hover {
+        background: #F5F6F9;
+        border-radius: 8px;
+    }
+
+    .show {
+        display: flex;
+    }
+
+    /* Updated Card Styles */
+    .card {
+        background: #ffffff;
+        border: 0.125rem solid #ebecf2;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+    }
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-color: #d174e1;
+    }
+
+    .card-format {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 0.75rem;
+    }
+
+    .video-format {
+        background-color: #ffebee;
+        color: #c62828;
+    }
+
+    .article-format {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #0B304A;
+        margin-bottom: 0.75rem;
+        line-height: 1.4;
+    }
+
+    .card-title a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .card-title a:hover {
+        color: #d174e1;
+    }
+
+    .card-description {
+        font-size: 0.9rem;
+        color: #64748B;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+    }
+
+    .card-meta {
+        display: flex;
+        align-items: center;
+        font-size: 0.8rem;
+        color: #768694;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .card-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    .card-attachments {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: 0.8rem;
+        color: #768694;
+        margin-top: 0.5rem;
+    }
+
+    .card-media {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Horizontal scroll for continue watching section */
+    .horizontal-scroll {
+        display: flex;
+        overflow-x: auto;
+        gap: 1rem;
+        padding: 1rem 0;
+        scrollbar-width: none; /* Firefox */
+    }
+
+    .horizontal-scroll::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+    }
+
+    .horizontal-scroll .card {
+        min-width: 280px;
+        flex: 0 0 auto;
+    }
+
+    /* Progress indicator */
+    .progress-container {
+        width: 100%;
+        background: #EBECF2;
+        border-radius: 0.5rem;
+        height: 6px;
+        margin-top: 0.5rem;
+    }
+
+    .progress-bar {
+        height: 100%;
+        border-radius: 0.5rem;
+        background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
+    }
+
+    /* Filter and action buttons */
+    .filter-bar {
+        display: flex;
+        gap: 1em;
+        margin-bottom: 2em;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .tag {
+        display: inline-block;
+        background: #F1F2F6;
+        padding: 0.5rem 1.1rem;
+        border-radius: 0.5rem;
+        font-size: 0.9rem;
+        color: #64748B;
+        white-space: nowrap;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .tag:hover {
+        background: #E2E4EB;
+        color: #0B304A;
+    }
+
+    .tag.active {
+        background: #0B304A;
+        color: white;
+        font-weight: 600;
+    }
+
+    .new-discussion-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1.75rem;
+        background: #FF50D6;
+        color: white;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        text-decoration: none;
+    }
+
+    .new-discussion-btn:hover {
+        background: #e946c1;
+    }
+
+    .new-discussion-btn i {
+        font-size: 1rem;
+    }
+
+    .page-container {
+        display: flex;
+        flex-direction: row;
+        padding: 2em;
+        gap: 2em;
+    }
+
+    .content {
+        flex: 3;
+    }
+
+    .sidebar {
+        flex: 1;
+        background: white;
+        padding: 1em;
+        border-radius: 8px;
+        height: fit-content;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .sidebar h3 {
+        margin-bottom: 1em;
+        color: #0B304A;
+        font-weight: 600;
+    }
+
+    .section {
+        margin-bottom: 2em;
+    }
+
+    .section h2 {
+        margin-bottom: 0.5em;
+        color: #0B304A;
+        font-weight: 600;
+        font-size: 1.25rem;
+    }
+
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .no-results {
+        text-align: center;
+        padding: 4rem 2rem;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .no-results-image {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 1.5rem;
+        opacity: 0.7;
+    }
+
+    .no-results h3 {
+        font-size: 1.5rem;
+        color: #0B304A;
+        margin-bottom: 0.5rem;
+    }
+
+    .no-results p {
+        color: #64748B;
+        margin-bottom: 1.5rem;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+    }
+
+    .pagination a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 0.75rem;
+        min-width: 2.5rem;
+        height: 2.5rem;
+        text-decoration: none;
+        color: #0B304A;
+        border: 1px solid #EBECF2;
+        border-radius: 0.5rem;
+        transition: all 0.2s ease;
+        font-weight: 500;
+    }
+
+    .pagination a:hover {
+        background: #F5F6F9;
+    }
+
+    .pagination a.active {
+        background: #FF4DC4;
+        color: white;
+        border-color: #FF4DC4;
+    }
+
+    .pagination .page-nav {
+        padding: 0.5rem;
+        border-radius: 50%;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .pagination .page-nav:hover {
+        background: #F5F6F9;
+    }
+
+    .footer {
+        background-color: #0B304A;
+        padding: 48px 80px 40px;
+        margin-top: 50px;
+        color: #FFFFFF;
+        font-family: 'General Sans', sans-serif;
+    }
+
+    .footer-inner {
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+
+    .footer-logo {
+        font-size: 32px;
+        font-weight: 800;
+        font-family: 'Sofia Sans', sans-serif;
+        margin-bottom: 36px;
+    }
+
+    .footer-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 80px;
+        margin-bottom: 40px;
+    }
+
+    .footer-column {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .footer-column a {
+        color: #FFFFFF;
+        text-decoration: none;
+        font-weight: 400;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+    }
+
+    .footer-copy {
+        color: #EBECF2;
+        font-size: 16px;
+    }
+
+    /* ✅ Mobile Adaptation */
+    @media (max-width: 768px) {
+        .navbar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .search-profile {
+            width: 100%;
+            margin-top: 1em;
+        }
+
+        .page-container {
+            flex-direction: column;
+            padding: 1em;
+        }
+
+        .sidebar {
+            display: none;
+        }
+
+        .card-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .filter-bar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
 <body>
-{% include 'navbar.html' %}
-
-<h1>Welcome to the library, {{ user.username }}</h1>
-
-{% if user.is_authenticated %}
-    <a href="{% url 'create_lesson' %}" class="create-btn">Create New Lesson</a>
-{% endif %}
-
-    <a href="{% url 'filter_articles' %}" class="create-btn">Articles</a>
-    <a href="{% url 'filter_videos' %}" class="create-btn">Videos</a>
-
-
-<!-- After filter buttons, before lesson-grid -->
-{% if user.is_authenticated %}
-    <!-- Continue Watching/Reading Section -->
-    <div class="section-container">
-        <h2>Continue {% if current_format == 'video' %}Watching{% elif current_format == 'article' %}Reading{% else %}Learning{% endif %}</h2>
-        <div class="horizontal-scroll">
-            {% for lesson in continue_section %}
-                <div class="lesson-card compact">
-                    <div class="lesson-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">
-                        {{ lesson.get_format_display }}
+<header>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <svg width="148" height="32" viewBox="0 0 148 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M35.7454 2L21.0345 21.389L12.7855 10.5153V28.9968H7V2H12.7855L21.0345 12.8211L29.2836 2H35.7454Z"
+                      fill="#0B304A"/>
+                <path d="M35.444 29H19.9097L23.8029 23.67H34.2526C36.0047 23.67 37.4239 22.2473 37.4239 20.4952C37.4239 19.6191 37.07 18.8272 36.4953 18.2525C35.9206 17.6778 35.1286 17.3203 34.2526 17.3203H28.439L31.9573 12.502H33.9442C35.4826 12.502 36.7301 11.2545 36.7301 9.7161C36.7301 8.94516 36.4182 8.25132 35.9136 7.74671C35.8225 7.6556 35.7209 7.56799 35.6192 7.4909L38.7661 3.18066C42.7294 4.1969 42.9256 13.4656 38.7661 14.6956C45.8902 16.3532 43.2655 29 35.444 29Z"
+                      fill="#FF50D6"/>
+                <path d="M63.3592 20.4568H60.6504L59.8935 13.8618L57.3704 19.1287H55.352L52.8289 13.8793L52.0545 20.4568H49.3457L50.7754 8.86475H52.9796L56.3612 16.115L59.6903 8.86475H61.9435L63.3557 20.4568H63.3592Z"
+                      fill="#0B304A"/>
+                <path d="M64.7051 9.97949C64.7051 9.15599 65.4129 8.53223 66.254 8.53223C67.095 8.53223 67.7678 9.15599 67.7678 9.97949C67.7678 10.803 67.095 11.4267 66.254 11.4267C65.4129 11.4267 64.7051 10.7714 64.7051 9.97949ZM65.0064 20.4572V12.6007H67.4945V20.4572H65.0064Z"
+                      fill="#0B304A"/>
+                <path d="M77.439 16.234V20.4567H74.9509V16.3847C74.9509 15.1723 74.2115 14.7027 73.5878 14.7027C72.915 14.7027 72.0739 15.0566 72.0739 16.3672V20.4567H69.5859V12.6001H72.0739V13.9633C72.3753 12.8875 73.6053 12.4004 74.3272 12.4004C76.4122 12.4004 77.439 13.8301 77.439 16.2375V16.234Z"
+                      fill="#0B304A"/>
+                <path d="M85.2259 8.3287H87.7V20.4569H85.2259V19.5809C84.6547 20.3378 83.593 20.6567 82.787 20.6567C80.8351 20.6567 78.9849 19.0587 78.9849 16.5181C78.9849 13.9776 80.8351 12.3971 82.787 12.3971C83.593 12.3971 84.6547 12.716 85.2259 13.4554V8.3252V8.3287ZM85.1243 16.5216C85.1243 15.5124 84.2658 14.7064 83.3231 14.7064C82.3805 14.7064 81.5079 15.5299 81.5079 16.5216C81.5079 17.5133 82.3489 18.3544 83.3231 18.3544C84.2973 18.3544 85.1243 17.5309 85.1243 16.5216Z"
+                      fill="#0B304A"/>
+                <path d="M98.8505 17.1278C98.8505 18.7082 97.8238 20.4568 95.0975 20.4568H90.0688V8.86475H94.761C96.8811 8.86475 98.2443 10.1438 98.2443 11.8574C98.2443 12.6634 97.9429 13.8758 96.6113 14.2648C98.1427 14.4821 98.847 15.7962 98.847 17.1243L98.8505 17.1278ZM94.5788 11.1741H92.7111V13.3957H94.5613C95.1851 13.3957 95.6056 12.9928 95.6056 12.2849C95.6056 11.6962 95.3042 11.1741 94.5788 11.1741ZM94.7786 18.1545C95.7212 18.1545 96.1908 17.5167 96.1908 16.8579C96.1908 16.2517 95.7703 15.5614 94.7786 15.5614H92.7111V18.151H94.7786V18.1545Z"
+                      fill="#0B304A"/>
+                <path d="M106.437 12.6352L105.848 15.0076C105.361 14.7202 104.972 14.7062 104.719 14.7062C103.745 14.7062 102.936 15.5297 102.936 17.853V20.4602H100.448V12.6036H102.904V14.2682C103.36 12.9716 104.299 12.4004 105.259 12.4004C105.631 12.4004 106.034 12.4354 106.437 12.6352Z"
+                      fill="#0B304A"/>
+                <path d="M107.225 9.97949C107.225 9.15599 107.933 8.53223 108.774 8.53223C109.615 8.53223 110.288 9.15599 110.288 9.97949C110.288 10.803 109.615 11.4267 108.774 11.4267C107.933 11.4267 107.225 10.7714 107.225 9.97949ZM107.53 20.4572V12.6007H110.018V20.4572H107.53Z"
+                      fill="#0B304A"/>
+                <path d="M117.906 8.3287H120.38V20.4569H117.906V19.5809C117.335 20.3378 116.273 20.6567 115.467 20.6567C113.515 20.6567 111.665 19.0587 111.665 16.5181C111.665 13.9776 113.515 12.3971 115.467 12.3971C116.273 12.3971 117.335 12.716 117.906 13.4554V8.3252V8.3287ZM117.808 16.5216C117.808 15.5124 116.949 14.7064 116.007 14.7064C115.064 14.7064 114.192 15.5299 114.192 16.5216C114.192 17.5133 115.033 18.3544 116.007 18.3544C116.981 18.3544 117.808 17.5309 117.808 16.5216Z"
+                      fill="#0B304A"/>
+                <path d="M128.268 12.6035H130.742V19.5174C130.742 22.8465 128.994 24.532 126.148 24.532C124.365 24.532 122.851 23.4878 122.23 22.009L124.284 21.1855C124.571 21.8232 125.328 22.3454 126.152 22.3454C127.448 22.3454 128.272 21.6235 128.272 19.8223V19.5875C127.683 20.3269 126.639 20.6633 125.833 20.6633C123.881 20.6633 122.031 19.0654 122.031 16.5248C122.031 13.9842 123.881 12.4038 125.833 12.4038C126.639 12.4038 127.683 12.7227 128.272 13.4621V12.6035H128.268ZM128.167 16.5213C128.167 15.5121 127.308 14.7061 126.366 14.7061C125.423 14.7061 124.55 15.5296 124.55 16.5213C124.55 17.513 125.391 18.354 126.366 18.354C127.34 18.354 128.167 17.5305 128.167 16.5213Z"
+                      fill="#0B304A"/>
+                <path d="M140.715 17.2608H134.961C135.196 18.0177 135.851 18.4873 136.794 18.4873C137.533 18.4873 138.29 18.1509 138.777 17.6813L140.056 19.2968C139.282 20.1378 137.936 20.6599 136.625 20.6599C134.137 20.6599 132.385 18.9428 132.385 16.5564C132.385 13.9983 134.355 12.4004 136.608 12.4004C138.861 12.4004 140.746 13.9808 140.746 16.3707C140.746 16.588 140.729 16.8753 140.711 17.2608H140.715ZM138.276 15.7995C138.241 15.0251 137.554 14.5029 136.66 14.5029C135.921 14.5029 135.196 14.8569 134.943 15.7995H138.272H138.276Z"
+                      fill="#0B304A"/>
+            </svg>
+            <ul class="menu">
+                <li><a href="{% url 'base:home' %}">Home</a></li>
+                <li><a href="{% url 'base:discussions' %}">Discussions</a></li>
+                <li class="dropdown">
+                    <button onclick="toggleDropdown()" class="dropbtn">Library</button>
+                    <div class="dropdown-content" id="libraryDropdown">
+                        <a href="{% url 'library' %}" class="active">Library Home</a>
+                        <a href="{% url 'filter_articles' %}" class="tag {% if current_filter == 'article' %}active{% endif %}">Library Book</a>
+                        <a href="{% url 'filter_videos' %}"
+               class="tag {% if current_filter == 'video' %}active{% endif %}">Library Videos</a>
                     </div>
-                    <h3><a href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h3>
-                    <div class="progress-container">
-                        <small>progress goes here</small>
-{#                        {% with progress=lesson.user_progress_set.get(user=request.user) %}#}
-{#                            <div class="progress-bar" style="width: {{ progress.get_progress_percentage }}%"></div>#}
-{#                            <small>{{ progress.get_progress_percentage }}% complete</small>#}
-{#                        {% endwith %}#}
-                    </div>
-                </div>
-            {% empty %}
-                <p>No lessons in progress. Start learning!</p>
-            {% endfor %}
-        </div>
-    </div>
-
-    <!-- Recommended for you section -->
-    <div class="section-container">
-        <h2>Recommended {% if current_format == 'videos' %}Videos{% elif current_format == 'articles' %}Articles{% else %}Content{% endif %}</h2>
-        <div class="horizontal-scroll">
-            {% for lesson in for_you %}
-                <div class="lesson-card compact">
-                    <div class="lesson-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">
-                        {{ lesson.get_format_display }}
-                    </div>
-                    <h3><a href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h3>
-                    <p>{{ lesson.description|truncatechars:80 }}</p>
-                </div>
-            {% empty %}
-                <p>Complete some lessons to get recommendations</p>
-            {% endfor %}
-        </div>
-    </div>
-{% endif %}
-
-<!-- Change the filter buttons -->
-<a href="{% url 'filter_articles' %}" class="create-btn {% if current_filter == 'article' %}active{% endif %}">Articles</a>
-<a href="{% url 'filter_videos' %}" class="create-btn {% if current_filter == 'video' %}active{% endif %}">Videos</a>
-<a href="{% url 'library' %}" class="create-btn {% if not current_filter %}active{% endif %}">All Content</a>
-
-<!-- Update section headings -->
-<div class="section-container">
-    <h2>
-        {% if current_filter == 'video' %}
-            Continue Watching
-        {% elif current_filter == 'article' %}
-            Continue Reading
-        {% else %}
-            Continue Learning
-        {% endif %}
-    </h2>
-    <!-- ... rest of the section ... -->
-</div>
-
-<div class="section-container">
-    <h2>
-        {% if current_filter == 'video' %}
-            Recommended Videos
-        {% elif current_filter == 'article' %}
-            Recommended Articles
-        {% else %}
-            Recommended For You
-        {% endif %}
-    </h2>
-    <!-- ... rest of the section ... -->
-</div>
-
-<!-- Update pagination to maintain filter -->
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
-
-
-
-<div class="lesson-grid">
-    {% for lesson in lessons %}
-        <div class="lesson-card">
-            <div class="lesson-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">
-                {{ lesson.get_format_display }}
+                </li>
+                <li><a href="{% url 'careers:vacancy_list' %}">Career</a></li>
+            </ul>
+            <div class="search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Search for..." onkeyup="filterContent()"/>
             </div>
-            <h2><a href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h2>
-            <p>{{ lesson.description|truncatechars:100 }}</p>
-            <div class="lesson-meta">
-                <small>By {{ lesson.author.username }}</small>
-                <small> | {{ lesson.created_at|date:"M d, Y" }}</small>
-                {% if lesson.format == 'video' and lesson.duration %}
-                    <small> | {{ lesson.get_video_duration }}</small>
+            <div class="icons">
+                <a href="{% url 'base:saved-discussions' %}"><i class="fa-regular fa-bookmark"></i></a>
+                {% if user.is_staff %}
+                    <a href="{% url 'base:reported-discussions' %}"><i class="fa-solid fa-flag"></i></a>
+                {% endif %}
+                <div class="avatar-dropdown">
+                    {% if request.user.is_authenticated %}
+                        <div class="avatar" onclick="toggleMenu()">
+                            <img src="{% static 'icons/ava.png' %}" alt="Profile Picture"/>
+                        </div>
+                    {% else %}
+                        <div class="avatar" onclick="toggleMenu()">
+                            <img src="{% static 'icons/no_avatar.jpg' %}" alt="Profile Picture"/>
+                        </div>
+                    {% endif %}
+                    <div class="dropdown-menu" id="profileMenu">
+                        <a href="{% url 'base:user-profile' request.user.id %}"><i class="fa-regular fa-user"></i>
+                            Profile</a>
+                        <a href="{% url 'base:edit-profile' request.user.id %}"><i class="fa-solid fa-pen"></i> Edit</a>
+                        <a href="{% url 'base:saved-discussions' %}"><i class="fa-regular fa-bookmark"></i> Saved</a>
+                        <a href="{% url 'auth:logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="page-container">
+    <main class="content">
+        <h1>Welcome to the library, {% if user.is_authenticated %}{{ user.username }}{% else %}Guest{% endif %}</h1>
+
+        <div class="filter-bar">
+            {% if user.is_authenticated %}
+                <a href="{% url 'create_lesson' %}" class="new-discussion-btn">
+                    <i class="fas fa-plus"></i> Create New Lesson
+                </a>
+            {% endif %}
+            <a href="{% url 'library' %}" class="tag {% if not current_filter %}active{% endif %}">#all</a>
+            <a href="{% url 'filter_articles' %}" class="tag {% if current_filter == 'article' %}active{% endif %}">#articles</a>
+            <a href="{% url 'filter_videos' %}"
+               class="tag {% if current_filter == 'video' %}active{% endif %}">#videos</a>
+        </div>
+
+        {% if user.is_authenticated %}
+            <section class="section">
+                <h2>Continue {% if current_format == 'video' %}Watching{% elif current_format == 'article' %}
+                    Reading{% else %}Learning{% endif %}</h2>
+                <div class="horizontal-scroll">
+                    {% for lesson in continue_section %}
+                        <div class="card">
+                            <div class="card-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">
+                                {{ lesson.get_format_display }}
+                            </div>
+                            <h3 class="card-title"><a
+                                    href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h3>
+                            {% if lesson.format == 'video' and lesson.thumbnail %}
+                                <img src="{{ lesson.thumbnail.url }}" alt="{{ lesson.title }}" class="card-media">
+                            {% endif %}
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: {% widthratio lesson.progress 1 100 %}%"></div>
+                            </div>
+                            <small>{{ lesson.progress }}% complete</small>
+                        </div>
+                    {% empty %}
+                        <p>No lessons in progress. Start learning!</p>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Recommended For You</h2>
+                <div class="card-grid">
+                    {% for lesson in for_you %}
+                        <div class="card">
+                            <div class="card-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">
+                                {{ lesson.get_format_display }}
+                            </div>
+                            <h3 class="card-title"><a
+                                    href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h3>
+                            <p class="card-description">{{ lesson.description|truncatechars:120 }}</p>
+                            <div class="card-meta">
+                  <span class="card-meta-item">
+                    <i class="fas fa-user"></i> {{ lesson.author.username }}
+                  </span>
+                                <span class="card-meta-item">
+                    <i class="fas fa-calendar"></i> {{ lesson.created_at|date:"M d, Y" }}
+                  </span>
+                                {% if lesson.format == 'video' and lesson.duration %}
+                                    <span class="card-meta-item">
+                    <i class="fas fa-clock"></i> {{ lesson.get_video_duration }}
+                  </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>Complete some lessons to get recommendations</p>
+                    {% endfor %}
+                </div>
+            </section>
+        {% endif %}
+
+        <section class="section">
+            <h2>All {% if current_filter == 'video' %}Videos{% elif current_filter == 'article' %}Articles{% else %}
+                Content{% endif %}</h2>
+            <div class="card-grid">
+                {% for lesson in lessons %}
+                    <div class="card">
+                        <div class="card-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">
+                            {{ lesson.get_format_display }}
+                        </div>
+                        <h3 class="card-title"><a
+                                href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h3>
+                        {% if lesson.format == 'video' and lesson.thumbnail %}
+                            <img src="{{ lesson.thumbnail.url }}" alt="{{ lesson.title }}" class="card-media">
+                        {% endif %}
+                        <p class="card-description">{{ lesson.description|truncatechars:160 }}</p>
+                        <div class="card-meta">
+                <span class="card-meta-item">
+                  <i class="fas fa-user"></i> {{ lesson.author.username }}
+                </span>
+                            <span class="card-meta-item">
+                  <i class="fas fa-calendar"></i> {{ lesson.created_at|date:"M d, Y" }}
+                </span>
+                            {% if lesson.format == 'video' and lesson.duration %}
+                                <span class="card-meta-item">
+                  <i class="fas fa-clock"></i> {{ lesson.get_video_duration }}
+                </span>
+                            {% endif %}
+                            {% if lesson.attachments.all %}
+                                <span class="card-meta-item">
+                  <i class="fas fa-paperclip"></i> {{ lesson.attachments.count }} attachment(s)
+                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="no-results">
+                        <img src="{% static 'icons/no-results.svg' %}" alt="No lessons found" class="no-results-image">
+                        <h3>No lessons found</h3>
+                        <p>{% if current_filter %}Your filter didn't match any lessons{% else %}There are no lessons
+                            yet{% endif %}</p>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'create_lesson' %}" class="new-discussion-btn">
+                                <i class="fas fa-plus"></i> Create New Lesson
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        {% if page_obj.paginator.num_pages > 1 %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1{% if current_filter %}&filter_type={{ current_filter }}{% endif %}"
+                       class="page-nav" title="First Page">
+                        <i class="fas fa-angle-double-left"></i>
+                    </a>
+                    <a href="?page=
+                            {{ page_obj.previous_page_number }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}"
+                       class="page-nav" title="Previous Page">
+                        <i class="fas fa-angle-left"></i>
+                    </a>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <a href="?page={{ num }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}"
+                           class="active">{{ num }}</a>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <a href="?page=
+                                {{ num }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a href="?page=
+                            {{ page_obj.next_page_number }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}"
+                       class="page-nav" title="Next Page">
+                        <i class="fas fa-angle-right"></i>
+                    </a>
+                    <a href="?page=
+                            {{ page_obj.paginator.num_pages }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}"
+                       class="page-nav" title="Last Page">
+                        <i class="fas fa-angle-double-right"></i>
+                    </a>
                 {% endif %}
             </div>
-            {% if lesson.attachments.all %}
-                <div class="attachments">
-                    <small>📎 {{ lesson.attachments.count }} attachment(s)</small>
-                </div>
-            {% endif %}
+        {% endif %}
+    </main>
+
+    <aside class="sidebar">
+        <h3>Recently viewed</h3>
+        <div class="tags">
+            {% for tag in recent_tags %}
+                <a href="{% url 'library' %}?tags={{ tag.name }}" class="tag">#{{ tag.name }}</a>
+            {% empty %}
+                <span>No recent tags</span>
+            {% endfor %}
         </div>
-    {% empty %}
-        <p>No lessons available yet.</p>
-    {% endfor %}
+    </aside>
 </div>
-{% if page_obj.paginator.num_pages > 0 %}
-    <div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
 
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
+<footer class="footer">
+    <div class="footer-inner">
+        <h2 class="footer-logo">MindBridge</h2>
+        <div class="footer-grid">
+            <div class="footer-column">
+                <a href="{% url 'base:home' %}">Home</a>
+                <a href="{% url 'careers:vacancy_list' %}">Career</a>
+                <a href="{% url 'base:home' %}">Discussions</a>
+            </div>
+            <div class="footer-column">
+                <a href="{% url 'library' %}">Articles</a>
+                <a href="{% url 'library' %}">Videos</a>
+                <a href="{% url 'library' %}">Books</a>
+            </div>
+            <div class="footer-column">
+                {#          <a href="{% url 'about' %}">About</a>#}
+            </div>
+        </div>
+        {#      <p class="footer-copy">{% now "Y" %} MindBridge</p>#}
     </div>
-{% endif %}
+</footer>
 </body>
+<script>
+    function openModal(src) {
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('/library/post.png');
+        modal.style.display = 'flex';
+        modalImg.src = src;
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+    }
+
+    function toggleDropdown() {
+        document.getElementById("libraryDropdown").classList.toggle("show");
+    }
+
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            const dropdowns = document.getElementsByClassName("dropdown-content");
+            for (let i = 0; i < dropdowns.length; i++) {
+                dropdowns[i].classList.remove('show');
+            }
+        }
+    }
+
+    function filterContent() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+        const cards = document.querySelectorAll('.card');
+
+        cards.forEach(function (card) {
+            const text = card.textContent.toLowerCase();
+            card.style.display = text.includes(filter) ? 'block' : 'none';
+        });
+    }
+
+    function toggleMenu() {
+        document.getElementById("profileMenu").classList.toggle("show");
+    }
+
+    window.onclick = function (event) {
+        if (!event.target.closest('.avatar-dropdown')) {
+            document.getElementById("profileMenu").classList.remove("show");
+        }
+    }
+</script>
 </html>
