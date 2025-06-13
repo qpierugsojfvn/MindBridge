@@ -1,4 +1,5 @@
 {% extends 'main.html' %}
+{% load static %}
 {% block content %}
 
 <style>
@@ -125,6 +126,64 @@
         background: #D1FAE5;
         color: #065F46;
     }
+
+    /* Pagination styles to match home.html */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 2rem 0;
+        flex-wrap: wrap;
+    }
+
+    .pagination a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 0.75rem;
+        min-width: 2.5rem;
+        height: 2.5rem;
+        text-decoration: none;
+        color: #0B304A;
+        border: 1px solid #EBECF2;
+        border-radius: 0.5rem;
+        transition: all 0.2s ease;
+        font-weight: 500;
+    }
+
+    .pagination a:hover {
+        background: #F5F6F9;
+    }
+
+    .pagination a.active {
+        background: #FF4DC4;
+        color: white;
+        border-color: #FF4DC4;
+    }
+
+    .pagination .page-nav {
+        padding: 0.5rem;
+        border-radius: 50%;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .pagination .page-nav:hover {
+        background: #F5F6F9;
+    }
+
+    .pagination .page-nav svg {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .pagination .page-nav:hover svg path {
+        stroke: #FF4DC4;
+    }
 </style>
 
 <div class="container">
@@ -166,6 +225,45 @@
                 </div>
             {% endfor %}
         </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            {% if reported_discussions.has_previous %}
+                <a href="?page=1" class="page-nav" title="First Page">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 12L6 8L10 4" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 12L2 8L6 4" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <a href="?page={{ reported_discussions.previous_page_number }}" class="page-nav" title="Previous Page">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 12L6 8L10 4" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            {% endif %}
+
+            {% for num in reported_discussions.paginator.page_range %}
+                {% if reported_discussions.number == num %}
+                    <a href="?page={{ num }}" class="active">{{ num }}</a>
+                {% elif num > reported_discussions.number|add:'-3' and num < reported_discussions.number|add:'3' %}
+                    <a href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if reported_discussions.has_next %}
+                <a href="?page={{ reported_discussions.next_page_number }}" class="page-nav" title="Next Page">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 4L10 8L6 12" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <a href="?page={{ reported_discussions.paginator.num_pages }}" class="page-nav" title="Last Page">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 4L10 8L6 12" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 4L6 8L2 12" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            {% endif %}
+        </div>
     {% else %}
         <div class="empty-state">
             <i class="fas fa-flag" style="font-size: 3rem; color: #CBD5E1;"></i>
@@ -176,70 +274,39 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Report discussion functionality
-    const reportModal = document.getElementById('reportModal');
-    const reportBtns = document.querySelectorAll('.report-btn');
-    const closeBtn = document.querySelector('.close');
-    const reportForm = document.getElementById('reportForm');
-
-    reportBtns.forEach(btn => {
-        btn.addEventListener('click', function(e) {
+    // Handle resolve form submissions
+    document.querySelectorAll('.resolve-form').forEach(form => {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
-            const discussionId = this.getAttribute('data-discussion-id');
-            document.getElementById('reportDiscussionId').value = discussionId;
-            reportModal.style.display = 'block';
-        });
-    });
+            const form = this;
+            const url = form.action;
+            const formData = new FormData(form);
 
-    closeBtn.onclick = function() {
-        reportModal.style.display = 'none';
-    }
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    credentials: 'same-origin'
+                });
 
-    window.onclick = function(event) {
-        if (event.target == reportModal) {
-            reportModal.style.display = 'none';
-        }
-    }
-
-    reportForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const discussionId = document.getElementById('reportDiscussionId').value;
-        const reason = document.getElementById('reportReason').value.trim(); // Add trim() here
-
-        // Client-side validation
-        if (!reason) {
-            alert('Please enter a reason for reporting.');
-            return;
-        }
-
-        try {
-            const response = await fetch(`/report-discussion/${discussionId}/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `reason=${encodeURIComponent(reason)}`,
-                credentials: 'same-origin'
-            });
-
-            const data = await response.json();
-
-            if (data.status === 'reported') {
-                alert('Discussion reported successfully. Thank you!');
-                reportModal.style.display = 'none';
-                reportForm.reset();
-            } else if (data.status === 'already_reported') {
-                alert('You have already reported this discussion.');
-                reportModal.style.display = 'none';
-            } else {
-                alert('Error: ' + (data.message || 'Something went wrong'));
+                if (response.ok) {
+                    const reportCard = form.closest('.report-card');
+                    if (reportCard) {
+                        reportCard.classList.add('resolved');
+                        reportCard.querySelector('.status-badge').classList.remove('pending');
+                        reportCard.querySelector('.status-badge').classList.add('resolved');
+                        reportCard.querySelector('.status-badge').textContent = 'Resolved';
+                        form.remove();
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to mark as resolved. Please try again.');
             }
-
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred while reporting the discussion.');
-        }
+        });
     });
 });
 </script>

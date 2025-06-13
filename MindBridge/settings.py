@@ -107,7 +107,7 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
     #     'NAME': 'mindbridge',
     #     'USER': 'postgres',
-    #     'PASSWORD': 'postgres',
+    #     'PASSWORD': 'nurali2004',
     #     'HOST': 'localhost',
     #     'PORT': '5432',
     # }
@@ -140,7 +140,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/

@@ -6,9 +6,10 @@ from datetime import datetime, timedelta
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.db.models import Q, Count
 from django.db.models.functions import TruncDate
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from taggit.models import Tag
@@ -22,67 +23,99 @@ from .forms import *
 def home(request):
     if not request.user.is_authenticated:
         return render(request, 'base/welcome_page.html')
-    else:
-        active_tag = None
-        q = request.GET.get('q', '').strip()
 
-        if q:
-            if q.startswith('#'):
-                tag_name = q[1:]
-                active_tag = tag_name
-                discussions = Discussion.objects.filter(
-                    tags__name__iexact=tag_name
-                ).distinct()
-            else:
-                discussions = Discussion.objects.filter(
-                    Q(title__icontains=q) |
-                    Q(content__icontains=q) |
-                    Q(tags__name__icontains=q)
-                ).distinct()
-        else:
-            discussions = Discussion.objects.all()
+    # Initialize variables
+    active_tag = None
+    discussions = Discussion.objects.all()
 
-        discussions = discussions.annotate(answers_count=Count('answers', distinct=True)).order_by('-updated_at')
-
-        all_tags = CustomTag.objects.all()
-
-        if active_tag:
-            try:
-                active_tag_obj = CustomTag.objects.get(name__iexact=active_tag)
-                other_tags = list(all_tags.exclude(id=active_tag_obj.id))
-                random.shuffle(other_tags)
-                random_tags = [active_tag_obj] + other_tags[:4]
-            except CustomTag.DoesNotExist:
-                random_tags = random.sample(list(all_tags), min(5, all_tags.count()))
-        else:
-            random_tags = random.sample(list(all_tags), min(5, all_tags.count()))
-
-        tags = all_tags[:6]
-
-        discussion_count = discussions.count()
-        popular_tags = get_popular_tags()
-
-        if 'recently_viewed' not in request.session:
-            request.session['recently_viewed'] = []
-
-        recently_viewed_count = 3
-        if len(request.session['recently_viewed']) > recently_viewed_count:
-            request.session['recently_viewed'] = request.session['recently_viewed'][:recently_viewed_count]
-
-        recently_viewed_ids = request.session['recently_viewed']
-        recently_viewed_discussions = Discussion.objects.filter(id__in=recently_viewed_ids)
-
-        context = {
-            'discussions': discussions,
-            'tags': tags,
-            'discussion_count': discussion_count,
-            'popular_tags': popular_tags,
-            'recently_viewed_discussions': recently_viewed_discussions,
-            'random_tags': random_tags,
-            'search_query': q,
-            'active_tag': active_tag,
+    # Only apply filters if parameters exist
+    if request.GET:
+        # Get filter parameters with proper defaults
+        filter_params = {
+            'sort': request.GET.get('sort', 'newest'),
+            'time_range': request.GET.get('time_range', 'all_time'),
+            'tags': request.GET.getlist('tags', []),
+            'q': request.GET.get('q', '').strip()
         }
-        return render(request, 'base/home.html', context)
+
+        # Search functionality
+        if filter_params['q']:
+            if filter_params['q'].startswith('#'):
+                tag_name = filter_params['q'][1:]
+                active_tag = tag_name
+                discussions = discussions.filter(tags__name__iexact=tag_name).distinct()
+            else:
+                discussions = discussions.filter(
+                    Q(title__icontains=filter_params['q']) |
+                    Q(content__icontains=filter_params['q']) |
+                    Q(tags__name__icontains=filter_params['q'])
+                ).distinct()
+
+        # Time range filtering
+        today = datetime.now()
+        if filter_params['time_range'] == 'last_week':
+            last_week = today - timedelta(days=7)
+            discussions = discussions.filter(created_at__gte=last_week)
+        elif filter_params['time_range'] == 'last_month':
+            last_month = today - timedelta(days=30)
+            discussions = discussions.filter(created_at__gte=last_month)
+
+        # Tag filtering
+        if filter_params['tags']:
+            discussions = discussions.filter(tags__name__in=filter_params['tags']).distinct()
+
+        # Sorting
+        if filter_params['sort'] == 'newest':
+            discussions = discussions.order_by('-created_at')
+        elif filter_params['sort'] == 'oldest':
+            discussions = discussions.order_by('created_at')
+        elif filter_params['sort'] == 'most_answers':
+            discussions = discussions.annotate(
+                answers_count=Count('answers')
+            ).order_by('-answers_count', '-created_at')
+        elif filter_params['sort'] == 'least_answers':
+            discussions = discussions.annotate(
+                answers_count=Count('answers')
+            ).order_by('answers_count', '-created_at')
+    else:
+        # Default unfiltered queryset
+        discussions = discussions.order_by('-created_at')
+
+    # Annotate with answers count for display (needed in both cases)
+    discussions = discussions.annotate(answers_count=Count('answers', distinct=True))
+
+    paginator = Paginator(discussions, 4)  # Show 10 discussions per page
+    page_number = request.GET.get('page')
+    discussions = paginator.get_page(page_number)
+
+    # Get all tags for the filter dropdown
+    all_tags = CustomTag.objects.all()
+    random_tags = list(all_tags.order_by('?')[:5])
+
+    # Get popular tags for sidebar
+    popular_tags = get_popular_tags()
+
+    # Recently viewed discussions
+    recently_viewed_discussions = []
+    if 'recently_viewed' in request.session:
+        recently_viewed_ids = request.session['recently_viewed']
+        recently_viewed_discussions = Discussion.objects.filter(
+            id__in=recently_viewed_ids
+        ).order_by('-created_at')[:5]
+
+    context = {
+        'discussions': discussions,
+        'all_tags': all_tags,
+        'selected_tags': request.GET.getlist('tags', []),
+        'popular_tags': popular_tags,
+        'recently_viewed_discussions': recently_viewed_discussions,
+        'search_query': request.GET.get('q', '').strip(),
+        'random_tags': random_tags,
+        'active_tag': active_tag,
+        'current_sort': request.GET.get('sort', 'newest'),
+        'current_time_range': request.GET.get('time_range', 'all_time'),
+    }
+    return render(request, 'base/home.html', context)
 
 
 def get_three_weeks_activity(request):

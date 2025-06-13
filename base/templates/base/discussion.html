@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <html lang="en">
@@ -624,7 +625,7 @@ body {
                 <i class="fa-regular fa-bell"></i>
                 <div class="avatar-dropdown">
                     <div class="avatar" onclick="toggleMenu()">
-                        <img src="library/ava.png" alt="Profile Picture"/>
+                        <img src={% static 'icons/ava.png' %} alt="UserAvatar" class="avatar">
                     </div>
                     <div class="dropdown-menu" id="profileMenu">
                         <a href="userprofile.html"><i class="fa-regular fa-user"></i> Profile</a>
@@ -652,7 +653,7 @@ body {
         <div class="post-card">
             <div class="post-header">
                 <div class="user-info">
-                    <img src="images\profile.png" alt="User Avatar" class="avatar">
+                    <img src={% static 'icons/ava.png' %} alt="UserAvatar" class="avatar">
                     <span class="username">{{ discussion.host.username }}</span>
                 </div>
                 <div class="dots">
@@ -700,7 +701,7 @@ body {
                 {% csrf_token %}
                 <input type="hidden" name="discussion_id" value="{{ discussion_id }}">
                 <label for="comment">Comment</label>
-                <textarea id="comment" name = 'comment' placeholder="I think Universities are overrated"></textarea>
+                <textarea id="comment" name='comment' placeholder="I think Universities are overrated"></textarea>
                 <button type="submit" class="create-btn">Post comment</button>
             </form>
         </div>
@@ -710,7 +711,7 @@ body {
             <div class="post-card">
                 <div class="post-header">
                     <div class="user-info">
-                        <img src="images\profile.png" alt="User Avatar" class="avatar">
+                        <img src={% static 'icons/ava.png' %} alt="UserAvatar" class="avatar">
                         <span class="username"><a href="{% url 'base:user-profile' discussion.host.id %}"
                                                   style="text-decoration: none; color: #0B304A;">@{{ answer.user }}</a> <span
                                 style="color: #9B9B9B;">{{ answer.created_at|timesince }} ago</span></span>
@@ -727,7 +728,7 @@ body {
                     </div>
                 </div>
                 <div class="post-content">
-{#                    <h2 class="post-title">{{ discussion.title }}</h2>#}
+                    {#                    <h2 class="post-title">{{ discussion.title }}</h2>#}
                     <p class="post-text">
                         {{ answer.content }}
                     </p>
@@ -737,65 +738,65 @@ body {
 
 
 
-{#        <div class="discussion-container">#}
-{##}
-{#            <div>#}
-{#                <small><a#}
-{#                        href="{% url 'base:user-profile' discussion.host.id %}">@{{ discussion.host }}</a> {{ discussion.created_at|timesince }}ago</small>#}
-{#                <br>#}
-{#                title: <b>{{ discussion.title }}</b> <br>#}
-{#                content: {{ discussion.content }} <br>#}
-{#                tags:#}
-{#                {% for tag in tags %}#}
-{#                    {{ tag }} |#}
-{#                {% endfor %}#}
-{#                <div class="comment-wrapper right-shift">#}
-{#                    <h3>Conversation</h3>#}
-{#                    <hr>#}
-{#                    {% for answer in top_level_answers %}#}
-{#                        <div>#}
-{#                            {% if request.user == answer.user or request.user.is_staff %}#}
-{#                                <a href="{% url 'base:delete-answer' answer.id %}">Delete</a>#}
-{#                            {% endif %}#}
-{#                            <small><a#}
-{#                                    href="{% url 'base:user-profile' answer.user.id %}">@{{ answer.user }}</a> {{ answer.created_at|timesince }}#}
-{#                                ago</small>#}
-{#                            <hr>#}
-{#                            <p>{{ answer.content }}</p>#}
-{#                            <hr>#}
-{#                        </div>#}
-{#                    {% endfor %}#}
-{##}
-{#                    {% if request.user.is_authenticated %}#}
-{#                        <div class="comment-form">#}
-{#                            <form method="POST" action="">#}
-{#                                {% csrf_token %}#}
-{#                                <label>#}
-{#                                    <input type="text" name="body" placeholder="Leave your answer here..."/>#}
-{#                                    <input type="submit" value="Submit">#}
-{#                                </label>#}
-{#                            </form>#}
-{#                        </div>#}
-{#                    {% endif %}#}
-{#                </div>#}
-{##}
-{##}
-{#            </div>#}
-{#            <div>#}
-{#                <h3>Popular now</h3>#}
-{#                <hr>#}
-{#                {% for tag in popular_tags %}#}
-{#                    <a href="{% url 'base:tagged' tag.slug %}" class="tag">#{{ tag.name }}</a>#}
-{#                {% endfor %}#}
-{#                <hr>#}
-{#                <h3>Recently viewed discussions</h3>#}
-{#                <div>#}
-{#                    {% for discussion in recently_viewed_discussions %}#}
-{#                        <li><a href="{% url 'base:discussion' discussion.id %}">{{ discussion.title }}</a></li>#}
-{#                    {% endfor %}#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
+        {#        <div class="discussion-container">#}
+        {##}
+        {#            <div>#}
+        {#                <small><a#}
+        {#                        href="{% url 'base:user-profile' discussion.host.id %}">@{{ discussion.host }}</a> {{ discussion.created_at|timesince }}ago</small>#}
+        {#                <br>#}
+        {#                title: <b>{{ discussion.title }}</b> <br>#}
+        {#                content: {{ discussion.content }} <br>#}
+        {#                tags:#}
+        {#                {% for tag in tags %}#}
+        {#                    {{ tag }} |#}
+        {#                {% endfor %}#}
+        {#                <div class="comment-wrapper right-shift">#}
+        {#                    <h3>Conversation</h3>#}
+        {#                    <hr>#}
+        {#                    {% for answer in top_level_answers %}#}
+        {#                        <div>#}
+        {#                            {% if request.user == answer.user or request.user.is_staff %}#}
+        {#                                <a href="{% url 'base:delete-answer' answer.id %}">Delete</a>#}
+        {#                            {% endif %}#}
+        {#                            <small><a#}
+        {#                                    href="{% url 'base:user-profile' answer.user.id %}">@{{ answer.user }}</a> {{ answer.created_at|timesince }}#}
+        {#                                ago</small>#}
+        {#                            <hr>#}
+        {#                            <p>{{ answer.content }}</p>#}
+        {#                            <hr>#}
+        {#                        </div>#}
+        {#                    {% endfor %}#}
+        {##}
+        {#                    {% if request.user.is_authenticated %}#}
+        {#                        <div class="comment-form">#}
+        {#                            <form method="POST" action="">#}
+        {#                                {% csrf_token %}#}
+        {#                                <label>#}
+        {#                                    <input type="text" name="body" placeholder="Leave your answer here..."/>#}
+        {#                                    <input type="submit" value="Submit">#}
+        {#                                </label>#}
+        {#                            </form>#}
+        {#                        </div>#}
+        {#                    {% endif %}#}
+        {#                </div>#}
+        {##}
+        {##}
+        {#            </div>#}
+        {#            <div>#}
+        {#                <h3>Popular now</h3>#}
+        {#                <hr>#}
+        {#                {% for tag in popular_tags %}#}
+        {#                    <a href="{% url 'base:tagged' tag.slug %}" class="tag">#{{ tag.name }}</a>#}
+        {#                {% endfor %}#}
+        {#                <hr>#}
+        {#                <h3>Recently viewed discussions</h3>#}
+        {#                <div>#}
+        {#                    {% for discussion in recently_viewed_discussions %}#}
+        {#                        <li><a href="{% url 'base:discussion' discussion.id %}">{{ discussion.title }}</a></li>#}
+        {#                    {% endfor %}#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </div>#}
 
 
     </div>

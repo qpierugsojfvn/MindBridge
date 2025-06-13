@@ -247,7 +247,8 @@
     .tag-container {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.75rem;
+        gap: 0.5rem;
+        margin: 1rem 0;
     }
 
     .tag-container a.tag {
@@ -279,12 +280,25 @@
     }
 
     .tag {
-        background: #F1F2F6;
-        padding: 0.5rem 1.1rem;
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background: #f1f2f6;
+        color: #64748b;
         border-radius: 0.5rem;
+        text-decoration: none;
         font-size: 0.9rem;
-        color: #64748B;
-        white-space: nowrap;
+        transition: all 0.2s ease;
+    }
+
+    .tag:hover {
+        background: #e2e4eb;
+        color: #0b304a;
+    }
+
+    .tag.active {
+        background: #0b304a;
+        color: white;
+        font-weight: 600;
     }
 
     .filter-btn {
@@ -393,6 +407,10 @@
     .dots {
         font-size: 1.25rem;
         cursor: pointer;
+    }
+
+    .dots svg {
+        pointer-events: none;
     }
 
     .post-content {
@@ -516,33 +534,59 @@
 
     .pagination {
         display: flex;
-        gap: 0.5rem;
+        justify-content: center;
         align-items: center;
-        margin: 2rem 15rem;
-
+        gap: 0.5rem;
+        margin: 2rem 0;
+        flex-wrap: wrap;
     }
 
-    .pagination button {
-        background-color: #fff;
-        border: none;
-        border-radius: 0.75rem;
-        padding: 0.5rem 0.85rem;
-        font-size: 1rem;
+    .pagination a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 0.75rem;
+        min-width: 2.5rem;
+        height: 2.5rem;
+        text-decoration: none;
         color: #0B304A;
-        cursor: pointer;
-        box-shadow: 0 0 0.1rem rgba(0, 0, 0, 0.1);
+        border: 1px solid #EBECF2;
+        border-radius: 0.5rem;
         transition: all 0.2s ease;
+        font-weight: 500;
     }
 
-    .pagination button.active {
-        background-color: #FF4DC4;
+    .pagination a:hover {
+        background: #F5F6F9;
+    }
+
+    .pagination a.active {
+        background: #FF4DC4;
         color: white;
+        border-color: #FF4DC4;
     }
 
-    .pagination .dots {
-        padding: 0 0.5rem;
-        font-size: 1.2rem;
-        color: #0B304A;
+    .pagination .page-nav {
+        padding: 0.5rem;
+        border-radius: 50%;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .pagination .page-nav:hover {
+        background: #F5F6F9;
+    }
+
+    .pagination .page-nav svg {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .pagination .page-nav:hover svg path {
+        stroke: #FF4DC4;
     }
 
     .sidebar-right {
@@ -748,15 +792,31 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.4);
+        align-items: center;
+        justify-content: center;
     }
 
     .modal-content {
         background-color: #fff;
-        margin: 15% auto;
         padding: 20px;
         border-radius: 8px;
         width: 400px;
         max-width: 90%;
+        position: relative;
+        margin: 0;
+        transform: translateY(0);
+        animation: modalFadeIn 0.3s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .modal-content textarea {
@@ -783,6 +843,107 @@
         font-size: 28px;
         font-weight: bold;
         cursor: pointer;
+    }
+
+
+    /* Filter Modal Styles */
+    .filter-section {
+        margin-bottom: 1.5rem;
+    }
+
+    .filter-section h4 {
+        font-size: 1rem;
+        color: #0B304A;
+        margin-bottom: 0.75rem;
+        font-weight: 600;
+    }
+
+    .filter-options {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .filter-option {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: #64748B;
+    }
+
+    .filter-option input {
+        margin: 0;
+    }
+
+    .tag-selector {
+        position: relative;
+    }
+
+    .tag-select {
+        width: 100%;
+        min-height: 100px;
+        border: 1px solid #EBECF2;
+        border-radius: 8px;
+        padding: 8px;
+        font-size: 0.9rem;
+        color: #0B304A;
+    }
+
+    .tag-select option {
+        padding: 6px 8px;
+        border-radius: 4px;
+        margin: 2px 0;
+    }
+
+    .tag-select option:checked {
+        background-color: #FF50D6;
+        color: white;
+    }
+
+    .filter-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .filter-reset {
+        background: none;
+        border: 1px solid #EBECF2;
+        color: #64748B;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+    }
+
+    .filter-reset:hover {
+        background: #F5F6F9;
+        color: #0B304A;
+    }
+
+    .filter-reset i {
+        font-size: 0.9rem;
+    }
+
+    .filter-apply {
+        background: #FF50D6;
+        color: white;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .filter-apply:hover {
+        background: #e946c1;
     }
 
 </style>
@@ -814,8 +975,7 @@
             </div>
             <div class="icons">
 
-                <a href="{% url 'base:saved-discussions' %}"><i class="fa-regular fa-bookmark"></i> Saved
-                    Discussions</a>
+                <a href="{% url 'base:saved-discussions' %}"><i class="fa-regular fa-bookmark"></i> </a>
                 {% if user.is_staff %}
                     <a href="{% url 'base:reported-discussions' %}"><i class="fa-solid fa-flag"></i> Reported
                         Discussions</a>
@@ -844,15 +1004,28 @@
 </header>
 <div class="filter-header">
     <div class="tag-container">
+        <!-- Always show #all first -->
         <a href="{% url 'base:home' %}" class="tag {% if not active_tag %}active{% endif %}">#all</a>
-        {% for tag in random_tags %}
-            <a href="{% url 'base:home' %}?q=%23{{ tag.name|urlencode }}"
-               class="tag {% if active_tag == tag.name %}active{% endif %}">
-                #{{ tag.name }}
+
+        <!-- Show active tag first if one is selected -->
+        {% if active_tag %}
+            <a href="{% url 'base:home' %}?q=%23{{ active_tag|urlencode }}"
+               class="tag active" style="order: 1;">
+                #{{ active_tag }}
             </a>
+        {% endif %}
+
+        <!-- Show random tags (excluding active tag if one exists) -->
+        {% for tag in random_tags %}
+            {% if tag.name != active_tag %}
+                <a href="{% url 'base:home' %}?q=%23{{ tag.name|urlencode }}"
+                   class="tag" style="order: {{ forloop.counter|add:2 }};">
+                    #{{ tag.name }}
+                </a>
+            {% endif %}
         {% endfor %}
     </div>
-    <button class="filter-btn">
+    <button class="filter-btn" onclick="openFilterModal()">
         <i class="fa-solid fa-sliders"></i> Filter
     </button>
     <a href={% url 'base:create-discussion' %} class="new-discussion-btn">
@@ -1110,15 +1283,57 @@
     </div>
 </div>
 <div class="pagination">
-    <button>&lt;</button>
-    <button class="active">1</button>
-    <button>2</button>
-    <button>3</button>
-    <button>4</button>
-    <button>5</button>
-    <span class="dots">...</span>
-    <button>10</button>
-    <button>&gt;</button>
+    {% if discussions.has_previous %}
+        <a href="?page=1{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
+           class="page-nav" title="First Page">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 12L6 8L10 4" stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+                <path d="M6 12L2 8L6 4" stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+            </svg>
+        </a>
+        <a href="?page=
+                {{ discussions.previous_page_number }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
+           class="page-nav" title="Previous Page">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 12L6 8L10 4" stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+            </svg>
+        </a>
+    {% endif %}
+
+    {% for num in discussions.paginator.page_range %}
+        {% if discussions.number == num %}
+            <a href="?page=
+                    {{ num }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
+               class="active">{{ num }}</a>
+        {% elif num > discussions.number|add:'-3' and num < discussions.number|add:'3' %}
+            <a href="?page=
+                    {{ num }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if discussions.has_next %}
+        <a href="?page=
+                {{ discussions.next_page_number }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
+           class="page-nav" title="Next Page">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 4L10 8L6 12" stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+            </svg>
+        </a>
+        <a href="?page=
+                {{ discussions.paginator.num_pages }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
+           class="page-nav" title="Last Page">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 4L10 8L6 12" stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+                <path d="M2 4L6 8L2 12" stroke="#0B304A" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+            </svg>
+        </a>
+    {% endif %}
 </div>
 <script>
     function openModal(src) {
@@ -1304,7 +1519,130 @@
         }
     });
 
+    function openFilterModal() {
+        document.getElementById('filterModal').style.display = 'flex';
+    }
+
+    function closeFilterModal() {
+        document.getElementById('filterModal').style.display = 'none';
+    }
+
+    function resetFilters() {
+        // Reset form inputs
+        const form = document.getElementById('filterForm');
+        form.reset();
+
+        // Clear Select2 if used
+        if (typeof $ !== 'undefined' && $('#tagFilter').data('select2')) {
+            $('#tagFilter').val(null).trigger('change');
+        }
+
+        // Get clean URL without query parameters
+        const cleanUrl = window.location.pathname;
+
+        // Redirect to clean URL
+        window.location.href = cleanUrl;
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function (event) {
+        const modal = document.getElementById('filterModal');
+        if (event.target == modal) {
+            closeFilterModal();
+        }
+    }
+
+    // Initialize tag selector with Select2 (if you want enhanced multi-select)
+    // You'll need to include Select2 CSS and JS in your head
+    $(document).ready(function () {
+        $('#tagFilter').select2({
+            placeholder: "Select tags...",
+            allowClear: true,
+            width: '100%'
+        });
+    });
+
+    // Update the filter button click handler
+    document.querySelector('.filter-btn').addEventListener('click', openFilterModal);
 </script>
+
+<!-- Filter Modal -->
+<div id="filterModal" class="modal">
+    <div class="modal-content" style="width: 400px;">
+        <span class="close" onclick="closeFilterModal()">&times;</span>
+        <h3>Filter Discussions</h3>
+
+        <form id="filterForm" method="GET" action="{% url 'base:home' %}">
+            <!-- Sort By -->
+            <div class="filter-section">
+                <h4>Sort By</h4>
+                <div class="filter-options">
+                    <label class="filter-option">
+                        <input type="radio" name="sort" value="newest"
+                               {% if not request.GET.sort or request.GET.sort == 'newest' %}checked{% endif %}>
+                        <span>Newest First</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="radio" name="sort" value="oldest"
+                               {% if request.GET.sort == 'oldest' %}checked{% endif %}>
+                        <span>Oldest First</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="radio" name="sort" value="most_answers"
+                               {% if request.GET.sort == 'most_answers' %}checked{% endif %}>
+                        <span>Most Answers</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="radio" name="sort" value="least_answers"
+                               {% if request.GET.sort == 'least_answers' %}checked{% endif %}>
+                        <span>Least Answers</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Time Range -->
+            <div class="filter-section">
+                <h4>Time Range</h4>
+                <div class="filter-options">
+                    <label class="filter-option">
+                        <input type="radio" name="time_range" value="all_time"
+                               {% if not request.GET.time_range or request.GET.time_range == 'all_time' %}checked{% endif %}>
+                        <span>All Time</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="radio" name="time_range" value="last_week"
+                               {% if request.GET.time_range == 'last_week' %}checked{% endif %}>
+                        <span>Last Week</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="radio" name="time_range" value="last_month"
+                               {% if request.GET.time_range == 'last_month' %}checked{% endif %}>
+                        <span>Last Month</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="filter-section">
+                <h4>Filter by Tags</h4>
+                <div class="tag-selector">
+                    <select name="tags" multiple class="tag-select" id="tagFilter">
+                        {% for tag in all_tags %}
+                            <option value="{{ tag.name }}" {% if tag.name in selected_tags %}selected{% endif %}>
+                                #{{ tag.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="filter-actions">
+                <button type="button" class="filter-reset" onclick="resetFilters()">Reset</button>
+                <button type="submit" class="filter-apply">Apply Filters</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 </body>
 <footer class="footer">
@@ -1312,20 +1650,20 @@
         <h2 class="footer-logo">MindBridge</h2>
         <div class="footer-grid">
             <div class="footer-column">
-                <a href="home2.html">Home</a>
-                <a href="MainCareer.html">Career</a>
-                <a href="discussionpage.html">Discussions</a>
+                <a href="{% url 'base:home' %}">Home</a>
+                <a href="{% url 'careers:vacancy_list' %}">Career</a>
+                <a href="{% url 'base:home' %}">Discussions</a>
             </div>
             <div class="footer-column">
-                <a href="library_main.html">Articles</a>
-                <a href="library-view.html">Videos</a>
-                <a href="library-book.html">Books</a>
+                <a href="{% url 'library' %}">Articles</a>
+                <a href="{% url 'library' %}">Videos</a>
+                <a href="{% url 'library' %}">Books</a>
             </div>
             <div class="footer-column">
-                <a href="welcome.html">About</a>
+                {#                <a href="{% url 'about' %}">About</a>#}
             </div>
         </div>
-        <p class="footer-copy">2025 MindBridge</p>
+        <p class="footer-copy">{% now "Y" %} MindBridge</p>
     </div>
 </footer>
 </html>
