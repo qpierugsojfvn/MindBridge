@@ -8,6 +8,7 @@ urlpatterns = [
     # path('auth-receiver', views.auth_receiver, name='auth-receiver'),
     path('', views.home, name='home'),
     path('discussion/<str:pk>/', views.discussion, name='discussion'),
+path('discussions/', views.discussions, name='discussions'),
     path('user-profile/<str:pk>/', views.user_profile, name='user-profile'),
     path('edit-profile/<str:pk>/', views.edit_profile, name='edit-profile'),
     path('load-cities/', views.load_cities, name='load-cities'),

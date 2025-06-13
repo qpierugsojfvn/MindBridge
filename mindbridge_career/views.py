@@ -6,8 +6,8 @@ from .forms import VacancyForm, ApplicationForm, UserProfileForm
 from mindbridge_auth.decorators import role_required
 from mindbridge_auth.models import UserProfile
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import models
 
-# careers/views.py
 def vacancy_list(request):
     vacancies = Vacancy.objects.filter(is_active=True)
 
@@ -17,17 +17,31 @@ def vacancy_list(request):
         vacancies = vacancies.filter(
             models.Q(title__icontains=query) |
             models.Q(description__icontains=query) |
-            models.Q(company__name__icontains=query)
+            models.Q(company__name__icontains=query) |
+            models.Q(location_city__icontains=query)
         )
 
-    # Filter by other parameters
+    # Filter by employment type
     employment_type = request.GET.get('employment_type')
     if employment_type:
         vacancies = vacancies.filter(employment_type=employment_type)
 
+    # Filter by salary range (example implementation)
+    salary_min = request.GET.get('salary_min')
+    if salary_min:
+        vacancies = vacancies.filter(salary_min__gte=salary_min)
+
+    salary_max = request.GET.get('salary_max')
+    if salary_max:
+        vacancies = vacancies.filter(salary_max__lte=salary_max)
+
     # Add more filters as needed
 
-    return render(request, 'careers/vacancy_list.html', {'vacancies': vacancies})
+    context = {
+        'vacancies': vacancies,
+        'query': query,
+    }
+    return render(request, 'careers/vacancy_list.html', context)
 
 def vacancy_detail(request, pk):
     vacancy = get_object_or_404(Vacancy, pk=pk, is_active=True)

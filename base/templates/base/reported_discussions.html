@@ -3,58 +3,147 @@
 {% block content %}
 
 <style>
+    /* Reuse all the styles from home.html */
+    :root {
+        --padding-x: clamp(1rem, 5vw, 4rem);
+        --max-width: 1280px;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'General Sans', sans-serif;
+        background: #fff;
+    }
+
     .container {
-        max-width: 1200px;
+        max-width: var(--max-width);
         margin: 2rem auto;
-        padding: 0 1rem;
+        padding: 0 var(--padding-x);
     }
 
-    .reports-list {
-        display: grid;
-        gap: 1.5rem;
-        margin-top: 2rem;
+    .post {
+        margin: 2vh 0;
     }
 
-    .report-card {
-        background: white;
-        border-radius: 8px;
-        padding: 1.5rem;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        border-left: 4px solid #EF4444;
-        transition: transform 0.2s ease;
+    .post-card {
+        font-family: 'General Sans', sans-serif;
+        color: #0B304A;
+        width: 100%;
+        padding: 2rem;
+        background: #ffffff;
+        border: 0.125rem solid #ebecf2;
+        border-radius: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        margin: 2vh 0;
+        position: relative;
     }
 
-    .report-card:hover {
-        transform: translateY(-2px);
+    .report-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: #EF4444;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
     }
 
-    .report-card.resolved {
-        border-left-color: #10B981;
-        opacity: 0.8;
+    .report-badge.resolved {
+        background: #10B981;
     }
 
-    .report-header {
+    .post-header {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 1rem;
-        flex-wrap: wrap;
-        gap: 0.5rem;
+        align-items: center;
+        margin-bottom: 0.75rem;
     }
 
-    .report-header h3 {
-        margin: 0;
-        color: #0B304A;
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
     }
 
-    .report-header h3 a {
-        text-decoration: none;
-        color: inherit;
+    .avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        border: 0.0625rem solid #0B304A;
+        border-radius: 50%;
+        object-fit: cover;
     }
 
-    .report-header small {
-        color: #64748B;
+    .username {
+        font-weight: 600;
         font-size: 0.9rem;
+        letter-spacing: 0.03rem;
+    }
+
+    .dots {
+        font-size: 1.25rem;
+        cursor: pointer;
+    }
+
+    .post-content {
+        padding-left: clamp(2rem, 4vw, 3rem);
+    }
+
+    .post-title {
+        font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+        font-weight: 600;
+        letter-spacing: 0.03rem;
+        margin: 0 0 0.5rem;
+    }
+
+    .post-text {
+        font-size: clamp(0.9rem, 1.5vw, 1rem);
+        font-weight: 400;
+        letter-spacing: 0.03rem;
+        line-height: 1.6;
+        margin: 0 0 1rem;
+    }
+
+    .tags {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .tag {
+        background: #EBECF2;
+        color: #768694;
+        font-size: 0.75rem;
+        padding: 0.375rem 0.5rem;
+        border-radius: 0.5rem;
+    }
+
+    .reactions {
+        display: flex;
+        gap: 1.75rem;
+        align-items: center;
+    }
+
+    .reaction {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+
+    .reaction svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        color: #0B304A;
     }
 
     .report-reason {
@@ -96,38 +185,7 @@
         background: #0D9F6E;
     }
 
-    .empty-state {
-        text-align: center;
-        padding: 3rem;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .empty-state p {
-        color: #64748B;
-        margin-top: 1rem;
-    }
-
-    .status-badge {
-        display: inline-block;
-        padding: 0.25rem 0.5rem;
-        border-radius: 4px;
-        font-size: 0.8rem;
-        font-weight: 500;
-    }
-
-    .status-badge.pending {
-        background: #FEF3C7;
-        color: #92400E;
-    }
-
-    .status-badge.resolved {
-        background: #D1FAE5;
-        color: #065F46;
-    }
-
-    /* Pagination styles to match home.html */
+    /* Pagination styles */
     .pagination {
         display: flex;
         justify-content: center;
@@ -184,33 +242,92 @@
     .pagination .page-nav:hover svg path {
         stroke: #FF4DC4;
     }
+
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .empty-state-image {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 1.5rem;
+        opacity: 0.7;
+    }
+
+    .empty-state h3 {
+        font-size: 1.5rem;
+        color: #0B304A;
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+        color: #64748B;
+        margin-bottom: 1.5rem;
+    }
 </style>
 
 <div class="container">
     <h1>Reported Discussions</h1>
     {% if reported_discussions %}
-        <div class="reports-list">
+        <div class="post">
             {% for report in reported_discussions %}
-                <div class="report-card {% if report.is_resolved %}resolved{% endif %}" id="report-{{ report.id }}">
-                    <div class="report-header">
-                        <h3>
-                            <a href="{% url 'base:discussion' report.discussion.id %}">
-                                {{ report.discussion.title }}
-                            </a>
-                        </h3>
-                        <div>
-                            <small>
-                                Reported on {{ report.reported_at|date:"M d, Y" }}
-                                {% if is_staff %}by {{ report.user.username }}{% endif %}
-                            </small>
-                            <span class="status-badge {% if report.is_resolved %}resolved{% else %}pending{% endif %}">
-                                {% if report.is_resolved %}Resolved{% else %}Pending{% endif %}
-                            </span>
+                <div class="post-card {% if report.is_resolved %}resolved{% endif %}" id="report-{{ report.id }}">
+                    <span class="report-badge {% if report.is_resolved %}resolved{% endif %}">
+                        {% if report.is_resolved %}Resolved{% else %}Reported{% endif %}
+                    </span>
+                    <div class="post-header">
+                        <div class="user-info">
+                            <img src="{% static 'icons/ava.png' %}" alt="UserAvatar" class="avatar">
+                            <span class="username">{{ report.discussion.host.username }}</span>
                         </div>
+                        <small>Reported on {{ report.reported_at|date:"M d, Y" }}</small>
                     </div>
-                    <div class="report-reason">
-                        <strong>Reason:</strong>
-                        <p>{{ report.reason }}</p>
+                    <div class="post-content">
+                        <a href="{% url 'base:discussion' report.discussion.id %}" style="text-decoration:none;color:#0B304A;">
+                            <h2 class="post-title">{{ report.discussion.title }}</h2>
+                            <p class="post-text">{{ report.discussion.content|truncatewords:30 }}</p>
+                        </a>
+                        <div class="report-reason">
+                            <strong>Report Reason:</strong>
+                            <p>{{ report.reason }}</p>
+                        </div>
+                        <div class="tags">
+                            {% for tag in report.discussion.tags.all %}
+                                <span class="tag">#{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="reactions">
+                            <div class="reaction">
+                                <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.81348 8.35737L9.44205 2.55737C9.58267 2.32812 9.78028 2.1392 10.0156 2.00902C10.2509 1.87884 10.516 1.81182 10.7849 1.81451V1.81451C10.9967 1.80686 11.2079 1.84175 11.406 1.91712C11.6041 1.99248 11.785 2.10679 11.9382 2.25329C12.0913 2.39978 12.2136 2.5755 12.2977 2.77004C12.3818 2.96458 12.426 3.17401 12.4278 3.38594V7.54308H18.6992C18.9309 7.5506 19.1584 7.60708 19.3668 7.70881C19.5751 7.81054 19.7596 7.95523 19.908 8.13334C20.0564 8.31146 20.1655 8.51898 20.228 8.74225C20.2905 8.96553 20.305 9.1995 20.2706 9.42879L19.1278 16.8002C19.079 17.1942 18.8881 17.5567 18.5908 17.8198C18.2935 18.0829 17.9104 18.2283 17.5135 18.2288H8.14205C7.69593 18.2305 7.25561 18.1278 6.85633 17.9288L5.82776 17.4145" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M5.81348 8.35742V17.3717" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2.42815 8.35742H5.81387V17.3717H2.42815C2.23871 17.3717 2.05703 17.2965 1.92308 17.1625C1.78912 17.0285 1.71387 16.8469 1.71387 16.6574V9.07171C1.71387 8.88227 1.78912 8.70059 1.92308 8.56663C2.05703 8.43268 2.23871 8.35742 2.42815 8.35742V8.35742Z" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span>{{ report.discussion.likes.count }}</span>
+                            </div>
+                            <div class="reaction">
+                                <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.1895 11.6832L12.5609 17.4832C12.4203 17.7124 12.2227 17.9013 11.9873 18.0315C11.752 18.1617 11.487 18.2287 11.218 18.226V18.226C11.0062 18.2337 10.795 18.1988 10.597 18.1234C10.3989 18.048 10.2179 17.9337 10.0647 17.7872C9.91159 17.6407 9.78935 17.465 9.70526 17.2705C9.62118 17.0759 9.57694 16.8665 9.57517 16.6546V12.4974H3.30374C3.072 12.4899 2.84448 12.4334 2.63614 12.3317C2.42779 12.23 2.24334 12.0853 2.09491 11.9072C1.94648 11.7291 1.83743 11.5215 1.77493 11.2983C1.71244 11.075 1.69791 10.841 1.73231 10.6117L2.87517 3.2403C2.92391 2.84635 3.11486 2.48378 3.41213 2.22071C3.70939 1.95764 4.0925 1.81221 4.48945 1.81173H13.8609C14.307 1.80998 14.7473 1.91272 15.1466 2.11173L16.1752 2.62602" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M16.1895 11.6831V2.66882" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M19.5748 11.6831H16.1891V2.66882H19.5748C19.7642 2.66882 19.9459 2.74407 20.0799 2.87803C20.2138 3.01198 20.2891 3.19366 20.2891 3.3831V10.9688C20.2891 11.1583 20.2138 11.3399 20.0799 11.4739C19.9459 11.6079 19.7642 11.6831 19.5748 11.6831V11.6831Z" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span>{{ report.discussion.dislikes.count }}</span>
+                            </div>
+                            <div class="reaction">
+                                <a href="{% url 'base:discussion' report.discussion.id %}" style="text-decoration:none;color:#0B304A;">
+                                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5.99944 11.7142C6.39393 11.7142 6.71373 11.3944 6.71373 10.9999C6.71373 10.6054 6.39393 10.2856 5.99944 10.2856C5.60495 10.2856 5.28516 10.6054 5.28516 10.9999C5.28516 11.3944 5.60495 11.7142 5.99944 11.7142Z" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M10.642 11.7142C11.0365 11.7142 11.3563 11.3944 11.3563 10.9999C11.3563 10.6054 11.0365 10.2856 10.642 10.2856C10.2475 10.2856 9.92773 10.6054 9.92773 10.9999C9.92773 11.3944 10.2475 11.7142 10.642 11.7142Z" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M15.2856 11.7142C15.6801 11.7142 15.9999 11.3944 15.9999 10.9999C15.9999 10.6054 15.6801 10.2856 15.2856 10.2856C14.8911 10.2856 14.5713 10.6054 14.5713 10.9999C14.5713 11.3944 14.8911 11.7142 15.2856 11.7142Z" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M10.9996 1.71436C9.31993 1.71488 7.67186 2.17098 6.23093 3.03409C4.78999 3.8972 3.61015 5.13498 2.81706 6.61561C2.02397 8.09623 1.64734 9.76425 1.72728 11.442C1.80722 13.1198 2.34074 14.7444 3.27101 16.1429L1.71387 20.2858L6.92815 19.3429C8.18374 19.9565 9.56161 20.2787 10.9591 20.2857C12.3565 20.2926 13.7375 19.984 14.9991 19.3829C16.2607 18.7818 17.3704 17.9037 18.2454 16.814C19.1204 15.7244 19.7381 14.4513 20.0526 13.0897C20.3671 11.728 20.3702 10.313 20.0616 8.94997C19.7531 7.58697 19.1409 6.31119 18.2707 5.21774C17.4004 4.12428 16.2946 3.24134 15.0357 2.63474C13.7767 2.02814 12.3971 1.71353 10.9996 1.71436V1.71436Z" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <span>{{ report.discussion.answers_count }}</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                     {% if is_staff and not report.is_resolved %}
                     <div class="report-actions">
@@ -266,8 +383,9 @@
         </div>
     {% else %}
         <div class="empty-state">
-            <i class="fas fa-flag" style="font-size: 3rem; color: #CBD5E1;"></i>
-            <p>No discussions have been reported.</p>
+            <img src="{% static 'icons/no-results.svg' %}" alt="No reported discussions" class="empty-state-image">
+            <h3>No reported discussions</h3>
+            <p>There are currently no reported discussions</p>
         </div>
     {% endif %}
 </div>
@@ -293,12 +411,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 if (response.ok) {
-                    const reportCard = form.closest('.report-card');
+                    const reportCard = form.closest('.post-card');
                     if (reportCard) {
                         reportCard.classList.add('resolved');
-                        reportCard.querySelector('.status-badge').classList.remove('pending');
-                        reportCard.querySelector('.status-badge').classList.add('resolved');
-                        reportCard.querySelector('.status-badge').textContent = 'Resolved';
+                        reportCard.querySelector('.report-badge').classList.remove('pending');
+                        reportCard.querySelector('.report-badge').classList.add('resolved');
+                        reportCard.querySelector('.report-badge').textContent = 'Resolved';
                         form.remove();
                     }
                 }

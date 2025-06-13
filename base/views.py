@@ -27,6 +27,7 @@ def home(request):
     # Initialize variables
     active_tag = None
     discussions = Discussion.objects.all()
+    activity = get_three_weeks_activity(request)
 
     # Only apply filters if parameters exist
     if request.GET:
@@ -114,9 +115,124 @@ def home(request):
         'active_tag': active_tag,
         'current_sort': request.GET.get('sort', 'newest'),
         'current_time_range': request.GET.get('time_range', 'all_time'),
+        'activity_days': activity.get('activity_days'),
+        'activity_percent': activity.get('activity_percent')
     }
     return render(request, 'base/home.html', context)
 
+
+def discussions(request):
+    # Initialize variables
+    active_tag = None
+    discussions = Discussion.objects.all()
+
+    # Only apply filters if parameters exist
+    if request.GET:
+        # Get filter parameters with proper defaults
+        filter_params = {
+            'sort': request.GET.get('sort', 'newest'),
+            'time_range': request.GET.get('time_range', 'all_time'),
+            'tags': request.GET.getlist('tags', []),
+            'q': request.GET.get('q', '').strip()
+        }
+
+        # Search functionality
+        if filter_params['q']:
+            if filter_params['q'].startswith('#'):
+                tag_name = filter_params['q'][1:]
+                active_tag = tag_name
+                discussions = discussions.filter(tags__name__iexact=tag_name).distinct()
+            else:
+                discussions = discussions.filter(
+                    Q(title__icontains=filter_params['q']) |
+                    Q(content__icontains=filter_params['q']) |
+                    Q(tags__name__icontains=filter_params['q'])
+                ).distinct()
+
+        # Time range filtering
+        today = datetime.now()
+        if filter_params['time_range'] == 'last_week':
+            last_week = today - timedelta(days=7)
+            discussions = discussions.filter(created_at__gte=last_week)
+        elif filter_params['time_range'] == 'last_month':
+            last_month = today - timedelta(days=30)
+            discussions = discussions.filter(created_at__gte=last_month)
+
+        # Tag filtering
+        if filter_params['tags']:
+            discussions = discussions.filter(tags__name__in=filter_params['tags']).distinct()
+
+        # Sorting
+        if filter_params['sort'] == 'newest':
+            discussions = discussions.order_by('-created_at')
+        elif filter_params['sort'] == 'oldest':
+            discussions = discussions.order_by('created_at')
+        elif filter_params['sort'] == 'most_answers':
+            discussions = discussions.annotate(
+                answers_count=Count('answers')
+            ).order_by('-answers_count', '-created_at')
+        elif filter_params['sort'] == 'least_answers':
+            discussions = discussions.annotate(
+                answers_count=Count('answers')
+            ).order_by('answers_count', '-created_at')
+    else:
+        # Default unfiltered queryset
+        discussions = discussions.order_by('-created_at')
+
+    # Annotate with answers count for display (needed in both cases)
+    discussions = discussions.annotate(answers_count=Count('answers', distinct=True))
+
+    paginator = Paginator(discussions, 4)  # Show 4 discussions per page
+    page_number = request.GET.get('page')
+    discussions = paginator.get_page(page_number)
+
+    # Get all tags for the filter dropdown
+    all_tags = CustomTag.objects.all()
+    random_tags = list(all_tags.order_by('?')[:5])
+
+    # Get popular discussions (most answers)
+    popular_discussions = Discussion.objects.annotate(
+        answers_count=Count('answers')
+    ).order_by('-answers_count', '-created_at')[:5]
+
+    # Get user interest tags and related discussions
+    user_interest_tags = []
+    for_you_discussions = []
+
+    # if request.user.is_authenticated:
+    #     # Get user's interest tags from their profile
+    #     user_interest_tags = request.user.profile.tags.all()[:5]
+    #
+    #     # Get discussions that match user's interest tags
+    #     if user_interest_tags:
+    #         for_you_discussions = Discussion.objects.filter(
+    #             tags__in=user_interest_tags
+    #         ).distinct().order_by('-created_at')[:5]
+
+    # Recently viewed discussions
+    recently_viewed_discussions = []
+    if 'recently_viewed' in request.session:
+        recently_viewed_ids = request.session['recently_viewed']
+        recently_viewed_discussions = Discussion.objects.filter(
+            id__in=recently_viewed_ids
+        ).order_by('-created_at')[:5]
+
+    context = {
+        'discussions': discussions,
+        'all_tags': all_tags,
+        'selected_tags': request.GET.getlist('tags', []),
+        'popular_discussions': popular_discussions,
+        'user_interest_tags': user_interest_tags,
+        'for_you_discussions': for_you_discussions,
+        'recently_viewed_discussions': recently_viewed_discussions,
+        'search_query': request.GET.get('q', '').strip(),
+        'random_tags': random_tags,
+        'active_tag': active_tag,
+        'current_sort': request.GET.get('sort', 'newest'),
+        'current_time_range': request.GET.get('time_range', 'all_time'),
+    }
+
+    return render(request, 'base/discussions.html', context)
 
 def get_three_weeks_activity(request):
     host_id = request.user.id

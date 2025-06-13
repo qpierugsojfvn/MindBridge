@@ -330,6 +330,14 @@ body {
     cursor: pointer;
 }
 
+.dots svg {
+    pointer-events: none;
+}
+
+.dots-container {
+    position: relative;
+}
+
 .post-content {
     padding-left: clamp(2rem, 4vw, 3rem);
 }
@@ -656,15 +664,118 @@ body {
                     <img src={% static 'icons/ava.png' %} alt="UserAvatar" class="avatar">
                     <span class="username">{{ discussion.host.username }}</span>
                 </div>
-                <div class="dots">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 8.5C12.8284 8.5 13.5 7.82843 13.5 7C13.5 6.17157 12.8284 5.5 12 5.5C11.1716 5.5 10.5 6.17157 10.5 7C10.5 7.82843 11.1716 8.5 12 8.5Z"
-                              fill="#0B304A"/>
-                        <path d="M7 8.5C7.82843 8.5 8.5 7.82843 8.5 7C8.5 6.17157 7.82843 5.5 7 5.5C6.17157 5.5 5.5 6.17157 5.5 7C5.5 7.82843 6.17157 8.5 7 8.5Z"
-                              fill="#0B304A"/>
-                        <path d="M2 8.5C2.82843 8.5 3.5 7.82843 3.5 7C3.5 6.17157 2.82843 5.5 2 5.5C1.17157 5.5 0.5 6.17157 0.5 7C0.5 7.82843 1.17157 8.5 2 8.5Z"
-                              fill="#0B304A"/>
-                    </svg>
+                <div class="dots-container">
+                    <div class="dots" onclick="togglePostMenu(this)">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 8.5C12.8284 8.5 13.5 7.82843 13.5 7C13.5 6.17157 12.8284 5.5 12 5.5C11.1716 5.5 10.5 6.17157 10.5 7C10.5 7.82843 11.1716 8.5 12 8.5Z"
+                                  fill="#0B304A"/>
+                            <path d="M7 8.5C7.82843 8.5 8.5 7.82843 8.5 7C8.5 6.17157 7.82843 5.5 7 5.5C6.17157 5.5 5.5 6.17157 5.5 7C5.5 7.82843 6.17157 8.5 7 8.5Z"
+                                  fill="#0B304A"/>
+                            <path d="M2 8.5C2.82843 8.5 3.5 7.82843 3.5 7C3.5 6.17157 2.82843 5.5 2 5.5C1.17157 5.5 0.5 6.17157 0.5 7C0.5 7.82843 1.17157 8.5 2 8.5Z"
+                                  fill="#0B304A"/>
+                        </svg>
+                    </div>
+                    <div class="post-dropdown-menu">
+                        {% if request.user == discussion.host %}
+                            <a href="{% url 'base:update-discussion' discussion.id %}">
+                                <i class="fa-solid fa-pen"></i> Edit
+                            </a>
+                            <a href="{% url 'base:delete-discussion' discussion.id %}" class="delete-btn">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </a>
+                            <a href="#" class="save-btn" data-discussion-id="{{ discussion.id }}">
+                                <i class="fa-regular fa-bookmark"></i>
+                                <span class="save-text">
+                                        {% if request.user in discussion.saved_by.all %}Unsave{% else %}Save{% endif %}
+                                    </span>
+                            </a>
+                        {% else %}
+                            <a href="#" class="save-btn" data-discussion-id="{{ discussion.id }}">
+                                <i class="fa-regular fa-bookmark"></i>
+                                <span class="save-text">
+                                        {% if request.user in discussion.saved_by.all %}Unsave{% else %}Save{% endif %}
+                                    </span>
+                            </a>
+                            <a href="#" class="report-btn" data-discussion-id="{{ discussion.id }}">
+                                <i class="fa-solid fa-flag"></i> Report
+                            </a>
+                        {% endif %}
+                    </div>
+
+                    <div id="reportModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <h3>Report Discussion</h3>
+                            <form id="reportForm">
+                                <input type="hidden" id="reportDiscussionId" value="">
+                                <textarea id="reportReason"
+                                          placeholder="Please explain the reason for reporting..."
+                                          required></textarea>
+                                <div id="reportError" style="color: red; display: none;"></div>
+                                <button type="submit">Submit Report</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <style>
+                        .modal {
+                            display: none;
+                            position: fixed;
+                            z-index: 1000;
+                            left: 0;
+                            top: 0;
+                            width: 100%;
+                            height: 100%;
+                            background-color: rgba(0, 0, 0, 0.4);
+                        }
+
+                        .modal-content {
+                            background-color: #fff;
+                            margin: 15% auto;
+                            padding: 20px;
+                            border-radius: 8px;
+                            width: 400px;
+                            max-width: 90%;
+                        }
+
+                        .modal-content h3 {
+                            margin-top: 0;
+                            color: #0B304A;
+                        }
+
+                        .modal-content textarea {
+                            width: 100%;
+                            height: 120px;
+                            padding: 10px;
+                            margin: 10px 0;
+                            border: 1px solid #ddd;
+                            border-radius: 4px;
+                            resize: vertical;
+                        }
+
+                        .modal-content button {
+                            background-color: #FF42C2;
+                            color: white;
+                            border: none;
+                            padding: 8px 16px;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-size: 1rem;
+                        }
+
+                        .close {
+                            color: #aaa;
+                            float: right;
+                            font-size: 28px;
+                            font-weight: bold;
+                            cursor: pointer;
+                        }
+
+                        .close:hover {
+                            color: #000;
+                        }
+                    </style>
                 </div>
             </div>
             <div class="post-content">
@@ -857,6 +968,30 @@ body {
     function toggleDropdown() {
         document.getElementById("libraryDropdown").classList.toggle("show");
     }
+
+    function togglePostMenu(element) {
+        // Close all other open menus first
+        document.querySelectorAll('.post-dropdown-menu').forEach(menu => {
+            if (menu !== element.nextElementSibling) {
+                menu.classList.remove('show');
+            }
+        });
+
+        // Toggle the clicked menu
+        const menu = element.nextElementSibling;
+        menu.classList.toggle('show');
+
+        // Close when clicking outside
+        const clickHandler = function (e) {
+            if (!menu.contains(e.target) && e.target !== element) {
+                menu.classList.remove('show');
+                document.removeEventListener('click', clickHandler);
+            }
+        };
+
+        document.addEventListener('click', clickHandler);
+    }
+
 
     window.onclick = function (event) {
         if (!event.target.matches('.dropbtn')) {
