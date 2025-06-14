@@ -284,7 +284,15 @@
                 <div class="post-card" id="discussion-{{ discussion.id }}">
                     <div class="post-header">
                         <div class="user-info">
-                            <img src="{% static 'icons/ava.png' %}" alt="UserAvatar" class="avatar">
+                            {% if discussion.host.profile.avatar %}
+                                <div class="avatar" onclick="toggleMenu()">
+                                    <img src="{{ discussion.host.profile.avatar.url }}" alt="missing profile picture"/>
+                                </div>
+                            {% else %}
+                                <div class="avatar" onclick="toggleMenu()">
+                                    <img src="{% static 'icons/no_avatar.jpg' %}" alt="missing profile picture"/>
+                                </div>
+                            {% endif %}
                             <span class="username">{{ discussion.host.username }}</span>
                         </div>
                         <div class="dots-container">

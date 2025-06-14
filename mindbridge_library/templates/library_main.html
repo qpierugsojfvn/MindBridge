@@ -638,9 +638,10 @@
                     <button onclick="toggleDropdown()" class="dropbtn">Library</button>
                     <div class="dropdown-content" id="libraryDropdown">
                         <a href="{% url 'library' %}" class="active">Library Home</a>
-                        <a href="{% url 'filter_articles' %}" class="tag {% if current_filter == 'article' %}active{% endif %}">Library Book</a>
+                        <a href="{% url 'filter_articles' %}"
+                           class="tag {% if current_filter == 'article' %}active{% endif %}">Library Book</a>
                         <a href="{% url 'filter_videos' %}"
-               class="tag {% if current_filter == 'video' %}active{% endif %}">Library Videos</a>
+                           class="tag {% if current_filter == 'video' %}active{% endif %}">Library Videos</a>
                     </div>
                 </li>
                 <li><a href="{% url 'careers:vacancy_list' %}">Career</a></li>
@@ -655,13 +656,13 @@
                     <a href="{% url 'base:reported-discussions' %}"><i class="fa-solid fa-flag"></i></a>
                 {% endif %}
                 <div class="avatar-dropdown">
-                    {% if request.user.is_authenticated %}
+                    {% if request.user.profile.avatar %}
                         <div class="avatar" onclick="toggleMenu()">
-                            <img src="{% static 'icons/ava.png' %}" alt="Profile Picture"/>
+                            <img src="{{ request.user.profile.avatar.url }}" alt="missing profile picture"/>
                         </div>
                     {% else %}
                         <div class="avatar" onclick="toggleMenu()">
-                            <img src="{% static 'icons/no_avatar.jpg' %}" alt="Profile Picture"/>
+                            <img src="{% static 'icons/no_avatar.jpg' %}" alt="missing profile picture"/>
                         </div>
                     {% endif %}
                     <div class="dropdown-menu" id="profileMenu">
@@ -809,6 +810,7 @@
                         <i class="fas fa-angle-double-left"></i>
                     </a>
                     <a href="?page=
+
                             {{ page_obj.previous_page_number }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}"
                        class="page-nav" title="Previous Page">
                         <i class="fas fa-angle-left"></i>
@@ -821,17 +823,20 @@
                            class="active">{{ num }}</a>
                     {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                         <a href="?page=
+
                                 {{ num }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">{{ num }}</a>
                     {% endif %}
                 {% endfor %}
 
                 {% if page_obj.has_next %}
                     <a href="?page=
+
                             {{ page_obj.next_page_number }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}"
                        class="page-nav" title="Next Page">
                         <i class="fas fa-angle-right"></i>
                     </a>
                     <a href="?page=
+
                             {{ page_obj.paginator.num_pages }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}"
                        class="page-nav" title="Last Page">
                         <i class="fas fa-angle-double-right"></i>

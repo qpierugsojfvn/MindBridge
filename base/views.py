@@ -240,27 +240,17 @@ def get_three_weeks_activity(request):
     today = datetime.now().date()
     current_weekday = today.weekday()  # 0-пн, 6-вс
 
-    # Находим понедельник текущей недели
     current_monday = today - timedelta(days=current_weekday)
 
-    # Вычисляем даты начала периодов
     week3_start = current_monday - timedelta(weeks=2)
     week2_start = current_monday - timedelta(weeks=1)
     week1_start = current_monday
 
-    # Создаем список всех нужных дат
     date_list = []
-
-    # 2 недели назад (полная неделя)
     date_list.extend([week3_start + timedelta(days=x) for x in range(7)])
-
-    # 1 неделя назад (полная неделя)
     date_list.extend([week2_start + timedelta(days=x) for x in range(7)])
-
-    # Текущая неделя (только пройденные дни)
     date_list.extend([week1_start + timedelta(days=x) for x in range(current_weekday + 1)])
 
-    # Получаем даты публикаций хоста за весь период
     published_dates = Discussion.objects.filter(
         host_id=host_id,
         created_at__date__gte=week3_start,
@@ -271,7 +261,6 @@ def get_three_weeks_activity(request):
 
     published_dates = set(published_dates)
 
-    # Формируем результат с датами и флагами
     activity_array = [date in published_dates for date in date_list]
 
     total_days = len(activity_array)

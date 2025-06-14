@@ -996,15 +996,15 @@
                     <a href="{% url 'base:reported-discussions' %}"><i class="fa-solid fa-flag"></i> </a>
                 {% endif %}
                 <div class="avatar-dropdown">
-                    {% if request.user.is_authenticated %}
-                        <div class="avatar" onclick="toggleMenu()">
-                            <img src="{% static 'icons/ava.png' %}" alt="ProfilePicture"/>
-                        </div>
-                    {% else %}
-                        <div class="avatar" onclick="toggleMenu()">
-                            <img src="{% static 'icons/no_avatar.jpg' %}" alt="ProfilePicture"/>
-                        </div>
-                    {% endif %}
+                    {% if request.user.profile.avatar %}
+                                <div class="avatar" onclick="toggleMenu()">
+                                    <img src="{{ request.user.profile.avatar.url }}" alt="missing profile picture"/>
+                                </div>
+                            {% else %}
+                                <div class="avatar" onclick="toggleMenu()">
+                                    <img src="{% static 'icons/no_avatar.jpg' %}" alt="missing profile picture"/>
+                                </div>
+                            {% endif %}
                     <div class="dropdown-menu" id="profileMenu">
                         <a href={% url 'base:user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>
                         <a href={% url 'base:edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i> Edit</a>
@@ -1063,7 +1063,15 @@
                 <div class="post-card">
                     <div class="post-header">
                         <div class="user-info">
-                            <img src={% static 'icons/ava.png' %} alt="UserAvatar" class="avatar">
+                            {% if discussion.host.profile.avatar %}
+                                <div class="avatar" onclick="toggleMenu()">
+                                    <img src="{{ discussion.host.profile.avatar.url }}" alt="missing profile picture"/>
+                                </div>
+                            {% else %}
+                                <div class="avatar" onclick="toggleMenu()">
+                                    <img src="{% static 'icons/no_avatar.jpg' %}" alt="missing profile picture"/>
+                                </div>
+                            {% endif %}
                             <span class="username">{{ discussion.host.username }}</span>
                         </div>
                         <div class="dots-container">

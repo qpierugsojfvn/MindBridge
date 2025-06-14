@@ -942,6 +942,7 @@
 
 
 
+
                                 {{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                            class="page">&laquo;</a>
                     {% endif %}
@@ -949,6 +950,7 @@
                     {% for num in page_obj.paginator.page_range %}
                         {% if page_obj.number == num %}
                             <a href="?page=
+
 
 
 
@@ -963,6 +965,7 @@
 
 
 
+
                                     {{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                                class="page">{{ num }}</a>
                         {% endif %}
@@ -970,6 +973,7 @@
 
                     {% if page_obj.has_next %}
                         <a href="?page=
+
 
 
 

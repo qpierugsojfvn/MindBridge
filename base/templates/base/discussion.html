@@ -643,9 +643,10 @@ body {
                     <button onclick="toggleDropdown()" class="dropbtn">Library</button>
                     <div class="dropdown-content" id="libraryDropdown">
                         <a href="{% url 'library' %}" class="active">Library Home</a>
-                        <a href="{% url 'filter_articles' %}" class="tag {% if current_filter == 'article' %}active{% endif %}">Library Book</a>
+                        <a href="{% url 'filter_articles' %}"
+                           class="tag {% if current_filter == 'article' %}active{% endif %}">Library Book</a>
                         <a href="{% url 'filter_videos' %}"
-               class="tag {% if current_filter == 'video' %}active{% endif %}">Library Videos</a>
+                           class="tag {% if current_filter == 'video' %}active{% endif %}">Library Videos</a>
                     </div>
                 </li>
                 <li><a href="{% url 'careers:vacancy_list' %}">Career</a></li>
@@ -660,13 +661,13 @@ body {
                     <a href="{% url 'base:reported-discussions' %}"><i class="fa-solid fa-flag"></i></a>
                 {% endif %}
                 <div class="avatar-dropdown">
-                    {% if request.user.is_authenticated %}
+                    {% if request.user.profile.avatar %}
                         <div class="avatar" onclick="toggleMenu()">
-                            <img src="{% static 'icons/ava.png' %}" alt="Profile Picture"/>
+                            <img src="{{ request.user.profile.avatar.url }}" alt="missing profile picture"/>
                         </div>
                     {% else %}
                         <div class="avatar" onclick="toggleMenu()">
-                            <img src="{% static 'icons/no_avatar.jpg' %}" alt="Profile Picture"/>
+                            <img src="{% static 'icons/no_avatar.jpg' %}" alt="missing profile picture"/>
                         </div>
                     {% endif %}
                     <div class="dropdown-menu" id="profileMenu">
@@ -695,7 +696,15 @@ body {
         <div class="post-card">
             <div class="post-header">
                 <div class="user-info">
-                    <img src={% static 'icons/ava.png' %} alt="UserAvatar" class="avatar">
+                    {% if discussion.host.profile.avatar %}
+                        <div class="avatar" onclick="toggleMenu()">
+                            <img src="{{ discussion.host.profile.avatar.url }}" alt="missing profile picture"/>
+                        </div>
+                    {% else %}
+                        <div class="avatar" onclick="toggleMenu()">
+                            <img src="{% static 'icons/no_avatar.jpg' %}" alt="missing profile picture"/>
+                        </div>
+                    {% endif %}
                     <span class="username">{{ discussion.host.username }}</span>
                 </div>
                 <div class="dots-container">
@@ -856,7 +865,15 @@ body {
             <div class="post-card">
                 <div class="post-header">
                     <div class="user-info">
-                        <img src={% static 'icons/ava.png' %} alt="UserAvatar" class="avatar">
+                        {% if answer.user.profile.avatar %}
+                            <div class="avatar" onclick="toggleMenu()">
+                                <img src="{{ answer.user.profile.avatar.url }}" alt="missing profile picture"/>
+                            </div>
+                        {% else %}
+                            <div class="avatar" onclick="toggleMenu()">
+                                <img src="{% static 'icons/no_avatar.jpg' %}" alt="missing profile picture"/>
+                            </div>
+                        {% endif %}
                         <span class="username"><a href="{% url 'base:user-profile' discussion.host.id %}"
                                                   style="text-decoration: none; color: #0B304A;">@{{ answer.user }}</a> <span
                                 style="color: #9B9B9B;">{{ answer.created_at|timesince }} ago</span></span>
