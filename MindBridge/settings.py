@@ -32,6 +32,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'mindbridge-production-c67d.up.railway.app',
     'mindbridge.kz',
+    'www.mindbridge.kz',
     '127.0.0.1',
 ]
 
