@@ -101,7 +101,10 @@ WSGI_APPLICATION = 'MindBridge.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app']
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.up.railway.app',
+    'https://www.mindbridge.kz'
+]
 DATABASES = {
     'default': dj_database_url.config(
         default="postgresql://postgres:tCYumsnvAWhhrAHeyRZRKBPaVysgShzY@switchyard.proxy.rlwy.net:31340/railway")
