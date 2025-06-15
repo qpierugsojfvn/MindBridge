@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Lesson, UserLessonProgress
+from .models import Lesson, UserLessonProgress, LessonAttachment
 from .forms import LessonForm, AttachmentForm
 from django.db.models import Q, Count
 
@@ -90,15 +90,24 @@ def index(request, filter_type=None):
         'current_filter': filter_type  # Pass the actual filter type used in model
     })
 
+
 @login_required
 def create_lesson(request):
     if request.method == 'POST':
-        form = LessonForm(request.POST)
+        form = LessonForm(request.POST, request.FILES)
         if form.is_valid():
             lesson = form.save(commit=False)
             lesson.author = request.user
             lesson.save()
-            messages.success(request, 'Lesson created successfully!')
+
+            # Handle attachment
+            if 'attachment' in request.FILES:
+                LessonAttachment.objects.create(
+                    lesson=lesson,
+                    pdf_file=request.FILES['attachment'],
+                    title=form.cleaned_data.get('attachment_title', 'Attachment')
+                )
+
             return redirect('lesson_detail', slug=lesson.slug)
     else:
         form = LessonForm()

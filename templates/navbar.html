@@ -811,7 +811,7 @@
             <li><a href={% url 'base:home' %}>Home</a></li>
             <li><a href={% url 'base:home' %}>Discussions</a></li>
             <li class="dropdown">
-                <button onclick="toggleDropdown()" class="dropbtn">Library</button>
+                <a href="{% url 'library' %}" onclick="toggleDropdown()" class="dropbtn">Library</a>
                 <div class="dropdown-content" id="libraryDropdown">
                     <a href={% url 'library' %}>Library Home</a>
                     <a href={% url 'library' %}>Library Book</a>

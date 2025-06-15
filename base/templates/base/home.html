@@ -1065,6 +1065,7 @@
                                 <img src="{% static 'icons/no_avatar.jpg' %}" alt="missing profile picture"/>
                             </div>
                         {% endif %}
+
                     {% else %}
                         <div class="avatar" onclick="toggleMenu()">
                             <img src="{% static 'icons/no_avatar.jpg' %}" alt="default profile picture"/>
@@ -1074,6 +1075,9 @@
                         <a href={% url 'base:user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>
                         <a href={% url 'base:edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i> Edit</a>
                         <a href="{% url 'base:saved-discussions' %}"><i class="fa-regular fa-bookmark"></i> Saved</a>
+                        {% if user.is_staff %}
+                            <a href="{% url 'admin:index' %}"><i class="fa-regular fa-bookmark"></i>Админка</a>
+                        {% endif %}
                         <a href={% url 'auth:logout' %}><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
                     </div>
                 </div>
@@ -1406,6 +1410,8 @@
             </svg>
         </a>
         <a href="?page=
+
+
                 {{ discussions.previous_page_number }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
            class="page-nav" title="Previous Page">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1417,22 +1423,30 @@
 
     {% for num in discussions.paginator.page_range %}
         {% if discussions.number == num %}
-            <a href="?page={{ num }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
+            <a href="?page=
+
+                    {{ num }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
                class="active">{{ num }}</a>
         {% elif num > discussions.number|add:'-3' and num < discussions.number|add:'3' %}
-            <a href="?page= {{ num }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}">{{ num }}</a>
+            <a href="?page=
+
+                    {{ num }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}">{{ num }}</a>
         {% endif %}
     {% endfor %}
 
     {% if discussions.has_next %}
-        <a href="?page={{ discussions.next_page_number }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
+        <a href="?page=
+
+                {{ discussions.next_page_number }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
            class="page-nav" title="Next Page">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 4L10 8L6 12" stroke="#0B304A" stroke-width="2" stroke-linecap="round"
                       stroke-linejoin="round"/>
             </svg>
         </a>
-        <a href="?page=  {{ discussions.paginator.num_pages }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
+        <a href="?page=
+
+                {{ discussions.paginator.num_pages }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
            class="page-nav" title="Last Page">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 4L10 8L6 12" stroke="#0B304A" stroke-width="2" stroke-linecap="round"

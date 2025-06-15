@@ -37,7 +37,7 @@ ALLOWED_HOSTS = [
 ]
 
 # Application definition
-SITE_ID = 1
+SITE_ID = 2
 
 INSTALLED_APPS = [
     'django.contrib.auth',
@@ -97,6 +97,10 @@ TEMPLATES = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
+FILE_UPLOAD_PERMISSIONS = 0o644
+
 WSGI_APPLICATION = 'MindBridge.wsgi.application'
 
 # Database
@@ -106,16 +110,16 @@ CSRF_TRUSTED_ORIGINS = [
     'https://www.mindbridge.kz'
 ]
 DATABASES = {
-    'default': dj_database_url.config(
-        default="postgresql://postgres:tCYumsnvAWhhrAHeyRZRKBPaVysgShzY@switchyard.proxy.rlwy.net:31340/railway")
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'mindbridge',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'postgres',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432',
-    # }
+    # 'default': dj_database_url.config(
+    #     default="postgresql://postgres:tCYumsnvAWhhrAHeyRZRKBPaVysgShzY@switchyard.proxy.rlwy.net:31340/railway")
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mindbridge',
+        'USER': 'postgres',
+        'PASSWORD': 'nurali2004',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
 
 # Password validation

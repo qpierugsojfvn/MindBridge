@@ -1,10 +1,88 @@
+<!-- templates/lessons/create_lesson.html -->
 {% extends 'main.html' %}
 
 {% block content %}
-<h1>Create New Lesson</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Create Lesson</button>
-</form>
+<div class="container">
+    <h2>Create New Lesson</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        <div class="form-group">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+            {{ form.title.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.description.label_tag }}
+            {{ form.description }}
+            {{ form.description.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.format.label_tag }}
+            {{ form.format }}
+            {{ form.format.errors }}
+        </div>
+
+        <div id="video-url-field" class="form-group" style="display: none;">
+            {{ form.video_url.label_tag }}
+            {{ form.video_url }}
+            {{ form.video_url.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.content.label_tag }}
+            {{ form.content }}
+            {{ form.content.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.duration.label_tag }}
+            {{ form.duration }}
+            {{ form.duration.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.is_published.label_tag }}
+            {{ form.is_published }}
+        </div>
+
+        <h3>Attachment</h3>
+        <div class="form-group">
+            {{ form.attachment.label_tag }}
+            {{ form.attachment }}
+            <small class="form-text text-muted">{{ form.attachment.help_text }}</small>
+            {{ form.attachment.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.attachment_title.label_tag }}
+            {{ form.attachment_title }}
+            {{ form.attachment_title.errors }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Lesson</button>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const formatField = document.querySelector('#id_format');
+    const videoUrlField = document.querySelector('#video-url-field');
+
+    function toggleVideoField() {
+        if (formatField.value === 'video') {
+            videoUrlField.style.display = 'block';
+        } else {
+            videoUrlField.style.display = 'none';
+        }
+    }
+
+    formatField.addEventListener('change', toggleVideoField);
+    toggleVideoField(); // Initialize
+});
+</script>
 {% endblock %}

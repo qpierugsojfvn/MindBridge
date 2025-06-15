@@ -17,7 +17,7 @@
             <a href="{% url 'base:home' %}">Home</a>
             <a href="{% url 'base:discussions' %}">Discussions</a>
             <li class="dropdown">
-                <a onclick="toggleDropdown()" class="dropbtn active"> Library</a>
+                <a href="{% url 'library' %}" onclick="toggleDropdown()" class="dropbtn active"> Library</a>
                 <div class="dropdown-content" id="libraryDropdown">
                     <a href="{% url 'library' %}" class="active">Library Home</a>
                     <a href="{% url 'filter_articles' %}"
@@ -100,7 +100,7 @@
             </div>
 
             <div class="profile-bio">
-                <h3>About</h3>
+                <h3>Role</h3>
                 <p>{{ user.profile.bio|default:"This user hasn't written a bio yet." }}</p>
             </div>
 
