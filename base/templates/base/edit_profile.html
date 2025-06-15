@@ -402,35 +402,44 @@
                         {{ p_form.location }}
                     </div>
                 </div>
+                </form>
 
-                <div class="form-box">
-                    <h3>Account Information</h3>
-
-                    <div class="form-group">
-                        <label for="{{ u_form.email.id_for_label }}">Email</label>
-                        {{ u_form.email }}
-                        {% if u_form.email.errors %}
-                            <div class="error-message">{{ u_form.email.errors }}</div>
+                <form method="POST" action="{% url 'auth:reset-password' %}">
+                    {% csrf_token %}
+                    <div class="form-box">
+                         {% if form.errors %}
+                            <div class="form-errors">
+                                {% for field, errors in form.errors.items %}
+                                    {% for error in errors %}
+                                        <p class="error-message">{{ error }}</p>
+                                    {% endfor %}
+                                {% endfor %}
+                            </div>
                         {% endif %}
-                    </div>
 
-                    <div class="form-group">
-                        <label for="current_password">Current Password</label>
-                        <input type="password" name="current_password" id="current_password"
-                               class="form-control" placeholder="Enter current password to make changes">
-                    </div>
+                        <h3>Password reset</h3>
 
-                    <div class="form-group">
-                        <label for="new_password1">New Password</label>
-                        <input type="password" name="new_password1" id="new_password1"
-                               class="form-control" placeholder="Enter new password (leave blank to keep current)">
-                    </div>
+                        <div class="form-group">
+                            <label for="current_password">Current Password</label>
+                            <input type="password" name="current_password" id="current_password"
+                                   class="form-control" placeholder="Enter current password to make changes">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="new_password2">Confirm New Password</label>
-                        <input type="password" name="new_password2" id="new_password2"
-                               class="form-control" placeholder="Confirm your new password">
-                    </div>
+                        <div class="form-group">
+                            <label for="new_password1">New Password</label>
+                            <input type="password" name="new_password1" id="new_password1"
+                                   class="form-control" placeholder="Enter new password (leave blank to keep current)">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="new_password2">Confirm New Password</label>
+                            <input type="password" name="new_password2" id="new_password2"
+                                   class="form-control" placeholder="Confirm your new password">
+                        </div>
+
+                        <div class="form-group">
+                            <button class="save-btn" type="submit">Reset password</button>
+                        </div>
                 </form>
             </div>
 

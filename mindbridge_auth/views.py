@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
@@ -37,6 +38,21 @@ def login_page(request):
     context = {'page': page}
     return render(request, 'login_signup.html', context)
 
+def reset_password(request):
+    if request.method == 'POST':
+        current_password = request.POST.get('current_password')
+        new_password1 = request.POST.get('new_password1')
+        new_password2 = request.POST.get('new_password2')
+
+        if check_password(current_password, request.user.password):
+            if new_password1 == new_password2:
+                request.user.set_password(new_password1)
+                request.user.save()
+                messages.success(request, 'Password changed.')
+                return redirect('auth:reset-password-done')
+        else:
+            messages.error(request, 'Current password is incorrect.')
+    return redirect('base:home')
 
 def logout_page(request):
     logout(request)
@@ -165,3 +181,7 @@ def sign_up_company(request):
 
     context = {'form': form}
     return render(request, 'sign_up_company.html', context)
+
+
+def reset_password_done(request):
+    return render(request, 'password-reset-done.html')
