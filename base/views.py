@@ -340,7 +340,7 @@ def user_profile(request, pk):
         'recent_discussions': Discussion.objects.filter(host=user).order_by('-created_at')[:5],
         'recent_answers': Answer.objects.filter(user=user).order_by('-created_at')[:5],
         'activity_days': activity.get('activity_days'),
-        'activity_percent': activity.get('activity_percent')
+        'activity_percent': activity.get('activity_percent'),
     }
     return render(request, 'base/profile.html', context)
 

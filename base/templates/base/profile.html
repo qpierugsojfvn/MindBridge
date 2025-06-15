@@ -35,7 +35,12 @@
         <div class="user-controls">
             <a href="#"><i class="far fa-bell"></i></a>
             <div class="avatar-dropdown">
-                <img src="{{ request.user.profile.avatar.url }}" alt="Profile" class="avatar" onclick="toggleMenu()">
+                {% if not request.user.profile.avatar %}
+                    <img src="{% static 'icons/no_avatar.jpg' %}" alt="Profile" class="avatar" onclick="toggleMenu()">
+                {% else %}
+                    <img src="{{ request.user.profile.avatar.url }}" alt="Profile" class="avatar"
+                         onclick="toggleMenu()">
+                {% endif %}
                 <div class="dropdown-menu" id="profileMenu">
                     <a href="{% url 'base:user-profile' request.user.id %}"><i class="far fa-user"></i> Profile</a>
                     <a href="{% url 'base:edit-profile' request.user.id %}"><i class="fas fa-pen"></i> Edit</a>
@@ -56,7 +61,12 @@
 
     <div class="profile-info">
         <div class="profile-pic-container">
-            <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="profile-pic">
+
+            {% if not request.user.profile.avatar %}
+                <img src="{% static 'icons/no_avatar.jpg' %}" alt="{{ user.username }}" class="profile-pic">
+            {% else %}
+                <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="profile-pic">
+            {% endif %}
             <button class="edit-pic-btn">
                 <i class="fas fa-camera"></i>
             </button>
