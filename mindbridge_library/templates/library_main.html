@@ -635,7 +635,7 @@
                 <li><a href="{% url 'base:home' %}">Home</a></li>
                 <li><a href="{% url 'base:discussions' %}">Discussions</a></li>
                 <li class="dropdown">
-                    <button onclick="toggleDropdown()" class="dropbtn">Library</button>
+                    <a onclick="toggleDropdown()" class="dropbtn active"> Library</a>
                     <div class="dropdown-content" id="libraryDropdown">
                         <a href="{% url 'library' %}" class="active">Library Home</a>
                         <a href="{% url 'filter_articles' %}"

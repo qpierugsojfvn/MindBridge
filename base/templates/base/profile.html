@@ -2,1023 +2,375 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>User Profile</title>
-    <link rel="stylesheet" href={% static 'style/userprofile.css' %}/>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <!-- Font Awesome CDN (latest stable version) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-          integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.username }}'s Profile | MindBridge</title>
+    <link rel="stylesheet" href="{% static 'style/userprofile.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'General Sans', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        header {
-            background-color: white;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo {
-            margin-left: 5%;
-            font-size: 2rem;
-            font-weight: bold;
-            background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-right: auto;
-        }
-
-        .logo span {
-            color: #d39cff;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-            font-size: 15px;
-        }
-
-        .nav-links li {
-            display: inline;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #BFBFBF;
-            font-weight: 600;
-        }
-
-        .search-bar {
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #768694;
-            margin-left: 5vw;
-            width: 35vw;
-        }
-
-        .icons {
-            color: #0B304A;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-left: 5vw;
-        }
-
-        .profile img {
-            width: 2.5vw;
-            height: 5vh;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #ddd;
-            gap: 20px;
-        }
-
-        .icons-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-
-        .profile-container {
-            width: 90vw;
-            height: 35vw;
-            margin: 50px auto;
-            border-radius: 10px;
-            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            background-color: #ffffff;
-        }
-
-        .cover {
-            background: linear-gradient(to right, #f9a9c6, #64c8ff);
-            height: 36vh;
-            position: relative;
-        }
-
-        .cover .edit-button {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: white;
-            border: none;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .cover .edit-button i {
-            font-size: 16px;
-            color: #555;
-
-
-        }
-
-        .avatar {
-            height: 120px;
-            width: 120px;
-            border-radius: 50%;
-            border: 3px solid #fff;
-            margin-top: -80px;
-            object-fit: cover;
-            position: relative;
-            z-index: 10;
-        }
-
-        .edit-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            border: none;
-            padding: 8px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .edit-button i {
-            font-size: 16px;
-        }
-
-        .info-wrapper {
-            display: flex;
-            justify-content: space-between;
-            padding-left: 40px;
-        }
-
-        .name-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #0B304A;
-        }
-
-        .location-user p {
-            font-size: 14px;
-            color: #c7c1c1;
-            margin-top: -15px;
-        }
-
-        .bio p {
-            font-size: 16px;
-            color: #0B304A;
-            margin-top: -10px;
-        }
-
-        .keywords {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .keyword {
-            background-color: #f1f3f8;
-            color: #0B304A;
-            font-size: 14px;
-            padding: 8px 16px;
-            border-radius: 10px;
-        }
-
-        .contacts-container {
-            flex-basis: 50%;
-            margin-top: 55px;
-        }
-
-        .portfolio h3, .contacts h3 {
-            font-size: 16px;
-            color: #0B304A;
-            margin-bottom: 5px;
-        }
-
-        .portfolio p, .contacts p {
-            font-size: 14px;
-            color: #0B304A;
-        }
-
-        .portfolio i, .contacts i {
-            margin-right: 5px;
-            color: #0B304A;
-        }
-
-
-        .servise-about {
-            width: 90vw;
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            margin: 0 75px;
-        }
-
-        .service-card {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-            max-width: 230px;
-            height: 190px;
-
-        }
-
-        .create-service-btn {
-            background-color: #EBECF2;
-            color: #0B304A;
-            font-weight: bold;
-            border: none;
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            width: 100%;
-            justify-content: center;
-        }
-
-        .create-service-btn:hover {
-            background-color: #E5E7EB;
-        }
-
-        .description {
-            color: #c7c1c1;
-            font-size: 16px;
-            margin-top: 12px;
-            line-height: 1.5;
-        }
-
-        .about-container {
-            flex: 1;
-            height: 230px;
-            padding-left: 20px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        h3 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #0B304A;
-        }
-
-        p {
-            font-size: 16px;
-            color: #0B304A;
-            line-height: 1.6;
-        }
-
-        .activity-container {
-            display: flex;
-            width: 69vw;
-            height: 40vh;
-            gap: 20px;
-            background-color: #ffffff;
-            margin: 30px 75px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
-        }
-
-        .card {
-            display: flex;
-        }
-
-        /* Секция "My Activity" */
-        .activity-card {
-            width: 60%;
-            margin: 30px 40px;
-        }
-
-        .pink {
-            font-size: 20px;
-            background: linear-gradient(to right, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .active-days {
-            color: #ff52bf;
-            font-size: 16px;
-            margin-top: -15px;
-        }
-
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-        }
-
-        .day {
-            font-weight: bold;
-            font-size: 14px;
-            color: #555;
-        }
-
-        .circle {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background-color: #eee;
-        }
-
-        .circle.active {
-            background-color: #ff52bf;
-        }
-
-        .circle.inactive {
-            background-color: #f7d6eb;
-        }
-
-        .progress {
-            width: 40vw;
-            margin: 40px 10px;
-        }
-
-        .progress h2 {
-            font-size: 20px;
-            background: linear-gradient(to right, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .progress-bar-container {
-            background-color: #eee;
-            border-radius: 10px;
-            height: 15px;
-            width: 100%;
-            position: relative;
-            margin-bottom: 10px;
-        }
-
-        .progress-bar {
-            background: linear-gradient(90deg, #ff63a5, #d36aff);
-            height: 100%;
-            border-radius: 10px;
-            width: 50%; /* Progress value */
-        }
-
-        .xp-info {
-            font-size: 14px;
-            color: #555;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .btn {
-            background-color: #ff63a5;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .btn:hover {
-            background-color: #d36aff;
-        }
-
-        .stats {
-            display: flex;
-            gap: 20px;
-            background-color: #ffffff;
-            width: 520px;
-            margin-left: 60px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .stat-item span:first-child {
-            font-size: 32px;
-            font-weight: bold;
-            color: #FF50D6;
-        }
-
-        .stat-item span:last-child {
-            font-size: 16px;
-            color: #FF50D6;
-        }
-
-
-        .modules-container {
-            position: relative;
-            justify-content: center;
-            align-items: center;
-            display: flex;
-            margin-left: 75px;
-            width: 90vw;
-            height: 50px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .modules-container a {
-            position: relative;
-            display: inline-block;
-            text-decoration: none;
-            color: #0B304A;
-            font-size: 20px;
-            font-weight: bolder;
-            margin: 0 75px;
-        }
-
-        #discussions {
-            background-color: #EBECF2; /* Светло-серый фон */
-            color: #0B304A; /* Темно-синий текст */
-            font-size: 16px;
-            font-weight: bold;
-            width: 120px;
-            text-align: center;
-            padding: 10px 10px;
-            border: none;
-            border-radius: 5px; /* Закругленные края */
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Мягкая тень */
-            cursor: pointer;
-        }
-
-        .post {
-            justify-content: center;
-            margin: 30px 55px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 90vw;
-            height: 400px;
-        }
-
-        .post-header {
-            display: flex;
-            margin: 10px 10px;
-        }
-
-        .profile-pic {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid #0B304A;
-            object-fit: cover;
-            margin: 20px 20px;
-        }
-
-        .username {
-            font-size: 14px;
-            font-weight: bold;
-            color: #0B304A;
-            margin-top: 20px;
-        }
-
-        .post-title {
-            font-size: 16px;
-            font-weight: bold;
-            color: #0B304A;
-            margin-top: -10px;
-        }
-
-        /* Контент поста */
-        .post-content {
-            font-size: 14px;
-            color: #555;
-            line-height: 1.5;
-            color: #0B304A;
-            margin-top: -10px;
-
-        }
-
-        /* Галерея изображений */
-        .image-gallery {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            margin: 0 85px;
-        }
-
-        .gallery-item1 {
-            width: 300px;
-            height: 130px;
-            border-radius: 8px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
-        .gallery-item {
-            width: 110px;
-            height: 130px;
-            border-radius: 8px;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
-        .red-box {
-            background-color: #ff4d4f;
-        }
-
-        /* Теги */
-        .tags {
-            display: flex;
-            gap: 8px;
-            margin: 12px 85px;
-        }
-
-        .tag {
-            font-size: 12px;
-            color: #768694;
-            background-color: #EBECF2;
-            padding: 4px 8px;
-            border-radius: 8px;
-        }
-
-        /* Футер поста */
-        .post-footer {
-            display: flex;
-            justify-content: flex-start;
-            gap: 16px;
-            margin-top: 12px;
-        }
-
-        .likes, .comments {
-            font-size: 14px;
-            color: #777;
-        }
-
-        .footer {
-            margin-top: 50px;
-            background-color: #0C2D48;
-            color: white;
-            padding: 20px 40px;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 30px 25px;
-        }
-
-        .footer-logo {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: flex-start;
-            gap: 70px;
-        }
-
-        .footer-links ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .footer-links ul li {
-            margin-bottom: 8px;
-        }
-
-        .footer-links ul li a {
-            text-decoration: none;
-            color: white;
-            font-size: 14px;
-        }
-
-        .footer-copy {
-            margin-top: 20px;
-            font-size: 16px;
-            color: #EBECF2;
-        }
-
-        /* Адаптация для мобильных устройств */
-        @media (max-width: 768px) {
-            .post {
-                padding: 12px;
-            }
-
-            .gallery-item {
-                width: 80px;
-                height: 64px;
-            }
-
-            .post-content {
-                font-size: 13px;
-            }
-        }
-
-        .activity-container {
-            display: flex;
-            width: 69vw;
-            height: 40vh;
-            gap: 20px;
-            background-color: #ffffff;
-            margin: 30px 75px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
-        }
-
-        .active-days {
-            color: #ff52bf;
-            font-size: 16px;
-            margin-top: -15px;
-        }
-
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-        }
-
-        .day {
-            font-weight: bold;
-            font-size: 14px;
-            color: #555;
-        }
-
-        .circle {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background-color: #eee;
-        }
-
-        .circle.active {
-            background-color: #ff52bf;
-        }
-
-        .circle.inactive {
-            background-color: #f7d6eb;
-        }
-
-        .pink {
-            font-size: 20px;
-            background: linear-gradient(to right, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-    </style>
 </head>
 <body>
-<nav class="navbar">
+<header class="navbar">
     <div class="navbar-container">
         <div class="logo">MindBridge</div>
-        <ul class="menu">
-            <li><a href={% url 'base:home' %}>Home</a></li>
-            <li><a href={% url 'base:home' %}>Discussions</a></li>
+        <nav class="menu">
+            <a href="{% url 'base:home' %}">Home</a>
+            <a href="{% url 'base:discussions' %}">Discussions</a>
             <li class="dropdown">
-                <button onclick="toggleDropdown()" class="dropbtn">Library</button>
+                <a onclick="toggleDropdown()" class="dropbtn active"> Library</a>
                 <div class="dropdown-content" id="libraryDropdown">
-                    <a href={% url 'library' %}>Library Home</a>
-                    <a href={% url 'library' %}>Library Book</a>
-                    <a href={% url 'library' %}>Library View</a>
+                    <a href="{% url 'library' %}" class="active">Library Home</a>
+                    <a href="{% url 'filter_articles' %}"
+                       class="tag {% if current_filter == 'article' %}active{% endif %}">Library Book</a>
+                    <a href="{% url 'filter_videos' %}"
+                       class="tag {% if current_filter == 'video' %}active{% endif %}">Library Videos</a>
                 </div>
             </li>
-            <li><a class="active" href={% url 'careers:vacancy_list' %}>Career</a></li>
-        </ul>
-        <div class="search">
+            <a href="{% url 'careers:vacancy_list' %}">Career</a>
+        </nav>
+        <div class="search-bar">
             <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Search for..." onkeyup="filterContent()"/>
+            <input type="text" placeholder="Search...">
         </div>
-        <div class="icons">
-            <a href="message.html"><i class="fa-regular fa-comment"></i></a>
-            <i class="fa-regular fa-bell"></i>
+        <div class="user-controls">
+            <a href="#"><i class="far fa-bell"></i></a>
             <div class="avatar-dropdown">
-                <div class="avatar" onclick="toggleMenu()">
-                    <img src="library/ava.png" alt="Profile Picture"/>
-                </div>
+                <img src="{{ request.user.profile.avatar.url }}" alt="Profile" class="avatar" onclick="toggleMenu()">
                 <div class="dropdown-menu" id="profileMenu">
-                    <a href={% url 'base:user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>
-                    <a href={% url 'base:edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i> Edit</a>
-                    <a href="saved.html"><i class="fa-regular fa-bookmark"></i> Saved</a>
-                    <a href={% url 'auth:logout' %}><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
+                    <a href="{% url 'base:user-profile' request.user.id %}"><i class="far fa-user"></i> Profile</a>
+                    <a href="{% url 'base:edit-profile' request.user.id %}"><i class="fas fa-pen"></i> Edit</a>
+                    <a href="{% url 'base:saved-discussions' %}"><i class="far fa-bookmark"></i> Saved</a>
+                    <a href="{% url 'auth:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-</nav>
 </header>
-<div class="profile-card">
+
+<main class="profile-container">
     <div class="cover-photo">
-        <button class="edit-cover">
-            <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16.4284 5.71422C16.4284 5.41111 16.308 5.12042 16.0937 4.90609C15.8794 4.69177 15.5887 4.57136 15.2856 4.57136H12.9999L11.2856 2.28564H6.71415L4.99986 4.57136H2.71415C2.41104 4.57136 2.12035 4.69177 1.90602 4.90609C1.6917 5.12042 1.57129 5.41111 1.57129 5.71422V12.5714C1.57129 12.8745 1.6917 13.1652 1.90602 13.3795C2.12035 13.5938 2.41104 13.7142 2.71415 13.7142H15.2856C15.5887 13.7142 15.8794 13.5938 16.0937 13.3795C16.308 13.1652 16.4284 12.8745 16.4284 12.5714V5.71422Z"
-                      stroke="#768694" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M9.00014 11.1429C10.4203 11.1429 11.5716 9.99159 11.5716 8.57143C11.5716 7.15127 10.4203 6 9.00014 6C7.57998 6 6.42871 7.15127 6.42871 8.57143C6.42871 9.99159 7.57998 11.1429 9.00014 11.1429Z"
-                      stroke="#768694" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+        <button class="edit-cover-btn">
+            <i class="fas fa-camera"></i> Edit Cover
         </button>
     </div>
 
-    <img src={{ request.user.profile.avatar }} alt="Profile Picture" class="avatar1"/>
+    <div class="profile-info">
+        <div class="profile-pic-container">
+            <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="profile-pic">
+            <button class="edit-pic-btn">
+                <i class="fas fa-camera"></i>
+            </button>
+        </div>
 
-    <div class="profile-content">
-        <div class="profile-left">
-            <div class="name-row">
-                <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+        <div class="profile-details">
+            <div class="name-badge">
+                <h1>{{ user.get_full_name }}</h1>
                 <span class="badge">🐣 Newbie</span>
             </div>
-            <p class="location"><i class="fa-solid fa-location-dot"></i> Almaty, Kazakhstan</p>
-            <p class="bio">{{ request.user.profile.bio }}</p>
-            <div class="tags">
-                <span class="tag">Design</span>
-                <span class="tag">Branding</span>
-                <span class="tag">Social Media</span>
+            <p class="username">@{{ user.username }}</p>
+
+            <div class="location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>{{ user.profile.location|default:"Not specified" }}</span>
             </div>
-        </div>
 
-        <div class="profile-right">
-            <div class="contact-block">
-                <h4>Portfolio</h4>
-                <p><i class="fa-solid fa-paperclip"></i> <a href="{{ request.user.profile.portfolio_url }}"
-                                                            target="_blank" rel="noopener noreferrer">
-                    {{ request.user.profile.portfolio_url|default:"No portfolio link" }}
-                </a></p>
+            <div class="profile-interests">
+                <h3>Interests</h3>
+                <div class="interests-container">
+                    {% if user.profile.interests.all %}
+                        {% for interest in user.profile.interests.all %}
+                            <div class="interest-box">
+                                <span class="interest-tag">{{ interest.name }}</span>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-interests">No interests added yet</p>
+                    {% endif %}
+                </div>
             </div>
-            <div class="contact-block">
-                <h4>Contacts</h4>
-                <p><i class="fa-regular fa-envelope"></i>
-                    <a href="mailto:{{ request.user.email }}?subject=Contact%20from%20MindBridge&body=Hello,"
-                       target="_blank" rel="noopener noreferrer">
-                        {{ request.user.email }}
-                    </a></p>
+
+            <div class="profile-bio">
+                <h3>About</h3>
+                <p>{{ user.profile.bio|default:"This user hasn't written a bio yet." }}</p>
             </div>
-        </div>
 
-        <a class="edit-profile" href={% url 'base:edit-profile' user.id %}>
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1.57129 16.4285H14.1427" stroke="#768694" stroke-width="2" stroke-linecap="round"
-                      stroke-linejoin="round"/>
-                <path d="M8.42857 12.4285L5 13.0456L5.57143 9.57132L13.2629 1.90275C13.3691 1.79563 13.4955 1.71061 13.6348 1.65259C13.774 1.59457 13.9234 1.5647 14.0743 1.5647C14.2252 1.5647 14.3745 1.59457 14.5138 1.65259C14.6531 1.71061 14.7795 1.79563 14.8857 1.90275L16.0971 3.11418C16.2043 3.22042 16.2893 3.34683 16.3473 3.48609C16.4053 3.62536 16.4352 3.77474 16.4352 3.92561C16.4352 4.07648 16.4053 4.22586 16.3473 4.36513C16.2893 4.50439 16.2043 4.63079 16.0971 4.73704L8.42857 12.4285Z"
-                      stroke="#768694" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </a>
-    </div>
-</div>
-<div class="profile-services">
-    <div class="service-card">
-        <div class="create-btn">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 15C11.866 15 15 11.866 15 8C15 4.13401 11.866 1 8 1C4.13401 1 1 4.13401 1 8C1 11.866 4.13401 15 8 15Z"
-                      stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M8.00098 4.76929V11.2308" stroke="#0B304A" stroke-width="2" stroke-linecap="round"
-                      stroke-linejoin="round"/>
-                <path d="M4.76953 8H11.2311" stroke="#0B304A" stroke-width="2" stroke-linecap="round"
-                      stroke-linejoin="round"/>
-            </svg>
-            Create a service
-        </div>
-        <p>
-            Add a service to let potential clients know what you’re available for and make it easy for them to book your
-            services
-        </p>
-    </div>
+            <div class="profile-about-me">
+                <h3>About Me</h3>
+                <div class="about-me-content">
+                    {% if user.profile.about %}
+                        {{ user.profile.about|linebreaks }}
+                    {% else %}
+                        <p class="no-info">This user hasn't shared details about themselves yet.</p>
+                    {% endif %}
+                </div>
+            </div>
 
-    <div class="about-card">
-        <h3>About</h3>
-        <p>
-            {{ request.user.profile.about }}
-        </p>
-    </div>
-
-    <div class="activity-container">
-        <div class="card">
-            <!-- My Activity Section -->
-            <div class="activity-card">
-                <h2><span class="pink">My activity</span></h2>
-                <p class="active-days">{{ activity_percent }}% active days this month</p>
-                <div class="calendar">
-                    <div class="day">M</div>
-                    <div class="day">T</div>
-                    <div class="day">W</div>
-                    <div class="day">T</div>
-                    <div class="day">F</div>
-                    <div class="day">S</div>
-                    <div class="day">S</div>
-
-                    {% for is_active in activity_days %}
-                        {% if is_active %}
-                            <div class="circle active"></div>
-                        {% else %}
-                            <div class="circle inactive"></div>
-                        {% endif %}
-                    {% endfor %}
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <span class="stat-number">{{ discussions_count }}</span>
+                    <span class="stat-label">Discussions</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">{{ answers_count }}</span>
+                    <span class="stat-label">Answers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">{{ services_count }}</span>
+                    <span class="stat-label">Services</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">{{ jobs_count }}</span>
+                    <span class="stat-label">Jobs</span>
                 </div>
             </div>
         </div>
-        <div class="activity-progress-container">
-            <div class="activity-progress">
-                <div class="progress-section">
-                    <h3><span class="gradient-text">My progress</span></h3>
-                    <p class="progress-subtext">50 more xp till the next level ⓘ</p>
-                    <p class="level">Current level 🐣 <b>Newbie</b></p>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar-fill"></div>
+
+        <div class="profile-actions">
+            <button class="edit-profile-btn" onclick="location.href='{% url 'base:edit-profile' user.id %}'">
+                <i class="fas fa-pencil-alt"></i> Edit Profile
+            </button>
+        </div>
+    </div>
+
+    <div class="contact-info">
+        <div class="contact-card">
+            <h3><i class="fas fa-paperclip"></i> Portfolio</h3>
+            {% if user.profile.portfolio_url %}
+                <a href="{{ user.profile.portfolio_url }}" target="_blank" class="portfolio-link">
+                    {{ user.profile.portfolio_url|truncatechars:30 }}
+                </a>
+            {% else %}
+                <p class="no-info">No portfolio link provided</p>
+            {% endif %}
+        </div>
+
+        <div class="contact-card">
+            <h3><i class="fas fa-envelope"></i> Contact</h3>
+            <p class="contact-email">{{ user.email }}</p>
+            {% if user.profile.phone_number %}
+                <p class="contact-phone">{{ user.profile.phone_number }}</p>
+            {% else %}
+                <p class="no-info">No phone number provided</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="activity-section">
+        <h2>Activity</h2>
+        <div class="activity-stats">
+            <div class="activity-metric">
+                <div class="metric-value">{{ active_days }}%</div>
+                <div class="metric-label">Active Days</div>
+            </div>
+            <div class="activity-calendar">
+                <div class="calendar-placeholder">Activity Calendar</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="profile-tabs">
+        <button class="tab-btn active" data-tab="discussions">Discussions</button>
+        <button class="tab-btn" data-tab="answers">Answers</button>
+        <button class="tab-btn" data-tab="services">Services</button>
+        <button class="tab-btn" data-tab="jobs">Jobs</button>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+        <!-- Discussions Tab -->
+        <div id="discussions" class="tab-pane active">
+            <h3>Recent Discussions</h3>
+            {% for discussion in user_discussions %}
+                <div class="content-card">
+                    <div class="card-header">
+                        <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="card-avatar">
+                        <div class="card-user-info">
+                            <span class="card-username">{{ user.username }}</span>
+                            <span class="card-date">{{ discussion.created_at|date:"M d, Y" }}</span>
+                        </div>
                     </div>
-                    <p class="xp-text">XP 50/100</p>
-                    <button class="discussion-button">To the discussions</button>
-                </div>
-            </div>
-
-            <div class="xp-stats">
-                <div><strong>50</strong><br><span>xp</span></div>
-                <div><strong>1</strong><br><span>upvotes</span></div>
-                <div><strong>3</strong><br><span>answers</span></div>
-                <div><strong>1</strong><br><span>questions</span></div>
-            </div>
-        </div>
-        <div class="tab-container">
-            <div class="tabs">
-                <a href="discussionpage.html" class="tab active">Discussions</a>
-                <a href="answerprofile.html" class="tab ">Answers</a>
-                <a href="servicesprofile.html" class="tab">Services</a>
-                <a href="jobsprofile.html" class="tab">Jobs</a>
-            </div>
-        </div>
-        <div class="post-card">
-            <div class="post-header">
-                <div class="user-info">
-                    <img src={% static 'icons/ava.png' %} alt="UserAvatar" class="avatar">
-                    <span class="username">{{ request.user.username }}</span>
-                </div>
-                <div class="dots">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 8.5C12.8284 8.5 13.5 7.82843 13.5 7C13.5 6.17157 12.8284 5.5 12 5.5C11.1716 5.5 10.5 6.17157 10.5 7C10.5 7.82843 11.1716 8.5 12 8.5Z"
-                              fill="#0B304A"/>
-                        <path d="M7 8.5C7.82843 8.5 8.5 7.82843 8.5 7C8.5 6.17157 7.82843 5.5 7 5.5C6.17157 5.5 5.5 6.17157 5.5 7C5.5 7.82843 6.17157 8.5 7 8.5Z"
-                              fill="#0B304A"/>
-                        <path d="M2 8.5C2.82843 8.5 3.5 7.82843 3.5 7C3.5 6.17157 2.82843 5.5 2 5.5C1.17157 5.5 0.5 6.17157 0.5 7C0.5 7.82843 1.17157 8.5 2 8.5Z"
-                              fill="#0B304A"/>
-                    </svg>
-                </div>
-            </div>
-
-            <div class="post-content">
-                <h2 class="post-title">Title PWA Application</h2>
-                <p class="post-text">
-                    I have created a PWA application using Next.js (v15.1.6) and Next-PWA (v5.6.0). In my navigation, I
-                    am using
-                    the
-                    following code to create a link to the page. This navigation works fine on desktop screens (above
-                    768px),
-                    but on
-                    mobile screens, it doesn't seem to work at all. I have checked the responsive behavior and it
-                    appears to be
-                    an
-                    issue with how it's rendering on smaller screens like when I installed in my mobile phone time also
-                    it's not
-                    working. Can anyone help me figure out why the navigation isn't working on mobile?
-                </p>
-
-                <div class="post-images">
-                    <img src={% static 'images/saved1.png' %} alt="screenshot">
-                    <img src={% static 'images/saved2.png' %} alt="screenshot">
-                    <img src={% static 'images/saved3.png' %} alt="screenshot">
-                </div>
-
-                <div class="tags">
-                    <span class="tag">#design</span>
-                    <span class="tag">#figma</span>
-                    <span class="tag">#interfaces</span>
-                </div>
-
-                <div class="reactions">
-                    <div class="reaction">
-                        <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5.81348 8.35737L9.44205 2.55737C9.58267 2.32812 9.78028 2.1392 10.0156 2.00902C10.2509 1.87884 10.516 1.81182 10.7849 1.81451V1.81451C10.9967 1.80686 11.2079 1.84175 11.406 1.91712C11.6041 1.99248 11.785 2.10679 11.9382 2.25329C12.0913 2.39978 12.2136 2.5755 12.2977 2.77004C12.3818 2.96458 12.426 3.17401 12.4278 3.38594V7.54308H18.6992C18.9309 7.5506 19.1584 7.60708 19.3668 7.70881C19.5751 7.81054 19.7596 7.95523 19.908 8.13334C20.0564 8.31146 20.1655 8.51898 20.228 8.74225C20.2905 8.96553 20.305 9.1995 20.2706 9.42879L19.1278 16.8002C19.079 17.1942 18.8881 17.5567 18.5908 17.8198C18.2935 18.0829 17.9104 18.2283 17.5135 18.2288H8.14205C7.69593 18.2305 7.25561 18.1278 6.85633 17.9288L5.82776 17.4145"
-                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M5.81348 8.35742V17.3717" stroke="#0B304A" stroke-width="2" stroke-linecap="round"
-                                  stroke-linejoin="round"/>
-                            <path d="M2.42815 8.35742H5.81387V17.3717H2.42815C2.23871 17.3717 2.05703 17.2965 1.92308 17.1625C1.78912 17.0285 1.71387 16.8469 1.71387 16.6574V9.07171C1.71387 8.88227 1.78912 8.70059 1.92308 8.56663C2.05703 8.43268 2.23871 8.35742 2.42815 8.35742V8.35742Z"
-                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        </i> <span>11</span></div>
-                    <div class="reaction">
-                        <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M16.1895 11.6832L12.5609 17.4832C12.4203 17.7124 12.2227 17.9013 11.9873 18.0315C11.752 18.1617 11.487 18.2287 11.218 18.226V18.226C11.0062 18.2337 10.795 18.1988 10.597 18.1234C10.3989 18.048 10.2179 17.9337 10.0647 17.7872C9.91159 17.6407 9.78935 17.465 9.70526 17.2705C9.62118 17.0759 9.57694 16.8665 9.57517 16.6546V12.4974H3.30374C3.072 12.4899 2.84448 12.4334 2.63614 12.3317C2.42779 12.23 2.24334 12.0853 2.09491 11.9072C1.94648 11.7291 1.83743 11.5215 1.77493 11.2983C1.71244 11.075 1.69791 10.841 1.73231 10.6117L2.87517 3.2403C2.92391 2.84635 3.11486 2.48378 3.41213 2.22071C3.70939 1.95764 4.0925 1.81221 4.48945 1.81173H13.8609C14.307 1.80998 14.7473 1.91272 15.1466 2.11173L16.1752 2.62602"
-                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M16.1895 11.6831V2.66882" stroke="#0B304A" stroke-width="2" stroke-linecap="round"
-                                  stroke-linejoin="round"/>
-                            <path d="M19.5748 11.6831H16.1891V2.66882H19.5748C19.7642 2.66882 19.9459 2.74407 20.0799 2.87803C20.2138 3.01198 20.2891 3.19366 20.2891 3.3831V10.9688C20.2891 11.1583 20.2138 11.3399 20.0799 11.4739C19.9459 11.6079 19.7642 11.6831 19.5748 11.6831V11.6831Z"
-                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                    <h4 class="card-title">{{ discussion.title }}</h4>
+                    <p class="card-text">{{ discussion.content|truncatewords:30 }}</p>
+                    <div class="card-footer">
+                        <div class="card-tags">
+                            {% for tag in discussion.tags.all %}
+                                <span class="tag">{{ tag.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="card-stats">
+                            <span><i class="far fa-comment"></i> {{ discussion.comments.count }}</span>
+                            <span><i class="far fa-thumbs-up"></i> {{ discussion.likes.count }}</span>
+                        </div>
                     </div>
-                    <div class="reaction">
-                        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5.99944 11.7142C6.39393 11.7142 6.71373 11.3944 6.71373 10.9999C6.71373 10.6054 6.39393 10.2856 5.99944 10.2856C5.60495 10.2856 5.28516 10.6054 5.28516 10.9999C5.28516 11.3944 5.60495 11.7142 5.99944 11.7142Z"
-                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M10.642 11.7142C11.0365 11.7142 11.3563 11.3944 11.3563 10.9999C11.3563 10.6054 11.0365 10.2856 10.642 10.2856C10.2475 10.2856 9.92773 10.6054 9.92773 10.9999C9.92773 11.3944 10.2475 11.7142 10.642 11.7142Z"
-                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M15.2856 11.7142C15.6801 11.7142 15.9999 11.3944 15.9999 10.9999C15.9999 10.6054 15.6801 10.2856 15.2856 10.2856C14.8911 10.2856 14.5713 10.6054 14.5713 10.9999C14.5713 11.3944 14.8911 11.7142 15.2856 11.7142Z"
-                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M10.9996 1.71436C9.31993 1.71488 7.67186 2.17098 6.23093 3.03409C4.78999 3.8972 3.61015 5.13498 2.81706 6.61561C2.02397 8.09623 1.64734 9.76425 1.72728 11.442C1.80722 13.1198 2.34074 14.7444 3.27101 16.1429L1.71387 20.2858L6.92815 19.3429C8.18374 19.9565 9.56161 20.2787 10.9591 20.2857C12.3565 20.2926 13.7375 19.984 14.9991 19.3829C16.2607 18.7818 17.3704 17.9037 18.2454 16.814C19.1204 15.7244 19.7381 14.4513 20.0526 13.0897C20.3671 11.728 20.3702 10.313 20.0616 8.94997C19.7531 7.58697 19.1409 6.31119 18.2707 5.21774C17.4004 4.12428 16.2946 3.24134 15.0357 2.63474C13.7767 2.02814 12.3971 1.71353 10.9996 1.71436V1.71436Z"
-                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span>28</span></div>
                 </div>
+            {% empty %}
+                <div class="empty-state">
+                    <i class="far fa-comment-dots"></i>
+                    <p>No discussions yet</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Answers Tab -->
+        <div id="answers" class="tab-pane">
+            <h3>Recent Answers</h3>
+            {% for answer in user_answers %}
+                <div class="content-card">
+                    <div class="card-header">
+                        <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="card-avatar">
+                        <div class="card-user-info">
+                            <span class="card-username">{{ user.username }}</span>
+                            <span class="card-date">{{ answer.created_at|date:"M d, Y" }}</span>
+                        </div>
+                    </div>
+                    <p class="card-text">{{ answer.content|truncatewords:30 }}</p>
+                    <div class="card-footer">
+                        <div class="card-context">
+                            <small>In reply to: {{ answer.discussion.title }}</small>
+                        </div>
+                        <div class="card-stats">
+                            <span><i class="far fa-thumbs-up"></i> {{ answer.likes.count }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="empty-state">
+                    <i class="far fa-comment-alt"></i>
+                    <p>No answers yet</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Services Tab -->
+        <div id="services" class="tab-pane">
+            <h3>Services Offered</h3>
+            {% for service in user_services %}
+                <div class="content-card">
+                    <div class="card-header">
+                        <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="card-avatar">
+                        <div class="card-user-info">
+                            <span class="card-username">{{ user.username }}</span>
+                            <span class="card-date">Posted {{ service.created_at|timesince }} ago</span>
+                        </div>
+                    </div>
+                    <h4 class="card-title">{{ service.title }}</h4>
+                    <p class="card-text">{{ service.description|truncatewords:30 }}</p>
+                    <div class="card-footer">
+                        <span class="service-price">${{ service.price }}</span>
+                        <button class="service-contact-btn">Contact</button>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="empty-state">
+                    <i class="fas fa-concierge-bell"></i>
+                    <p>No services offered yet</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Jobs Tab -->
+        <div id="jobs" class="tab-pane">
+            <h3>Job History</h3>
+            {% for job in user_jobs %}
+                <div class="content-card">
+                    <div class="card-header">
+                        <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="card-avatar">
+                        <div class="card-user-info">
+                            <span class="card-username">{{ user.username }}</span>
+                            <span class="card-date">{{ job.start_date|date:"M Y" }} - {% if job.current %}
+                                Present{% else %}{{ job.end_date|date:"M Y" }}{% endif %}</span>
+                        </div>
+                    </div>
+                    <h4 class="card-title">{{ job.position }} at {{ job.company }}</h4>
+                    <p class="card-text">{{ job.description|truncatewords:30 }}</p>
+                </div>
+            {% empty %}
+                <div class="empty-state">
+                    <i class="fas fa-briefcase"></i>
+                    <p>No job history yet</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-logo">MindBridge</div>
+        <div class="footer-links">
+            <div class="footer-column">
+                <h4>Explore</h4>
+                <a href="{% url 'base:home' %}">Home</a>
+                <a href="{% url 'base:discussions' %}">Discussions</a>
+                <a href="{% url 'careers:vacancy_list' %}">Career</a>
+            </div>
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <a href="{% url 'library' %}" class="active">Library Home</a>
+                <a href="{% url 'filter_articles' %}"
+                   class="tag {% if current_filter == 'article' %}active{% endif %}">Library Book</a>
+                <a href="{% url 'filter_videos' %}"
+                   class="tag {% if current_filter == 'video' %}active{% endif %}">Library Videos</a>
+            </div>
+            <div class="footer-column">
+                <h4>Company</h4>
+                {#                    <a href="{% url 'base:about' %}">About</a>#}
+                {#                    <a href="{% url 'base:contact' %}">Contact</a>#}
+                {#                    <a href="{% url 'base:privacy' %}">Privacy Policy</a>#}
             </div>
         </div>
-        <script>
-            function openModal(src) {
-                const modal = document.getElementById('modal');
-                const modalImg = document.getElementById('/library/post.png');
-                modal.style.display = 'flex';
-                modalImg.src = src;
-            }
-
-            function closeModal() {
-                document.getElementById('modal').style.display = 'none';
-            }
-
-            function toggleDropdown() {
-                document.getElementById("libraryDropdown").classList.toggle("show");
-            }
-
-            window.onclick = function (event) {
-                if (!event.target.matches('.dropbtn')) {
-                    const dropdowns = document.getElementsByClassName("dropdown-content");
-                    for (let i = 0; i < dropdowns.length; i++) {
-                        dropdowns[i].classList.remove('show');
-                    }
-                }
-            }
-
-            function filterContent() {
-                const input = document.getElementById('searchInput');
-                const filter = input.value.toLowerCase();
-                const cards = document.querySelectorAll('.post-card');
-
-                cards.forEach(function (card) {
-                    const text = card.textContent.toLowerCase();
-                    card.style.display = text.includes(filter) ? 'block' : 'none';
-                });
-            }
-
-            function toggleMenu() {
-                document.getElementById("profileMenu").classList.toggle("show");
-            }
-
-            window.onclick = function (event) {
-                if (!event.target.closest('.avatar-dropdown')) {
-                    document.getElementById("profileMenu").classList.remove("show");
-                }
-            }
-        </script>
-</body>
-<footer class="footer">
-    <div class="footer-inner">
-        <h2 class="footer-logo">MindBridge</h2>
-        <div class="footer-grid">
-            <div class="footer-column">
-                <a href="home2.html">Home</a>
-                <a href="MainCareer.html">Career</a>
-                <a href="discussionpage.html">Discussions</a>
-            </div>
-            <div class="footer-column">
-                <a href="library_main.html">Articles</a>
-                <a href="library-view.html">Videos</a>
-                <a href="library-book.html">Books</a>
-            </div>
-            <div class="footer-column">
-                <a href="welcome.html">About</a>
-            </div>
+        <div class="footer-social">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
-        <p class="footer-copy">2025 MindBridge</p>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 MindBridge. All rights reserved.</p>
     </div>
 </footer>
 
+<script>
+    // Toggle profile dropdown menu
+    function toggleMenu() {
+        document.getElementById("profileMenu").classList.toggle("show");
+    }
+
+    // Close dropdown if clicked outside
+    window.onclick = function (event) {
+        if (!event.target.matches('.avatar') && !event.target.closest('.avatar-dropdown')) {
+            const dropdowns = document.getElementsByClassName("dropdown-menu");
+            for (let i = 0; i < dropdowns.length; i++) {
+                if (dropdowns[i].classList.contains('show')) {
+                    dropdowns[i].classList.remove('show');
+                }
+            }
+        }
+    }
+
+    // Tab switching functionality
+    document.querySelectorAll('.tab-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons and panes
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+            // Add active class to clicked button
+            button.classList.add('active');
+
+            // Show corresponding pane
+            const tabId = button.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // Dropdown functionality for library menu
+    document.querySelector('.dropbtn').addEventListener('click', function () {
+        this.nextElementSibling.classList.toggle('show');
+    });
+</script>
+</body>
 </html>

@@ -461,7 +461,6 @@ a {
 {#</main>#}
 
 
-
 {#<main class="discussion-container">#}
 {#    <section class="discussion-form">#}
 {#        <div class="header">#}
@@ -505,7 +504,9 @@ a {
         <div class="header">
             <div class="header-top">
                 <h1>{% if is_create %}Start a discussion{% else %}Edit Discussion{% endif %}</h1>
-                <a href="{% if is_create %}{% url 'base:home' %}{% else %}{% url 'base:discussion' discussion.id %}{% endif %}" class="go-back">Go back</a>
+                <a href="
+                        {% if is_create %}{% url 'base:home' %}{% else %}{% url 'base:discussion' discussion.id %}{% endif %}"
+                   class="go-back">Go back</a>
             </div>
             <p>{% if is_create %}Share your thoughts or ask something{% else %}Edit your discussion below{% endif %}</p>
         </div>
@@ -522,7 +523,8 @@ a {
                 <label for="content">Details</label>
                 <small>Describe your discussion in detail</small>
                 <textarea id="content" name="content" rows="5"
-                          placeholder="Enter discussion details">{% if not is_create %}{{ discussion.content }}{% endif %}</textarea>
+                          placeholder="Enter discussion details">{% if not is_create %}
+                    {{ discussion.content }}{% endif %}</textarea>
             </div>
 
             <div class="form-group">

@@ -819,7 +819,7 @@
             <div class="logo">MindBridge</div>
             <ul class="menu">
                 <li><a href={% url 'base:home' %}>Home</a></li>
-                <li><a class="active" href={% url 'base:home' %}>Discussions</a></li>
+                <li><a href={% url 'base:discussions' %}>Discussions</a></li>
                 <li class="dropdown">
                     <button onclick="toggleDropdown()" class="dropbtn">Library</button>
                     <div class="dropdown-content" id="libraryDropdown">
@@ -844,8 +844,6 @@
                     <div class="dropdown-menu" id="profileMenu">
                         <a href={% url 'auth:login' %}><i class="fa-regular fa-user"></i> Profile</a>
                         <a href={% url 'auth:login' %}><i class="fa-solid fa-pen"></i> Edit</a>
-                        <a href="saved.html"><i class="fa-regular fa-bookmark"></i> Saved</a>
-                        <a href="welcome.html"><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
                     </div>
                 </div>
             </div>

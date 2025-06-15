@@ -5,7 +5,13 @@ from base.models import Country
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
-# Create your models here.
+
+class Interest(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
 class UserProfile(models.Model):
     ROLE_CHOICES = [
         ('COMPANY', 'Company'),
@@ -25,6 +31,7 @@ class UserProfile(models.Model):
         blank=True,
         help_text="Upload a profile picture (max 2MB)"
     )
+    interests = models.ManyToManyField(Interest, blank=True)
     city = models.ForeignKey(City, null=True, blank=True, on_delete=models.SET_NULL)
     country = models.ForeignKey(Country, null=True, blank=True, on_delete=models.SET_NULL)
     portfolio_url = models.URLField(

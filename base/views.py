@@ -5,6 +5,7 @@
 from datetime import datetime, timedelta
 
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q, Count
@@ -122,6 +123,10 @@ def home(request):
 
 
 def discussions(request):
+
+    if not request.user.is_authenticated:
+        return render(request, 'base/welcome_page.html')
+
     # Initialize variables
     active_tag = None
     discussions = Discussion.objects.all()
@@ -322,10 +327,13 @@ def discussion(request, pk):
 
 
 def user_profile(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('auth:login')
+
     user = get_object_or_404(User, id=pk)
 
     activity = get_three_weeks_activity(request)
-    print(activity.get('activity_days'))
+    # print(activity.get('activity_days'))
     context = {
         'user': user,
         'profile': user.profile,
@@ -338,8 +346,12 @@ def user_profile(request, pk):
 
 
 def edit_profile(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('auth:login')
+
     user = get_object_or_404(User, pk=pk)
 
+    # Permission check
     if request.user != user and not request.user.is_superuser:
         messages.error(request, "You don't have permission to edit this profile.")
         return redirect('user-profile', pk=user.pk)
@@ -348,26 +360,77 @@ def edit_profile(request, pk):
         u_form = UserUpdateForm(request.POST, instance=user)
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=user.profile)
 
-        if u_form.is_valid() and p_form.is_valid():
-            if 'avatar-clear' in request.POST:
-                if user.profile.avatar:
-                    user.profile.avatar.delete()
-            elif 'avatar' in request.FILES:
-                if user.profile.avatar:
-                    user.profile.avatar.delete()
+        # Handle password change separately
+        current_password = request.POST.get('current_password')
+        new_password1 = request.POST.get('new_password1')
+        new_password2 = request.POST.get('new_password2')
 
-            u_form.save()
-            p_form.save()
+        if u_form.is_valid() and p_form.is_valid():
+            # Process profile data
+            profile = p_form.save(commit=False)
+
+            # Handle interests
+            interests_str = request.POST.get('interests', '')
+            if interests_str:
+                # Split and clean interests
+                interests = [i.strip() for i in interests_str.split(',') if i.strip()]
+
+                # Clear existing interests
+                profile.interests.clear()
+
+                # Add new interests
+                for interest_name in interests:
+                    interest, created = Interest.objects.get_or_create(name=interest_name)
+                    profile.interests.add(interest)
+
+            # Handle profile picture
+            if 'profile_pic-clear' in request.POST:
+                if user.profile.avatar:
+                    user.profile.avatar.delete()
+                    user.profile.avatar = None
+            elif 'profile_pic' in request.FILES:
+                # Delete old picture if exists
+                if user.profile.avatar:
+                    user.profile.avatar.delete()
+                # New picture will be saved automatically
+
+            # Save user and profile
+            user = u_form.save()
+            profile.save()
+
+            # Handle password change if all fields provided
+            password_changed = False
+            if current_password and new_password1 and new_password2:
+                if user.check_password(current_password):
+                    if new_password1 == new_password2:
+                        user.set_password(new_password1)
+                        user.save()
+                        update_session_auth_hash(request, user)  # Important to keep user logged in
+                        password_changed = True
+                        messages.success(request, 'Your password was successfully updated!')
+                    else:
+                        messages.error(request, 'New passwords do not match.')
+                else:
+                    messages.error(request, 'Current password is incorrect.')
+
             messages.success(request, 'Your profile has been updated!')
             return redirect('base:user-profile', pk=user.pk)
+        else:
+            # Form validation failed
+            messages.error(request, 'Please correct the errors below.')
     else:
+        # GET request - initialize forms
         u_form = UserUpdateForm(instance=user)
         p_form = ProfileUpdateForm(instance=user.profile)
+
+    # Prepare initial interests for template
+    initial_interests = ','.join([i.name for i in user.profile.interests.all()])
 
     context = {
         'u_form': u_form,
         'p_form': p_form,
-        'user': user
+        'profile_user': user,
+        'initial_interests': initial_interests,
     }
     return render(request, 'base/edit_profile.html', context)
 
@@ -472,7 +535,6 @@ def delete_discussion(request, pk):
 def create_answer(request):
     if request.method == 'POST':
         discussion_id = request.POST.get('discussion_id')
-        print(discussion_id + "lksdnflksndf")
         discussion = Discussion.objects.get(id=discussion_id)
         comment = request.POST.get('comment')
         Answer.objects.create(
@@ -550,6 +612,8 @@ def report_discussion(request, pk):
 
 @login_required
 def saved_discussions(request):
+    if not request.user.is_authenticated:
+        return redirect('auth:login')
     saved_discussions = SavedDiscussion.objects.filter(user=request.user).select_related('discussion')
     context = {
         'saved_discussions': saved_discussions,
@@ -618,3 +682,98 @@ class TagAutocompleteView(View):
         query = request.GET.get('q', '')
         tags = Tag.objects.filter(name__icontains=query).values_list('name', flat=True)
         return JsonResponse(list(tags), safe=False)
+
+
+def answer_discussion(request, pk):
+    answer = get_object_or_404(Answer, pk=pk)
+    replies = answer.replies.all().order_by('-created_at')
+    reply_count = replies.count()
+
+    # Get the root discussion
+    root_discussion = answer.discussion
+
+    if request.method == 'POST':
+        reply = Answer.objects.create(
+            user=request.user,
+            parent_answer=answer,
+            discussion=root_discussion,
+            content=request.POST.get('body')
+        )
+        if 'tags' in request.POST:
+            tag_names = request.POST.getlist('tags')
+            reply.tags.add(*tag_names)
+        return redirect('base:answer-discussion', pk=answer.id)
+
+    context = {
+        'answer': answer,
+        'replies': replies,
+        'reply_count': reply_count,
+        'root_discussion': root_discussion,
+        'tags': answer.tags.all(),
+    }
+    return render(request, 'base/answer_discussion.html', context)
+
+
+@login_required
+def create_reply(request, pk):
+    parent_answer = get_object_or_404(Answer, pk=pk)
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        if content:
+            reply = Answer.objects.create(
+                user=request.user,
+                parent_answer=parent_answer,
+                discussion=parent_answer.discussion,
+                content=content
+            )
+            return redirect('base:answer-discussion', pk=parent_answer.pk)
+    return redirect('base:discussion', pk=parent_answer.discussion.pk)
+
+
+@login_required
+@require_POST
+def save_answer(request, pk):
+    answer = get_object_or_404(Answer, pk=pk)
+    saved, created = SavedAnswer.objects.get_or_create(
+        user=request.user,
+        answer=answer
+    )
+    if not created:
+        saved.delete()
+        return JsonResponse({'status': 'unsaved'})
+    return JsonResponse({'status': 'saved'})
+
+
+@login_required
+@require_POST
+def report_answer(request, pk):
+    answer = get_object_or_404(Answer, pk=pk)
+    reason = request.POST.get('reason', '').strip()
+
+    if not reason:
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Reason is required'
+        }, status=400)
+
+    existing_report = ReportedAnswer.objects.filter(
+        user=request.user,
+        answer=answer
+    ).first()
+
+    if existing_report:
+        return JsonResponse({
+            'status': 'already_reported',
+            'message': 'You have already reported this answer'
+        })
+
+    ReportedAnswer.objects.create(
+        user=request.user,
+        answer=answer,
+        reason=reason
+    )
+
+    return JsonResponse({
+        'status': 'reported',
+        'message': 'Answer reported successfully'
+    })

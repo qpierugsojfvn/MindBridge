@@ -1,11 +1,10 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<html lang="en">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>{{ discussion.title }}</title>
+    <title>View Answer</title>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
           integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -218,7 +217,6 @@
         display: flex;
     }
 
-
     .circle-arrow-btn {
         width: 48px;
         height: 48px;
@@ -264,18 +262,16 @@
         color: #BFBFBF;
     }
 
-
     .section-heading {
         width: 100%;
         max-width: 920px;
         font-family: 'General Sans', sans-serif;
         font-style: normal;
         font-weight: 600;
-        font-size: 1.25rem; /* 20px */
+        font-size: 1.25rem;
         line-height: 1.1;
         letter-spacing: 0.5px;
         color: #0B304A;
-
         display: flex;
         align-items: center;
         margin: 0 4rem;
@@ -360,9 +356,9 @@
 
     .post-images {
         display: flex;
-        flex-wrap: nowrap; /* отключаем перенос */
+        flex-wrap: nowrap;
         gap: 1rem;
-        overflow-x: auto; /* добавляем скролл при необходимости */
+        overflow-x: auto;
         margin-bottom: 1rem;
     }
 
@@ -371,11 +367,11 @@
         width: auto;
         border-radius: 0.75rem;
         object-fit: cover;
-        flex-shrink: 0; /* чтобы не сжимались */
+        flex-shrink: 0;
     }
 
     .post-images::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, Opera */
+        display: none;
     }
 
     .tags {
@@ -417,7 +413,6 @@
         gap: 0.5rem;
         align-items: center;
         margin: 2rem 15rem;
-
     }
 
     .pagination button {
@@ -779,69 +774,100 @@
         font-size: 16px;
     }
 
-    .answer-card {
-        margin-left: 40px;
-        border-left: 3px solid #FF50D6;
-        transition: all 0.2s ease;
+    /* Modal styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
     }
 
-    .answer-card:hover {
-        border-left-width: 5px;
-    }
-
-    .reply-card {
-        margin-left: 80px;
-        border-left: 3px solid #8F93FF;
-    }
-
-    .answer-content {
-        padding-left: 20px;
-    }
-
-    .discussion-container {
-        width: 65vw;
-        margin: 2vh 0;
-    }
-
-    .discussion-card {
-        font-family: 'General Sans', sans-serif;
-        color: #0B304A;
-        padding: 2rem;
-        background: #ffffff;
-        border: 0.125rem solid #ebecf2;
-        border-radius: 0.5rem;
-        display: flex;
-        flex-direction: column;
-        box-sizing: border-box;
-        margin-bottom: 1rem;
-    }
-
-    .answers-container {
-        margin-top: 1rem;
-        padding-left: 2rem;
-        border-left: 3px solid #F5F6F9;
-    }
-
-    .answer-card {
-        background: #fff;
-        border: 1px solid #EBECF2;
+    .modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
         border-radius: 8px;
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-        border-left: 3px solid #FF50D6;
-        transition: all 0.2s ease;
+        width: 400px;
+        max-width: 90%;
     }
 
-    .answer-card:hover {
-        border-left-width: 5px;
-        background: #F9FAFB;
+    .modal-content h3 {
+        margin-top: 0;
+        color: #0B304A;
     }
 
-    .reply-card {
-        margin-left: 2rem;
-        border-left: 3px solid #8F93FF;
+    .modal-content textarea {
+        width: 100%;
+        height: 120px;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        resize: vertical;
     }
 
+    .modal-content button {
+        background-color: #FF42C2;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover {
+        color: #000;
+    }
+
+    /* Post dropdown menu */
+    .post-dropdown-menu {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 8px 0;
+        z-index: 1000;
+        display: none;
+        min-width: 160px;
+    }
+
+    .post-dropdown-menu.show {
+        display: block;
+    }
+
+    .post-dropdown-menu a {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        text-decoration: none;
+        color: #0B304A;
+        font-size: 14px;
+    }
+
+    .post-dropdown-menu a:hover {
+        background: #F5F6F9;
+    }
+
+    .post-dropdown-menu i {
+        width: 16px;
+        text-align: center;
+    }
 </style>
 <body>
 <header>
@@ -929,226 +955,135 @@
     <h3 class="answer-title">Answer</h3>
 </a>
 <div class="main-container">
-    <div class="post">
+    <div class="discussion-container">
+        <!-- Breadcrumb navigation -->
+        <div class="breadcrumb">
+            <a href="{% url 'base:discussion' root_discussion.id %}">← Back to discussion</a>
+        </div>
+
+        <!-- Main answer (treated as a discussion) -->
         <div class="post-card">
             <div class="post-header">
                 <div class="user-info">
-                    {% if discussion.host.profile.avatar %}
-                        <div class="avatar" onclick="toggleMenu()">
-                            <a href="{% url 'base:user-profile' request.user.id %}">
-                                <img src="{{ discussion.host.profile.avatar.url }}" alt="missing profile picture"/>
-                            </a>
-                        </div>
+                    {% if answer.user.profile.avatar %}
+                        <img src="{{ answer.user.profile.avatar.url }}" class="avatar" alt="User avatar">
                     {% else %}
-                        <div class="avatar" onclick="toggleMenu()">
-                            <a href="{% url 'base:user-profile' request.user.id %}">
-                                <img src="{% static 'icons/no_avatar.jpg' %}" alt="missing profile picture"/>
-                            </a>
-                        </div>
+                        <img src="{% static 'icons/no_avatar.jpg' %}" class="avatar" alt="Default avatar">
                     {% endif %}
-                    <a href="{% url 'base:user-profile' request.user.id %}"
-                       style="text-decoration: none; color: #0B304A;">
-                        <span class="username">{{ discussion.host.username }}</span>
-                    </a>
-
+                    <span class="username">{{ answer.user.username }}</span>
+                    <span class="timestamp">{{ answer.created_at|timesince }} ago</span>
                 </div>
                 <div class="dots-container">
                     <div class="dots" onclick="togglePostMenu(this)">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 8.5C12.8284 8.5 13.5 7.82843 13.5 7C13.5 6.17157 12.8284 5.5 12 5.5C11.1716 5.5 10.5 6.17157 10.5 7C10.5 7.82843 11.1716 8.5 12 8.5Z"
-                                  fill="#0B304A"/>
-                            <path d="M7 8.5C7.82843 8.5 8.5 7.82843 8.5 7C8.5 6.17157 7.82843 5.5 7 5.5C6.17157 5.5 5.5 6.17157 5.5 7C5.5 7.82843 6.17157 8.5 7 8.5Z"
-                                  fill="#0B304A"/>
-                            <path d="M2 8.5C2.82843 8.5 3.5 7.82843 3.5 7C3.5 6.17157 2.82843 5.5 2 5.5C1.17157 5.5 0.5 6.17157 0.5 7C0.5 7.82843 1.17157 8.5 2 8.5Z"
-                                  fill="#0B304A"/>
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 8.5C12.8284 8.5 13.5 7.82843 13.5 7C13.5 6.17157 12.8284 5.5 12 5.5C11.1716 5.5 10.5 6.17157 10.5 7C10.5 7.82843 11.1716 8.5 12 8.5Z" fill="#0B304A"/>
+                            <path d="M7 8.5C7.82843 8.5 8.5 7.82843 8.5 7C8.5 6.17157 7.82843 5.5 7 5.5C6.17157 5.5 5.5 6.17157 5.5 7C5.5 7.82843 6.17157 8.5 7 8.5Z" fill="#0B304A"/>
+                            <path d="M2 8.5C2.82843 8.5 3.5 7.82843 3.5 7C3.5 6.17157 2.82843 5.5 2 5.5C1.17157 5.5 0.5 6.17157 0.5 7C0.5 7.82843 1.17157 8.5 2 8.5Z" fill="#0B304A"/>
                         </svg>
                     </div>
                     <div class="post-dropdown-menu">
-                        {% if request.user == discussion.host %}
-                            <a href="{% url 'base:update-discussion' discussion.id %}">
+                        {% if request.user == answer.user %}
+                            <a href="#" class="edit-answer" data-answer-id="{{ answer.id }}">
                                 <i class="fa-solid fa-pen"></i> Edit
                             </a>
-                            <a href="{% url 'base:delete-discussion' discussion.id %}" class="delete-btn">
+                            <a href="#" class="delete-answer" data-answer-id="{{ answer.id }}">
                                 <i class="fa-solid fa-trash"></i> Delete
                             </a>
-                            <a href="#" class="save-btn" data-discussion-id="{{ discussion.id }}">
-                                <i class="fa-regular fa-bookmark"></i>
-                                <span class="save-text">
-                                        {% if request.user in discussion.saved_by.all %}Unsave{% else %}Save{% endif %}
-                                    </span>
-                            </a>
-                        {% else %}
-                            <a href="#" class="save-btn" data-discussion-id="{{ discussion.id }}">
-                                <i class="fa-regular fa-bookmark"></i>
-                                <span class="save-text">
-                                        {% if request.user in discussion.saved_by.all %}Unsave{% else %}Save{% endif %}
-                                    </span>
-                            </a>
-                            <a href="#" class="report-btn" data-discussion-id="{{ discussion.id }}">
+                        {% endif %}
+                        <a href="#" class="save-btn" data-answer-id="{{ answer.id }}">
+                            <i class="fa-regular fa-bookmark"></i>
+                            <span class="save-text">
+                                {% if request.user in answer.saved_by.all %}Unsave{% else %}Save{% endif %}
+                            </span>
+                        </a>
+                        {% if request.user != answer.user %}
+                            <a href="#" class="report-btn" data-answer-id="{{ answer.id }}">
                                 <i class="fa-solid fa-flag"></i> Report
                             </a>
                         {% endif %}
                     </div>
-
-                    <div id="reportModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close">&times;</span>
-                            <h3>Report Discussion</h3>
-                            <form id="reportForm">
-                                <input type="hidden" id="reportDiscussionId" value="">
-                                <textarea id="reportReason"
-                                          placeholder="Please explain the reason for reporting..."
-                                          required></textarea>
-                                <div id="reportError" style="color: red; display: none;"></div>
-                                <button type="submit">Submit Report</button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <style>
-                        .modal {
-                            display: none;
-                            position: fixed;
-                            z-index: 1000;
-                            left: 0;
-                            top: 0;
-                            width: 100%;
-                            height: 100%;
-                            background-color: rgba(0, 0, 0, 0.4);
-                        }
-
-                        .modal-content {
-                            background-color: #fff;
-                            margin: 15% auto;
-                            padding: 20px;
-                            border-radius: 8px;
-                            width: 400px;
-                            max-width: 90%;
-                        }
-
-                        .modal-content h3 {
-                            margin-top: 0;
-                            color: #0B304A;
-                        }
-
-                        .modal-content textarea {
-                            width: 100%;
-                            height: 120px;
-                            padding: 10px;
-                            margin: 10px 0;
-                            border: 1px solid #ddd;
-                            border-radius: 4px;
-                            resize: vertical;
-                        }
-
-                        .modal-content button {
-                            background-color: #FF42C2;
-                            color: white;
-                            border: none;
-                            padding: 8px 16px;
-                            border-radius: 4px;
-                            cursor: pointer;
-                            font-size: 1rem;
-                        }
-
-                        .close {
-                            color: #aaa;
-                            float: right;
-                            font-size: 28px;
-                            font-weight: bold;
-                            cursor: pointer;
-                        }
-
-                        .close:hover {
-                            color: #000;
-                        }
-                    </style>
                 </div>
             </div>
-            <div class="post-content">
-                <h2 class="post-title">{{ discussion.title }}</h2>
-                <p class="post-text">
-                    {{ discussion.content }}
-                </p>
 
+            <div class="post-content">
+                <p>{{ answer.content }}</p>
 
                 <div class="tags">
-                    {% for tag in discussion.tags.all %}
-                        <span class="tag">#{{ tag }}</span>
+                    {% for tag in answer.tags.all %}
+                        <span class="tag">#{{ tag.name }}</span>
                     {% endfor %}
                 </div>
 
                 <div class="reactions">
                     <div class="reaction">
                         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5.99944 11.7142C6.39393 11.7142 6.71373 11.3944 6.71373 10.9999C6.71373 10.6054 6.39393 10.2856 5.99944 10.2856C5.60495 10.2856 5.28516 10.6054 5.28516 10.9999C5.28516 11.3944 5.60495 11.7142 5.99944 11.7142Z"
-                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M10.642 11.7142C11.0365 11.7142 11.3563 11.3944 11.3563 10.9999C11.3563 10.6054 11.0365 10.2856 10.642 10.2856C10.2475 10.2856 9.92773 10.6054 9.92773 10.9999C9.92773 11.3944 10.2475 11.7142 10.642 11.7142Z"
-                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M15.2856 11.7142C15.6801 11.7142 15.9999 11.3944 15.9999 10.9999C15.9999 10.6054 15.6801 10.2856 15.2856 10.2856C14.8911 10.2856 14.5713 10.6054 14.5713 10.9999C14.5713 11.3944 14.8911 11.7142 15.2856 11.7142Z"
-                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M10.9996 1.71436C9.31993 1.71488 7.67186 2.17098 6.23093 3.03409C4.78999 3.8972 3.61015 5.13498 2.81706 6.61561C2.02397 8.09623 1.64734 9.76425 1.72728 11.442C1.80722 13.1198 2.34074 14.7444 3.27101 16.1429L1.71387 20.2858L6.92815 19.3429C8.18374 19.9565 9.56161 20.2787 10.9591 20.2857C12.3565 20.2926 13.7375 19.984 14.9991 19.3829C16.2607 18.7818 17.3704 17.9037 18.2454 16.814C19.1204 15.7244 19.7381 14.4513 20.0526 13.0897C20.3671 11.728 20.3702 10.313 20.0616 8.94997C19.7531 7.58697 19.1409 6.31119 18.2707 5.21774C17.4004 4.12428 16.2946 3.24134 15.0357 2.63474C13.7767 2.02814 12.3971 1.71353 10.9996 1.71436V1.71436Z"
-                                  stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M5.99944 11.7142C6.39393 11.7142 6.71373 11.3944 6.71373 10.9999C6.71373 10.6054 6.39393 10.2856 5.99944 10.2856C5.60495 10.2856 5.28516 10.6054 5.28516 10.9999C5.28516 11.3944 5.60495 11.7142 5.99944 11.7142Z" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10.642 11.7142C11.0365 11.7142 11.3563 11.3944 11.3563 10.9999C11.3563 10.6054 11.0365 10.2856 10.642 10.2856C10.2475 10.2856 9.92773 10.6054 9.92773 10.9999C9.92773 11.3944 10.2475 11.7142 10.642 11.7142Z" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M15.2856 11.7142C15.6801 11.7142 15.9999 11.3944 15.9999 10.9999C15.9999 10.6054 15.6801 10.2856 15.2856 10.2856C14.8911 10.2856 14.5713 10.6054 14.5713 10.9999C14.5713 11.3944 14.8911 11.7142 15.2856 11.7142Z" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10.9996 1.71436C9.31993 1.71488 7.67186 2.17098 6.23093 3.03409C4.78999 3.8972 3.61015 5.13498 2.81706 6.61561C2.02397 8.09623 1.64734 9.76425 1.72728 11.442C1.80722 13.1198 2.34074 14.7444 3.27101 16.1429L1.71387 20.2858L6.92815 19.3429C8.18374 19.9565 9.56161 20.2787 10.9591 20.2857C12.3565 20.2926 13.7375 19.984 14.9991 19.3829C16.2607 18.7818 17.3704 17.9037 18.2454 16.814C19.1204 15.7244 19.7381 14.4513 20.0526 13.0897C20.3671 11.728 20.3702 10.313 20.0616 8.94997C19.7531 7.58697 19.1409 6.31119 18.2707 5.21774C17.4004 4.12428 16.2946 3.24134 15.0357 2.63474C13.7767 2.02814 12.3971 1.71353 10.9996 1.71436V1.71436Z" stroke="#0B304A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <span>{{ answer_count }}</span></div>
+                        <span>{{ reply_count }}</span>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Reply form -->
+        {% if request.user.is_authenticated %}
         <div class="comment-section">
-            <form method="POST" action="{% url 'base:create-answer' %}">
+            <form method="POST" action="{% url 'base:create-reply' answer.id %}">
                 {% csrf_token %}
-                <input type="hidden" name="discussion_id" value="{{ discussion_id }}">
-                <label for="comment">Comment</label>
-                <textarea id="comment" name='comment' placeholder="I think Universities are overrated"></textarea>
-                <button type="submit" class="create-btn">Post comment</button>
+                <label for="comment">Your reply</label>
+                <textarea id="comment" name="content" placeholder="Write your reply..." required></textarea>
+                <button type="submit" class="create-btn">Post reply</button>
             </form>
         </div>
+        {% else %}
+        <div class="login-prompt">
+            <a href="{% url 'auth:login' %}?next={{ request.path }}">Log in</a> to reply to this thread.
+        </div>
+        {% endif %}
 
+        <!-- Replies list -->
         <div class="answers-section">
-            <h3>Answers</h3>
-
-            {% for answer in answers %}
+            <h3>Replies</h3>
+            {% for reply in replies %}
                 <div class="answer-card">
                     <div class="post-header">
                         <div class="user-info">
-                            {% if answer.user.profile.avatar %}
-                                <img src="{{ answer.user.profile.avatar.url }}" class="avatar" alt="User avatar">
+                            {% if reply.user.profile.avatar %}
+                                <img src="{{ reply.user.profile.avatar.url }}" class="avatar" alt="User avatar">
                             {% else %}
                                 <img src="{% static 'icons/no_avatar.jpg' %}" class="avatar" alt="Default avatar">
                             {% endif %}
-                            <span class="username">{{ answer.user.username }}</span>
-                            <span class="timestamp">{{ answer.created_at|timesince }} ago</span>
+                            <span class="username">{{ reply.user.username }}</span>
+                            <span class="timestamp">{{ reply.created_at|timesince }} ago</span>
                         </div>
                         <div class="dots-container">
                             <div class="dots" onclick="togglePostMenu(this)">
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 8.5C12.8284 8.5 13.5 7.82843 13.5 7C13.5 6.17157 12.8284 5.5 12 5.5C11.1716 5.5 10.5 6.17157 10.5 7C10.5 7.82843 11.1716 8.5 12 8.5Z"
-                                          fill="#0B304A"/>
-                                    <path d="M7 8.5C7.82843 8.5 8.5 7.82843 8.5 7C8.5 6.17157 7.82843 5.5 7 5.5C6.17157 5.5 5.5 6.17157 5.5 7C5.5 7.82843 6.17157 8.5 7 8.5Z"
-                                          fill="#0B304A"/>
-                                    <path d="M2 8.5C2.82843 8.5 3.5 7.82843 3.5 7C3.5 6.17157 2.82843 5.5 2 5.5C1.17157 5.5 0.5 6.17157 0.5 7C0.5 7.82843 1.17157 8.5 2 8.5Z"
-                                          fill="#0B304A"/>
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 8.5C12.8284 8.5 13.5 7.82843 13.5 7C13.5 6.17157 12.8284 5.5 12 5.5C11.1716 5.5 10.5 6.17157 10.5 7C10.5 7.82843 11.1716 8.5 12 8.5Z" fill="#0B304A"/>
+                                    <path d="M7 8.5C7.82843 8.5 8.5 7.82843 8.5 7C8.5 6.17157 7.82843 5.5 7 5.5C6.17157 5.5 5.5 6.17157 5.5 7C5.5 7.82843 6.17157 8.5 7 8.5Z" fill="#0B304A"/>
+                                    <path d="M2 8.5C2.82843 8.5 3.5 7.82843 3.5 7C3.5 6.17157 2.82843 5.5 2 5.5C1.17157 5.5 0.5 6.17157 0.5 7C0.5 7.82843 1.17157 8.5 2 8.5Z" fill="#0B304A"/>
                                 </svg>
                             </div>
                             <div class="post-dropdown-menu">
-                                {% if request.user == answer.user %}
-                                    <a href="#" class="edit-answer" data-answer-id="{{ answer.id }}">
+                                {% if request.user == reply.user %}
+                                    <a href="#" class="edit-answer" data-answer-id="{{ reply.id }}">
                                         <i class="fa-solid fa-pen"></i> Edit
                                     </a>
-                                    <a href="#" class="delete-answer" data-answer-id="{{ answer.id }}">
+                                    <a href="#" class="delete-answer" data-answer-id="{{ reply.id }}">
                                         <i class="fa-solid fa-trash"></i> Delete
                                     </a>
                                 {% endif %}
-                                <a href="#" class="save-btn" data-answer-id="{{ answer.id }}">
+                                <a href="#" class="save-btn" data-answer-id="{{ reply.id }}">
                                     <i class="fa-regular fa-bookmark"></i>
                                     <span class="save-text">
-                                {% if request.user in answer.saved_by.all %}Saved{% else %}Save{% endif %}
-                            </span>
+                                        {% if request.user in reply.saved_by.all %}Unsave{% else %}Save{% endif %}
+                                    </span>
                                 </a>
-                                {% if request.user != answer.user %}
-                                    <a href="#" class="report-btn" data-answer-id="{{ answer.id }}">
+                                {% if request.user != reply.user %}
+                                    <a href="#" class="report-btn" data-answer-id="{{ reply.id }}">
                                         <i class="fa-solid fa-flag"></i> Report
                                     </a>
                                 {% endif %}
@@ -1157,27 +1092,26 @@
                     </div>
 
                     <div class="answer-content">
-                        <p>{{ answer.content }}</p>
+                        <p>{{ reply.content }}</p>
 
                         <div class="answer-actions">
-                            <a href="{% url 'base:answer-discussion' answer.id %}" class="view-thread">
-                                View thread ({{ answer.replies.count }} replies)
+                            <a href="{% url 'base:answer-discussion' reply.id %}" class="view-thread">
+                                View thread ({{ reply.replies.count }} replies)
                             </a>
                         </div>
                     </div>
                 </div>
+            {% empty %}
+                <p>No replies yet. Be the first to reply!</p>
             {% endfor %}
         </div>
-
     </div>
     <div class="sidebar-right">
         <div class="popular-now">
             <h4>Popular now</h4>
             <div class="tags">
-                {#                <span class="tag">#design</span>#}
                 {% for tag in popular_tags %}
                     <a href="{% url 'base:tagged' tag.slug %}" class="tag">#{{ tag.name }}</a>
-                    <span>#{{ tag.name }}</span>
                 {% endfor %}
             </div>
         </div>
@@ -1195,21 +1129,22 @@
                         <a href="{% url 'base:discussion' pk=recent_viewed_discussion.id %}">View more…</a>
                     </div>
                 {% endfor %}
-
             </div>
         </div>
     </div>
 </div>
-<div class="pagination">
-    <button>&lt;</button>
-    <button class="active">1</button>
-    <button>2</button>
-    <button>3</button>
-    <button>4</button>
-    <button>5</button>
-    <span class="dots">...</span>
-    <button>10</button>
-    <button>&gt;</button>
+
+<!-- Report modal -->
+<div id="reportModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Report Answer</h3>
+        <form id="reportForm">
+            <input type="hidden" id="reportAnswerId" value="">
+            <textarea id="reportReason" placeholder="Please explain the reason for reporting..." required></textarea>
+            <button type="submit">Submit Report</button>
+        </form>
+    </div>
 </div>
 
 <script>
@@ -1251,7 +1186,6 @@
         document.addEventListener('click', clickHandler);
     }
 
-
     window.onclick = function (event) {
         if (!event.target.matches('.dropbtn')) {
             const dropdowns = document.getElementsByClassName("dropdown-content");
@@ -1281,6 +1215,98 @@
             document.getElementById("profileMenu").classList.remove("show");
         }
     }
+
+    // Save answer functionality
+    document.querySelectorAll('.save-btn').forEach(btn => {
+        btn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            const answerId = this.getAttribute('data-answer-id');
+
+            try {
+                const response = await fetch(`/save-answer/${answerId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin'
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'saved') {
+                    this.querySelector('.save-text').textContent = 'Saved';
+                    this.querySelector('i').classList.replace('fa-regular', 'fa-solid');
+                } else if (data.status === 'unsaved') {
+                    this.querySelector('.save-text').textContent = 'Save';
+                    this.querySelector('i').classList.replace('fa-solid', 'fa-regular');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+
+    // Report answer functionality
+    const reportModal = document.getElementById('reportModal');
+    const reportBtns = document.querySelectorAll('.report-btn');
+    const closeBtn = document.querySelector('.close');
+    const reportForm = document.getElementById('reportForm');
+
+    reportBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const answerId = this.getAttribute('data-answer-id');
+            document.getElementById('reportAnswerId').value = answerId;
+            reportModal.style.display = 'flex';
+        });
+    });
+
+    closeBtn.onclick = function() {
+        reportModal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == reportModal) {
+            reportModal.style.display = 'none';
+        }
+    }
+
+    reportForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const answerId = document.getElementById('reportAnswerId').value;
+        const reason = document.getElementById('reportReason').value;
+
+        try {
+            const response = await fetch(`/report-answer/${answerId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({reason: reason}),
+                credentials: 'same-origin'
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'reported') {
+                alert('Answer reported successfully. Thank you!');
+                reportModal.style.display = 'none';
+                reportForm.reset();
+            } else if (data.status === 'already_reported') {
+                alert('You have already reported this answer.');
+                reportModal.style.display = 'none';
+            } else {
+                alert('Error: ' + (data.message || 'Something went wrong'));
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while reporting the answer.');
+        }
+    });
 </script>
 </body>
 <footer class="footer">
