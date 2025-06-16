@@ -1,3 +1,5 @@
+{% extends 'main.html' %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +8,7 @@
     <title>Library Book - MindBridge</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"/>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-          integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <style>
@@ -54,7 +55,7 @@
         position: absolute;
         background-color: white;
         min-width: 160px;
-        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
         z-index: 1000;
         border-radius: 6px;
         margin-top: 10px;
@@ -220,43 +221,14 @@
         display: flex;
     }
 
-    .icons {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-left: 5%;
-    }
-
-    .icons i {
-        font-size: 1.25rem;
-        color: #0B304A;
-        cursor: pointer;
-    }
-
-    .avatar {
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 2px solid #BFBFBF;
-    }
-
-    .avatar img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
     .search-profile {
         display: flex;
         align-items: center;
         gap: 0.5rem;
     }
-
     .search-profile input {
         padding: 0.5em 1em;
     }
-
     .icons span {
         font-size: 1.2rem;
     }
@@ -278,15 +250,13 @@
         background: white;
         padding: 1em;
         border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         min-width: 200px;
         height: 50%;
     }
-
     .sidebar h3 {
         margin-bottom: 1em;
     }
-
     .tags span {
         display: inline-block;
         background: #eaeaea;
@@ -301,21 +271,18 @@
         padding: 2em;
         border-radius: 12px;
         margin-bottom: 2em;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         border: 2px solid #1e2a3a22;
     }
-
     .big-book-card h1 {
         font-size: 1.5rem;
         margin-bottom: 0.5rem;
     }
-
     .big-book-card .author {
         color: #555;
         font-size: 0.95rem;
         margin-bottom: 1.5rem;
     }
-
     .download-button {
         display: inline-block;
         background: var(--pink);
@@ -326,7 +293,6 @@
         font-weight: bold;
         transition: background 0.2s ease;
     }
-
     .download-button:hover {
         background: #e127b2;
     }
@@ -334,7 +300,6 @@
     .section {
         margin-bottom: 2em;
     }
-
     .section h2 {
         margin-bottom: 0.5em;
     }
@@ -349,23 +314,20 @@
         background: white;
         padding: 1em;
         border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         min-height: 7rem;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
     }
-
     .card span {
         font-size: 0.9rem;
         color: #666;
         margin-top: 0.5rem;
     }
-
     .card.watch {
         border: 1px solid #0B304A;
     }
-
     .card.read {
         border: 1px solid #0B304A;
     }
@@ -376,7 +338,6 @@
         gap: 0.5em;
         overflow: hidden;
     }
-
     .card-content img,
     .card-content video {
         width: 100%;
@@ -385,7 +346,6 @@
         object-fit: cover;
         border-radius: 4px;
     }
-
     .card-content p {
         margin: 0;
         font-size: 1rem;
@@ -393,7 +353,6 @@
         word-wrap: break-word;
         overflow-wrap: break-word;
     }
-
 
     .footer {
         background-color: #0B304A;
@@ -461,56 +420,15 @@
             display: none;
         }
     }
-
 </style>
 <body>
-{#<header>#}
-{#    <nav class="navbar">#}
-{#        <div class="navbar-container">#}
-{#            <div class="logo">MindBridge</div>#}
-{#            <ul class="menu">#}
-{#                <li><a href={% url 'home' %}>Home</a></li>#}
-{#                <li><a href={% url 'home' %}>Discussions</a></li>#}
-{#                <li class="dropdown">#}
-{#                    <button onclick="toggleDropdown()" class="dropbtn">Library</button>#}
-{#                    <div class="dropdown-content" id="libraryDropdown">#}
-{#                        <a href="library_main.html">Library Home</a>#}
-{#                        <a href="library-book.html" class="active">Library Book</a>#}
-{#                        <a href="library-view.html">Library View</a>#}
-{#                    </div>#}
-{#                </li>#}
-{#                <li><a href="MainCareer.html">Career</a></li>#}
-{#            </ul>#}
-{#            <div class="search">#}
-{#                <i class="fas fa-search"></i>#}
-{#                <input type="text" id="searchInput" placeholder="Search for..." onkeyup="filterContent()"/>#}
-{#            </div>#}
-{#            <div class="icons">#}
-{#                <a href="message.html"><i class="fa-regular fa-comment"></i></a>#}
-{#                <i class="fa-regular fa-bell"></i>#}
-{#                <div class="avatar-dropdown">#}
-{#                    <div class="avatar" onclick="toggleMenu()">#}
-{#                        <img src="library/ava.png" alt="Profile Picture"/>#}
-{#                    </div>#}
-{#                    <div class="dropdown-menu" id="profileMenu">#}
-{#                        <a href="userprofile.html"><i class="fa-regular fa-user"></i> Profile</a>#}
-{#                        <a href="editprofile.html"><i class="fa-solid fa-pen"></i> Edit</a>#}
-{#                        <a href="saved.html"><i class="fa-regular fa-bookmark"></i> Saved</a>#}
-{#                        <a href="welcome.html"><i class="fa-solid fa-right-from-bracket"></i> Log out</a>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#        </div>#}
-{#    </nav>#}
-{#</header>#}
 <header>
     <nav class="navbar">
         <div class="navbar-container">
             <div class="logo">MindBridge</div>
             <ul class="menu">
-               <li><a href={% url 'home' %}>Home</a></li>
-                <li><a href={% url 'home' %}>Discussions</a></li>
+                <li><a href={% url 'base:home' %}>Home</a></li>
+                <li><a href={% url 'base:discussions' %}>Discussions</a></li>
                 <li class="dropdown">
                     <button onclick="toggleDropdown()" class="dropbtn"><a class="active" href={% url 'library' %}>Library</a></button>
                     <div class="dropdown-content" id="libraryDropdown">
@@ -526,32 +444,37 @@
                 <input type="text" id="searchInput" placeholder="Search for..." onkeyup="filterContent()"/>
             </div>
             <div class="icons">
-                <a href="message.html"><i class="fa-regular fa-comment"></i></a>
                 <i class="fa-regular fa-bell"></i>
                 <div class="avatar-dropdown">
-                    <div class="avatar" onclick="toggleMenu()">
-                        <img src="library/ava.png" alt="Profile Picture"/>
-                    </div>
+                    {% if not request.user.profile.avatar %}
+                    <img src="{% static 'icons/no_avatar.jpg' %}" alt="Profile" class="avatar" onclick="toggleMenu()">
+                {% else %}
+                    <img src="{{ request.user.profile.avatar.url }}" alt="Profile" class="avatar"
+                         onclick="toggleMenu()">
+                {% endif %}
                     <div class="dropdown-menu" id="profileMenu">
-                        <a href={% url 'user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>
-                        <a href={% url 'edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i> Edit</a>
-                        <a href="saved.html"><i class="fa-regular fa-bookmark"></i> Saved</a>
-                        <a href={% url 'logout' %}><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
+                        <a href={% url 'base:user-profile' request.user.id %}><i class="fa-regular fa-user"></i> Profile</a>
+                        <a href={% url 'base:edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i> Edit</a>
+                        <a href={% url 'base:saved-discussions' %}><i class="fa-regular fa-bookmark"></i> Saved</a>
+                        <a href={% url 'auth:logout' %}><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </nav>
 </header>
 
 <div class="page-container">
     <main class="content">
-        <!-- 🟩 Большая карточка книги -->
         <div class="big-book-card">
-            <h1>How do you create a class in Java?</h1>
-            <p class="author">J. Miles</p>
-            <a href="#" class="download-button">Download file</a>
+            <h1>{{ lesson }}</h1>
+            {% if lesson.author.first_name and lesson.author.last_name %}
+                <p class="author">{{ lesson.author.first_name }} {{ lesson.author.last_name }}</p>
+            {% else %}
+                <p class="author">@{{ lesson.author.username }}</p>
+            {% endif %}
+
+            <a href="{{ book.pdf_file.url }}" class="download-button">Download file</a>
         </div>
 
         <!-- 🟦 Рекомендации -->
@@ -646,11 +569,16 @@
         <p class="footer-copy">2025 MindBridge</p>
     </div>
 </footer>
-</body>
+
 <script>
+    // Variables from first file
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('/library/post.png');
+    const input = document.getElementById('searchInput');
+    const cards = document.querySelectorAll('.post-card');
+
+    // Functions from first file
     function openModal(src) {
-        const modal = document.getElementById('modal');
-        const modalImg = document.getElementById('/library/post.png');
         modal.style.display = 'flex';
         modalImg.src = src;
     }
@@ -663,21 +591,9 @@
         document.getElementById("libraryDropdown").classList.toggle("show");
     }
 
-    window.onclick = function (event) {
-        if (!event.target.matches('.dropbtn')) {
-            const dropdowns = document.getElementsByClassName("dropdown-content");
-            for (let i = 0; i < dropdowns.length; i++) {
-                dropdowns[i].classList.remove('show');
-            }
-        }
-    }
-
     function filterContent() {
-        const input = document.getElementById('searchInput');
         const filter = input.value.toLowerCase();
-        const cards = document.querySelectorAll('.post-card');
-
-        cards.forEach(function (card) {
+        cards.forEach(function(card) {
             const text = card.textContent.toLowerCase();
             card.style.display = text.includes(filter) ? 'block' : 'none';
         });
@@ -687,10 +603,42 @@
         document.getElementById("profileMenu").classList.toggle("show");
     }
 
-    window.onclick = function (event) {
+    // Event Listeners from first file
+    window.onclick = function(event) {
+        // Conditional statement
+        if (!event.target.matches('.dropbtn')) {
+            const dropdowns = document.getElementsByClassName("dropdown-content");
+            // Loop
+            for (let i = 0; i < dropdowns.length; i++) {
+                dropdowns[i].classList.remove('show');
+            }
+        }
+
+        // Another conditional
         if (!event.target.closest('.avatar-dropdown')) {
             document.getElementById("profileMenu").classList.remove("show");
         }
     }
+
+    // Additional functionality from first file
+    document.addEventListener('DOMContentLoaded', function() {
+        // Example of additional initialization
+        const downloadButtons = document.querySelectorAll('.download-button');
+
+        // Loop through buttons
+        downloadButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Conditional check
+                if (confirm('Are you sure you want to download this file?')) {
+                    alert('Download started!');
+                    // Here you would typically initiate the download
+                } else {
+                    console.log('Download canceled');
+                }
+            });
+        });
+    });
 </script>
+</body>
 </html>

@@ -1,51 +1,12 @@
-{% load static %}
-{##}
-{#<!doctype html>#}
-{#<html lang="en">#}
-{#<head>#}
-{#    <meta charset="UTF-8">#}
-{#    <meta name="viewport"#}
-{#          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">#}
-{#    <meta http-equiv="X-UA-Compatible" content="ie=edge">#}
-{#    <link rel="stylesheet" href="{% static 'base/home.css' %}">#}
-{#    <title>MindBridge</title>#}
-{#</head>#}
-{#<body>#}
-{% include 'navbar.html' %}
-{##}
-{##}
-{#<div class="filters">#}
-{#    {% for tag in tags %}#}
-{#        <button onclick="window.location='{% url 'home' %}?q={{ tag.slug }}'">#{{ tag.name }}</button>#}
-{#    {% endfor %}#}
-{#</div>#}
-{#<button class="new-discussion">+ Ask</button>#}
-{#<button class="new-discussion" onclick="window.location='{% url 'create-discussion' %}'">Create discussion</button>#}
-{#<div class="container mt-4">#}
-{#    <h2 class="mb-3">For you</h2>#}
-{##}
-{##}
-{#    <div class="mb-3">#}
-{#        <strong>Filter by Hashtag:</strong>#}
-{#        <span id="filter-tag" class="text-primary"></span>#}
-{#        <button class="btn btn-sm btn-danger d-none" id="clear-filter">Clear Filter</button>#}
-{#    </div>#}
-{##}
-{##}
-{#    <div id="posts-container"></div>#}
-{#</div>#}
-{##}
-{% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
-
+<!doctype html>
+<html lang="en">
+<head>
+    {% block extra_head %}
+    {% endblock %}
+</head>
+<body>{% include 'navbar.html' %}
 {% block content %}
 
 {% endblock %}
-{##}
-{#</body>#}
-{#</html>#}
+</body>
+</html>

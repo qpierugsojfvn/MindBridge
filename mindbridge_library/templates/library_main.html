@@ -638,10 +638,9 @@
                     <a onclick="toggleDropdown()" class="dropbtn active"> Library</a>
                     <div class="dropdown-content" id="libraryDropdown">
                         <a href="{% url 'library' %}" class="active">Library Home</a>
-                        <a href="{% url 'filter_articles' %}"
-                           class="tag {% if current_filter == 'article' %}active{% endif %}">Library Book</a>
+                        <a href="{% url 'filter_articles' %}" class="tag">Library Book</a>
                         <a href="{% url 'filter_videos' %}"
-                           class="tag {% if current_filter == 'video' %}active{% endif %}">Library Videos</a>
+                           class="tag">Library Videos</a>
                     </div>
                 </li>
                 <li><a href="{% url 'careers:vacancy_list' %}">Career</a></li>
@@ -788,7 +787,7 @@
                     </div>
                 {% empty %}
                     <div class="no-results">
-                        <img src="{% static 'icons/no-results.svg' %}" alt="No lessons found" class="no-results-image">
+                        <img src="{% static 'icons/no_results.png' %}" alt="No lessons found" class="no-results-image">
                         <h3>No lessons found</h3>
                         <p>{% if current_filter %}Your filter didn't match any lessons{% else %}There are no lessons
                             yet{% endif %}</p>

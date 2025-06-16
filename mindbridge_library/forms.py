@@ -23,7 +23,7 @@ class LessonForm(forms.ModelForm):
         model = Lesson
         fields = [
             'title', 'description', 'format',
-            'content', 'video_url', 'duration', 'is_published'
+            'content', 'video_url', 'video_file', 'duration', 'is_published'
         ]
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
@@ -34,9 +34,13 @@ class LessonForm(forms.ModelForm):
         cleaned_data = super().clean()
         format = cleaned_data.get('format')
         video_url = cleaned_data.get('video_url')
+        video_file = cleaned_data.get('video_file')
 
-        if format == 'video' and not video_url:
-            self.add_error('video_url', 'Video URL is required for video lessons')
+        if format == 'video':
+            if not video_url and not video_file:
+                raise forms.ValidationError("Either video URL or video file is required for video lessons")
+            if video_url and video_file:
+                raise forms.ValidationError("Please provide either a video URL or upload a video file, not both")
 
         return cleaned_data
 
@@ -58,6 +62,7 @@ class AttachmentForm(forms.ModelForm):
     class Meta:
         model = LessonAttachment
         fields = ['pdf_file', 'title']
+        required=True
         widgets = {
             'pdf_file': forms.FileInput(attrs={
                 'accept': '.pdf',

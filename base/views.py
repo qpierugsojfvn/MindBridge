@@ -2,7 +2,7 @@
 # from google.auth.transport import requests
 
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
@@ -274,6 +274,7 @@ def get_three_weeks_activity(request):
 
     return {
         'activity_days': activity_array,
+        'activity_dates': date_list,
         'activity_percent': activity_percent
     }
 
@@ -332,8 +333,21 @@ def user_profile(request, pk):
 
     user = get_object_or_404(User, id=pk)
 
+    user_discussions=Discussion.objects.filter(host=user).order_by('-created_at')
+
+    all_discussions=Discussion.objects.filter(host=user).order_by('-created_at')
+
+    user_answers = Answer.objects.filter(user=user).select_related('discussion', 'discussion__host').order_by(
+        '-created_at')
+
     activity = get_three_weeks_activity(request)
-    # print(activity.get('activity_days'))
+    zipped_dates = list(zip(activity['activity_dates'], activity['activity_days']))
+    today=datetime.now()
+
+    calendar_data = []
+    if activity['activity_dates'] and activity['activity_days']:
+        calendar_data = list(zip(activity['activity_dates'], activity['activity_days']))
+
     context = {
         'user': user,
         'profile': user.profile,
@@ -341,6 +355,14 @@ def user_profile(request, pk):
         'recent_answers': Answer.objects.filter(user=user).order_by('-created_at')[:5],
         'activity_days': activity.get('activity_days'),
         'activity_percent': activity.get('activity_percent'),
+        'zipped_dates': zipped_dates,
+        'calendar_data': calendar_data,
+        'today': today,
+        'user_discussions': user_discussions,
+        'discussions_count': user_discussions.count(),
+        'user_answers': user_answers,
+        'answers_count': user_answers.count(),
+        'all_discussions': all_discussions,
     }
     return render(request, 'base/profile.html', context)
 
@@ -445,7 +467,7 @@ def view_discussion(request):
     context = {
         'popular_tags': get_popular_tags(request),
     }
-    return render(request, 'base/viewdisscusion.html', context)
+    return render(request, 'base/discussion.html', context)
 
 
 @login_required(login_url='login')

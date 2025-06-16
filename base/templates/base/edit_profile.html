@@ -357,6 +357,8 @@
 
 
 
+
+
                 {% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}{% static 'icons/no_avatar.jpg' %}{% endif %}"
              alt="Profile Picture"
              class="avatar1"
@@ -402,7 +404,7 @@
                         {{ p_form.location }}
                     </div>
 
-                     <div class="form-group">
+                    <div class="form-group">
                         <label for="{{ u_form.email.id_for_label }}">Email</label>
                         {{ u_form.email }}
                         {% if u_form.email.errors %}
@@ -410,111 +412,111 @@
                         {% endif %}
                     </div>
                 </div>
-                </form>
+    </form>
 
-                <form method="POST" action="{% url 'auth:reset-password' %}">
-                    {% csrf_token %}
-                    <div class="form-box">
-                         {% if form.errors %}
-                            <div class="form-errors">
-                                {% for field, errors in form.errors.items %}
-                                    {% for error in errors %}
-                                        <p class="error-message">{{ error }}</p>
-                                    {% endfor %}
-                                {% endfor %}
+    <form method="POST" action="{% url 'auth:reset-password' %}">
+        {% csrf_token %}
+        <div class="form-box">
+            {% if form.errors %}
+                <div class="form-errors">
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <p class="error-message">{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <h3>Password reset</h3>
+
+            <div class="form-group">
+                <label for="current_password">Current Password</label>
+                <input type="password" name="current_password" id="current_password"
+                       class="form-control" placeholder="Enter current password to make changes">
+            </div>
+
+            <div class="form-group">
+                <label for="new_password1">New Password</label>
+                <input type="password" name="new_password1" id="new_password1"
+                       class="form-control" placeholder="Enter new password (leave blank to keep current)">
+            </div>
+
+            <div class="form-group">
+                <label for="new_password2">Confirm New Password</label>
+                <input type="password" name="new_password2" id="new_password2"
+                       class="form-control" placeholder="Confirm your new password">
+            </div>
+
+            <div class="form-group">
+                <button class="save-btn" type="submit">Reset password</button>
+            </div>
+    </form>
+{#    </div>#}
+
+    <!-- Right column -->
+    <div class="form-right">
+        <div class="form-box">
+            <h3>About Me</h3>
+            <div class="form-group">
+                <label for="{{ p_form.about.id_for_label }}">About Me</label>
+                {{ p_form.about }}
+                <small class="form-text">Tell others about your experience and skills</small>
+            </div>
+        </div>
+
+        <div class="form-box">
+            <h3>Interests</h3>
+            <div class="form-group">
+                <div class="tags" id="interests-container">
+                    {% for interest in user.profile.interests.all %}
+                        <span class="tag">{{ interest.name }}<span class="remove-tag">&times;</span></span>
+                    {% endfor %}
+                </div>
+                <input type="text" id="new-interest" class="form-control mt-2"
+                       placeholder="Add new interest (press Enter to add)">
+                {{ p_form.interests }}
+            </div>
+        </div>
+
+        <div class="form-box">
+            <h3>Profile Picture</h3>
+            <div class="form-group">
+                <div class="avatar-preview-container">
+                    <div class="avatar-preview-wrapper">
+                        {% if user.profile.avatar %}
+                            <img src="{{ user.profile.avatar.url }}" alt="Current Profile Picture"
+                                 class="current-avatar-preview" id="avatar-preview">
+                        {% else %}
+                            <img src="{% static 'icons/no_avatar.jpg' %}" alt="Default Profile Picture"
+                                 class="current-avatar-preview" id="avatar-preview">
+                        {% endif %}
+                    </div>
+                    <div class="file-upload-wrapper">
+                        <label for="{{ p_form.avatar.id_for_label }}" class="file-upload-label">
+                            <span class="file-upload-text">Choose new photo</span>
+                            {{ p_form.avatar }}
+                        </label>
+                        {% if user.profile.avatar %}
+                            <div class="form-check mt-2">
+                                <input type="checkbox" name="avatar-clear" id="avatar-clear"
+                                       class="form-check-input">
+                                <label for="avatar-clear" class="form-check-label">Remove current
+                                    picture</label>
                             </div>
                         {% endif %}
-
-                        <h3>Password reset</h3>
-
-                        <div class="form-group">
-                            <label for="current_password">Current Password</label>
-                            <input type="password" name="current_password" id="current_password"
-                                   class="form-control" placeholder="Enter current password to make changes">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="new_password1">New Password</label>
-                            <input type="password" name="new_password1" id="new_password1"
-                                   class="form-control" placeholder="Enter new password (leave blank to keep current)">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="new_password2">Confirm New Password</label>
-                            <input type="password" name="new_password2" id="new_password2"
-                                   class="form-control" placeholder="Confirm your new password">
-                        </div>
-
-                        <div class="form-group">
-                            <button class="save-btn" type="submit">Reset password</button>
-                        </div>
-                </form>
-            </div>
-
-            <!-- Right column -->
-            <div class="form-right">
-                <div class="form-box">
-                    <h3>About Me</h3>
-                    <div class="form-group">
-                        <label for="{{ p_form.about.id_for_label }}">About Me</label>
-                        {{ p_form.about }}
-                        <small class="form-text">Tell others about your experience and skills</small>
                     </div>
                 </div>
-
-                <div class="form-box">
-                    <h3>Interests</h3>
-                    <div class="form-group">
-                        <div class="tags" id="interests-container">
-                            {% for interest in user.profile.interests.all %}
-                                <span class="tag">{{ interest.name }}<span class="remove-tag">&times;</span></span>
-                            {% endfor %}
-                        </div>
-                        <input type="text" id="new-interest" class="form-control mt-2"
-                               placeholder="Add new interest (press Enter to add)">
-                        {{ p_form.interests }}
-                    </div>
-                </div>
-
-                <div class="form-box">
-                    <h3>Profile Picture</h3>
-                    <div class="form-group">
-                        <div class="avatar-preview-container">
-                            <div class="avatar-preview-wrapper">
-                                {% if user.profile.avatar %}
-                                    <img src="{{ user.profile.avatar.url }}" alt="Current Profile Picture"
-                                         class="current-avatar-preview" id="avatar-preview">
-                                {% else %}
-                                    <img src="{% static 'icons/no_avatar.jpg' %}" alt="Default Profile Picture"
-                                         class="current-avatar-preview" id="avatar-preview">
-                                {% endif %}
-                            </div>
-                            <div class="file-upload-wrapper">
-                                <label for="{{ p_form.avatar.id_for_label }}" class="file-upload-label">
-                                    <span class="file-upload-text">Choose new photo</span>
-                                    {{ p_form.avatar }}
-                                </label>
-                                {% if user.profile.avatar %}
-                                    <div class="form-check mt-2">
-                                        <input type="checkbox" name="avatar-clear" id="avatar-clear"
-                                               class="form-check-input">
-                                        <label for="avatar-clear" class="form-check-label">Remove current
-                                            picture</label>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <small class="form-text">Recommended size: 500x500 pixels (max 2MB)</small>
-                    </div>
-                </div>
+                <small class="form-text">Recommended size: 500x500 pixels (max 2MB)</small>
             </div>
         </div>
+    </div>
+{#    </div>#}
 
-        <div class="buttons">
-            <button class="save-btn" type="submit">Save Changes</button>
-            <a class="cancel-btn" href="{% url 'base:user-profile' pk=user.id %}">Cancel</a>
-        </div>
-    </form>
+    <div class="buttons">
+        <button class="save-btn" type="submit">Save Changes</button>
+        <a class="cancel-btn" href="{% url 'base:user-profile' pk=user.id %}">Cancel</a>
+    </div>
+{#    </form>#}
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

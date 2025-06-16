@@ -20,7 +20,8 @@ class Lesson(models.Model):
     format = models.CharField(max_length=10, choices=LESSON_FORMAT_CHOICES)
     content = models.TextField(
         help_text="Main content of the lesson. For videos, this can be a description or transcript.")
-    video_url = models.URLField(blank=True, null=True, help_text="Required if format is video")
+    video_url = models.URLField(blank=True, null=True)
+    video_file = models.FileField(upload_to='videos/', blank=True, null=True)
     duration = models.PositiveIntegerField(blank=True, null=True, help_text="Duration in minutes")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

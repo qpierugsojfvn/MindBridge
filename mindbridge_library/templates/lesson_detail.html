@@ -1,86 +1,106 @@
 {% extends 'main.html' %}
 {% load static %}
-{% load embed_video_tags %}
 
 {% block content %}
-    <div class="lesson-container">
-        <h1>{{ lesson.title }}</h1>
-        <p class="meta">By {{ lesson.author }} | {{ lesson.created_at|date }}</p>
+<div class="lesson-container">
+    <h1>{{ lesson.title }}</h1>
+    <p class="author">Author: {{ lesson.author.get_full_name|default:lesson.author.username }}</p>
 
-        {% if lesson.format == 'video' %}
-            <div class="video-container">
-{#                <iframe width="100%" height="500" src="{{ lesson.video_url }}" frameborder="0" allowfullscreen></iframe>#}
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/eaLPAkNgpJE?si=EdnIJXDy9VY5vldT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            </div>
-            {{ lesson.content|linebreaks }}
-
-            {% if user_progress and not user_progress.is_completed %}
-                <div class="progress-notice">
-                    <p>Continue watching ({{ user_progress.get_progress_percentage }}% completed)</p>
-                </div>
-            {% endif %}
-        {% else %}
-            <div class="article-content">
-                {{ lesson.content|linebreaks }}
-
-                {% if user_progress and not user_progress.is_completed %}
-                    <div class="progress-notice">
-                        <p>Continue reading ({{ user_progress.get_progress_percentage }}% completed)</p>
-                    </div>
+    {% if lesson.format == 'video' %}
+        <div class="video-wrapper">
+            {% if lesson.video_url %}
+                {% if 'youtube.com' in lesson.video_url or 'youtu.be' in lesson.video_url %}
+                    <iframe src="https://www.youtube.com/embed/{{ lesson.video_url|slice:'-11:' }}"
+                            allowfullscreen></iframe>
+                {% elif 'vimeo.com' in lesson.video_url %}
+                    <iframe src="https://player.vimeo.com/video/{{ lesson.video_url|slice:'18:' }}"
+                            allowfullscreen></iframe>
+                {% else %}
+                    <video controls>
+                        <source src="{{ lesson.video_url }}">
+                    </video>
                 {% endif %}
-            </div>
-        {% endif %}
-
-        <div class="attachments">
-            <h3>Attachments</h3>
-            {% for attachment in attachments %}
-                <div class="attachment">
-                    <a href="{{ attachment.pdf_file.url }}"
-                       target="_blank">{{ attachment.title|default:attachment.pdf_file.name }}</a>
-                </div>
-            {% empty %}
-                <p>No attachments for this lesson.</p>
-            {% endfor %}
-
-            {% if lesson.author == request.user %}
-                <a href="{% url 'add_attachment' slug=lesson.slug %}">Add Attachment</a>
+            {% else %}
+                <video controls>
+                    <source src="{{ lesson.video_file.url }}">
+                </video>
             {% endif %}
         </div>
+    {% endif %}
+
+    <div class="lesson-body">
+        <h2>Lesson Content</h2>
+        {{ lesson.content|linebreaks }}
     </div>
 
-    {% if request.user.is_authenticated %}
-        <script>
-            // AJAX call to update progress
-            document.addEventListener('DOMContentLoaded', function () {
-                {% if lesson.format == 'video' %}
-                    // For video, you'd track time updates
-                    // This is a simplified version
-                    const video = document.querySelector('iframe');
-                    // You'd need to use the YouTube API or similar for actual video tracking
-                {% else %}
-                    // For articles, track scroll position
-                    window.addEventListener('scroll', function () {
-                        const article = document.querySelector('.article-content');
-                        const scrollPosition = window.scrollY;
-                        const articleHeight = article.offsetHeight;
-                        const windowHeight = window.innerHeight;
-
-                        const position = Math.min(scrollPosition / (articleHeight - windowHeight), 1);
-                        const charPosition = Math.floor(position * {{ lesson.content|length }});
-
-                        // Update progress
-                        fetch("{% url 'update_progress' slug=lesson.slug %}", {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'X-CSRFToken': '{{ csrf_token }}'
-                            },
-                            body: `position=${charPosition}&completed=${position >= 0.95}`
-                        });
-                    });
-                {% endif %}
-            });
-        </script>
+    {% if attachments %}
+    <div class="lesson-attachments">
+        <h3>Downloads</h3>
+        <ul>
+            {% for attachment in attachments %}
+            <li>
+                <a href="{{ attachment.pdf_file.url }}" download>
+                    <i class="fas fa-file-pdf"></i> {{ attachment.title }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
     {% endif %}
+</div>
+
+<style>
+    .lesson-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .author {
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    .video-wrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        margin-bottom: 20px;
+    }
+
+    .video-wrapper iframe,
+    .video-wrapper video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .lesson-body {
+        margin: 30px 0;
+    }
+
+    .lesson-attachments ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .lesson-attachments li {
+        margin: 10px 0;
+    }
+
+    .lesson-attachments a {
+        color: #d63384;
+        text-decoration: none;
+    }
+
+    .lesson-attachments a:hover {
+        text-decoration: underline;
+    }
+
+    .fa-file-pdf {
+        margin-right: 8px;
+        color: #d63384;
+    }
+</style>
 {% endblock %}

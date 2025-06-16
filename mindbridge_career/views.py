@@ -59,7 +59,7 @@ def post_vacancy(request):
             return redirect('vacancy_detail', pk=vacancy.pk)
     else:
         form = VacancyForm()
-    return render(request, 'careers/post_vacancy.html', {'form': form})
+    return render(request, 'careers/vacancy_form.html', {'form': form})
 
 @login_required
 @role_required(['EMPLOYEE', 'ADMIN'])

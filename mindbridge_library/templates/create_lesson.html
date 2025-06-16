@@ -1,88 +1,197 @@
-<!-- templates/lessons/create_lesson.html -->
 {% extends 'main.html' %}
+{% load static %}
 
-{% block content %}
-<div class="container">
-    <h2>Create New Lesson</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-
-        {{ form.non_field_errors }}
-
-        <div class="form-group">
-            {{ form.title.label_tag }}
-            {{ form.title }}
-            {{ form.title.errors }}
-        </div>
-
-        <div class="form-group">
-            {{ form.description.label_tag }}
-            {{ form.description }}
-            {{ form.description.errors }}
-        </div>
-
-        <div class="form-group">
-            {{ form.format.label_tag }}
-            {{ form.format }}
-            {{ form.format.errors }}
-        </div>
-
-        <div id="video-url-field" class="form-group" style="display: none;">
-            {{ form.video_url.label_tag }}
-            {{ form.video_url }}
-            {{ form.video_url.errors }}
-        </div>
-
-        <div class="form-group">
-            {{ form.content.label_tag }}
-            {{ form.content }}
-            {{ form.content.errors }}
-        </div>
-
-        <div class="form-group">
-            {{ form.duration.label_tag }}
-            {{ form.duration }}
-            {{ form.duration.errors }}
-        </div>
-
-        <div class="form-group">
-            {{ form.is_published.label_tag }}
-            {{ form.is_published }}
-        </div>
-
-        <h3>Attachment</h3>
-        <div class="form-group">
-            {{ form.attachment.label_tag }}
-            {{ form.attachment }}
-            <small class="form-text text-muted">{{ form.attachment.help_text }}</small>
-            {{ form.attachment.errors }}
-        </div>
-
-        <div class="form-group">
-            {{ form.attachment_title.label_tag }}
-            {{ form.attachment_title }}
-            {{ form.attachment_title.errors }}
-        </div>
-
-        <button type="submit" class="btn btn-primary">Create Lesson</button>
-    </form>
-</div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const formatField = document.querySelector('#id_format');
-    const videoUrlField = document.querySelector('#video-url-field');
-
-    function toggleVideoField() {
-        if (formatField.value === 'video') {
-            videoUrlField.style.display = 'block';
-        } else {
-            videoUrlField.style.display = 'none';
+{% block extra_head %}
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Lesson - MindBridge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --main-bg: #f8f9fb;
+            --accent: #d174e1;
+            --primary-dark: #0f2940;
+            --pink: #ff3fc8;
+            --text-color: #333;
+            --border-color: #ddd;
         }
-    }
 
-    formatField.addEventListener('change', toggleVideoField);
-    toggleVideoField(); // Initialize
-});
-</script>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--main-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        h1 {
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .lesson-form {
+            display: grid;
+            gap: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        input[type="text"],
+        input[type="url"],
+        input[type="number"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="url"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .file-upload-input {
+            padding: 8px;
+        }
+
+        .btn {
+            background-color: var(--pink);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #e127b2;
+        }
+
+        .video-fields {
+            display: none;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .form-text {
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .errorlist {
+            color: #e74c3c;
+            margin-top: 5px;
+            list-style: none;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="page-container">
+        <main class="content">
+            <h1>Create New Lesson</h1>
+
+            <form method="post" enctype="multipart/form-data" class="lesson-form">
+                {% csrf_token %}
+
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.errors %}
+                            <ul class="errorlist">
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% if field.help_text %}
+                            <small class="form-text">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <button type="submit" class="btn">Create Lesson</button>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const formatSelect = document.getElementById('id_format');
+            const contentField = document.querySelector('.content-field');
+            const videoFields = document.querySelector('.video-fields');
+
+            function toggleFields() {
+                if (formatSelect.value === 'video') {
+                    contentField.style.display = 'none';
+                    videoFields.style.display = 'block';
+                } else {
+                    contentField.style.display = 'block';
+                    videoFields.style.display = 'none';
+                }
+            }
+
+            // Initial toggle
+            toggleFields();
+
+            // Toggle when format changes
+            formatSelect.addEventListener('change', toggleFields);
+        });
+    </script>
 {% endblock %}

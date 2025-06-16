@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<html lang="en">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -912,6 +911,9 @@
                             Profile</a>
                         <a href="{% url 'base:edit-profile' request.user.id %}"><i class="fa-solid fa-pen"></i> Edit</a>
                         <a href="{% url 'base:saved-discussions' %}"><i class="fa-regular fa-bookmark"></i> Saved</a>
+                        {% if user.is_staff %}
+                            <a href="{% url 'admin:index' %}"><i class="fa-regular fa-hammer"></i>Admin panel</a>
+                        {% endif %}
                         <a href="{% url 'auth:logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
                     </div>
                 </div>
@@ -1199,17 +1201,6 @@
             </div>
         </div>
     </div>
-</div>
-<div class="pagination">
-    <button>&lt;</button>
-    <button class="active">1</button>
-    <button>2</button>
-    <button>3</button>
-    <button>4</button>
-    <button>5</button>
-    <span class="dots">...</span>
-    <button>10</button>
-    <button>&gt;</button>
 </div>
 
 <script>
