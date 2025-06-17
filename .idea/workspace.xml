@@ -4,26 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="Fixed library forms;&#10;Hidden admin panel;&#10;Changed site ID (fixed prod db)">
-      <change beforePath="$PROJECT_DIR$/.idea/MindBridge.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MindBridge.iml" afterDir="false" />
+    <list default="true" id="c1909d86-8200-4e91-9826-e76f309055be" name="Changes" comment="add custom domain to CSRF_TRUSTED_ORIGINS">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MindBridge/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MindBridge/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/discussion.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/discussion.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/edit_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/edit_profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/templates/base/static/style/userprofile.css" beforeDir="false" afterPath="$PROJECT_DIR$/base/templates/base/static/style/userprofile.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/base/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_career/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_career/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_library/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_library/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_library/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_library/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_library/templates/create_lesson.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_library/templates/create_lesson.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_library/templates/lesson_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_library/templates/lesson_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_library/templates/library_book.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_library/templates/library_book.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_library/templates/library_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_library/templates/library_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mindbridge_library/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mindbridge_library/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/navbar.html" afterDir="false" />
     </list>
     <list id="321f1dca-06e3-4bc8-b51e-b75544aa79c3" name="local ignore" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,8 +19,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -61,10 +43,13 @@
     &quot;assignee&quot;: &quot;qpierugsojfvn&quot;
   }
 }</component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="767673c7-28ae-429b-828d-2d6d02d3f4f8" />
+  </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/qpierugsojfvn/MindBridge.git&quot;,
-    &quot;accountId&quot;: &quot;ec1b03f2-297d-4a7e-9d45-d2c01b8c83c3&quot;
+    &quot;accountId&quot;: &quot;b46aaf78-05ab-4361-bfd8-afe8bfbe77e8&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -132,11 +117,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.13 (MindBridge)" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/manage.py" />
       <option name="PARAMETERS" value="runserver" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -150,8 +135,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.26053.29" />
-        <option value="bundled-python-sdk-b1dbf8ef85a6-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.26053.29" />
+        <option value="bundled-python-sdk-4f4e415b4190-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.26053.29" />
       </set>
     </attachedChunks>
   </component>
@@ -176,9 +160,6 @@
       <workItem from="1749018456859" duration="6601000" />
       <workItem from="1749034247928" duration="6480000" />
       <workItem from="1749109003636" duration="996000" />
-      <workItem from="1750011238795" duration="4728000" />
-      <workItem from="1750063335115" duration="3726000" />
-      <workItem from="1750073637264" duration="9128000" />
     </task>
     <task id="LOCAL-00001" summary="Fixing sign up and removing career app only for now">
       <option name="closed" value="true" />
@@ -276,23 +257,31 @@
       <option name="project" value="LOCAL" />
       <updated>1749986677593</updated>
     </task>
-    <task id="LOCAL-00013" summary="Fixed library forms;&#10;Hidden admin panel;&#10;Changed site ID">
+    <task id="LOCAL-00013" summary="fix change avatar">
       <option name="closed" value="true" />
-      <created>1749998192358</created>
+      <created>1749991692283</created>
       <option name="number" value="00013" />
       <option name="presentableId" value="LOCAL-00013" />
       <option name="project" value="LOCAL" />
-      <updated>1749998192358</updated>
+      <updated>1749991692283</updated>
     </task>
-    <task id="LOCAL-00014" summary="Fixed library forms;&#10;Hidden admin panel;&#10;Changed site ID (fixed prod db)">
+    <task id="LOCAL-00014" summary="add custom domain to allowed hosts">
       <option name="closed" value="true" />
-      <created>1749998477473</created>
+      <created>1749991796203</created>
       <option name="number" value="00014" />
       <option name="presentableId" value="LOCAL-00014" />
       <option name="project" value="LOCAL" />
-      <updated>1749998477473</updated>
+      <updated>1749991796203</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="add custom domain to CSRF_TRUSTED_ORIGINS">
+      <option name="closed" value="true" />
+      <created>1749992016038</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1749992016038</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -350,8 +339,9 @@
     <MESSAGE value="fix migrate" />
     <MESSAGE value="reset password" />
     <MESSAGE value="fix settings py" />
-    <MESSAGE value="Fixed library forms;&#10;Hidden admin panel;&#10;Changed site ID" />
-    <MESSAGE value="Fixed library forms;&#10;Hidden admin panel;&#10;Changed site ID (fixed prod db)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed library forms;&#10;Hidden admin panel;&#10;Changed site ID (fixed prod db)" />
+    <MESSAGE value="fix change avatar" />
+    <MESSAGE value="add custom domain to allowed hosts" />
+    <MESSAGE value="add custom domain to CSRF_TRUSTED_ORIGINS" />
+    <option name="LAST_COMMIT_MESSAGE" value="add custom domain to CSRF_TRUSTED_ORIGINS" />
   </component>
 </project>
