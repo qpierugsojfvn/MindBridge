@@ -28,41 +28,44 @@ class LessonForm(forms.ModelForm):
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
             'content': forms.Textarea(attrs={'rows': 10}),
+            'format': forms.Select(attrs={'onchange': "toggleFields()"}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['duration'].widget.attrs['readonly'] = True
 
     def clean(self):
         cleaned_data = super().clean()
         format = cleaned_data.get('format')
+        content = cleaned_data.get('content')
         video_url = cleaned_data.get('video_url')
         video_file = cleaned_data.get('video_file')
+        attachment = cleaned_data.get('attachment')
 
         if format == 'video':
             if not video_url and not video_file:
                 raise forms.ValidationError("Either video URL or video file is required for video lessons")
             if video_url and video_file:
                 raise forms.ValidationError("Please provide either a video URL or upload a video file, not both")
+            if attachment:
+                raise forms.ValidationError("Attachments are not allowed for video lessons")
+            if content:
+                raise forms.ValidationError("Content field should be empty for video lessons")
+        else:  # article
+            if not content:
+                raise forms.ValidationError("Content is required for articles")
+            if video_url or video_file:
+                raise forms.ValidationError("Video fields should be empty for articles")
 
         return cleaned_data
-
-    def save(self, commit=True):
-        lesson = super().save(commit=commit)
-
-        # Handle attachment if provided
-        if commit and self.cleaned_data.get('attachment'):
-            LessonAttachment.objects.create(
-                lesson=lesson,
-                pdf_file=self.cleaned_data['attachment'],
-                title=self.cleaned_data.get('attachment_title', '')
-            )
-
-        return lesson
 
 
 class AttachmentForm(forms.ModelForm):
     class Meta:
         model = LessonAttachment
         fields = ['pdf_file', 'title']
-        required=True
+        required = True
         widgets = {
             'pdf_file': forms.FileInput(attrs={
                 'accept': '.pdf',

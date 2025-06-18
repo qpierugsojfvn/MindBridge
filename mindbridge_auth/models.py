@@ -1,3 +1,4 @@
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.contrib.auth.models import User
 from base.models import City
@@ -11,6 +12,7 @@ class Interest(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class UserProfile(models.Model):
     ROLE_CHOICES = [
@@ -29,7 +31,15 @@ class UserProfile(models.Model):
         upload_to='avatars/',
         null=True,
         blank=True,
-        help_text="Upload a profile picture (max 2MB)"
+        help_text="Upload a square profile picture (max 2MB)",
+        validators=[FileExtensionValidator(['jpg', 'jpeg', 'png'])]
+    )
+    cover_photo = models.ImageField(
+        upload_to='cover_photos/',
+        null=True,
+        blank=True,
+        help_text="Upload a wide cover photo (recommended ratio 3:1, max 2MB)",
+        validators=[FileExtensionValidator(['jpg', 'jpeg', 'png'])]
     )
     interests = models.ManyToManyField(Interest, blank=True)
     city = models.ForeignKey(City, null=True, blank=True, on_delete=models.SET_NULL)
@@ -49,15 +59,25 @@ class UserProfile(models.Model):
             return self.avatar.url
         return '/static/images/default_avatar.png'
 
+    def get_cover_photo_url(self):
+        if self.cover_photo and hasattr(self.cover_photo, 'url'):
+            return self.cover_photo.url
+        return None
+
     def save(self, *args, **kwargs):
-        # Delete old avatar when updating
         try:
             old = UserProfile.objects.get(pk=self.pk)
             if old.avatar and old.avatar != self.avatar:
                 old.avatar.delete(save=False)
+            if old.cover_photo and old.cover_photo != self.cover_photo:
+                old.cover_photo.delete(save=False)
         except UserProfile.DoesNotExist:
             pass
         super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'User Profile'
+        verbose_name_plural = 'User Profiles'
 
 
 @receiver(post_save, sender=User)

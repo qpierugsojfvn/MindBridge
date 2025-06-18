@@ -50,17 +50,6 @@ class ReportedDiscussion(models.Model):
     class Meta:
         unique_together = ('user', 'discussion')
 
-#
-# class Answer(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     discussion = models.ForeignKey(Discussion, on_delete=models.CASCADE, related_name='answers')
-#     content = models.TextField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#
-#     def __str__(self):
-#         return self.content[0:50]
-
 
 class Answer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

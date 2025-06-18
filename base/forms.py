@@ -153,16 +153,34 @@ class ProfileUpdateForm(forms.ModelForm):
         widget=forms.HiddenInput(),
         help_text="Comma-separated list of interests"
     )
+    cover_photo = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={
+            'class': 'form-control-file',
+            'accept': 'image/*'
+        })
+    )
 
     class Meta:
         model = UserProfile
-        fields = ['avatar', 'bio', 'location', 'about', 'interests']
+        fields = ['avatar', 'cover_photo', 'bio', 'location', 'about', 'interests']
 
     def clean_profile_pic(self):
         picture = self.cleaned_data.get('avatar')
         if picture and picture.size > 2 * 1024 * 1024:  # 2MB limit
             raise ValidationError("Image file too large ( > 2MB )")
         return picture
+
+    def clean_cover_photo(self):
+        cover_photo = self.cleaned_data.get('cover_photo')
+        if cover_photo:
+            try:
+                # This ensures the file is readable
+                cover_photo.open()
+                cover_photo.seek(0)
+            except Exception as e:
+                raise forms.ValidationError("Couldn't read the uploaded file. Please try again.")
+        return cover_photo
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

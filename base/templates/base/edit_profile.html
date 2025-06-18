@@ -307,6 +307,45 @@
             object-fit: cover;
         }
 
+        .change-password-btn {
+            background-color: #EBECF2;
+            color: #768694;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 2px solid #768694;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .cover-photo-upload {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cover-photo-preview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #cover-photo-input {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .form-sections {
                 flex-direction: column;
@@ -344,21 +383,30 @@
 
     <div class="profile-card">
         <div class="cover-photo">
-            <button class="edit-cover" type="button">
+            {% if user.profile.cover_photo %}
+                <img src="{{ user.profile.cover_photo.url }}" alt="Cover Photo" class="cover-photo-preview" id="cover-photo-preview">
+            {% else %}
+                <div class="cover-photo-preview" id="cover-photo-preview"></div>
+            {% endif %}
+
+            <label for="cover-photo-input" class="cover-photo-upload">
                 <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16.4284 5.71422C16.4284 5.41111 16.308 5.12042 16.0937 4.90609C15.8794 4.69177 15.5887 4.57136 15.2856 4.57136H12.9999L11.2856 2.28564H6.71415L4.99986 4.57136H2.71415C2.41104 4.57136 2.12035 4.69177 1.90602 4.90609C1.6917 5.12042 1.57129 5.41111 1.57129 5.71422V12.5714C1.57129 12.8745 1.6917 13.1652 1.90602 13.3795C2.12035 13.5938 2.41104 13.7142 2.71415 13.7142H15.2856C15.5887 13.7142 15.8794 13.5938 16.0937 13.3795C16.308 13.1652 16.4284 12.8745 16.4284 12.5714V5.71422Z"
                           stroke="#768694" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M9.00014 11.1429C10.4203 11.1429 11.5716 9.99159 11.5716 8.57143C11.5716 7.15127 10.4203 6 9.00014 6C7.57998 6 6.42871 7.15127 6.42871 8.57143C6.42871 9.99159 7.57998 11.1429 9.00014 11.1429Z"
                           stroke="#768694" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-            </button>
+            </label>
+            <input type="file" id="cover-photo-input" name="cover_photo" accept="image/*">
+
+            {% if user.profile.cover_photo %}
+                <div class="form-check" style="position: absolute; top: 60px; right: 20px; background: white; padding: 5px; border-radius: 4px;">
+                    <input type="checkbox" name="cover_photo-clear" id="cover_photo-clear" class="form-check-input">
+                    <label for="cover_photo-clear" class="form-check-label">Remove</label>
+                </div>
+            {% endif %}
         </div>
         <img src="
-
-
-
-
-
                 {% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}{% static 'icons/no_avatar.jpg' %}{% endif %}"
              alt="Profile Picture"
              class="avatar1"
@@ -394,16 +442,19 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="{{ p_form.bio.id_for_label }}">Bio</label>
+                        <label for="{{ p_form.bio.id_for_label }}">Role</label>
                         {{ p_form.bio }}
-                        <small class="form-text">A short description about yourself</small>
+                        <small class="form-text">Your professional role or title</small>
                     </div>
 
                     <div class="form-group">
                         <label for="{{ p_form.location.id_for_label }}">Location</label>
                         {{ p_form.location }}
                     </div>
+                </div>
 
+                <div class="form-box">
+                    <h3>Account Information</h3>
                     <div class="form-group">
                         <label for="{{ u_form.email.id_for_label }}">Email</label>
                         {{ u_form.email }}
@@ -411,112 +462,93 @@
                             <div class="error-message">{{ u_form.email.errors }}</div>
                         {% endif %}
                     </div>
-                </div>
-    </form>
 
-    <form method="POST" action="{% url 'auth:reset-password' %}">
-        {% csrf_token %}
-        <div class="form-box">
-            {% if form.errors %}
-                <div class="form-errors">
-                    {% for field, errors in form.errors.items %}
-                        {% for error in errors %}
-                            <p class="error-message">{{ error }}</p>
-                        {% endfor %}
-                    {% endfor %}
-                </div>
-            {% endif %}
-
-            <h3>Password reset</h3>
-
-            <div class="form-group">
-                <label for="current_password">Current Password</label>
-                <input type="password" name="current_password" id="current_password"
-                       class="form-control" placeholder="Enter current password to make changes">
-            </div>
-
-            <div class="form-group">
-                <label for="new_password1">New Password</label>
-                <input type="password" name="new_password1" id="new_password1"
-                       class="form-control" placeholder="Enter new password (leave blank to keep current)">
-            </div>
-
-            <div class="form-group">
-                <label for="new_password2">Confirm New Password</label>
-                <input type="password" name="new_password2" id="new_password2"
-                       class="form-control" placeholder="Confirm your new password">
-            </div>
-
-            <div class="form-group">
-                <button class="save-btn" type="submit">Reset password</button>
-            </div>
-    </form>
-{#    </div>#}
-
-    <!-- Right column -->
-    <div class="form-right">
-        <div class="form-box">
-            <h3>About Me</h3>
-            <div class="form-group">
-                <label for="{{ p_form.about.id_for_label }}">About Me</label>
-                {{ p_form.about }}
-                <small class="form-text">Tell others about your experience and skills</small>
-            </div>
-        </div>
-
-        <div class="form-box">
-            <h3>Interests</h3>
-            <div class="form-group">
-                <div class="tags" id="interests-container">
-                    {% for interest in user.profile.interests.all %}
-                        <span class="tag">{{ interest.name }}<span class="remove-tag">&times;</span></span>
-                    {% endfor %}
-                </div>
-                <input type="text" id="new-interest" class="form-control mt-2"
-                       placeholder="Add new interest (press Enter to add)">
-                {{ p_form.interests }}
-            </div>
-        </div>
-
-        <div class="form-box">
-            <h3>Profile Picture</h3>
-            <div class="form-group">
-                <div class="avatar-preview-container">
-                    <div class="avatar-preview-wrapper">
-                        {% if user.profile.avatar %}
-                            <img src="{{ user.profile.avatar.url }}" alt="Current Profile Picture"
-                                 class="current-avatar-preview" id="avatar-preview">
-                        {% else %}
-                            <img src="{% static 'icons/no_avatar.jpg' %}" alt="Default Profile Picture"
-                                 class="current-avatar-preview" id="avatar-preview">
-                        {% endif %}
+                    <div class="form-group">
+                        <label for="current_password">Current Password</label>
+                        <input type="password" name="current_password" id="current_password"
+                               class="form-control" placeholder="Enter current password to make changes">
                     </div>
-                    <div class="file-upload-wrapper">
-                        <label for="{{ p_form.avatar.id_for_label }}" class="file-upload-label">
-                            <span class="file-upload-text">Choose new photo</span>
-                            {{ p_form.avatar }}
-                        </label>
-                        {% if user.profile.avatar %}
-                            <div class="form-check mt-2">
-                                <input type="checkbox" name="avatar-clear" id="avatar-clear"
-                                       class="form-check-input">
-                                <label for="avatar-clear" class="form-check-label">Remove current
-                                    picture</label>
+
+                    <div class="form-group">
+                        <label for="new_password1">New Password</label>
+                        <input type="password" name="new_password1" id="new_password1"
+                               class="form-control" placeholder="Enter new password (leave blank to keep current)">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new_password2">Confirm New Password</label>
+                        <input type="password" name="new_password2" id="new_password2"
+                               class="form-control" placeholder="Confirm your new password">
+                    </div>
+
+                    <button class="change-password-btn" type="submit">Change password</button>
+                </div>
+            </div>
+
+            <!-- Right column -->
+            <div class="form-right">
+                <div class="form-box">
+                    <h3>About Me</h3>
+                    <div class="form-group">
+                        <label for="{{ p_form.about.id_for_label }}">About Me</label>
+                        {{ p_form.about }}
+                        <small class="form-text">Tell others about your experience and skills</small>
+                    </div>
+                </div>
+
+                <div class="form-box">
+                    <h3>Interests</h3>
+                    <div class="form-group">
+                        <div class="tags" id="interests-container">
+                            {% for interest in user.profile.interests.all %}
+                                <span class="tag">{{ interest.name }}<span class="remove-tag">&times;</span></span>
+                            {% endfor %}
+                        </div>
+                        <input type="text" id="new-interest" class="form-control mt-2"
+                               placeholder="Add new interest (press Enter to add)">
+                        {{ p_form.interests }}
+                    </div>
+                </div>
+
+                <div class="form-box">
+                    <h3>Profile Picture</h3>
+                    <div class="form-group">
+                        <div class="avatar-preview-container">
+                            <div class="avatar-preview-wrapper">
+                                {% if user.profile.avatar %}
+                                    <img src="{{ user.profile.avatar.url }}" alt="Current Profile Picture"
+                                         class="current-avatar-preview" id="avatar-preview">
+                                {% else %}
+                                    <img src="{% static 'icons/no_avatar.jpg' %}" alt="Default Profile Picture"
+                                         class="current-avatar-preview" id="avatar-preview">
+                                {% endif %}
                             </div>
-                        {% endif %}
+                            <div class="file-upload-wrapper">
+                                <label for="{{ p_form.avatar.id_for_label }}" class="file-upload-label">
+                                    <span class="file-upload-text">Choose new photo</span>
+                                    {{ p_form.avatar }}
+                                </label>
+                                {% if user.profile.avatar %}
+                                    <div class="form-check mt-2">
+                                        <input type="checkbox" name="avatar-clear" id="avatar-clear"
+                                               class="form-check-input">
+                                        <label for="avatar-clear" class="form-check-label">Remove current
+                                            picture</label>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <small class="form-text">Recommended size: 500x500 pixels (max 2MB)</small>
                     </div>
                 </div>
-                <small class="form-text">Recommended size: 500x500 pixels (max 2MB)</small>
             </div>
         </div>
-    </div>
-{#    </div>#}
 
-    <div class="buttons">
-        <button class="save-btn" type="submit">Save Changes</button>
-        <a class="cancel-btn" href="{% url 'base:user-profile' pk=user.id %}">Cancel</a>
-    </div>
-{#    </form>#}
+        <div class="buttons">
+            <button class="save-btn" type="submit">Save Changes</button>
+            <a class="cancel-btn" href="{% url 'base:user-profile' pk=user.id %}">Cancel</a>
+        </div>
+    </form>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -623,6 +655,71 @@
 
             // Initialize
             updateInterests();
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            // Previous JavaScript code remains the same
+
+            // Cover photo handling
+            const coverPhotoInput = document.getElementById('cover-photo-input');
+            const coverPhotoPreview = document.getElementById('cover-photo-preview');
+            const clearCoverPhotoCheckbox = document.getElementById('cover_photo-clear');
+
+            if (coverPhotoInput) {
+                coverPhotoInput.addEventListener('change', function(e) {
+                    if (this.files && this.files[0]) {
+                        // Validate file type
+                        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                        if (!validTypes.includes(this.files[0].type)) {
+                            alert('Please upload a valid image file (JPEG, PNG, GIF)');
+                            this.value = '';
+                            return;
+                        }
+
+                        // Validate file size (2MB max)
+                        if (this.files[0].size > 2 * 1024 * 1024) {
+                            alert('Image must be less than 2MB');
+                            this.value = '';
+                            return;
+                        }
+
+                        // Create preview
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            // If it's a div, convert it to an img
+                            if (coverPhotoPreview.tagName.toLowerCase() === 'div') {
+                                const img = document.createElement('img');
+                                img.src = event.target.result;
+                                img.className = 'cover-photo-preview';
+                                img.id = 'cover-photo-preview';
+                                coverPhotoPreview.parentNode.replaceChild(img, coverPhotoPreview);
+                            } else {
+                                coverPhotoPreview.src = event.target.result;
+                            }
+                        }
+                        reader.readAsDataURL(this.files[0]);
+
+                        // Uncheck clear checkbox if present
+                        if (clearCoverPhotoCheckbox) {
+                            clearCoverPhotoCheckbox.checked = false;
+                        }
+                    }
+                });
+            }
+
+            // Handle clear cover photo checkbox
+            if (clearCoverPhotoCheckbox) {
+                clearCoverPhotoCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        // Replace with empty div if it's an img
+                        if (coverPhotoPreview.tagName.toLowerCase() === 'img') {
+                            const div = document.createElement('div');
+                            div.className = 'cover-photo-preview';
+                            div.id = 'cover-photo-preview';
+                            coverPhotoPreview.parentNode.replaceChild(div, coverPhotoPreview);
+                        }
+                    }
+                });
+            }
         });
     </script>
 {% endblock %}

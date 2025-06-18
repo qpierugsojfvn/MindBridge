@@ -86,7 +86,7 @@ def home(request):
     # Annotate with answers count for display (needed in both cases)
     discussions = discussions.annotate(answers_count=Count('answers', distinct=True))
 
-    paginator = Paginator(discussions, 4)  # Show 10 discussions per page
+    paginator = Paginator(discussions, 2)  # Show 10 discussions per page
     page_number = request.GET.get('page')
     discussions = paginator.get_page(page_number)
 
@@ -373,62 +373,64 @@ def edit_profile(request, pk):
 
     user = get_object_or_404(User, pk=pk)
 
-    # Permission check
     if request.user != user and not request.user.is_superuser:
         messages.error(request, "You don't have permission to edit this profile.")
-        return redirect('user-profile', pk=user.pk)
+        return redirect('base:user-profile', pk=user.pk)
 
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=user)
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=user.profile)
 
-        # Handle password change separately
-        current_password = request.POST.get('current_password')
-        new_password1 = request.POST.get('new_password1')
-        new_password2 = request.POST.get('new_password2')
-
         if u_form.is_valid() and p_form.is_valid():
-            # Process profile data
             profile = p_form.save(commit=False)
+
+            # Handle cover photo
+            if 'cover_photo-clear' in request.POST:
+                if user.profile.cover_photo:
+                    user.profile.cover_photo.delete(save=False)
+                    user.profile.cover_photo = None
+            elif 'cover_photo' in request.FILES:
+                # First delete old cover photo if exists
+                if user.profile.cover_photo:
+                    user.profile.cover_photo.delete(save=False)
+                # Assign new cover photo
+                profile.cover_photo = request.FILES['cover_photo']
+
+            # Handle avatar
+            if 'avatar-clear' in request.POST:
+                if user.profile.avatar:
+                    user.profile.avatar.delete(save=False)
+                    user.profile.avatar = None
+            elif 'avatar' in request.FILES:
+                if user.profile.avatar:
+                    user.profile.avatar.delete(save=False)
+                profile.avatar = request.FILES['avatar']
 
             # Handle interests
             interests_str = request.POST.get('interests', '')
             if interests_str:
-                # Split and clean interests
                 interests = [i.strip() for i in interests_str.split(',') if i.strip()]
-
-                # Clear existing interests
                 profile.interests.clear()
-
-                # Add new interests
                 for interest_name in interests:
                     interest, created = Interest.objects.get_or_create(name=interest_name)
                     profile.interests.add(interest)
 
-            # Handle profile picture
-            if 'profile_pic-clear' in request.POST:
-                if user.profile.avatar:
-                    user.profile.avatar.delete()
-                    user.profile.avatar = None
-            elif 'profile_pic' in request.FILES:
-                # Delete old picture if exists
-                if user.profile.avatar:
-                    user.profile.avatar.delete()
-                # New picture will be saved automatically
-
-            # Save user and profile
+            # Save user first
             user = u_form.save()
+            # Then save profile
             profile.save()
 
-            # Handle password change if all fields provided
-            password_changed = False
+            # Handle password change
+            current_password = request.POST.get('current_password')
+            new_password1 = request.POST.get('new_password1')
+            new_password2 = request.POST.get('new_password2')
+
             if current_password and new_password1 and new_password2:
                 if user.check_password(current_password):
                     if new_password1 == new_password2:
                         user.set_password(new_password1)
                         user.save()
-                        update_session_auth_hash(request, user)  # Important to keep user logged in
-                        password_changed = True
+                        update_session_auth_hash(request, user)
                         messages.success(request, 'Your password was successfully updated!')
                     else:
                         messages.error(request, 'New passwords do not match.')
@@ -438,14 +440,11 @@ def edit_profile(request, pk):
             messages.success(request, 'Your profile has been updated!')
             return redirect('base:user-profile', pk=user.pk)
         else:
-            # Form validation failed
             messages.error(request, 'Please correct the errors below.')
     else:
-        # GET request - initialize forms
         u_form = UserUpdateForm(instance=user)
         p_form = ProfileUpdateForm(instance=user.profile)
 
-    # Prepare initial interests for template
     initial_interests = ','.join([i.name for i in user.profile.interests.all()])
 
     context = {
@@ -455,7 +454,6 @@ def edit_profile(request, pk):
         'initial_interests': initial_interests,
     }
     return render(request, 'base/edit_profile.html', context)
-
 
 def load_cities(request):
     country_id = request.GET.get('country')

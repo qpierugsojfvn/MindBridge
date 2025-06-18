@@ -570,6 +570,69 @@
         font-size: 16px;
     }
 
+    /* Video Preview Styles */
+    .video-preview-container {
+        position: relative;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .video-preview {
+        width: 100%;
+        height: auto;
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
+
+    .video-preview-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .video-preview-container:hover .video-preview-overlay {
+        opacity: 1;
+    }
+
+    .video-preview-container:hover .video-preview {
+        transform: scale(1.03);
+    }
+
+    .play-icon {
+        color: white;
+        font-size: 3rem;
+    }
+
+    .video-preview {
+        position: absolute;
+        z-index: 1000;
+        width: 300px;
+        height: 169px;
+        background: #000;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+        pointer-events: none;
+    }
+
+    .video-preview-thumbnail {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+    }
+
     /* ✅ Mobile Adaptation */
     @media (max-width: 768px) {
         .navbar {
@@ -706,12 +769,17 @@
                             <h3 class="card-title"><a
                                     href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h3>
                             {% if lesson.format == 'video' and lesson.thumbnail %}
-                                <img src="{{ lesson.thumbnail.url }}" alt="{{ lesson.title }}" class="card-media">
+                                <div class="video-preview-container"
+                                     data-video-url="
+                                             {% if lesson.video_url %}{{ lesson.video_url }}{% else %}{{ lesson.video_file.url }}{% endif %}">
+                                    <img src="{{ lesson.thumbnail.url }}" alt="{{ lesson.title }}"
+                                         class="video-preview-thumbnail">
+                                    <div class="video-preview-overlay">
+                                        <i class="fas fa-play play-icon"></i>
+                                    </div>
+                                </div>
                             {% endif %}
-                            <div class="progress-container">
-                                <div class="progress-bar" style="width: {% widthratio lesson.progress 1 100 %}%"></div>
-                            </div>
-                            <small>{{ lesson.progress }}% complete</small>
+
                         </div>
                     {% empty %}
                         <p>No lessons in progress. Start learning!</p>
@@ -810,6 +878,10 @@
                     </a>
                     <a href="?page=
 
+
+
+
+
                             {{ page_obj.previous_page_number }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}"
                        class="page-nav" title="Previous Page">
                         <i class="fas fa-angle-left"></i>
@@ -823,6 +895,10 @@
                     {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                         <a href="?page=
 
+
+
+
+
                                 {{ num }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">{{ num }}</a>
                     {% endif %}
                 {% endfor %}
@@ -830,11 +906,19 @@
                 {% if page_obj.has_next %}
                     <a href="?page=
 
+
+
+
+
                             {{ page_obj.next_page_number }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}"
                        class="page-nav" title="Next Page">
                         <i class="fas fa-angle-right"></i>
                     </a>
                     <a href="?page=
+
+
+
+
 
                             {{ page_obj.paginator.num_pages }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}"
                        class="page-nav" title="Last Page">
@@ -924,5 +1008,90 @@
             document.getElementById("profileMenu").classList.remove("show");
         }
     }
+    // Video Preview Functionality
+    document.addEventListener('DOMContentLoaded', function () {
+        const videoContainers = document.querySelectorAll('.video-preview-container');
+
+        videoContainers.forEach(container => {
+            // Create preview element
+            const preview = document.createElement('div');
+            preview.className = 'video-preview';
+            preview.style.display = 'none';
+            preview.style.position = 'absolute';
+            preview.style.zIndex = '1000';
+            preview.style.boxShadow = '0 0 20px rgba(0,0,0,0.3)';
+            preview.style.borderRadius = '8px';
+            preview.style.overflow = 'hidden';
+            preview.style.transition = 'all 0.3s ease';
+
+            // Create iframe for video
+            const iframe = document.createElement('iframe');
+            iframe.setAttribute('allowfullscreen', '');
+            iframe.setAttribute('allow', 'autoplay');
+            iframe.style.width = '300px';
+            iframe.style.height = '169px';
+            iframe.style.border = 'none';
+
+            preview.appendChild(iframe);
+            document.body.appendChild(preview);
+
+            // Show preview on hover
+            container.addEventListener('mouseenter', function (e) {
+                const videoUrl = this.getAttribute('data-video-url');
+                const embedUrl = convertToEmbedUrl(videoUrl);
+
+                if (embedUrl) {
+                    iframe.src = embedUrl + '?autoplay=1&mute=1&controls=0';
+                    preview.style.display = 'block';
+                    positionPreview(preview, this);
+                }
+            });
+
+            // Hide preview when not hovering
+            container.addEventListener('mouseleave', function () {
+                iframe.src = '';
+                preview.style.display = 'none';
+            });
+
+            // Keep preview positioned correctly when scrolling
+            window.addEventListener('scroll', function () {
+                if (preview.style.display === 'block') {
+                    const container = iframe.parentElement.parentElement;
+                    positionPreview(preview, container);
+                }
+            });
+        });
+
+        function positionPreview(preview, container) {
+            const rect = container.getBoundingClientRect();
+            const top = rect.top + window.scrollY;
+            const left = rect.left + window.scrollX;
+
+            // Position preview to the right of the container
+            preview.style.top = top + 'px';
+            preview.style.left = (left + rect.width + 20) + 'px';
+        }
+
+        function convertToEmbedUrl(url) {
+            // YouTube
+            if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+                const match = url.match(regExp);
+                if (match && match[2].length === 11) {
+                    return 'https://www.youtube.com/embed/' + match[2];
+                }
+            }
+            // Vimeo
+            else if (url.includes('vimeo.com')) {
+                const regExp = /^.*(vimeo.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/;
+                const match = url.match(regExp);
+                if (match && match[5]) {
+                    return 'https://player.vimeo.com/video/' + match[5];
+                }
+            }
+            // Direct video files (won't work for preview but can show thumbnail)
+            return null;
+        }
+    });
 </script>
 </html>

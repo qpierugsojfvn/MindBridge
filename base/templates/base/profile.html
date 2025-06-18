@@ -1,5 +1,4 @@
 {% load static %}
-{% load zip %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,22 +54,49 @@
 
 <main class="profile-container">
     <div class="cover-photo">
-        <button class="edit-cover-btn">
-            <i class="fas fa-camera"></i> Edit Cover
-        </button>
+        {% if user.profile.cover_photo %}
+            <img src="{{ user.profile.cover_photo.url }}" alt="Cover Photo" class="cover-photo-img"
+                 id="cover-photo-preview">
+        {% else %}
+            <div class="default-cover" id="cover-photo-preview"></div>
+        {% endif %}
+
+        {% if request.user == user %}
+            <form method="POST" action="{% url 'base:edit-profile' user.id %}" enctype="multipart/form-data"
+                  id="cover-photo-form">
+                {% csrf_token %}
+                <input type="file" id="cover-photo-upload" name="cover_photo" accept="image/*" style="display: none;">
+
+                {% if user.profile.cover_photo %}
+                    <div class="remove-cover-container">
+                        <input type="checkbox" name="cover_photo-clear" id="cover_photo-clear" style="display: none;">
+                    </div>
+                {% endif %}
+            </form>
+        {% endif %}
     </div>
 
     <div class="profile-info">
         <div class="profile-pic-container">
-
-            {% if not request.user.profile.avatar %}
-                <img src="{% static 'icons/no_avatar.jpg' %}" alt="{{ user.username }}" class="profile-pic">
+            {% if not user.profile.avatar %}
+                <img src="{% static 'icons/no_avatar.jpg' %}" alt="{{ user.username }}" class="profile-pic"
+                     id="profile-picture-preview">
             {% else %}
-                <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="profile-pic">
+                <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="profile-pic"
+                     id="profile-picture-preview">
             {% endif %}
-            <button class="edit-pic-btn">
-                <i class="fas fa-camera"></i>
-            </button>
+
+            {% if request.user == user %}
+                <form id="avatar-form" method="POST" action="{% url 'base:edit-profile' user.id %}"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="file" id="avatar-upload" name="avatar" accept="image/*" style="display: none;">
+                    <button type="button" class="edit-pic-btn"
+                            onclick="document.getElementById('avatar-upload').click()">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </form>
+            {% endif %}
         </div>
 
         <div class="profile-details">
@@ -137,9 +163,11 @@
         </div>
 
         <div class="profile-actions">
-            <button class="edit-profile-btn" onclick="location.href='{% url 'base:edit-profile' user.id %}'">
-                <i class="fas fa-pencil-alt"></i> Edit Profile
-            </button>
+            {% if request.user == user %}
+                <button class="edit-profile-btn" onclick="location.href='{% url 'base:edit-profile' user.id %}'">
+                    <i class="fas fa-pencil-alt"></i> Edit Profile
+                </button>
+            {% endif %}
         </div>
     </div>
 
@@ -167,55 +195,55 @@
     </div>
 
     <div class="activity-section">
-    <h2>Activity</h2>
-    <div class="activity-stats">
-        <div class="activity-metric">
-            <div class="metric-value">{{ activity_percent }}%</div>
-            <div class="metric-label">Active Days</div>
-        </div>
-        <div class="calendar-container">
-            <div class="calendar-header">
-                <div class="weekday">Mon</div>
-                <div class="weekday">Tue</div>
-                <div class="weekday">Wed</div>
-                <div class="weekday">Thu</div>
-                <div class="weekday">Fri</div>
-                <div class="weekday">Sat</div>
-                <div class="weekday">Sun</div>
+        <h2>Activity</h2>
+        <div class="activity-stats">
+            <div class="activity-metric">
+                <div class="metric-value">{{ activity_percent }}%</div>
+                <div class="metric-label">Active Days</div>
             </div>
-            <div class="calendar-grid">
-                {% if calendar_data %}
-                    {% for date, is_active in calendar_data %}
-                        <div class="day-cell {% if is_active %}active{% else %}inactive{% endif %} {% if date == today %}today{% endif %}"
-                             title="{{ date|date:'M j, Y' }}">
-                            <div class="day-fill">
-                                <span class="day-number">{{ date.day }}</span>
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    {% for day in "12345678910111213141516171819202122232425262728293031"|make_list %}
-                        <div class="day-cell inactive">
-                            <div class="day-fill">
-                                <span class="day-number">{{ day }}</span>
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            </div>
-            <div class="calendar-legend">
-                <div class="legend-item">
-                    <span class="legend-color active"></span>
-                    <span>Active</span>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <div class="weekday">Mon</div>
+                    <div class="weekday">Tue</div>
+                    <div class="weekday">Wed</div>
+                    <div class="weekday">Thu</div>
+                    <div class="weekday">Fri</div>
+                    <div class="weekday">Sat</div>
+                    <div class="weekday">Sun</div>
                 </div>
-                <div class="legend-item">
-                    <span class="legend-color inactive"></span>
-                    <span>Less active</span>
+                <div class="calendar-grid">
+                    {% if calendar_data %}
+                        {% for date, is_active in calendar_data %}
+                            <div class="day-cell {% if is_active %}active{% else %}inactive{% endif %} {% if date == today %}today{% endif %}"
+                                 title="{{ date|date:'M j, Y' }}">
+                                <div class="day-fill">
+                                    <span class="day-number">{{ date.day }}</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% for day in "12345678910111213141516171819202122232425262728293031"|make_list %}
+                            <div class="day-cell inactive">
+                                <div class="day-fill">
+                                    <span class="day-number">{{ day }}</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="calendar-legend">
+                    <div class="legend-item">
+                        <span class="legend-color active"></span>
+                        <span>Active</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color inactive"></span>
+                        <span>Less active</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
     <div class="profile-tabs">
         <button class="tab-btn active" data-tab="discussions">Discussions</button>
@@ -443,6 +471,88 @@
     // Dropdown functionality for library menu
     document.querySelector('.dropbtn').addEventListener('click', function () {
         this.nextElementSibling.classList.toggle('show');
+    });
+
+    document.getElementById('avatar-upload').addEventListener('change', function (e) {
+        if (this.files && this.files[0]) {
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!validTypes.includes(this.files[0].type)) {
+                alert('Please upload a valid image file (JPEG, PNG, GIF)');
+                this.value = '';
+                return;
+            }
+
+            // Validate file size (2MB max)
+            if (this.files[0].size > 2 * 1024 * 1024) {
+                alert('Image must be less than 2MB');
+                this.value = '';
+                return;
+            }
+
+            // Create preview
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                document.getElementById('profile-picture-preview').src = event.target.result;
+
+                // Auto-submit the form when a file is selected
+                document.getElementById('avatar-form').submit();
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+    // Cover Photo Upload Handling
+    document.getElementById('cover-photo-upload')?.addEventListener('change', function (e) {
+        if (this.files && this.files[0]) {
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!validTypes.includes(this.files[0].type)) {
+                alert('Please upload a valid image file (JPEG, PNG, GIF)');
+                this.value = '';
+                return;
+            }
+
+            // Validate file size (2MB max)
+            if (this.files[0].size > 2 * 1024 * 1024) {
+                alert('Image must be less than 2MB');
+                this.value = '';
+                return;
+            }
+
+            // Create preview
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const preview = document.getElementById('cover-photo-preview');
+
+                // If it's a div, replace with img
+                if (preview.tagName.toLowerCase() === 'div') {
+                    const img = document.createElement('img');
+                    img.src = event.target.result;
+                    img.className = 'cover-photo-img';
+                    img.id = 'cover-photo-preview';
+                    preview.parentNode.replaceChild(img, preview);
+                } else {
+                    preview.src = event.target.result;
+                }
+
+                // Submit the form
+                document.getElementById('cover-photo-form').submit();
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+
+    // Handle cover photo removal
+    document.getElementById('cover_photo-clear')?.addEventListener('change', function () {
+        if (this.checked) {
+            const preview = document.getElementById('cover-photo-preview');
+            if (preview.tagName.toLowerCase() === 'img') {
+                const div = document.createElement('div');
+                div.className = 'default-cover';
+                div.id = 'cover-photo-preview';
+                preview.parentNode.replaceChild(div, preview);
+            }
+        }
     });
 </script>
 </body>
