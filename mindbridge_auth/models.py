@@ -23,8 +23,8 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
     phone = models.CharField(max_length=20, blank=True)
-    about = models.TextField(max_length=50, blank=True)
-    bio = models.TextField(max_length=500, blank=True)
+    about = models.TextField(max_length=500, blank=True)
+    bio = models.TextField(max_length=50, blank=True)
     # todo скрыть от юзера эти поля(только для компаний)
     company_name = models.CharField(max_length=30, blank=True)
     avatar = models.ImageField(
