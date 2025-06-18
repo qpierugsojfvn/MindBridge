@@ -381,7 +381,10 @@
         }
     </style>
 
-    <div class="profile-card">
+    <form method="POST" enctype="multipart/form-data" id="profileForm">
+        {% csrf_token %}
+
+            <div class="profile-card">
         <div class="cover-photo">
             {% if user.profile.cover_photo %}
                 <img src="{{ user.profile.cover_photo.url }}" alt="Cover Photo" class="cover-photo-preview" id="cover-photo-preview">
@@ -417,8 +420,6 @@
         </div>
     </div>
 
-    <form method="POST" enctype="multipart/form-data" id="profileForm">
-        {% csrf_token %}
         <div class="form-sections">
             <!-- Left column -->
             <div class="form-left">

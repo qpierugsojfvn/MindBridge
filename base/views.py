@@ -382,29 +382,34 @@ def edit_profile(request, pk):
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=user.profile)
 
         if u_form.is_valid() and p_form.is_valid():
+            # First save the user form
+            user = u_form.save()
+
+            # Then handle the profile with files
             profile = p_form.save(commit=False)
 
             # Handle cover photo
             if 'cover_photo-clear' in request.POST:
                 if user.profile.cover_photo:
                     user.profile.cover_photo.delete(save=False)
-                    user.profile.cover_photo = None
+                    profile.cover_photo = None
             elif 'cover_photo' in request.FILES:
                 # First delete old cover photo if exists
                 if user.profile.cover_photo:
                     user.profile.cover_photo.delete(save=False)
-                # Assign new cover photo
-                profile.cover_photo = request.FILES['cover_photo']
+                # Assign new cover photo - use the file from p_form.cleaned_data
+                profile.cover_photo = p_form.cleaned_data['cover_photo']
 
             # Handle avatar
             if 'avatar-clear' in request.POST:
                 if user.profile.avatar:
                     user.profile.avatar.delete(save=False)
-                    user.profile.avatar = None
+                    profile.avatar = None
             elif 'avatar' in request.FILES:
                 if user.profile.avatar:
                     user.profile.avatar.delete(save=False)
-                profile.avatar = request.FILES['avatar']
+                # Assign new avatar - use the file from p_form.cleaned_data
+                profile.avatar = p_form.cleaned_data['avatar']
 
             # Handle interests
             interests_str = request.POST.get('interests', '')
@@ -415,9 +420,7 @@ def edit_profile(request, pk):
                     interest, created = Interest.objects.get_or_create(name=interest_name)
                     profile.interests.add(interest)
 
-            # Save user first
-            user = u_form.save()
-            # Then save profile
+            # Save profile
             profile.save()
 
             # Handle password change
