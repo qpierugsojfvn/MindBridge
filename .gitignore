@@ -1,4 +1,6 @@
 .idea/
+.idea/workspace.xml
+.idea/MindBridge.iml
 *.iml
 *.ipr
 *.iws
