@@ -24,6 +24,7 @@ def index(request, filter_type=None):
         lesson_list = lesson_list.filter(format=filter_type)
 
     # Search functionality
+    #
     search_query = request.GET.get('search', '')
     if search_query:
         lesson_list = lesson_list.filter(
