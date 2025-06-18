@@ -51,14 +51,19 @@ def vacancy_detail(request, pk):
 @role_required(['COMPANY', 'ADMIN'])
 def post_vacancy(request):
     if request.method == 'POST':
-        form = VacancyForm(request.POST)
-        if form.is_valid():
-            vacancy = form.save(commit=False)
-            vacancy.company = request.user.company_profile
-            vacancy.save()
-            return redirect('vacancy_detail', pk=vacancy.pk)
+        vacancy = Vacancy()
+        vacancy.title = request.POST.get('title')
+        vacancy.user = request.user
+        vacancy.employment_type = request.POST.get('employment_type')
+        vacancy.work_schedule = request.POST.get('work_schedule')
+        vacancy.experience_required = request.POST.get('experience_required')
+        vacancy.description = request.POST.get('description')
+        vacancy.location_city = request.POST.get('location_city')
+        vacancy.location_country = request.POST.get('location_country')
+        vacancy.save()
+        return vacancy_detail(request, vacancy.pk)
     else:
-        form = VacancyForm()
+        form = VacancyForm(request.user)
     return render(request, 'careers/vacancy_form.html', {'form': form})
 
 @login_required

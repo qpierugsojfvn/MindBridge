@@ -37,9 +37,8 @@ class Vacancy(models.Model):
     ]
 
     title = models.CharField(max_length=200)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    salary_min = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    salary_max = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='vacancy_profile', null=True)
+    salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     employment_type = models.CharField(max_length=10, choices=EMPLOYMENT_TYPES)
     work_schedule = models.CharField(max_length=10, choices=WORK_SCHEDULES)
     experience_required = models.CharField(max_length=10, choices=EXPERIENCE_LEVELS)

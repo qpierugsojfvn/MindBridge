@@ -13,18 +13,6 @@ class CompanyForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['logo'].required = False
 
-
-class VacancyForm(forms.ModelForm):
-    class Meta:
-        model = Vacancy
-        fields = ['title', 'salary_min', 'salary_max', 'employment_type',
-                  'work_schedule', 'experience_required', 'description',
-                  'location_city', 'location_country', 'is_remote']
-        widgets = {
-            'description': forms.Textarea(attrs={'rows': 5}),
-        }
-
-
 class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
@@ -39,45 +27,96 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ['role', 'phone']
 
-#
-# class VacancyForm(forms.ModelForm):
-#     CURRENCY_CHOICES = [
-#         ('USD', 'USD ($)'),
-#         ('EUR', 'EUR (€)'),
-#         ('RUB', 'RUB (₽)'),
-#         ('KZT', 'KZT (₸)'),
-#     ]
-#
-#     currency = forms.ChoiceField(
-#         choices=CURRENCY_CHOICES,
-#         required=False,
-#         label='Currency'
-#     )
-#
-#     class Meta:
-#         model = Vacancy
-#         fields = [
-#             'title', 'salary', 'currency', 'employment_type', 'schedule',
-#             'experience_required', 'description', 'company',
-#             'location_city', 'location_country'
-#         ]
-#
-#     def __init__(self, user, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.fields['company'].queryset = Company.objects.filter(created_by=user)
-#
-#
-# class ApplicationForm(forms.ModelForm):
-#     class Meta:
-#         model = Application
-#         fields = ['cover_letter', 'resume']
-#
-#     def clean_resume(self):
-#         resume = self.cleaned_data.get('resume')
-#         if resume:
-#             if resume.size > 5 * 1024 * 1024:  # 5MB limit
-#                 raise ValidationError("Resume file too large ( > 5MB )")
-#             if not resume.name.lower().endswith(('.pdf', '.doc', '.docx')):
-#                 raise ValidationError("Only PDF and Word documents are allowed")
-#         return resume
-#
+
+class VacancyForm(forms.ModelForm):
+    CURRENCY_CHOICES = [
+        ('USD', 'USD ($)'),
+        ('EUR', 'EUR (€)'),
+        ('RUB', 'RUB (₽)'),
+        ('KZT', 'KZT (₸)'),
+    ]
+    EMPLOYMENT_TYPES = [
+        ('FULL', 'Full Time'),
+        ('PART', 'Part Time'),
+        ('PROJ', 'Project/Task'),
+        ('INTERN', 'Internship'),
+    ]
+    WORK_SCHEDULES = [
+        ('FULL', 'Full Day'),
+        ('REMOTE', 'Remote'),
+        ('FLEX', 'Flexible Schedule'),
+    ]
+
+    currency = forms.ChoiceField(
+        choices=CURRENCY_CHOICES,
+        required=False,
+        label='Currency'
+    )
+
+    salary = forms.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        required=False,
+        widget=forms.NumberInput(attrs={'step': '0.01'})
+    )
+
+    title = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Vacancy title'
+        })
+    )
+
+    employment_type = forms.ChoiceField(
+        choices=EMPLOYMENT_TYPES,
+        required=True
+    )
+    work_schedule = forms.ChoiceField(
+        choices=WORK_SCHEDULES,
+        required=False
+    )
+    description = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Vacancy description'
+        })
+    )
+    location_city = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Location city'
+        })
+    )
+    EXPERIENCE_LEVELS = [
+        ('NONE', 'No experience'),
+        ('1YR', '1 year'),
+        ('2YR', '2 years'),
+        ('3YR', '3 years'),
+        ('5YR', '5+ years'),
+    ]
+    experience_required = forms.ChoiceField(
+        choices=EXPERIENCE_LEVELS,
+        required=False
+    )
+
+    class Meta:
+        model = Vacancy
+        fields = [
+            'title', 'salary', 'currency', 'employment_type',
+            'work_schedule', 'experience_required', 'description',
+            'location_city', 'location_country'
+        ]
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 5}),
+        }
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Упрощаем выбор для некоторых полей
+        self.fields['employment_type'].widget = forms.Select(choices=Vacancy.EMPLOYMENT_TYPES)
+        self.fields['work_schedule'].widget = forms.Select(choices=Vacancy.WORK_SCHEDULES)
+        self.fields['experience_required'].widget = forms.Select(choices=Vacancy.EXPERIENCE_LEVELS)
+

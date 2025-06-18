@@ -1,131 +1,117 @@
-{% extends "base.html" %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
 
-{% block careers_content %}
 <h2 class="mb-4">{% if form.instance.pk %}Edit{% else %}Create{% endif %} Vacancy</h2>
 
-<form method="post">
-    {% csrf_token %}
-    
-    <div class="card mb-4">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="{{ form.title.id_for_label }}" class="form-label">Job Title</label>
-                    {{ form.title }}
-                    {% if form.title.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.title.errors.0 }}
+<form method="POST" action="{% url 'careers:post_vacancy' %}">
+        {% csrf_token %}
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <!-- Job Title -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="title" class="form-label">Job Title*</label>
+                        <input type="text" class="form-control" id="title" name="title" required
+                               placeholder="Vacancy title">
                     </div>
-                    {% endif %}
                 </div>
-                
-                <div class="col-md-6 mb-3">
-                    <label for="{{ form.company.id_for_label }}" class="form-label">Company</label>
-                    {{ form.company }}
-                    {% if form.company.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.company.errors.0 }}
+
+                <!-- Salary and Currency -->
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label for="salary" class="form-label">Salary</label>
+                        <input type="number" class="form-control" id="salary" name="salary" step="0.01"
+                               placeholder="0.00">
                     </div>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-5 mb-3">
-                    <label for="{{ form.salary.id_for_label }}" class="form-label">Salary</label>
-                    {{ form.salary }}
-                    {% if form.salary.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.salary.errors.0 }}
+
+                    <div class="col-md-3 mb-3">
+                        <label for="currency" class="form-label">Currency</label>
+                        <select class="form-select" id="currency" name="currency">
+                            <option value="">Select currency</option>
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="RUB">RUB (₽)</option>
+                            <option value="KZT">KZT (₸)</option>
+                        </select>
                     </div>
-                    {% endif %}
                 </div>
-            
-                <div class="col-md-3 mb-3">
-                    <label for="{{ form.currency.id_for_label }}" class="form-label">Currency</label>
-                    {{ form.currency }}
-                    {% if form.currency.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.currency.errors.0 }}
+
+                <!-- Employment Type -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="employment_type" class="form-label">Employment Type*</label>
+                        <select class="form-select" id="employment_type" name="employment_type" required>
+                            <option value="">Select type</option>
+                            <option value="FULL">Full Time</option>
+                            <option value="PART">Part Time</option>
+                            <option value="PROJ">Project/Task</option>
+                            <option value="INTERN">Internship</option>
+                        </select>
                     </div>
-                    {% endif %}
                 </div>
-            </div>
-            
-                
-                <div class="col-md-6 mb-3">
-                    <label for="{{ form.employment_type.id_for_label }}" class="form-label">Employment Type</label>
-                    {{ form.employment_type }}
-                    {% if form.employment_type.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.employment_type.errors.0 }}
+
+                <!-- Work Schedule and Experience -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="work_schedule" class="form-label">Work Schedule</label>
+                        <select class="form-select" id="work_schedule" name="work_schedule">
+                            <option value="">Select schedule</option>
+                            <option value="FULL">Full Day</option>
+                            <option value="REMOTE">Remote</option>
+                            <option value="FLEX">Flexible Schedule</option>
+                        </select>
                     </div>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="{{ form.schedule.id_for_label }}" class="form-label">Work Schedule</label>
-                    {{ form.schedule }}
-                    {% if form.schedule.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.schedule.errors.0 }}
+
+                    <div class="col-md-6 mb-3">
+                        <label for="experience_required" class="form-label">Experience Required</label>
+                        <select class="form-select" id="experience_required" name="experience_required">
+                            <option value="">Select experience</option>
+                            <option value="JUNIOR">Junior</option>
+                            <option value="MID">Middle</option>
+                            <option value="SENIOR">Senior</option>
+                        </select>
                     </div>
-                    {% endif %}
                 </div>
-                
-                <div class="col-md-6 mb-3">
-                    <label for="{{ form.experience_required.id_for_label }}" class="form-label">Experience Required</label>
-                    {{ form.experience_required }}
-                    {% if form.experience_required.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.experience_required.errors.0 }}
+
+                <!-- Location -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="location_city" class="form-label">City*</label>
+                        <input type="text" class="form-control" id="location_city" name="location_city" required
+                               placeholder="City">
                     </div>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="{{ form.location_city.id_for_label }}" class="form-label">City</label>
-                    {{ form.location_city }}
-                    {% if form.location_city.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.location_city.errors.0 }}
+
+                    <div class="col-md-6 mb-3">
+                        <label for="location_country" class="form-label">Country*</label>
+                        <input type="text" class="form-control" id="location_country" name="location_country" required
+                               placeholder="Country">
                     </div>
-                    {% endif %}
                 </div>
-                
-                <div class="col-md-6 mb-3">
-                    <label for="{{ form.location_country.id_for_label }}" class="form-label">Country</label>
-                    {{ form.location_country }}
-                    {% if form.location_country.errors %}
-                    <div class="invalid-feedback d-block">
-                        {{ form.location_country.errors.0 }}
-                    </div>
-                    {% endif %}
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label for="description" class="form-label">Job Description*</label>
+                    <textarea class="form-control" id="description" name="description" rows="5" required
+                              placeholder="Job description"></textarea>
                 </div>
-            </div>
-            
-            <div class="mb-3">
-                <label for="{{ form.description.id_for_label }}" class="form-label">Job Description</label>
-                {{ form.description }}
-                {% if form.description.errors %}
-                <div class="invalid-feedback d-block">
-                    {{ form.description.errors.0 }}
-                </div>
-                {% endif %}
             </div>
         </div>
-    </div>
-    
-    <div class="d-flex justify-content-between">
-        <a href="{% if form.instance.pk %}{% url 'careers:vacancy_detail' form.instance.pk %}{% else %}{% url 'careers:vacancy_list' %}{% endif %}" 
-           class="btn btn-outline-secondary">
-            Cancel
-        </a>
-        <button type="submit" class="btn btn-primary">Save Vacancy</button>
-    </div>
-</form>
-{% endblock %}
+
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'careers:vacancy_list' %}" class="btn btn-outline-secondary">
+                Cancel
+            </a>
+            <button type="submit" class="btn btn-primary">Save Vacancy</button>
+        </div>
+    </form>
+</body>
+</html>

@@ -847,11 +847,11 @@
                 <div class="tag">#vacancies</div>
                 <div class="tag active">#professionals</div>
             </div>
-            {#            {% if user.is_authenticated and user.is_employer %}#}
-            {#                <a href="{% url 'careers:vacancy_create' %}" class="hire-btn">Post a Job</a>#}
-            {#            {% else %}#}
-            {#                <a href="{% url 'account_login' %}?next={% url 'careers:vacancy_create' %}" class="hire-btn">Hire</a>#}
-            {#            {% endif %}#}
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'careers:post_vacancy' %}" class="hire-btn">Post a Job</a>
+                        {% else %}
+                            <a href="{% url 'account_login' %}?next={% url 'careers:post_vacancy' %}" class="hire-btn">Hire</a>
+                        {% endif %}
         </div>
         <form method="get" action="{% url 'careers:vacancy_list' %}" class="search-bar">
             <input type="text" name="q" placeholder="Search" value="{{ request.GET.q }}">
