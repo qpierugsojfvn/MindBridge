@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.vacancy_list, name='vacancy_list'),
     path('<int:pk>/', views.vacancy_detail, name='vacancy_detail'),
     path('post/', views.post_vacancy, name='post_vacancy'),
+    path('deactivate/<int:pk>', views.deactivate_vacancy, name='deactivate_vacancy'),
     path('<int:pk>/apply/', views.apply_vacancy, name='apply_vacancy'),
     # path('application/<int:pk>/', views.application_status, name='application_status'),
     path('dashboard/', views.company_dashboard, name='company_dashboard'),

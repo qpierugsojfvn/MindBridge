@@ -67,6 +67,18 @@ def post_vacancy(request):
     return render(request, 'careers/vacancy_form.html', {'form': form})
 
 @login_required
+@role_required(['COMPANY', 'ADMIN'])
+def deactivate_vacancy(request, pk):
+    if request.method == 'POST':
+        vacancy = Vacancy.objects.get(pk=pk)
+        vacancy.is_active = false
+        vacancy.save()
+        return vacancy_detail(request, vacancy.pk)
+    else:
+        form = VacancyForm(request.user)
+    return render(request, 'careers/vacancy_form.html', {'form': form})
+
+@login_required
 @role_required(['EMPLOYEE', 'ADMIN'])
 def apply_vacancy(request, pk):
     vacancy = get_object_or_404(Vacancy, pk=pk, is_active=True)
