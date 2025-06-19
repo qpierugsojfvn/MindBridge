@@ -835,8 +835,6 @@
                 <input type="text" id="searchInput" placeholder="Search for..." onkeyup="filterContent()"/>
             </div>
             <div class="icons">
-                <a href="message.html"><i class="fa-regular fa-comment"></i></a>
-                <i class="fa-regular fa-bell"></i>
                 <div class="avatar-dropdown">
                     <div class="avatar" onclick="toggleMenu()">
                         <img alt="ProfilePicture" src={% static "icons/no_avatar.jpg" %}/>
@@ -848,7 +846,6 @@
                 </div>
             </div>
         </div>
-        </div>
     </nav>
 </header>
 <main>
@@ -857,8 +854,8 @@
             <h1>Welcome to <span>MindBridge</span></h1>
             <p class="subtitle">where <span>Learning, Networking, and Opportunities</span> Meet</p>
             <div class="hero-buttons">
-                <a href={% url 'auth:login' %} class="cta-btn">Log in</a>
-                <button class="secondary-btn">Visit the community →</button>
+                <a class="cta-btn" href={% url 'auth:login' %} >Log in</a>
+                <button class="secondary-btn"><a style="text-decoration: none; color: #0d1b2a;" href={% url 'auth:login' %}>Visit the community →</a></button>
             </div>
         </div>
         <div class="floating-icons">
