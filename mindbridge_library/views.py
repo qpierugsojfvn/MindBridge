@@ -142,7 +142,10 @@ def create_lesson(request):
 
             messages.success(request, 'Lesson created successfully!')
             return redirect('lesson_detail', slug=lesson.slug)
+        else:
+            print("Form errors: ", form.errors)
     else:
+        print("123")
         form = LessonForm()
 
     return render(request, 'create_lesson.html', {'form': form})

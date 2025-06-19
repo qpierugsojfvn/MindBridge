@@ -25,6 +25,10 @@ class LessonForm(forms.ModelForm):
         }),
         help_text="Enter tags separated by commas"
     )
+    content = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 10}),
+        required=False,  # Теперь поле необязательное
+    )
 
     class Meta:
         model = Lesson
