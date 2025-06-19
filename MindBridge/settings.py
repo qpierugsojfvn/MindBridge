@@ -110,16 +110,16 @@ CSRF_TRUSTED_ORIGINS = [
     'https://www.mindbridge.kz'
 ]
 DATABASES = {
-    # 'default': dj_database_url.config(
-    #     default="postgresql://postgres:tCYumsnvAWhhrAHeyRZRKBPaVysgShzY@switchyard.proxy.rlwy.net:31340/railway")
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mindbridge',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        default="postgresql://postgres:tCYumsnvAWhhrAHeyRZRKBPaVysgShzY@switchyard.proxy.rlwy.net:31340/railway")
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'mindbridge',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'postgres',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
+    # }
 }
 
 # Password validation
