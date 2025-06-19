@@ -5,6 +5,12 @@ from embed_video.fields import EmbedVideoField
 
 User = get_user_model()
 
+class CustomTag(models.Model):
+    name = models.CharField(unique=True, max_length=100)
+
+    def __str__(self):
+        return self.name
+
 class Video(models.Model):
     video = EmbedVideoField()
 
@@ -27,6 +33,7 @@ class Lesson(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lessons')
     is_published = models.BooleanField(default=False)
+    tags = models.ManyToManyField(CustomTag, blank=True)
 
     class Meta:
         ordering = ['-created_at']
@@ -73,9 +80,20 @@ class UserLessonProgress(models.Model):
 
     def get_progress_percentage(self):
         if self.lesson.format == 'video' and self.lesson.duration:
-            return min(100, int((self.last_position / (self.lesson.duration * 60)) * 100))
+            # For videos, use duration and last position
+            total_seconds = self.lesson.duration * 60
+            return min(100, int((self.last_position / total_seconds) * 100))
         elif self.lesson.format == 'article':
+            # For articles, use content length and last position
             content_length = len(self.lesson.content)
             if content_length > 0:
                 return min(100, int((self.last_position / content_length) * 100))
-        return 0
+        return 0  # Default if we can't calculate progress
+
+    def mark_as_completed(self):
+        if self.lesson.format == 'video' and self.lesson.duration:
+            self.last_position = self.lesson.duration * 60
+        elif self.lesson.format == 'article':
+            self.last_position = len(self.lesson.content)
+        self.is_completed = True
+        self.save()

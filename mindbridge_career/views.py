@@ -1,4 +1,5 @@
 # careers/views.py
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Vacancy, Application, Company
@@ -69,14 +70,19 @@ def post_vacancy(request):
 @login_required
 @role_required(['COMPANY', 'ADMIN'])
 def deactivate_vacancy(request, pk):
-    if request.method == 'POST':
-        vacancy = Vacancy.objects.get(pk=pk)
-        vacancy.is_active = false
-        vacancy.save()
-        return vacancy_detail(request, vacancy.pk)
-    else:
-        form = VacancyForm(request.user)
-    return render(request, 'careers/vacancy_form.html', {'form': form})
+    vacancy = get_object_or_404(Vacancy, pk=pk)
+
+    if not (request.user.is_staff or request.user == vacancy.user):
+        return JsonResponse({'success': False, 'message': 'Permission denied'}, status=403)
+
+    vacancy.is_active = not vacancy.is_active
+    vacancy.save()
+
+    return JsonResponse({
+        'success': True,
+        'is_active': vacancy.is_active,
+        'message': 'Vacancy status updated'
+    })
 
 @login_required
 @role_required(['EMPLOYEE', 'ADMIN'])

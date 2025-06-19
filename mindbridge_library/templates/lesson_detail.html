@@ -2,105 +2,668 @@
 {% load static %}
 
 {% block content %}
-<div class="lesson-container">
-    <h1>{{ lesson.title }}</h1>
-    <p class="author">Author: {{ lesson.author.get_full_name|default:lesson.author.username }}</p>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Library Book - MindBridge</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"/>
+        <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+              integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+    </head>
+    <style>
+        :root {
+            --main-bg: #f8f9fb;
+            --accent: #d174e1;
+            --primary-dark: #0f2940;
+            --pink: #ff3fc8;
+        }
 
-    {% if lesson.format == 'video' %}
-        <div class="video-wrapper">
-            {% if lesson.video_url %}
-                {% if 'youtube.com' in lesson.video_url or 'youtu.be' in lesson.video_url %}
-                    <iframe src="https://www.youtube.com/embed/{{ lesson.video_url|slice:'-11:' }}"
-                            allowfullscreen></iframe>
-                {% elif 'vimeo.com' in lesson.video_url %}
-                    <iframe src="https://player.vimeo.com/video/{{ lesson.video_url|slice:'18:' }}"
-                            allowfullscreen></iframe>
-                {% else %}
-                    <video controls>
-                        <source src="{{ lesson.video_url }}">
-                    </video>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: sans-serif;
+            background: var(--main-bg);
+            color: #222;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropbtn {
+            background: none;
+            border: none;
+            color: #BFBFBF;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .dropbtn:hover,
+        .dropbtn:focus {
+            color: #0B304A;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 10px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem var(--padding-x);
+            background: #ffffff;
+            box-shadow: 0 0.375rem 0.75rem rgba(132, 140, 156, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background-color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: var(--max-width);
+            gap: clamp(1rem, 5vw, 3.5rem);
+        }
+
+        .logo {
+            font-size: clamp(1.5rem, 2vw, 2rem);
+            font-weight: 800;
+            font-family: 'Sofia Sans', sans-serif;
+            background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .menu {
+            display: flex;
+            gap: clamp(1rem, 3vw, 2.5rem);
+            list-style: none;
+        }
+
+        .menu li a {
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #BFBFBF;
+            transition: color 0.3s ease;
+        }
+
+        .menu li a.active,
+        .menu li a:hover {
+            color: #0B304A;
+        }
+
+        .search {
+            display: flex;
+            align-items: center;
+            border: 2px solid #768694;
+            border-radius: 0.25rem;
+            padding: 0.5rem 1rem;
+            flex-grow: 1;
+            max-width: 20rem;
+            gap: 0.5rem;
+        }
+
+        .search input {
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            flex: 1;
+            background: transparent;
+            color: #768694;
+        }
+
+        .search i {
+            color: #768694;
+        }
+
+        .icons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: 5%;
+        }
+
+        .icons i {
+            font-size: 1.25rem;
+            color: #0B304A;
+            cursor: pointer;
+        }
+
+        .avatar-dropdown {
+            position: relative;
+        }
+
+        .avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #BFBFBF;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 200px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(132, 140, 156, 0.2);
+            display: none;
+            flex-direction: column;
+            padding: 16px 0;
+            z-index: 1000;
+        }
+
+        .dropdown-menu a {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #0B304A;
+            font-weight: 600;
+            font-size: 16px;
+            transition: background 0.2s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background: #F5F6F9;
+            border-radius: 8px;
+        }
+
+        .show {
+            display: flex;
+        }
+
+        .icons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: 5%;
+        }
+
+        .icons i {
+            font-size: 1.25rem;
+            color: #0B304A;
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #BFBFBF;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .search-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-profile input {
+            padding: 0.5em 1em;
+        }
+
+        .icons span {
+            font-size: 1.2rem;
+        }
+
+        .page-container {
+            display: flex;
+            gap: 2em;
+            padding: 2em;
+            flex-wrap: wrap;
+        }
+
+        .content {
+            flex: 3;
+            min-width: 60%;
+        }
+
+        .sidebar {
+            flex: 1;
+            background: white;
+            padding: 1em;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            min-width: 200px;
+            height: 50%;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 1em;
+        }
+
+        .tags span {
+            display: inline-block;
+            background: #eaeaea;
+            padding: 0.3em 0.7em;
+            border-radius: 20px;
+            margin: 0.2em;
+            font-size: 0.85rem;
+        }
+
+        .big-book-card {
+            background: white;
+            padding: 2em;
+            border-radius: 12px;
+            margin-bottom: 2em;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            border: 2px solid #1e2a3a22;
+        }
+
+        .big-book-card h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .big-book-card .author {
+            color: #555;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .download-button {
+            display: inline-block;
+            background: var(--pink);
+            color: white;
+            padding: 0.8em 2em;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.2s ease;
+        }
+
+        .download-button:hover {
+            background: #e127b2;
+        }
+
+        .section {
+            margin-bottom: 2em;
+        }
+
+        .section h2 {
+            margin-bottom: 0.5em;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+            gap: 1rem;
+        }
+
+        .card {
+            background: white;
+            padding: 1em;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            min-height: 7rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card span {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .card.watch {
+            border: 1px solid #0B304A;
+        }
+
+        .card.read {
+            border: 1px solid #0B304A;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5em;
+            overflow: hidden;
+        }
+
+        .card-content img,
+        .card-content video {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .card-content p {
+            margin: 0;
+            font-size: 1rem;
+            color: #222;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            margin-bottom: 20px;
+        }
+
+        .video-wrapper iframe,
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .lesson-body {
+            margin: 30px 0;
+        }
+
+        .lesson-attachments ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .lesson-attachments li {
+            margin: 10px 0;
+        }
+
+        .lesson-attachments a {
+            color: #d63384;
+            text-decoration: none;
+        }
+
+        .lesson-attachments a:hover {
+            text-decoration: underline;
+        }
+
+        .fa-file-pdf {
+            margin-right: 8px;
+            color: #d63384;
+        }
+
+        .footer {
+            background-color: #0B304A;
+            padding: 48px 80px 40px;
+            margin-top: 50px;
+            color: #FFFFFF;
+            font-family: 'General Sans', sans-serif;
+        }
+
+        .footer-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 32px;
+            font-weight: 800;
+            font-family: 'Sofia Sans', sans-serif;
+            margin-bottom: 36px;
+        }
+
+        .footer-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 80px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-column a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-copy {
+            color: #EBECF2;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-profile {
+                width: 100%;
+                margin-top: 1em;
+            }
+
+            .page-container {
+                flex-direction: column;
+                padding: 1em;
+            }
+
+            .sidebar {
+                display: none;
+            }
+        }
+    </style>
+    <body>
+
+
+    <div class="page-container">
+        <main class="content">
+            <!-- Main Book/Lesson Card -->
+            <div class="big-book-card">
+                <h1>{{ lesson.title }}</h1>
+                <p class="author">Author: {{ lesson.author.get_full_name|default:lesson.author.username }}</p>
+
+                {% if lesson.format == 'video' %}
+                    <div class="video-wrapper">
+                        {% if lesson.video_url %}
+                            {% if 'youtube.com' in lesson.video_url or 'youtu.be' in lesson.video_url %}
+                                <iframe src="https://www.youtube.com/embed/{{ lesson.video_url|slice:'-11:' }}"
+                                        allowfullscreen></iframe>
+                            {% elif 'vimeo.com' in lesson.video_url %}
+                                <iframe src="https://player.vimeo.com/video/{{ lesson.video_url|slice:'18:' }}"
+                                        allowfullscreen></iframe>
+                            {% else %}
+                                <video controls>
+                                    <source src="{{ lesson.video_url }}">
+                                </video>
+                            {% endif %}
+                        {% else %}
+                            <video controls>
+                                <source src="{{ lesson.video_file.url }}">
+                            </video>
+                        {% endif %}
+                    </div>
                 {% endif %}
-            {% else %}
-                <video controls>
-                    <source src="{{ lesson.video_file.url }}">
-                </video>
-            {% endif %}
+
+                {% if attachments %}
+                    {% for attachment in attachments %}
+                        <a href="{{ attachment.pdf_file.url }}" class="download-button" download>
+                            <i class="fas fa-file-pdf"></i> Download {{ attachment.title }}
+                        </a>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <!-- Lesson Content -->
+            <section class="section">
+                <h2>Lesson Content</h2>
+                <div class="lesson-body">
+                    {{ lesson.content|linebreaks }}
+                </div>
+            </section>
+
+            <!-- Related Content -->
+            <section class="section">
+                <h2>Related Content</h2>
+                <div class="card-grid">
+                    {% for related in related_lessons %}
+                        <div class="card {% if related.format == 'video' %}watch{% else %}read{% endif %}">
+                            <div class="card-content">
+                                <p>{{ related.title }}</p>
+                                {% if related.format == 'video' %}
+                                    {% if related.video_url %}
+                                        <video controls>
+                                            <source src="{{ related.video_url }}">
+                                        </video>
+                                    {% else %}
+                                        <video controls>
+                                            <source src="{{ related.video_file.url }}">
+                                        </video>
+                                    {% endif %}
+                                {% else %}
+                                    <p>{{ related.content|truncatewords:20 }}</p>
+                                {% endif %}
+                            </div>
+                            <span>{% if related.format == 'video' %}Watch{% else %}Read{% endif %}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>Recently viewed</h3>
+            <div class="tags">
+                {% for tag in recent_tags %}
+                    <span>{{ tag }}</span>
+                {% endfor %}
+            </div>
+        </aside>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <h2 class="footer-logo">MindBridge</h2>
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <a href="home2.html">Home</a>
+                    <a href="MainCareer.html">Career</a>
+                    <a href="discussionpage.html">Discussions</a>
+                </div>
+                <div class="footer-column">
+                    <a href="library_main.html">Articles</a>
+                    <a href="library-view.html">Videos</a>
+                    <a href="library-book.html">Books</a>
+                </div>
+                <div class="footer-column">
+                    <a href="welcome.html">About</a>
+                </div>
+            </div>
+            <p class="footer-copy">2025 MindBridge</p>
         </div>
-    {% endif %}
+    </footer>
 
-    <div class="lesson-body">
-        <h2>Lesson Content</h2>
-        {{ lesson.content|linebreaks }}
-    </div>
+    <script>
+        function openModal(src) {
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('/library/post.png');
+            modal.style.display = 'flex';
+            modalImg.src = src;
+        }
 
-    {% if attachments %}
-    <div class="lesson-attachments">
-        <h3>Downloads</h3>
-        <ul>
-            {% for attachment in attachments %}
-            <li>
-                <a href="{{ attachment.pdf_file.url }}" download>
-                    <i class="fas fa-file-pdf"></i> {{ attachment.title }}
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
-</div>
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
 
-<style>
-    .lesson-container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-    }
+        function toggleDropdown() {
+            document.getElementById("libraryDropdown").classList.toggle("show");
+        }
 
-    .author {
-        color: #666;
-        margin-bottom: 20px;
-    }
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                const dropdowns = document.getElementsByClassName("dropdown-content");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    dropdowns[i].classList.remove('show');
+                }
+            }
+        }
 
-    .video-wrapper {
-        position: relative;
-        padding-bottom: 56.25%; /* 16:9 aspect ratio */
-        margin-bottom: 20px;
-    }
+        function filterContent() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const cards = document.querySelectorAll('.post-card');
 
-    .video-wrapper iframe,
-    .video-wrapper video {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
+            cards.forEach(function (card) {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(filter) ? 'block' : 'none';
+            });
+        }
 
-    .lesson-body {
-        margin: 30px 0;
-    }
+        function toggleMenu() {
+            document.getElementById("profileMenu").classList.toggle("show");
+        }
 
-    .lesson-attachments ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    .lesson-attachments li {
-        margin: 10px 0;
-    }
-
-    .lesson-attachments a {
-        color: #d63384;
-        text-decoration: none;
-    }
-
-    .lesson-attachments a:hover {
-        text-decoration: underline;
-    }
-
-    .fa-file-pdf {
-        margin-right: 8px;
-        color: #d63384;
-    }
-</style>
+        window.onclick = function (event) {
+            if (!event.target.closest('.avatar-dropdown')) {
+                document.getElementById("profileMenu").classList.remove("show");
+            }
+        }
+    </script>
+    </body>
+    </html>
 {% endblock %}

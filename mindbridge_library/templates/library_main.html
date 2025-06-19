@@ -732,6 +732,9 @@
                             Profile</a>
                         <a href="{% url 'base:edit-profile' request.user.id %}"><i class="fa-solid fa-pen"></i> Edit</a>
                         <a href="{% url 'base:saved-discussions' %}"><i class="fa-regular fa-bookmark"></i> Saved</a>
+                        {% if user.is_staff %}
+                            <a href="{% url 'admin:index' %}"><i class="fa-regular fa-hammer"></i>Admin panel</a>
+                        {% endif %}
                         <a href="{% url 'auth:logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
                     </div>
                 </div>
@@ -758,33 +761,44 @@
 
         {% if user.is_authenticated %}
             <section class="section">
-                <h2>Continue {% if current_format == 'video' %}Watching{% elif current_format == 'article' %}
-                    Reading{% else %}Learning{% endif %}</h2>
-                <div class="horizontal-scroll">
-                    {% for lesson in continue_section %}
-                        <div class="card">
-                            <div class="card-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">
-                                {{ lesson.get_format_display }}
-                            </div>
-                            <h3 class="card-title"><a
-                                    href="{% url 'lesson_detail' slug=lesson.slug %}">{{ lesson.title }}</a></h3>
-                            {% if lesson.format == 'video' and lesson.thumbnail %}
-                                <div class="video-preview-container"
-                                     data-video-url="
-                                             {% if lesson.video_url %}{{ lesson.video_url }}{% else %}{{ lesson.video_file.url }}{% endif %}">
-                                    <img src="{{ lesson.thumbnail.url }}" alt="{{ lesson.title }}"
-                                         class="video-preview-thumbnail">
-                                    <div class="video-preview-overlay">
-                                        <i class="fas fa-play play-icon"></i>
-                                    </div>
+                <h2>Continue Learning</h2>
+                {% if continue_section %}
+                    <div class="horizontal-scroll">
+                        {% for lesson in continue_section %}
+                            <div class="card">
+                                <div class="card-format {% if lesson.format == 'video' %}video-format{% else %}article-format{% endif %}">
+                                    {{ lesson.get_format_display }}
                                 </div>
-                            {% endif %}
+                                <h3 class="card-title">
+                                    <a href="{% url 'lesson_detail' slug=lesson.slug %}">
+                                        {{ lesson.title }}
+                                    </a>
+                                </h3>
 
-                        </div>
-                    {% empty %}
-                        <p>No lessons in progress. Start learning!</p>
-                    {% endfor %}
-                </div>
+                                <!-- Progress Bar -->
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: {{ lesson.progress_percentage }}%"></div>
+                                </div>
+                                <div class="progress-text">{{ lesson.progress_percentage }}% complete</div>
+
+                                {% if lesson.format == 'video' and lesson.thumbnail %}
+                                    <img src="{{ lesson.thumbnail.url }}" alt="{{ lesson.title }}" class="card-media">
+                                {% endif %}
+
+                                <div class="card-meta">
+                        <span class="card-meta-item">
+                            <i class="fas fa-user"></i> {{ lesson.author.username }}
+                        </span>
+                                    <span class="card-meta-item">
+                            <i class="fas fa-calendar"></i> {{ lesson.created_at|date:"M d, Y" }}
+                        </span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>You haven't started any lessons yet. Browse our library to begin learning!</p>
+                {% endif %}
             </section>
 
             <section class="section">
@@ -882,6 +896,8 @@
 
 
 
+
+
                             {{ page_obj.previous_page_number }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}"
                        class="page-nav" title="Previous Page">
                         <i class="fas fa-angle-left"></i>
@@ -899,6 +915,8 @@
 
 
 
+
+
                                 {{ num }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}">{{ num }}</a>
                     {% endif %}
                 {% endfor %}
@@ -910,11 +928,15 @@
 
 
 
+
+
                             {{ page_obj.next_page_number }}{% if current_filter %}&filter_type={{ current_filter }}{% endif %}"
                        class="page-nav" title="Next Page">
                         <i class="fas fa-angle-right"></i>
                     </a>
                     <a href="?page=
+
+
 
 
 
@@ -964,134 +986,73 @@
 </footer>
 </body>
 <script>
-    function openModal(src) {
-        const modal = document.getElementById('modal');
-        const modalImg = document.getElementById('/library/post.png');
-        modal.style.display = 'flex';
-        modalImg.src = src;
-    }
+document.addEventListener('DOMContentLoaded', function() {
+    {% if user.is_authenticated and lesson.slug %}
+    const lessonSlug = '{{ lesson.slug }}';
 
-    function closeModal() {
-        document.getElementById('modal').style.display = 'none';
-    }
+    // For video lessons
+    const video = document.querySelector('video');
+    if (video) {
+        video.addEventListener('timeupdate', function() {
+            const position = Math.floor(video.currentTime);
+            updateProgress(position, video.duration);
+        });
 
-    function toggleDropdown() {
-        document.getElementById("libraryDropdown").classList.toggle("show");
-    }
-
-    window.onclick = function (event) {
-        if (!event.target.matches('.dropbtn')) {
-            const dropdowns = document.getElementsByClassName("dropdown-content");
-            for (let i = 0; i < dropdowns.length; i++) {
-                dropdowns[i].classList.remove('show');
-            }
-        }
-    }
-
-    function filterContent() {
-        const input = document.getElementById('searchInput');
-        const filter = input.value.toLowerCase();
-        const cards = document.querySelectorAll('.card');
-
-        cards.forEach(function (card) {
-            const text = card.textContent.toLowerCase();
-            card.style.display = text.includes(filter) ? 'block' : 'none';
+        video.addEventListener('ended', function() {
+            markAsCompleted();
         });
     }
 
-    function toggleMenu() {
-        document.getElementById("profileMenu").classList.toggle("show");
-    }
+    // For article lessons
+    const articleContent = document.querySelector('.lesson-body');
+    if (articleContent) {
+        let lastScrollPosition = 0;
 
-    window.onclick = function (event) {
-        if (!event.target.closest('.avatar-dropdown')) {
-            document.getElementById("profileMenu").classList.remove("show");
-        }
-    }
-    // Video Preview Functionality
-    document.addEventListener('DOMContentLoaded', function () {
-        const videoContainers = document.querySelectorAll('.video-preview-container');
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.scrollY || window.pageYOffset;
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            const scrollPercentage = (scrollPosition / maxScroll) * 100;
 
-        videoContainers.forEach(container => {
-            // Create preview element
-            const preview = document.createElement('div');
-            preview.className = 'video-preview';
-            preview.style.display = 'none';
-            preview.style.position = 'absolute';
-            preview.style.zIndex = '1000';
-            preview.style.boxShadow = '0 0 20px rgba(0,0,0,0.3)';
-            preview.style.borderRadius = '8px';
-            preview.style.overflow = 'hidden';
-            preview.style.transition = 'all 0.3s ease';
-
-            // Create iframe for video
-            const iframe = document.createElement('iframe');
-            iframe.setAttribute('allowfullscreen', '');
-            iframe.setAttribute('allow', 'autoplay');
-            iframe.style.width = '300px';
-            iframe.style.height = '169px';
-            iframe.style.border = 'none';
-
-            preview.appendChild(iframe);
-            document.body.appendChild(preview);
-
-            // Show preview on hover
-            container.addEventListener('mouseenter', function (e) {
-                const videoUrl = this.getAttribute('data-video-url');
-                const embedUrl = convertToEmbedUrl(videoUrl);
-
-                if (embedUrl) {
-                    iframe.src = embedUrl + '?autoplay=1&mute=1&controls=0';
-                    preview.style.display = 'block';
-                    positionPreview(preview, this);
-                }
-            });
-
-            // Hide preview when not hovering
-            container.addEventListener('mouseleave', function () {
-                iframe.src = '';
-                preview.style.display = 'none';
-            });
-
-            // Keep preview positioned correctly when scrolling
-            window.addEventListener('scroll', function () {
-                if (preview.style.display === 'block') {
-                    const container = iframe.parentElement.parentElement;
-                    positionPreview(preview, container);
-                }
-            });
+            if (Math.abs(scrollPercentage - lastScrollPosition) > 5) {
+                lastScrollPosition = scrollPercentage;
+                updateProgress(
+                    Math.floor(scrollPosition),
+                    document.body.scrollHeight
+                );
+            }
         });
+    }
 
-        function positionPreview(preview, container) {
-            const rect = container.getBoundingClientRect();
-            const top = rect.top + window.scrollY;
-            const left = rect.left + window.scrollX;
+    function updateProgress(position, total) {
+        fetch(`/library/${lessonSlug}/update-progress/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                position: position,
+                completed: position >= total * 0.95
+            })
+        });
+    }
 
-            // Position preview to the right of the container
-            preview.style.top = top + 'px';
-            preview.style.left = (left + rect.width + 20) + 'px';
-        }
-
-        function convertToEmbedUrl(url) {
-            // YouTube
-            if (url.includes('youtube.com') || url.includes('youtu.be')) {
-                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-                const match = url.match(regExp);
-                if (match && match[2].length === 11) {
-                    return 'https://www.youtube.com/embed/' + match[2];
-                }
-            }
-            // Vimeo
-            else if (url.includes('vimeo.com')) {
-                const regExp = /^.*(vimeo.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/;
-                const match = url.match(regExp);
-                if (match && match[5]) {
-                    return 'https://player.vimeo.com/video/' + match[5];
-                }
-            }
-            // Direct video files (won't work for preview but can show thumbnail)
-            return null;
-        }
-    });
+    function markAsCompleted() {
+        fetch(`/library/${lessonSlug}/update-progress/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                position: 100,
+                completed: true
+            })
+        });
+    }
+    {% endif %}
+});
 </script>
 </html>

@@ -136,6 +136,7 @@
         input[type="checkbox"] {
             width: auto;
         }
+
         .hidden {
             display: none;
         }
@@ -148,7 +149,7 @@
         <main class="content">
             <h1>Create New Lesson</h1>
 
-            <form method="post" enctype="multipart/form-data" class="lesson-form" id="lessonForm">
+            <form method="POST" enctype="multipart/form-data" class="lesson-form" id="lessonForm">
                 {% csrf_token %}
 
                 <!-- Common fields -->
@@ -210,6 +211,13 @@
                 </div>
 
                 <div class="form-group">
+                    {{ form.tag_names.label_tag }}
+                    {{ form.tag_names }}
+                    {{ form.tag_names.errors }}
+                    <small class="form-text">{{ form.tag_names.help_text }}</small>
+                </div>
+
+                <div class="form-group">
                     {{ form.is_published.label_tag }}
                     {{ form.is_published }}
                     {{ form.is_published.errors }}
@@ -256,12 +264,12 @@
             }
 
             // Calculate duration when video file is selected
-            videoFileInput.addEventListener('change', function(e) {
+            videoFileInput.addEventListener('change', function (e) {
                 if (this.files && this.files[0]) {
                     const video = document.createElement('video');
                     video.preload = 'metadata';
 
-                    video.onloadedmetadata = function() {
+                    video.onloadedmetadata = function () {
                         window.URL.revokeObjectURL(video.src);
                         const duration = Math.round(video.duration);
                         document.getElementById('id_duration').value = duration;

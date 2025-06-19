@@ -1,5 +1,5 @@
 from django import forms
-from .models import Lesson, LessonAttachment
+from .models import Lesson, LessonAttachment, CustomTag
 
 
 class LessonForm(forms.ModelForm):
@@ -18,6 +18,13 @@ class LessonForm(forms.ModelForm):
             'placeholder': 'Attachment title'
         })
     )
+    tag_names = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Comma-separated tags (e.g., python, django, web-development)'
+        }),
+        help_text="Enter tags separated by commas"
+    )
 
     class Meta:
         model = Lesson
@@ -34,6 +41,8 @@ class LessonForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['duration'].widget.attrs['readonly'] = True
+        if self.instance.pk:
+            self.fields['tag_names'].initial = ', '.join(tag.name for tag in self.instance.tags.all())
 
     def clean(self):
         cleaned_data = super().clean()
@@ -59,6 +68,26 @@ class LessonForm(forms.ModelForm):
                 raise forms.ValidationError("Video fields should be empty for articles")
 
         return cleaned_data
+
+    def save(self, commit=True):
+        lesson = super().save(commit=False)
+
+        if commit:
+            # Save the lesson first to get an ID
+            lesson.save()
+
+            # Save many-to-many relationships
+            self.save_m2m()
+
+            # Handle tags
+            tag_names = self.cleaned_data.get('tag_names', '')
+            if tag_names:
+                lesson.tags.clear()  # Clear existing tags if editing
+                for name in [name.strip() for name in tag_names.split(',') if name.strip()]:
+                    tag, created = CustomTag.objects.get_or_create(name=name.lower())
+                    lesson.tags.add(tag)
+
+        return lesson
 
 
 class AttachmentForm(forms.ModelForm):

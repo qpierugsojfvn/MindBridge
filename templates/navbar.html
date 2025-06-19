@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-{#        <title>navbar</title>#}
+        {#        <title>navbar</title>#}
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"/>
         <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -788,15 +788,15 @@
                     <li><a href="{% url 'base:home' %}">Home</a></li>
                     <li><a href="{% url 'base:discussions' %}">Discussions</a></li>
                     <li class="dropdown">
-                <a href="{% url 'library' %}" onclick="toggleDropdown()" class="dropbtn"> Library</a>
-                <div class="dropdown-content" id="libraryDropdown">
-                    <a href="{% url 'library' %}" class="active">Library Home</a>
-                    <a href="{% url 'filter_articles' %}"
-                       class="tag {% if current_filter == 'article' %}active{% endif %}">Library Book</a>
-                    <a href="{% url 'filter_videos' %}"
-                       class="tag {% if current_filter == 'video' %}active{% endif %}">Library Videos</a>
-                </div>
-            </li>
+                        <a href="{% url 'library' %}" onclick="toggleDropdown()" class="dropbtn"> Library</a>
+                        <div class="dropdown-content" id="libraryDropdown">
+                            <a href="{% url 'library' %}" class="active">Library Home</a>
+                            <a href="{% url 'filter_articles' %}"
+                               class="tag {% if current_filter == 'article' %}active{% endif %}">Library Book</a>
+                            <a href="{% url 'filter_videos' %}"
+                               class="tag {% if current_filter == 'video' %}active{% endif %}">Library Videos</a>
+                        </div>
+                    </li>
                     <li><a href="{% url 'careers:vacancy_list' %}">Career</a></li>
                 </ul>
                 <div class="search">
@@ -811,7 +811,7 @@
                             {% if user.profile.avatar %}
                                 <img src="{{ user.profile.avatar.url }}" alt="Profile Picture"/>
                             {% else %}
-                                <img src="/static/library/ava.png" alt="Profile Picture"/>
+                                <img src="/static/icons/ava.png" alt="Profile Picture"/>
                             {% endif %}
                         </div>
                         <div class="dropdown-menu" id="profileMenu">
@@ -821,6 +821,9 @@
                                 Edit</a>
                             <a href="{% url 'base:saved-discussions' %}"><i class="fa-regular fa-bookmark"></i>
                                 Saved</a>
+                            {% if user.is_staff %}
+                                <a href="{% url 'admin:index' %}"><i class="fa-regular fa-hammer"></i>Admin panel</a>
+                            {% endif %}
                             <a href={% url 'auth:logout' %}><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
                         </div>
                     </div>

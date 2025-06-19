@@ -12,366 +12,605 @@
 </head>
 <style>
 
+    body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background: #f9f9fb;
+        color: #333;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .dropdown {
+        position: relative;
+    }
+
+    .dropbtn {
+        background: none;
+        border: none;
+        color: #BFBFBF;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .dropbtn:hover,
+    .dropbtn:focus {
+        color: #0B304A;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        border-radius: 6px;
+        margin-top: 10px;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 10px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    .show {
+        display: block;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem var(--padding-x);
+        background: #ffffff;
+        box-shadow: 0 0.375rem 0.75rem rgba(132, 140, 156, 0.2);
+        position: sticky;
+        top: 0;
+        z-index: 999;
+        background-color: white;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: var(--max-width);
+        gap: clamp(1rem, 5vw, 3.5rem);
+    }
+
+    .logo {
+        font-size: clamp(1.5rem, 2vw, 2rem);
+        font-weight: 800;
+        font-family: 'Sofia Sans', sans-serif;
+        background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .menu {
+        display: flex;
+        gap: clamp(1rem, 3vw, 2.5rem);
+        list-style: none;
+    }
+
+    .menu li a {
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #BFBFBF;
+        transition: color 0.3s ease;
+    }
+
+    .menu li a.active,
+    .menu li a:hover {
+        color: #0B304A;
+    }
+
+    .search {
+        display: flex;
+        align-items: center;
+        border: 2px solid #768694;
+        border-radius: 0.25rem;
+        padding: 0.5rem 1rem;
+        flex-grow: 1;
+        max-width: 20rem;
+        gap: 0.5rem;
+    }
+
+    .search input {
+        border: none;
+        outline: none;
+        font-size: 1rem;
+        flex: 1;
+        background: transparent;
+        color: #768694;
+    }
+
+    .search i {
+        color: #768694;
+    }
+
+    .icons {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-left: 5%;
+    }
+
+    .icons i {
+        font-size: 1.25rem;
+        color: #0B304A;
+        cursor: pointer;
+    }
+
+    .avatar-dropdown {
+        position: relative;
+    }
+
+    .avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid #BFBFBF;
+    }
+
+    .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 200px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(132, 140, 156, 0.2);
+        display: none;
+        flex-direction: column;
+        padding: 16px 0;
+        z-index: 1000;
+    }
+
+    .dropdown-menu a {
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: #0B304A;
+        font-weight: 600;
+        font-size: 16px;
+        transition: background 0.2s ease;
+    }
+
+    .dropdown-menu a:hover {
+        background: #F5F6F9;
+        border-radius: 8px;
+    }
+
+    .show {
+        display: flex;
+    }
+
+
+    .main-layout {
+        display: flex;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .filters {
+        width: 250px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+    }
+
+    .filters h4 {
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .filters label {
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    .jobs {
+        flex: 1;
+    }
+
+    .job-card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+    }
+
+    .job-card h3 {
+        margin-top: 0;
+    }
+
+    .salary {
+        font-weight: bold;
+        margin: 5px 0;
+    }
+
+    .tags {
+        color: #888;
+        font-size: 14px;
+    }
+
+    .company {
+        font-size: 14px;
+        color: #444;
+    }
+
+    .apply-btn {
+        background: #f052e3;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .pagination {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .page {
+        border: none;
+        background: #eee;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .page.active {
+        background: #f052e3;
+        color: white;
+    }
+
+    .footer {
+        background-color: #0B304A;
+        padding: 48px 80px 40px;
+        margin-top: 50px;
+        color: #FFFFFF;
+        font-family: 'General Sans', sans-serif;
+    }
+
+    .footer-inner {
+        max-width: 1280px;
+        margin: 0 auto;
+    }
+
+    .footer-logo {
+        font-size: 32px;
+        font-weight: 800;
+        font-family: 'Sofia Sans', sans-serif;
+        margin-bottom: 36px;
+    }
+
+    .footer-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 80px;
+        margin-bottom: 40px;
+    }
+
+    .footer-column {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .footer-column a {
+        color: #FFFFFF;
+        text-decoration: none;
+        font-weight: 400;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+    }
+
+    .footer-copy {
+        color: #EBECF2;
+        font-size: 16px;
+    }
+
+    .header-area {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 1200px;
+        margin: 20px auto 0;
+        padding: 0 20px;
+    }
+
+    .top-bar {
+        display: flex;
+        align-items: center;
+    }
+
+    .top-bar .tags {
+        display: flex;
+        gap: 10px;
+    }
+
+    .tag {
+        background-color: #e0e0e0;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .tag.active {
+        background-color: #101f35;
+        color: white;
+    }
+
+    .search-bar {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .search-bar input {
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        flex: 1;
+    }
+
+    .search-bar button {
+        background-color: #101f35;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .filter-bar {
+        display: flex;
+        gap: 20px;
+        padding: 10px 0;
+        align-items: center;
+    }
+
+    .filter-btn {
+        background: none;
+        border: none;
+        font-size: 16px;
+        color: #ff4bd8;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    .filter-btn:hover {
+        text-decoration: underline;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 20px auto;
+        display: flex;
+        gap: 24px;
+        padding: 0 20px;
+    }
+
+    .sidebar {
+        width: 250px;
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+
+    .sidebar h4 {
+        margin-top: 20px;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    .sidebar label {
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .profiles {
+        flex: 1;
+    }
+
+    .profile-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .profile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .profile-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .profile-info img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+
+    .profile-info .name {
+        font-weight: bold;
+    }
+
+    .profile-info .location {
+        font-size: 12px;
+        color: gray;
+    }
+
+    .hire-btn {
+        background: #ff4bd8;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    body.dark-mode {
+        background: #121212;
+        color: #eee;
+    }
+
+    .dark-mode .header,
+    .dark-mode .filters,
+    .dark-mode .job-card,
+    .dark-mode .profile-card,
+    .dark-mode .sidebar {
+        background: #1e1e1e;
+        border-color: #333;
+    }
+
+    .dark-mode .nav a,
+    .dark-mode .company,
+    .dark-mode .tags,
+    .dark-mode .filter-btn {
+        color: #ccc;
+    }
+
+    .dark-mode .logo {
+        color: #ff74e8;
+    }
+
+    .dark-mode .apply-btn,
+    .dark-mode .hire-btn,
+    .dark-mode .search-bar button {
+        background-color: #ff4bd8;
+        color: white;
+    }
+
+    .dark-mode .page {
+        background: #333;
+        color: #eee;
+    }
+
+    .dark-mode .page.active {
+        background: #ff4bd8;
+        color: white;
+    }
+
+    .dark-mode .footer {
+        background: #000;
+        color: #eee;
+    }
+
+    .dark-mode .footer a {
+        color: #ccc;
+    }
+
+    .mobile-topbar {
+        display: none;
+    }
+
+    .filters {
+        display: none;
+    }
+
+    @media (max-width: 480px) {
         body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background: #f9f9fb;
-            color: #333;
+            font-size: 15px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        /* Скрываем десктопный header и поиск */
+        .header,
+        .search-profile,
+        .search-bar {
+            display: none !important;
         }
 
-        .dropdown {
-            position: relative;
-        }
-
-        .dropbtn {
-            background: none;
-            border: none;
-            color: #BFBFBF;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 0;
-        }
-
-        .dropbtn:hover,
-        .dropbtn:focus {
-            color: #0B304A;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            border-radius: 6px;
-            margin-top: 10px;
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 10px 16px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-
-        .show {
-            display: block;
-        }
-
-        .navbar {
+        /* Mobile topbar (бургер, поиск, сообщение) */
+        .mobile-topbar {
             display: flex;
-            justify-content: center;
             align-items: center;
-            padding: 1rem var(--padding-x);
-            background: #ffffff;
-            box-shadow: 0 0.375rem 0.75rem rgba(132, 140, 156, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 999;
-            background-color: white;
-            padding: 10px 20px;
-            display: flex;
             justify-content: space-between;
-            align-items: center;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            padding: 12px 16px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
         }
 
-        .navbar-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            max-width: var(--max-width);
-            gap: clamp(1rem, 5vw, 3.5rem);
-        }
-
-        .logo {
-            font-size: clamp(1.5rem, 2vw, 2rem);
-            font-weight: 800;
-            font-family: 'Sofia Sans', sans-serif;
-            background: linear-gradient(90deg, #FF9EB2, #FAA5FB, #F495FF, #E2D5FF, #8F93FF);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .menu {
-            display: flex;
-            gap: clamp(1rem, 3vw, 2.5rem);
-            list-style: none;
-        }
-
-        .menu li a {
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #BFBFBF;
-            transition: color 0.3s ease;
-        }
-
-        .menu li a.active,
-        .menu li a:hover {
-            color: #0B304A;
-        }
-
-        .search {
-            display: flex;
-            align-items: center;
-            border: 2px solid #768694;
-            border-radius: 0.25rem;
-            padding: 0.5rem 1rem;
-            flex-grow: 1;
-            max-width: 20rem;
-            gap: 0.5rem;
-        }
-
-        .search input {
-            border: none;
-            outline: none;
-            font-size: 1rem;
+        .mobile-search-input {
             flex: 1;
-            background: transparent;
-            color: #768694;
-        }
-
-        .search i {
-            color: #768694;
-        }
-
-        .icons {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-left: 5%;
-        }
-
-        .icons i {
-            font-size: 1.25rem;
-            color: #0B304A;
-            cursor: pointer;
-        }
-
-        .avatar-dropdown {
-            position: relative;
-        }
-
-        .avatar {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid #BFBFBF;
-        }
-
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 50px;
-            right: 0;
-            width: 200px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 6px 12px rgba(132, 140, 156, 0.2);
-            display: none;
-            flex-direction: column;
-            padding: 16px 0;
-            z-index: 1000;
-        }
-
-        .dropdown-menu a {
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: #0B304A;
-            font-weight: 600;
-            font-size: 16px;
-            transition: background 0.2s ease;
-        }
-
-        .dropdown-menu a:hover {
-            background: #F5F6F9;
+            margin: 0 12px;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
             border-radius: 8px;
         }
 
-        .show {
-            display: flex;
-        }
-
-
-        .main-layout {
-            display: flex;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .filters {
-            width: 250px;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            font-size: 14px;
-            border: 1px solid #ddd;
-        }
-
-        .filters h4 {
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-
-        .filters label {
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .jobs {
-            flex: 1;
-        }
-
-        .job-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-        }
-
-        .job-card h3 {
-            margin-top: 0;
-        }
-
-        .salary {
-            font-weight: bold;
-            margin: 5px 0;
-        }
-
-        .tags {
-            color: #888;
-            font-size: 14px;
-        }
-
-        .company {
-            font-size: 14px;
-            color: #444;
-        }
-
-        .apply-btn {
-            background: #f052e3;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .pagination {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .page {
-            border: none;
-            background: #eee;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .page.active {
-            background: #f052e3;
-            color: white;
-        }
-
-        .footer {
-            background-color: #0B304A;
-            padding: 48px 80px 40px;
-            margin-top: 50px;
-            color: #FFFFFF;
-            font-family: 'General Sans', sans-serif;
-        }
-
-        .footer-inner {
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        .footer-logo {
-            font-size: 32px;
-            font-weight: 800;
-            font-family: 'Sofia Sans', sans-serif;
-            margin-bottom: 36px;
-        }
-
-        .footer-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 80px;
-            margin-bottom: 40px;
-        }
-
-        .footer-column {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .footer-column a {
-            color: #FFFFFF;
-            text-decoration: none;
-            font-weight: 400;
-            font-size: 16px;
-            letter-spacing: 0.5px;
-        }
-
-        .footer-copy {
-            color: #EBECF2;
-            font-size: 16px;
-        }
-
-        .header-area {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 1200px;
-            margin: 20px auto 0;
-            padding: 0 20px;
-        }
-
+        /* Top-bar с тегами и Hire */
         .top-bar {
             display: flex;
             align-items: center;
-        }
-
-        .top-bar .tags {
-            display: flex;
+            justify-content: space-between;
+            padding: 12px 16px;
+            flex-wrap: wrap;
             gap: 10px;
         }
 
+        .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
         .tag {
-            background-color: #e0e0e0;
+            background: #e0e0e0;
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 14px;
-            cursor: pointer;
+            white-space: nowrap;
         }
 
         .tag.active {
@@ -379,375 +618,136 @@
             color: white;
         }
 
-        .search-bar {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .search-bar input {
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            flex: 1;
-        }
-
-        .search-bar button {
-            background-color: #101f35;
+        .hire-btn {
+            background: #ff4bd8;
             color: white;
-            border: none;
             padding: 8px 16px;
-            border-radius: 6px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
             cursor: pointer;
         }
 
-        .filter-bar {
+        /* Filter toggle */
+        .filter-toggle-btn {
+            display: inline-block;
+            margin: 10px 16px 0;
+            padding: 10px 16px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Filter panel */
+        .filters {
+            display: none;
+            width: 100%;
+            margin: 10px 0;
+            padding: 16px;
+            background: #fff;
+            border-top: 1px solid #ddd;
+        }
+
+        .filters.active {
+            display: block;
+        }
+
+        .filters h4 {
+            margin-top: 10px;
+        }
+
+        .filters label {
+            display: block;
+            margin: 6px 0;
+        }
+
+        /* Filter section */
+        .filter-section {
+            padding: 0 16px;
+        }
+
+        .filter-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin: 12px 0 8px;
+        }
+
+        .filter-buttons {
             display: flex;
-            gap: 20px;
-            padding: 10px 0;
-            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
         }
 
         .filter-btn {
             background: none;
             border: none;
-            font-size: 16px;
-            color: #ff4bd8;
-            cursor: pointer;
+            color: #f052e3;
             font-weight: 500;
+            cursor: pointer;
         }
 
-        .filter-btn:hover {
-            text-decoration: underline;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            display: flex;
-            gap: 24px;
-            padding: 0 20px;
-        }
-
-        .sidebar {
-            width: 250px;
-            background: #fff;
+        /* Job cards */
+        .job-card {
+            margin: 0 16px 16px;
+            padding: 16px;
+            border: 1px solid #ddd;
             border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            font-size: 14px;
-            flex-shrink: 0;
+            background: #fff;
         }
 
-        .sidebar h4 {
-            margin-top: 20px;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        .sidebar label {
-            display: block;
+        .job-card h3 {
+            font-size: 16px;
             margin-bottom: 6px;
         }
 
-        .profiles {
-            flex: 1;
-        }
-
-        .profile-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .profile-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .profile-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .profile-info img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-
-        .profile-info .name {
+        .job-card .salary {
             font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 6px;
         }
 
-        .profile-info .location {
+        .job-card .tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
             font-size: 12px;
-            color: gray;
+            color: #666;
+            margin-bottom: 8px;
         }
 
-        .hire-btn {
-            background: #ff4bd8;
+        .job-card .company {
+            font-size: 14px;
+            color: #444;
+        }
+
+        .apply-btn {
+            margin-top: 12px;
+            background: #f052e3;
             color: white;
             border: none;
             padding: 8px 16px;
             border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
-            margin-left: 10px;
         }
 
-        body.dark-mode {
-            background: #121212;
-            color: #eee;
-        }
-
-        .dark-mode .header,
-        .dark-mode .filters,
-        .dark-mode .job-card,
-        .dark-mode .profile-card,
-        .dark-mode .sidebar {
-            background: #1e1e1e;
-            border-color: #333;
-        }
-
-        .dark-mode .nav a,
-        .dark-mode .company,
-        .dark-mode .tags,
-        .dark-mode .filter-btn {
-            color: #ccc;
-        }
-
-        .dark-mode .logo {
-            color: #ff74e8;
-        }
-
-        .dark-mode .apply-btn,
-        .dark-mode .hire-btn,
-        .dark-mode .search-bar button {
-            background-color: #ff4bd8;
-            color: white;
-        }
-
-        .dark-mode .page {
-            background: #333;
-            color: #eee;
-        }
-
-        .dark-mode .page.active {
-            background: #ff4bd8;
-            color: white;
-        }
-
-        .dark-mode .footer {
-            background: #000;
-            color: #eee;
-        }
-
-        .dark-mode .footer a {
-            color: #ccc;
-        }
-
-        .mobile-topbar {
+        /* Load More button */
+        .load-more-btn {
             display: none;
         }
 
-        .filters {
-            display: none;
+        /* Footer */
+        .footer {
+            padding: 32px 16px;
         }
 
-        @media (max-width: 480px) {
-            body {
-                font-size: 15px;
-            }
-
-            /* Скрываем десктопный header и поиск */
-            .header,
-            .search-profile,
-            .search-bar {
-                display: none !important;
-            }
-
-            /* Mobile topbar (бургер, поиск, сообщение) */
-            .mobile-topbar {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                background: #fff;
-                padding: 12px 16px;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-            }
-
-            .mobile-search-input {
-                flex: 1;
-                margin: 0 12px;
-                padding: 8px 12px;
-                border: 1px solid #ccc;
-                border-radius: 8px;
-            }
-
-            /* Top-bar с тегами и Hire */
-            .top-bar {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 12px 16px;
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-
-            .tags {
-                display: flex;
-                gap: 10px;
-                flex-wrap: wrap;
-            }
-
-            .tag {
-                background: #e0e0e0;
-                padding: 6px 12px;
-                border-radius: 20px;
-                font-size: 14px;
-                white-space: nowrap;
-            }
-
-            .tag.active {
-                background-color: #101f35;
-                color: white;
-            }
-
-            .hire-btn {
-                background: #ff4bd8;
-                color: white;
-                padding: 8px 16px;
-                border-radius: 8px;
-                border: none;
-                font-weight: bold;
-                cursor: pointer;
-            }
-
-            /* Filter toggle */
-            .filter-toggle-btn {
-                display: inline-block;
-                margin: 10px 16px 0;
-                padding: 10px 16px;
-                background: white;
-                border: 1px solid #ddd;
-                border-radius: 8px;
-                font-weight: 500;
-                cursor: pointer;
-            }
-
-            /* Filter panel */
-            .filters {
-                display: none;
-                width: 100%;
-                margin: 10px 0;
-                padding: 16px;
-                background: #fff;
-                border-top: 1px solid #ddd;
-            }
-
-            .filters.active {
-                display: block;
-            }
-
-            .filters h4 {
-                margin-top: 10px;
-            }
-
-            .filters label {
-                display: block;
-                margin: 6px 0;
-            }
-
-            /* Filter section */
-            .filter-section {
-                padding: 0 16px;
-            }
-
-            .filter-title {
-                font-weight: bold;
-                font-size: 18px;
-                margin: 12px 0 8px;
-            }
-
-            .filter-buttons {
-                display: flex;
-                gap: 16px;
-                margin-bottom: 16px;
-            }
-
-            .filter-btn {
-                background: none;
-                border: none;
-                color: #f052e3;
-                font-weight: 500;
-                cursor: pointer;
-            }
-
-            /* Job cards */
-            .job-card {
-                margin: 0 16px 16px;
-                padding: 16px;
-                border: 1px solid #ddd;
-                border-radius: 12px;
-                background: #fff;
-            }
-
-            .job-card h3 {
-                font-size: 16px;
-                margin-bottom: 6px;
-            }
-
-            .job-card .salary {
-                font-weight: bold;
-                font-size: 14px;
-                margin-bottom: 6px;
-            }
-
-            .job-card .tags {
-                display: flex;
-                gap: 8px;
-                flex-wrap: wrap;
-                font-size: 12px;
-                color: #666;
-                margin-bottom: 8px;
-            }
-
-            .job-card .company {
-                font-size: 14px;
-                color: #444;
-            }
-
-            .apply-btn {
-                margin-top: 12px;
-                background: #f052e3;
-                color: white;
-                border: none;
-                padding: 8px 16px;
-                border-radius: 6px;
-                font-weight: bold;
-                cursor: pointer;
-            }
-
-            /* Load More button */
-            .load-more-btn {
-                display: none;
-            }
-
-            /* Footer */
-            .footer {
-                padding: 32px 16px;
-            }
-
-            .footer-columns {
-                flex-direction: column;
-                gap: 20px;
-            }
+        .footer-columns {
+            flex-direction: column;
+            gap: 20px;
         }
+    }
 
     :root {
         --padding-x: clamp(1rem, 5vw, 4rem);
@@ -1779,18 +1779,21 @@
                 <li><a href="{% url 'careers:vacancy_list' %}">Career</a></li>
             </ul>
             <div class="search">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Search for..." onkeyup="filterContent()"/>
+                <form action="{% url 'base:home' %}" method="get">
+                    <i class="fas fa-search"></i>
+                    <input type="text" name="q" id="searchInput" placeholder="Search for..."
+                           value="{% if active_tag %}#{{ active_tag }}{% else %}{{ search_query|default:'' }}{% endif %}"/>
+                    <button type="submit" style="display: none;"></button>
+                </form>
             </div>
             <div class="icons">
-                {#          <a href="{% url 'messaging:messages' %}"><i class="fa-regular fa-comment"></i></a>#}
                 <i class="fa-regular fa-bell"></i>
                 <div class="avatar-dropdown">
                     <div class="avatar" onclick="toggleMenu()">
                         {% if user.profile.avatar %}
                             <img src="{{ user.profile.avatar.url }}" alt="Profile Picture"/>
                         {% else %}
-                            <img src="/static/library/ava.png" alt="Profile Picture"/>
+                            <img src="/static/icons/no_avatar.jpg" alt="Profile Picture"/>
                         {% endif %}
                     </div>
                     <div class="dropdown-menu" id="profileMenu">
@@ -1799,6 +1802,9 @@
                         <a href={% url 'base:edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i>
                             Edit</a>
                         <a href="{% url 'base:saved-discussions' %}"><i class="fa-regular fa-bookmark"></i> Saved</a>
+                        {% if user.is_staff %}
+                            <a href="{% url 'admin:index' %}"><i class="fa-regular fa-hammer"></i>Admin panel</a>
+                        {% endif %}
                         <a href={% url 'auth:logout' %}><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
                     </div>
                 </div>
@@ -1808,10 +1814,8 @@
 </header>
 <div class="filter-header">
     <div class="tag-container">
-        <!-- Always show #all first -->
         <a href="{% url 'base:home' %}" class="tag {% if not active_tag %}active{% endif %}">#all</a>
 
-        <!-- Show active tag first if one is selected -->
         {% if active_tag %}
             <a href="{% url 'base:home' %}?q=%23{{ active_tag|urlencode }}"
                class="tag active" style="order: 1;">
@@ -2069,6 +2073,7 @@
             <!-- My Activity Section -->
             <div class="activity-card">
                 <h2><span class="pink">My activity</span></h2>
+                <br>
                 <p class="active-days">{{ activity_percent }}% active days this month</p>
                 <div class="calendar">
                     <div class="day">M</div>
@@ -2132,6 +2137,8 @@
         <a href="?page=
 
 
+
+
                 {{ discussions.previous_page_number }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
            class="page-nav" title="Previous Page">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2145,10 +2152,14 @@
         {% if discussions.number == num %}
             <a href="?page=
 
+
+
                     {{ num }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
                class="active">{{ num }}</a>
         {% elif num > discussions.number|add:'-3' and num < discussions.number|add:'3' %}
             <a href="?page=
+
+
 
                     {{ num }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}">{{ num }}</a>
         {% endif %}
@@ -2156,6 +2167,8 @@
 
     {% if discussions.has_next %}
         <a href="?page=
+
+
 
                 {{ discussions.next_page_number }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
            class="page-nav" title="Next Page">
@@ -2165,6 +2178,8 @@
             </svg>
         </a>
         <a href="?page=
+
+
 
                 {{ discussions.paginator.num_pages }}{% if active_tag %}&q=%23{{ active_tag|urlencode }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.time_range %}&time_range={{ request.GET.time_range }}{% endif %}{% if request.GET.tags %}&tags={{ request.GET.tags }}{% endif %}"
            class="page-nav" title="Last Page">
@@ -2201,29 +2216,6 @@
             }
         }
     }
-
-    document.getElementById('searchInput').addEventListener('keyup', function (e) {
-        if (e.key === 'Enter') {
-            this.form.submit();
-        }
-    });
-
-    function debounce(func, wait) {
-        let timeout;
-        return function () {
-            const context = this, args = arguments;
-            clearTimeout(timeout);
-            timeout = setTimeout(function () {
-                func.apply(context, args);
-            }, wait);
-        };
-    }
-
-    const debouncedSearch = debounce(function () {
-        this.form.submit();
-    }, 500);
-
-    document.getElementById('searchInput').addEventListener('input', debouncedSearch);
 
 
     function toggleMenu() {

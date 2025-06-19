@@ -1,6 +1,7 @@
 from django.contrib import admin
 from embed_video.admin import AdminVideoMixin
-from .models import Lesson, LessonAttachment, UserLessonProgress, Video
+from .models import Lesson, LessonAttachment, Video, UserLessonProgress
+
 
 class LibraryAdmin(AdminVideoMixin, admin.ModelAdmin):
     pass

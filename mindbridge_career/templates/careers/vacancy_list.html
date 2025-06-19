@@ -557,6 +557,23 @@
             display: none;
         }
 
+        .toggle-status-btn {
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-status-btn:hover {
+            opacity: 0.9;
+        }
+
         @media (max-width: 480px) {
             body {
                 font-size: 15px;
@@ -814,6 +831,9 @@
                         <a href={% url 'base:edit-profile' request.user.id %}><i class="fa-solid fa-pen"></i>
                             Edit</a>
                         <a href="{% url 'base:saved-discussions' %}"><i class="fa-regular fa-bookmark"></i> Saved</a>
+                        {% if user.is_staff %}
+                            <a href="{% url 'admin:index' %}"><i class="fa-regular fa-hammer"></i>Admin panel</a>
+                        {% endif %}
                         <a href={% url 'auth:logout' %}><i class="fa-solid fa-right-from-bracket"></i> Log out</a>
                     </div>
                 </div>
@@ -847,11 +867,11 @@
                 <div class="tag">#vacancies</div>
                 <div class="tag active">#professionals</div>
             </div>
-                        {% if user.is_authenticated %}
-                            <a href="{% url 'careers:post_vacancy' %}" class="hire-btn">Post a Job</a>
-                        {% else %}
-                            <a href="{% url 'account_login' %}?next={% url 'careers:post_vacancy' %}" class="hire-btn">Hire</a>
-                        {% endif %}
+            {% if user.is_authenticated %}
+                <a href="{% url 'careers:post_vacancy' %}" class="hire-btn">Post a Job</a>
+            {% else %}
+                <a href="{% url 'account_login' %}?next={% url 'careers:post_vacancy' %}" class="hire-btn">Hire</a>
+            {% endif %}
         </div>
         <form method="get" action="{% url 'careers:vacancy_list' %}" class="search-bar">
             <input type="text" name="q" placeholder="Search" value="{{ request.GET.q }}">
@@ -901,28 +921,29 @@
                 {% for vacancy in vacancies %}
                     <div class="job-card">
                         <h3><a href="{% url 'careers:vacancy_detail' vacancy.pk %}">{{ vacancy.title }}</a></h3>
-                        {% if vacancy.salary_min or vacancy.salary_max %}
+
                             <p class="salary">
-                                {% if vacancy.salary_min and vacancy.salary_max %}
-                                    {{ vacancy.salary_min }} – {{ vacancy.salary_max }} ₸ / month
-                                {% elif vacancy.salary_min %}
-                                    From {{ vacancy.salary_min }} ₸ / month
-                                {% elif vacancy.salary_max %}
-                                    Up to {{ vacancy.salary_max }} ₸ / month
+                                {% if vacancy.salary %}
+                                    {{ vacancy.salary }} ₸ / month
                                 {% endif %}
                             </p>
-                        {% endif %}
                         <p class="tags">
                             {% if vacancy.experience == 'no_exp' %}No experience{% endif %}
                             {% if vacancy.is_remote %}• Remote{% endif %}
+                            {% if not vacancy.is_active %}• <span style="color: #ff4b4b;">Disabled</span>{% endif %}
                         </p>
                         <p class="company">{{ vacancy.company.name }}, {{ vacancy.location_city }}</p>
                         <a href="{% url 'careers:vacancy_detail' vacancy.pk %}" class="apply-btn">View Details</a>
-                        {% if user == vacancy.posted_by %}
+
+                        {% if user == vacancy.posted_by or user.is_staff %}
                             <a href="{% url 'careers:vacancy_update' vacancy.pk %}" class="apply-btn"
                                style="background: #4CAF50;">Edit</a>
                             <a href="{% url 'careers:vacancy_delete' vacancy.pk %}" class="apply-btn"
                                style="background: #f44336;">Delete</a>
+                            <button class="toggle-status-btn" data-vacancy-id="{{ vacancy.pk }}"
+                                    style="background: {% if vacancy.is_active %}#ff4b4b{% else %}#4CAF50{% endif %};">
+                                {% if vacancy.is_active %}Disable{% else %}Enable{% endif %}
+                            </button>
                         {% endif %}
                     </div>
                 {% endfor %}
@@ -943,6 +964,8 @@
 
 
 
+
+
                                 {{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                            class="page">&laquo;</a>
                     {% endif %}
@@ -950,6 +973,8 @@
                     {% for num in page_obj.paginator.page_range %}
                         {% if page_obj.number == num %}
                             <a href="?page=
+
+
 
 
 
@@ -966,6 +991,8 @@
 
 
 
+
+
                                     {{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
                                class="page">{{ num }}</a>
                         {% endif %}
@@ -973,6 +1000,8 @@
 
                     {% if page_obj.has_next %}
                         <a href="?page=
+
+
 
 
 
@@ -1063,6 +1092,56 @@
     // Mobile filter toggle
     document.querySelector('.filter-toggle-btn').addEventListener('click', function () {
         document.getElementById('filtersPanel').classList.toggle('active');
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleButtons = document.querySelectorAll('.toggle-status-btn');
+
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const vacancyId = this.getAttribute('data-vacancy-id');
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                fetch(`/careers/vacancies/${vacancyId}/toggle-status/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update button text and style
+                            if (data.is_active) {
+                                this.textContent = 'Disable';
+                                this.style.backgroundColor = '#ff4b4b';
+                                // Remove disabled tag if it exists
+                                const disabledTag = this.closest('.job-card').querySelector('.tags span');
+                                if (disabledTag) {
+                                    disabledTag.remove();
+                                }
+                            } else {
+                                this.textContent = 'Enable';
+                                this.style.backgroundColor = '#4CAF50';
+                                // Add disabled tag
+                                const tagsElement = this.closest('.job-card').querySelector('.tags');
+                                const disabledTag = document.createElement('span');
+                                disabledTag.style.color = '#ff4b4b';
+                                disabledTag.textContent = ' • Disabled';
+                                tagsElement.appendChild(disabledTag);
+                            }
+                        } else {
+                            alert('Error: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while updating the vacancy status.');
+                    });
+            });
+        });
     });
 </script>
 </body>

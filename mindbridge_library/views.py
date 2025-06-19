@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils.text import slugify
 
-from .models import Lesson, UserLessonProgress, LessonAttachment
+from .models import Lesson, LessonAttachment, CustomTag, UserLessonProgress
 from .forms import LessonForm, AttachmentForm
 from django.db.models import Q, Count
 
@@ -19,12 +19,19 @@ def index(request, filter_type=None):
     # Base queryset
     lesson_list = Lesson.objects.filter(is_published=True).order_by('-created_at')
 
+    recent_tags = CustomTag.objects.annotate(
+        num_lessons=Count('lesson')
+    ).order_by('-num_lessons')[:10]
+
+    tag_filter = request.GET.get('tags')
+    if tag_filter:
+        lesson_list = lesson_list.filter(tags__name=tag_filter)
+
     # Apply format filter if specified
     if filter_type in ['article', 'video']:
         lesson_list = lesson_list.filter(format=filter_type)
 
-    # Search functionality
-    #
+    #Search lesson
     search_query = request.GET.get('search', '')
     if search_query:
         lesson_list = lesson_list.filter(
@@ -38,21 +45,27 @@ def index(request, filter_type=None):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # Personalized sections
     for_you = None
     continue_section = None
 
     if request.user.is_authenticated:
-        # "Continue Learning" section with filter applied
         continue_progress = UserLessonProgress.objects.filter(
             user=request.user,
-            is_completed=False
-        ).select_related('lesson').order_by('-updated_at')
+            is_completed=False,
+            lesson__is_published=True
+        ).select_related('lesson').order_by('-updated_at')[:4]
+
+        continue_section = []
+        for progress in continue_progress:
+            lesson = progress.lesson
+            lesson.progress_percentage = progress.get_progress_percentage()
+            continue_section.append(lesson)
 
         if filter_type in ['article', 'video']:
-            continue_progress = continue_progress.filter(lesson__format=filter_type)
+            continue_section = [lesson for lesson in continue_section
+                                if lesson.format == filter_type]
 
-        continue_section = [progress.lesson for progress in continue_progress[:4]]
+        # continue_section = [progress.lesson for progress in continue_progress[:4]]
 
         # "For You" recommendations with filter applied
         completed_lesson_ids = UserLessonProgress.objects.filter(
@@ -90,14 +103,17 @@ def index(request, filter_type=None):
         'search_query': search_query,
         'for_you': for_you,
         'continue_section': continue_section,
-        'current_filter': filter_type  # Pass the actual filter type used in model
+        'current_filter': filter_type,
+        'recent_tags': recent_tags,
     })
+
 
 @login_required
 def create_lesson(request):
     if request.method == 'POST':
         form = LessonForm(request.POST, request.FILES)
         if form.is_valid():
+            # First save the lesson without committing to get the ID
             lesson = form.save(commit=False)
             lesson.author = request.user
 
@@ -110,7 +126,11 @@ def create_lesson(request):
                 lesson.slug = f"{slugify(lesson.title)}-{counter}"
                 counter += 1
 
+            # Save the lesson to get an ID
             lesson.save()
+
+            # Now save the many-to-many relationships (tags)
+            form.save_m2m()
 
             # Handle attachment if provided
             if 'attachment' in request.FILES:
@@ -148,18 +168,20 @@ def lesson_detail(request, slug):
     lesson = get_object_or_404(Lesson, slug=slug)
     attachments = lesson.attachments.all()
 
-    user_progress = None
-    if request.user.is_authenticated:
-        user_progress, created = UserLessonProgress.objects.get_or_create(
-            user=request.user,
-            lesson=lesson,
-            defaults={'last_position': 0, 'is_completed': False}
-        )
+    recent_tags = CustomTag.objects.annotate(
+        num_lessons=Count('lesson')
+    ).order_by('-num_lessons')[:10]
+
+    # Get related lessons by tags
+    related_lessons = Lesson.objects.filter(
+        tags__in=lesson.tags.all()
+    ).exclude(id=lesson.id).distinct()[:3]
 
     return render(request, 'lesson_detail.html', {
         'lesson': lesson,
         'attachments': attachments,
-        'user_progress': user_progress,
+        'recent_tags': recent_tags,
+        'related_lessons': related_lessons,
     })
 
 
