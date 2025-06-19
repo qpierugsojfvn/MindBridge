@@ -70,19 +70,11 @@ def post_vacancy(request):
 @login_required
 @role_required(['COMPANY', 'ADMIN'])
 def deactivate_vacancy(request, pk):
-    vacancy = get_object_or_404(Vacancy, pk=pk)
-
-    if not (request.user.is_staff or request.user == vacancy.user):
-        return JsonResponse({'success': False, 'message': 'Permission denied'}, status=403)
-
-    vacancy.is_active = not vacancy.is_active
-    vacancy.save()
-
-    return JsonResponse({
-        'success': True,
-        'is_active': vacancy.is_active,
-        'message': 'Vacancy status updated'
-    })
+    if request.method == 'POST':
+        vacancy = Vacancy.objects.get(pk=pk)
+        vacancy.is_active = False
+        vacancy.save()
+    return redirect('careers:vacancy_list')
 
 @login_required
 @role_required(['EMPLOYEE', 'ADMIN'])

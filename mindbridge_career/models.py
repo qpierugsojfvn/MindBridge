@@ -50,7 +50,7 @@ class Vacancy(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.title} at {self.company.name}"
+        return f"{self.title} at {self.title}"
 
 
 class Application(models.Model):

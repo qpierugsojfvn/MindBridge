@@ -935,15 +935,12 @@
                         <p class="company">{{ vacancy.company.name }}, {{ vacancy.location_city }}</p>
                         <a href="{% url 'careers:vacancy_detail' vacancy.pk %}" class="apply-btn">View Details</a>
 
-                        {% if user == vacancy.posted_by or user.is_staff %}
-                            <a href="{% url 'careers:vacancy_update' vacancy.pk %}" class="apply-btn"
-                               style="background: #4CAF50;">Edit</a>
-                            <a href="{% url 'careers:vacancy_delete' vacancy.pk %}" class="apply-btn"
-                               style="background: #f44336;">Delete</a>
-                            <button class="toggle-status-btn" data-vacancy-id="{{ vacancy.pk }}"
-                                    style="background: {% if vacancy.is_active %}#ff4b4b{% else %}#4CAF50{% endif %};">
-                                {% if vacancy.is_active %}Disable{% else %}Enable{% endif %}
-                            </button>
+                        {% if user == vacancy.user or user.is_staff %}
+                            {# <a href="{% url 'careers:vacancy_update' vacancy.pk %}" class="apply-btn" style="background: #4CAF50;">Edit</a> #}
+                        <form method="POST" action="{% url 'careers:deactivate_vacancy' vacancy.pk %}" class="search-bar">
+                             {% csrf_token %}
+                            <button type="submit" class="apply-btn" style="margin-top: 20px; background: #f44336;">Deactivate</button>
+                        </form>
                         {% endif %}
                     </div>
                 {% endfor %}
@@ -1038,111 +1035,5 @@
         <p class="footer-copy">{% now "Y" %} MindBridge</p>
     </div>
 </footer>
-
-<script>
-    function toggleFilters() {
-        document.getElementById('filtersPanel').classList.toggle('active');
-    }
-
-    function openModal(src) {
-        const modal = document.getElementById('modal');
-        const modalImg = document.getElementById('/library/post.png');
-        modal.style.display = 'flex';
-        modalImg.src = src;
-    }
-
-    function closeModal() {
-        document.getElementById('modal').style.display = 'none';
-    }
-
-    function toggleDropdown() {
-        document.getElementById("libraryDropdown").classList.toggle("show");
-    }
-
-    window.onclick = function (event) {
-        if (!event.target.matches('.dropbtn')) {
-            const dropdowns = document.getElementsByClassName("dropdown-content");
-            for (let i = 0; i < dropdowns.length; i++) {
-                dropdowns[i].classList.remove('show');
-            }
-        }
-    }
-
-    function filterContent() {
-        const input = document.getElementById('searchInput');
-        const filter = input.value.toLowerCase();
-        const cards = document.querySelectorAll('.post-card');
-
-        cards.forEach(function (card) {
-            const text = card.textContent.toLowerCase();
-            card.style.display = text.includes(filter) ? 'block' : 'none';
-        });
-    }
-
-    function toggleMenu() {
-        document.getElementById("profileMenu").classList.toggle("show");
-    }
-
-    window.onclick = function (event) {
-        if (!event.target.closest('.avatar-dropdown')) {
-            document.getElementById("profileMenu").classList.remove("show");
-        }
-    }
-
-    // Mobile filter toggle
-    document.querySelector('.filter-toggle-btn').addEventListener('click', function () {
-        document.getElementById('filtersPanel').classList.toggle('active');
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const toggleButtons = document.querySelectorAll('.toggle-status-btn');
-
-        toggleButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const vacancyId = this.getAttribute('data-vacancy-id');
-                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-                fetch(`/careers/vacancies/${vacancyId}/toggle-status/`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': csrfToken,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({})
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Update button text and style
-                            if (data.is_active) {
-                                this.textContent = 'Disable';
-                                this.style.backgroundColor = '#ff4b4b';
-                                // Remove disabled tag if it exists
-                                const disabledTag = this.closest('.job-card').querySelector('.tags span');
-                                if (disabledTag) {
-                                    disabledTag.remove();
-                                }
-                            } else {
-                                this.textContent = 'Enable';
-                                this.style.backgroundColor = '#4CAF50';
-                                // Add disabled tag
-                                const tagsElement = this.closest('.job-card').querySelector('.tags');
-                                const disabledTag = document.createElement('span');
-                                disabledTag.style.color = '#ff4b4b';
-                                disabledTag.textContent = ' • Disabled';
-                                tagsElement.appendChild(disabledTag);
-                            }
-                        } else {
-                            alert('Error: ' + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred while updating the vacancy status.');
-                    });
-            });
-        });
-    });
-</script>
 </body>
 </html>
